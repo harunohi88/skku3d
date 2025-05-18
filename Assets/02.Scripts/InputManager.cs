@@ -16,11 +16,9 @@ public class InputManager : MonoBehaviour
 
     public void HandleGameplayInput()
     {
-        // 이동
         Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         _playerMove.Move(moveInput);
 
-        // 구르기
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _playerMove.Roll();

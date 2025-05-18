@@ -171,6 +171,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 95361765663008898, guid: 9e4f02c14cc7f0640a9581b1ba8e1795, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 7fa19abae807647448e77c142e9e622d, type: 2}
+    - target: {fileID: 95361765663008898, guid: 9e4f02c14cc7f0640a9581b1ba8e1795, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -256,7 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fd808c16d0166943bb9f1ffb2c0c158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 0}
+  _playerMove: {fileID: 0}
 --- !u!1 &766043953
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,7 +428,7 @@ GameObject:
   - component: {fileID: 1171793956}
   - component: {fileID: 1171793955}
   - component: {fileID: 1171793954}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -596,8 +604,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 4
-  RollSpeed: 8
-  RollDuration: 0.5
+  RollSpeed: 16
+  RollDuration: 0.8
   Model: {fileID: 1748261885}
 --- !u!114 &1898923141
 MonoBehaviour:
