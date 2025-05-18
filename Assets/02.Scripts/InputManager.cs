@@ -2,30 +2,28 @@
 
 public class InputManager : MonoBehaviour
 {
-    [SerializeField] private PlayerManager _player;
+    [SerializeField] private PlayerMove _playerMove;
 
     private void Start()
     {
-        _player = PlayerManager.Instance;
+        _playerMove = PlayerManager.Instance.gameObject.GetComponent<PlayerMove>();
     }
 
     private void Update()
     {
-        
+        HandleGameplayInput();
     }
 
-    private void Roll()
+    public void HandleGameplayInput()
     {
+        // 이동
+        Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        _playerMove.Move(moveInput);
+
+        // 구르기
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            _playerMove.Roll();
         }
-    }
-
-    private void Move()
-    {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        Vector3 move = new Vector3(horizontal, 0, vertical);
-        move.Normalize();
     }
 }
