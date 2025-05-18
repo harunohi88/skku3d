@@ -856,8 +856,8 @@ MonoBehaviour:
   Color: {r: 1, g: 0, b: 0, a: 1}
   InnerRangePercent: 0.5
   Direction: 0
-  AngleRange: 60
-  CastPercent: 0
+  AngleRange: 360
+  CastingPercent: 0
   _projector: {fileID: 0}
   _materialInstance: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
