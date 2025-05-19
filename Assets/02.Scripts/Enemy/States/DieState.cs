@@ -6,6 +6,7 @@ public class DieState : IState<AEnemy>
 
     public void Enter(AEnemy enemy)
     {
+        enemy.SetAnimationTrigger("Die");
         enemy.Agent.ResetPath();
         _time = 0;
     }

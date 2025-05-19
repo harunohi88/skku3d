@@ -1,25 +1,27 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PlayerTest : MonoBehaviour
+namespace Test_LSJ
 {
-    public CharacterController CharacterController;
-    public NavMeshAgent Agent;
-
-    private void Update()
+    public class PlayerTest : MonoBehaviour
     {
-        if (Input.GetMouseButtonDown(0))
+        public CharacterController CharacterController;
+        public NavMeshAgent Agent;
+
+        private void Update()
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            RaycastHit hitInfo;
-            Physics.Raycast(ray, out hitInfo);
-
-            if(hitInfo.collider != null)
+            if (Input.GetMouseButtonDown(0))
             {
-                Agent.SetDestination(hitInfo.point);
-            }
-        }   
-    }
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
+                RaycastHit hitInfo;
+                Physics.Raycast(ray, out hitInfo);
+
+                if (hitInfo.collider != null)
+                {
+                    Agent.SetDestination(hitInfo.point);
+                }
+            }
+        }
+    }
 }

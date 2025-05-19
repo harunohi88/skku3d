@@ -58,4 +58,9 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
 
         // ChangeState(new DamageState());
     }
+
+    public void SetAnimationTrigger(string triggerName)
+    {
+        _animator.SetTrigger(triggerName);
+    }
 }
