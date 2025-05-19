@@ -18,4 +18,5 @@ public class Player : MonoBehaviour, IDamageable
         // Handle player death (e.g., play animation, respawn, etc.)
         Debug.Log("Player has died.");
     }
+
 }
