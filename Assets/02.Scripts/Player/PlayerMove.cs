@@ -31,6 +31,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (_isRolling) return;
 
+
         _animator.SetFloat("Movement", inputDirection.magnitude);
 
         if (inputDirection.sqrMagnitude < 0.01f)
