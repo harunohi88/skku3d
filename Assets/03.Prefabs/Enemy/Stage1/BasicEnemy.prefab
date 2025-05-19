@@ -1495,7 +1495,6 @@ GameObject:
   - component: {fileID: 5039108565012255659}
   - component: {fileID: 1896727209597978757}
   - component: {fileID: 4228002233423499028}
-  - component: {fileID: 7935945191154023099}
   - component: {fileID: 488686211954916071}
   m_Layer: 0
   m_Name: BasicEnemy
@@ -1564,31 +1563,6 @@ MonoBehaviour:
   DamagedTime: 0.5
   DeathTime: 2
   Agent: {fileID: 0}
---- !u!143 &7935945191154023099
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7956406927756826750}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!195 &488686211954916071
 NavMeshAgent:
   m_ObjectHideFlags: 0
