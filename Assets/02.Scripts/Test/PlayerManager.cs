@@ -1,6 +1,10 @@
 using UnityEngine;
 
-public class PlayerManager : BehaviourSingleton<PlayerManager>
+namespace Test_LSJ
 {
-    public GameObject Player;
+    public class PlayerManager : BehaviourSingleton<PlayerManager>
+    {
+        public GameObject Player;
+    }
+
 }
