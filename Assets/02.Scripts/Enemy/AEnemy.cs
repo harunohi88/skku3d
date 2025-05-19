@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(EnemyRotation))]
 public abstract class AEnemy : MonoBehaviour, IDamageable
 {
     public int MaxHealth;
@@ -9,6 +10,7 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
 
     public float TraceDistance;
     public float AttackDistance;
+    public float AttackOutDistance;
     public float AttackCooltime;
     public float DamagedTime;
     public float DeathTime;
@@ -20,16 +22,24 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     protected StateMachine<AEnemy> _stateMachine;
     public IState<AEnemy> CurrentState => _stateMachine.CurrentState;
 
-    protected virtual void Start()
-    {
-        Init();
-    }
+    public GameObject AttackPosition;
+    public GameObject SkillObject;
 
-    protected virtual void Init()
+    public EnemyRotation EnemyRotation;
+
+    protected virtual void Start()
     {
         Agent = GetComponent<NavMeshAgent>();
         _characterController = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
+        EnemyRotation = GetComponent<EnemyRotation>();
+
+        Init();
+    }
+
+    public virtual void Init()
+    {
+        Health = MaxHealth;
         _stateMachine = new StateMachine<AEnemy>(this);
     }
 
@@ -59,8 +69,15 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
         // ChangeState(new DamageState());
     }
 
+    public abstract void Attack();
+
     public void SetAnimationTrigger(string triggerName)
     {
         _animator.SetTrigger(triggerName);
+    }
+
+    public bool IsPlayingAnimation(string animationName)
+    {
+        return _animator.GetCurrentAnimatorStateInfo(0).IsName(animationName);
     }
 }
