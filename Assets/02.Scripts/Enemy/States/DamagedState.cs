@@ -7,6 +7,7 @@ public class DamagedState : IState<AEnemy>
     {
         enemy.Agent.isStopped = true;
         enemy.Agent.ResetPath();
+        enemy.SetAnimationTrigger("Hit");
         _time = 0f;
     }
 

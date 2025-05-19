@@ -4,7 +4,7 @@ public class TraceState : IState<AEnemy>
 {
     public void Enter(AEnemy enemy)
     {
-
+        enemy.SetAnimationTrigger("Run");
     }
 
     public void Update(AEnemy enemy)
