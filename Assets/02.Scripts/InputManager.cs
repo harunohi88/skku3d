@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    [SerializeField] private PlayerMove _playerMove;
+    [SerializeField] private PlayerManager _playerManager;
 
     private void Start()
     {
-        _playerMove = PlayerManager.Instance.Player.gameObject.GetComponent<PlayerMove>();
+        _playerManager = PlayerManager.Instance;
     }
 
     private void Update()
@@ -17,11 +17,11 @@ public class InputManager : MonoBehaviour
     public void HandleGameplayInput()
     {
         Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        _playerMove.Move(moveInput);
+        _playerManager.Move(moveInput);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            _playerMove.Roll();
+            _playerManager.Roll();
         }
     }
 }

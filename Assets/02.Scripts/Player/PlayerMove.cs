@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -17,24 +17,23 @@ public class PlayerMove : MonoBehaviour
     private Camera _mainCamera;
     private CharacterController _characterController;
     private Animator _animator;
-    private bool _isRolling;
 
     private void Awake()
     {
         _mainCamera = Camera.main;
         _characterController = GetComponent<CharacterController>();
         _animator = Model.GetComponent<Animator>();
-        _isRolling = false;
     }
 
     public void Move(Vector2 inputDirection)
     {
-        if (_isRolling) return;
-
         _animator.SetFloat("Movement", inputDirection.magnitude);
 
         if (inputDirection.sqrMagnitude < 0.01f)
+        {
+            _characterController.Move(Vector3.zero);
             return;
+        }
 
         Vector3 camForward = Camera.main.transform.forward;
         Vector3 camRight = Camera.main.transform.right;
@@ -54,9 +53,6 @@ public class PlayerMove : MonoBehaviour
 
     public void Roll()
     {
-        if (_isRolling) return;
-
-        _isRolling = true;
         _animator.SetTrigger("Roll");
         StartCoroutine(RollCoroutine());
     }
@@ -71,7 +67,5 @@ public class PlayerMove : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
-        _isRolling = false;
     }
 }
