@@ -11,7 +11,6 @@ public class EnemySpawner : MonoBehaviour
 {
     public Transform SpawnPosition;
     public List<AEnemy> EnemyList;
-    //public List<EliteEnemy> EliteEnemyList;
     public int EnemySpawnCount = 10;
     public int EliteEnemySpawnCount = 3;
     
@@ -75,8 +74,18 @@ public class EnemySpawner : MonoBehaviour
         {
             // TODO: 엘리트 에너미도 풀에서 받아와서 리스트에 추가하기
             // 확률 적으로 basic이냐 엘리트냐 받아온다
-            var enemy = BasicEnemyPool.Instance.Get();
-            EnemyList.Add(enemy);
+            if(Random.Range(0f, 1f) < _eliteSpawnRate)
+            {
+                /*
+                var enemy = EliteEnemyPool.Instance.Get();
+                EnemyList.Add(enemy);
+                */
+            }
+            else
+            {
+                var enemy = BasicEnemyPool.Instance.Get();
+                EnemyList.Add(enemy);
+            }
         }
         
         _activedEnemy = EnemySpawnCount;
@@ -88,8 +97,8 @@ public class EnemySpawner : MonoBehaviour
     {
         foreach(var enemy in EnemyList)
         {
-            // TODO: 스폰 포인트에 소환 - 주위 원 반경에 소환
-            Vector3 posRandOnSpherePos = Random.onUnitSphere * _spawnRadius;
+            //스폰 포인트에 소환 - 주위 원 반경에 소환
+            Vector3 posRandOnSpherePos = SpawnPosition.position + Random.onUnitSphere * _spawnRadius;
             posRandOnSpherePos.y = SpawnPosition.position.y;
 
             Vector3 rotRandOnSpherePos = Random.onUnitSphere * 100f;
@@ -99,7 +108,6 @@ public class EnemySpawner : MonoBehaviour
             enemy.transform.position = posRandOnSpherePos;
             enemy.transform.rotation = Quaternion.Euler(rotRandOnSpherePos); 
         }
-        // TODO: 엘리트 에너미도 추가
     }
 
     private void EnemyDisable()
@@ -113,7 +121,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void EliteSpawnRateIncrease()
     {
-        // TODO : 엘리트 스폰 확률 증가
+        // 엘리트 스폰 확률 증가
         _eliteSpawnRate += _eliteSpawnRateIncrease;
     }
 
