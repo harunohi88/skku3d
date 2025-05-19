@@ -16,12 +16,17 @@ public class InputManager : MonoBehaviour
 
     public void HandleGameplayInput()
     {
-        Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
         _playerManager.Move(moveInput);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _playerManager.Roll();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            _playerManager.Attack();
         }
     }
 }

@@ -13,6 +13,7 @@ public class PlayerMove : MonoBehaviour
     private Vector3 _rollDirection;
 
     public GameObject Model;
+    public PlayerManager PlayerManager;
 
     private Camera _mainCamera;
     private CharacterController _characterController;
@@ -23,6 +24,11 @@ public class PlayerMove : MonoBehaviour
         _mainCamera = Camera.main;
         _characterController = GetComponent<CharacterController>();
         _animator = Model.GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        PlayerManager = PlayerManager.Instance;
     }
 
     public void Move(Vector2 inputDirection)
@@ -53,6 +59,8 @@ public class PlayerMove : MonoBehaviour
 
     public void Roll()
     {
+        PlayerManager.PlayerAttack.Cancle();
+        PlayerManager.PlayerState = EPlayerState.Roll;
         _animator.SetTrigger("Roll");
         StartCoroutine(RollCoroutine());
     }
@@ -67,5 +75,7 @@ public class PlayerMove : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+
+        PlayerManager.Instance.PlayerState = EPlayerState.None;
     }
 }
