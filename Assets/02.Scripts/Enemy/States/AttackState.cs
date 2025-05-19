@@ -1,3 +1,4 @@
+using System.Net;
 using UnityEngine;
 
 public class AttackState : IState<AEnemy>
@@ -11,9 +12,19 @@ public class AttackState : IState<AEnemy>
 
     public void Update(AEnemy enemy)
     {
+        if (enemy.IsPlayingAnimation("Attack"))
+        {
+            enemy.EnemyRotation.IsFound = false;
+            return;
+        }
+        else
+        {
+            enemy.EnemyRotation.IsFound = true;
+        }
+
         float distanceToPlayer = Vector3.Distance(enemy.transform.position, PlayerManager.Instance.Player.transform.position);
 
-        if (distanceToPlayer >= enemy.AttackDistance)
+        if (distanceToPlayer >= enemy.AttackOutDistance)
         {
             enemy.ChangeState(new TraceState());
             return;
@@ -23,7 +34,6 @@ public class AttackState : IState<AEnemy>
         if(_time >= enemy.AttackCooltime)
         {
             enemy.SetAnimationTrigger("AttackDelayToAttack");
-            Debug.Log("공격!");
             _time = 0f;
         }
     }
