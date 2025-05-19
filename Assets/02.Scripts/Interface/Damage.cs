@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Damage
+public struct Damage
 {
     public int Value;
     public GameObject From;
