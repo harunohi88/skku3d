@@ -291,8 +291,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 1898923141}
   PlayerState: 0
-  _playerMove: {fileID: 0}
-  _playerAttack: {fileID: 0}
+  PlayerMove: {fileID: 0}
+  PlayerAttack: {fileID: 0}
 --- !u!1 &766043953
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,8 +788,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 10
   RollSpeed: 18
-  RollDuration: 0.8
+  RollDuration: 0.9
   Model: {fileID: 1748261885}
+  PlayerManager: {fileID: 0}
 --- !u!114 &1898923141
 MonoBehaviour:
   m_ObjectHideFlags: 0

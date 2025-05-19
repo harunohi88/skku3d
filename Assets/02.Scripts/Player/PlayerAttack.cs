@@ -19,19 +19,15 @@ public class PlayerAttack : MonoBehaviour
 
     public void Attack()
     {
-        _animator.ResetTrigger("Attack1");
-        _animator.ResetTrigger("Attack2");
-        _animator.ResetTrigger("Attack3");
         PlayerManager.Instance.PlayerState = EPlayerState.Attack;
+        _animator.ResetTrigger(AttackTriggerList[_currentAttackIndex]);
         _animator.SetTrigger(AttackTriggerList[_currentAttackIndex]);
     }
 
     public void Cancle()
     {
         Debug.Log("Cancle Attack");
-        _animator.ResetTrigger("Attack1");
-        _animator.ResetTrigger("Attack2");
-        _animator.ResetTrigger("Attack3");
+        _animator.ResetTrigger("Idle");
         _animator.SetTrigger("Idle");
         PlayerManager.Instance.PlayerState = EPlayerState.None;
         InputQueued = false;
@@ -53,14 +49,12 @@ public class PlayerAttack : MonoBehaviour
         }
         else
         {
-            _animator.SetTrigger("Idle");
             Cancle();
         }
     }
 
     public void OnAttackLoopEnd()
     {
-        _animator.SetTrigger("Idle");
         Cancle();
     }
 }

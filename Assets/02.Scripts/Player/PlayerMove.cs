@@ -59,8 +59,8 @@ public class PlayerMove : MonoBehaviour
 
     public void Roll()
     {
-        PlayerManager.PlayerAttack.Cancle();
         PlayerManager.PlayerState = EPlayerState.Roll;
+        _animator.ResetTrigger("Roll");
         _animator.SetTrigger("Roll");
         StartCoroutine(RollCoroutine());
     }
@@ -77,5 +77,6 @@ public class PlayerMove : MonoBehaviour
         }
 
         PlayerManager.Instance.PlayerState = EPlayerState.None;
+        PlayerManager.PlayerAttack.Cancle();
     }
 }
