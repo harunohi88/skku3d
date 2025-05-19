@@ -11,7 +11,7 @@ public class AttackState : IState<AEnemy>
 
     public void Update(AEnemy enemy)
     {
-        float distanceToPlayer = Vector3.Distance(enemy.transform.position, Test_LSJ.PlayerManager.Instance.Player.transform.position);
+        float distanceToPlayer = Vector3.Distance(enemy.transform.position, PlayerManager.Instance.transform.position);
 
         if (distanceToPlayer >= enemy.AttackDistance)
         {

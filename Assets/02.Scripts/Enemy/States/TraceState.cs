@@ -9,7 +9,7 @@ public class TraceState : IState<AEnemy>
 
     public void Update(AEnemy enemy)
     {
-        float distanceToPlayer = Vector3.Distance(enemy.transform.position, Test_LSJ.PlayerManager.Instance.Player.transform.position);
+        float distanceToPlayer = Vector3.Distance(enemy.transform.position, PlayerManager.Instance.transform.position);
         
         if(distanceToPlayer <= enemy.AttackDistance)
         {
@@ -17,7 +17,7 @@ public class TraceState : IState<AEnemy>
             return;
         }
 
-        enemy.Agent.SetDestination(Test_LSJ.PlayerManager.Instance.Player.transform.position);
+        enemy.Agent.SetDestination(PlayerManager.Instance.transform.position);
     }
 
     public void Exit(AEnemy enemy)

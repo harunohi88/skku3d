@@ -9,7 +9,7 @@ public class IdleState : IState<AEnemy>
 
     public void Update(AEnemy enemy)
     {
-        if(Vector3.Distance(enemy.transform.position, Test_LSJ.PlayerManager.Instance.Player.transform.position) < enemy.TraceDistance)
+        if(Vector3.Distance(enemy.transform.position, PlayerManager.Instance.transform.position) < enemy.TraceDistance)
         {
             enemy.ChangeState(new TraceState());
             return;
