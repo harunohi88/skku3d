@@ -27,6 +27,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private int _activedEnemy;
 
+    public GameObject Terget;
+
     private void Update()
     {
         // 테스트용
@@ -37,9 +39,15 @@ public class EnemySpawner : MonoBehaviour
 
         // 방문한적이 없을 때
         if(!_isPlayerInRangeOnce)
-        {
+        {   /* 실제 사용
             // 범위 내에 들어오면 활성화 해준다.
             if(Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position) <= DetectPlayerRange)
+            {
+                _isPlayerInRangeOnce = true;
+                SummonEnemy();
+            }*/
+            // 테스트용
+            if(Vector3.Distance(transform.position, Terget.transform.position) <= DetectPlayerRange)
             {
                 _isPlayerInRangeOnce = true;
                 SummonEnemy();

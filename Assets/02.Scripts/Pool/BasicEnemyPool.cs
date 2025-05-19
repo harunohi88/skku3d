@@ -16,6 +16,7 @@ public class BasicEnemyPool : BehaviourSingleton<BasicEnemyPool>
     {
         var enemy = _pool.Get();
         // TODO Init함수 실행
+        enemy.Init();
         return enemy;
     }
 
