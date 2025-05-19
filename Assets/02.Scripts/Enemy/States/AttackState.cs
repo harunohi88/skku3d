@@ -11,7 +11,7 @@ public class AttackState : IState<AEnemy>
 
     public void Update(AEnemy enemy)
     {
-        float distanceToPlayer = Vector3.Distance(enemy.transform.position, PlayerManager.Instance.transform.position);
+        float distanceToPlayer = Vector3.Distance(enemy.transform.position, PlayerManager.Instance.Player.transform.position);
 
         if (distanceToPlayer >= enemy.AttackDistance)
         {

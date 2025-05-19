@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
@@ -6,7 +6,7 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
-        _playerMove = PlayerManager.Instance.gameObject.GetComponent<PlayerMove>();
+        _playerMove = PlayerManager.Instance.Player.gameObject.GetComponent<PlayerMove>();
     }
 
     private void Update()
