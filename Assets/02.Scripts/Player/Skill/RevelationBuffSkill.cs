@@ -2,11 +2,10 @@ using UnityEngine;
 
 public class RevelationBuffSkill : MonoBehaviour, ISkill
 {
-    public float CoolTime = 20f;
-    public string SkillName = "RevelationBuff";
+    string ISkill.SkillName => "RevelationBuff";
     private bool isBuffActive = false;
 
-    public void Activate()
+    public void Execute()
     {
         Debug.Log("Spin Slash Activated");
         if (isBuffActive) return;
@@ -22,5 +21,10 @@ public class RevelationBuffSkill : MonoBehaviour, ISkill
         // 애니메이션 구현
         // 스킬 vfx 추가
         // 사운드 추가
+    }
+
+    public void Cancel()
+    {
+        throw new System.NotImplementedException();
     }
 }
