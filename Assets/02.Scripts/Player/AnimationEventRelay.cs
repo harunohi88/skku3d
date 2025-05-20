@@ -3,10 +3,12 @@ using UnityEngine;
 public class AnimationEventRelay : MonoBehaviour
 {
     private PlayerAttack _playerAttack;
+    private PlayerSkill _playerSkill;
 
     private void Awake()
     {
         _playerAttack = GetComponentInParent<PlayerAttack>();
+        _playerSkill = GetComponentInParent<PlayerSkill>();
     }
 
     public void OnAttackAnimationHit()

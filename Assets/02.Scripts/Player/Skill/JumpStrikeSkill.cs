@@ -4,11 +4,12 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
 {
     [SerializeField] private PlayerSkill _playerSkill;
     [SerializeField] private CooldownManager _cooldownManager;
+    private Animator _animator;
 
     public GameObject Indicator;
-    LayerMask enemyLayer = LayerMask.GetMask("Enemy");
+    private LayerMask _enemyLayer;
 
-    string ISkill.SkillName => "JumpStrike";
+    public string SkillName = "JumpStrike";
 
     public float AttackRange = 7f; // 공격 반경
     public int SkillIndex = 1;
@@ -17,6 +18,13 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
     public bool IsTargeting = false;
     public bool IsAvailable = true;
 
+    public void Start()
+    {
+        _cooldownManager = CooldownManager.Instance;
+        _enemyLayer = LayerMask.GetMask("Enemy");
+        _animator = PlayerManager.Instance.PlayerSkill.Model.GetComponent<Animator>();
+    }
+    
     public void Execute()
     {
         Debug.Log("Jump Strike Activated");
@@ -41,10 +49,10 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
     }
 
     // 이벤트 시스템에서 호출할 메서드
-    public void OnSkillAnimationonHit()
+    public void OnSkillAnimationHit()
     {
         // 데미지 구현
-        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, AttackRange, enemyLayer);
+        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, AttackRange, _enemyLayer);
         Damage damage = new Damage() { Value = 20, From = PlayerManager.Instance.Player.gameObject };
         foreach (Collider enemy in hitEnemies)
         {
@@ -52,7 +60,7 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
         }
     }
 
-    public void OnSkillAnimationonEnd()
+    public void OnSkillAnimationEnd()
     {
         PlayerManager.Instance.PlayerState = EPlayerState.None;
         //쿨다운 매니저에 등록

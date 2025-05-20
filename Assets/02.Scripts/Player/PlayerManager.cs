@@ -9,6 +9,7 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
     [SerializeField] public EPlayerState PlayerState;
     [SerializeField] public PlayerMove PlayerMove;
     [SerializeField] public PlayerAttack PlayerAttack;
+    [SerializeField] public PlayerSkill PlayerSkill;
 
     private Dictionary<EPlayerAction, HashSet<EPlayerState>> _actionStateMap = new()
     {
@@ -22,6 +23,7 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
     {
         PlayerMove = Player.gameObject.GetComponent<PlayerMove>();
         PlayerAttack = Player.gameObject.GetComponent<PlayerAttack>();
+        PlayerSkill = Player.gameObject.GetComponent<PlayerSkill>();
         PlayerState = EPlayerState.None;
     }
 
@@ -63,9 +65,6 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
     {
         if (!CanPerform(EPlayerAction.Skill)) return;
 
-        // 스킬 시전중 우클릭 입력시 처리할 로직이 여기 들어가야됨
-
-
-        // PlayerSkill.Skill(skillIndex); // PlayerSKill.Skill 내부에서 PlayerState 변경
+        PlayerSkill.UseSkill(skillIndex); // PlayerSKill.Skill 내부에서 PlayerState 변경
     }
 }

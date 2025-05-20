@@ -3,7 +3,8 @@ using UnityEngine;
 public class RevelationBuffSkill : MonoBehaviour, ISkill
 {
     [SerializeField] CooldownManager _cooldownManager;
-    string ISkill.SkillName => "RevelationBuff";
+    private Animator _animator;
+    public string SkillName = "RevelationBuff";
 
     [Header("버프 특성")]
     private float _attackBonus;
@@ -16,6 +17,15 @@ public class RevelationBuffSkill : MonoBehaviour, ISkill
     private bool _isBuffActive = false;
     public bool IsAvailable = true;
 
+    private LayerMask _enemyLayer;
+    
+    private void Start()
+    {
+        _cooldownManager = CooldownManager.Instance;
+        _enemyLayer = LayerMask.GetMask("Enemy");
+        _animator = PlayerManager.Instance.PlayerSkill.Model.GetComponent<Animator>();
+    }
+    
     private void Update()
     {
         if (!_isBuffActive) return;
@@ -29,17 +39,14 @@ public class RevelationBuffSkill : MonoBehaviour, ISkill
 
     public void Execute()
     {
-        {
-            Debug.Log("Revelation Buff Activated");
+        Debug.Log("Revelation Buff Activated");
+        if (!IsAvailable) return;
 
-            if (!IsAvailable) return;
-
-            ApplyBuff();
-            _buffTimer = _buffDuration;
-            _isBuffActive = true;
-            IsAvailable = false;
-            //_animator.SetTrigger("Buff");
-        }
+        ApplyBuff();
+        _buffTimer = _buffDuration;
+        _isBuffActive = true; 
+        IsAvailable = false;
+        //_animator.SetTrigger("Buff");
     }
 
     private void ApplyBuff()
@@ -58,11 +65,11 @@ public class RevelationBuffSkill : MonoBehaviour, ISkill
     }
 
     // 이벤트 시스템에서 호출할 메서드
-    public void OnSkillAnimationonHit()
+    public void OnSkillAnimationHit()
     {
     }
 
-    public void OnSkillAnimationonEnd()
+    public void OnSkillAnimationEnd()
     {
     }
 
