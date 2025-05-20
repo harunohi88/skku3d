@@ -96,6 +96,6 @@ public class PlayerMove : MonoBehaviour
         _rollDirection = Vector3.zero;
         _animator.SetBool("isRolling", false);
         PlayerManager.Instance.PlayerState = EPlayerState.None;
-        PlayerManager.PlayerAttack.Cancle();
+        PlayerManager.PlayerAttack.Cancel();
     }
 }
