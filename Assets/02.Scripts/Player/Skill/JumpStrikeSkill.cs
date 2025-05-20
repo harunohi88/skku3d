@@ -3,13 +3,19 @@ using UnityEngine;
 public class JumpStrikeSkill : MonoBehaviour, ISkill
 {
     [SerializeField] private PlayerSkill _playerSkill;
-    string ISkill.SkillName => "JumpStrike";
-    public float AttackRange = 7f; // 공격 반경
+    [SerializeField] private CooldownManager _cooldownManager;
+
+    public GameObject Indicator;
     LayerMask enemyLayer = LayerMask.GetMask("Enemy");
+
+    string ISkill.SkillName => "JumpStrike";
+
+    public float AttackRange = 7f; // 공격 반경
+    public int SkillIndex = 1;
+    private float _cooldownTime;
+
     public bool IsTargeting = false;
     public bool IsAvailable = true;
-    public int SkillIndex = 1;
-    public GameObject Indicator;
 
     public void Execute()
     {
@@ -50,10 +56,16 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
     {
         PlayerManager.Instance.PlayerState = EPlayerState.None;
         //쿨다운 매니저에 등록
+        _cooldownManager.StartCooldown(_cooldownTime, SetAvailable);
     }
 
     public void Cancel()
     {
         PlayerManager.Instance.PlayerState = EPlayerState.None;
+    }
+
+    public void SetAvailable()
+    {
+        IsAvailable = true;
     }
 }

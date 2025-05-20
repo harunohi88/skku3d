@@ -2,29 +2,77 @@ using UnityEngine;
 
 public class RevelationBuffSkill : MonoBehaviour, ISkill
 {
+    [SerializeField] CooldownManager _cooldownManager;
     string ISkill.SkillName => "RevelationBuff";
-    private bool isBuffActive = false;
+
+    [Header("버프 특성")]
+    private float _attackBonus;
+    private float _moveSpeedBonus;
+
+    private float _buffDuration = 10f;
+    private float _buffTimer;
+    private float _cooldownTime;
+
+    private bool _isBuffActive = false;
+    public bool IsAvailable = true;
+
+    private void Update()
+    {
+        if (!_isBuffActive) return;
+
+        _buffTimer -= Time.deltaTime;
+        if (_buffTimer <= 0f)
+        {
+            RemoveBuff();
+        }
+    }
 
     public void Execute()
     {
-        Debug.Log("Spin Slash Activated");
-        if (isBuffActive) return;
-        isBuffActive = true;
+        {
+            Debug.Log("Revelation Buff Activated");
+
+            if (!IsAvailable) return;
+
+            ApplyBuff();
+            _buffTimer = _buffDuration;
+            _isBuffActive = true;
+            IsAvailable = false;
+            //_animator.SetTrigger("Buff");
+        }
+    }
+
+    private void ApplyBuff()
+    {
         // 플레이어 버프 구현
         // 1. 플레이어 버프 스탯값 조정 - 구조체
         // 공격력 +30%, 이동속도 +20%, 쿨감 +15%, 지속시간 10초
+    }
+    private void RemoveBuff()
+    {
+        // 플레이어 버프 삭제. 원래대로.
 
-        // 일정 시간 후 버프 제거 - 코루틴
+        PlayerManager.Instance.PlayerState = EPlayerState.None;
+        //쿨다운 매니저에 등록
+        _cooldownManager.StartCooldown(_cooldownTime, SetAvailable);
+    }
 
+    // 이벤트 시스템에서 호출할 메서드
+    public void OnSkillAnimationonHit()
+    {
+    }
 
-
-        // 애니메이션 구현
-        // 스킬 vfx 추가
-        // 사운드 추가
+    public void OnSkillAnimationonEnd()
+    {
     }
 
     public void Cancel()
     {
-        throw new System.NotImplementedException();
+        PlayerManager.Instance.PlayerState = EPlayerState.None;
+    }
+
+    public void SetAvailable()
+    {
+        IsAvailable = true;
     }
 }

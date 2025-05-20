@@ -2,10 +2,17 @@ using UnityEngine;
 
 public class SpinSlashSkill : MonoBehaviour, ISkill
 {
+    [SerializeField] CooldownManager _cooldownManager;
+
     public GameObject Model;
-    string ISkill.SkillName => "SpinSlash";
-    public float AttackRange = 3f; // 공격 반경
     LayerMask enemyLayer = LayerMask.GetMask("Enemy");
+
+    string ISkill.SkillName => "SpinSlash";
+
+    public float AttackRange = 3f; // 공격 반경
+    private float _cooldownTime;
+
+    public bool IsAvailable = true;
 
     // 즉발기
     public void Execute()
@@ -31,9 +38,15 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
     {
         PlayerManager.Instance.PlayerState = EPlayerState.None;
         //쿨다운 매니저에 등록
+        _cooldownManager.StartCooldown(_cooldownTime, SetAvailable);
     }
 
     public void Cancel()
     {
+    }
+
+    private void SetAvailable()
+    {
+        IsAvailable = true;
     }
 }
