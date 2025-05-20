@@ -1,5 +1,7 @@
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(EnemyRotation))]
 public abstract class AEnemy : MonoBehaviour, IDamageable
@@ -70,6 +72,11 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     }
 
     public abstract void Attack();
+
+    public virtual void OnAnimationEnd()
+    {
+        EnemyRotation.IsFound = true;
+    }
 
     public void SetAnimationTrigger(string triggerName)
     {
