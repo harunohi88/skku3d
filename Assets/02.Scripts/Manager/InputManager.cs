@@ -28,5 +28,10 @@ public class InputManager : MonoBehaviour
         {
             _playerManager.Attack();
         }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            _playerManager.Skill(0);
+        }
     }
 }
