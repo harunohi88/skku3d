@@ -8,27 +8,30 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
     public AEnemy BossEnemy;
 
     public List<float> PatternCooltimeList;
-    public List<float> lastUsedtimeList;
+    public List<float> LastFinishedtimeList;
     public List<float> PatternCastingtimeList;
+
+    public float Pattern1Radius;
+    public float Pattern1Range;
+    public float Pattern1LightningLastTime;
 
     [SerializeField] private float _healthThreshold = 0.5f;
 
     private void Start()
     {
         BossEnemy = GetComponent<AEnemy>();
-        lastUsedtimeList = new float[PatternCooltimeList.Count].ToList();
+        LastFinishedtimeList = new float[PatternCooltimeList.Count].ToList();
     }
 
     public IState<AEnemy> DecideNextState()
     {
         float hpRatio = BossEnemy.Health / BossEnemy.MaxHealth;
         List<int> usablePatternList = (hpRatio > _healthThreshold) ? new List<int> { 0, 1, 2 } : new List<int> { 0, 1, 2, 3, 4 };
-        List<int> availablePatternList = usablePatternList.Where(x => Time.time - lastUsedtimeList[x] >= PatternCooltimeList[x]).ToList();
+        List<int> availablePatternList = usablePatternList.Where(x => Time.time - LastFinishedtimeList[x] >= PatternCooltimeList[x]).ToList();
 
         if(availablePatternList.Count > 0)
         {
             int selectedIndex = availablePatternList[Random.Range(0, availablePatternList.Count)];
-            lastUsedtimeList[selectedIndex] = Time.time;
 
             return GetAttackState(selectedIndex);
         }
