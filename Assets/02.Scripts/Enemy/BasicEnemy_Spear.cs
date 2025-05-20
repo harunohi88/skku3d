@@ -12,6 +12,7 @@ public class BasicEnemy_Spear : AEnemy
     {
         // 스킬 이펙트
 
+        EnemyRotation.IsFound = false;
         Vector3 directionToPlayer = PlayerManager.Instance.Player.transform.position - transform.position;
         directionToPlayer = directionToPlayer.normalized;
         float distance = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
