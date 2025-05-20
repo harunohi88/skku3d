@@ -66,7 +66,6 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
         // 스킬 시전중 우클릭 입력시 처리할 로직이 여기 들어가야됨
 
 
-        PlayerState = EPlayerState.Skill;
-        // PlayerSkill.Skill(skillIndex);
+        // PlayerSkill.Skill(skillIndex); // PlayerSKill.Skill 내부에서 PlayerState 변경
     }
 }
