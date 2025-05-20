@@ -1,4 +1,6 @@
 public interface ISkill
 {
-    void Activate();
+    void Execute();
+    void Cancel();
+    string SkillName { get; }
 }
