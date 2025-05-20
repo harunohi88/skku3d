@@ -1,0 +1,26 @@
+using UnityEngine;
+
+public class BasicEnemy_Spear : AEnemy
+{
+    public override void Init()
+    {
+        base.Init();
+        _stateMachine.ChangeState(new IdleState());
+    }
+
+    public override void Attack()
+    {
+        // 스킬 이펙트
+
+        Vector3 directionToPlayer = PlayerManager.Instance.Player.transform.position - transform.position;
+        directionToPlayer = directionToPlayer.normalized;
+        float distance = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
+        if(distance <= AttackDistance)
+        {
+            if(Vector3.Dot(transform.forward, directionToPlayer) > 0)
+            {
+                Debug.Log("데미지를 줍니다");
+            }
+        }
+    }
+}
