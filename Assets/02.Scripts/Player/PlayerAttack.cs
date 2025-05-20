@@ -23,7 +23,7 @@ public class PlayerAttack : MonoBehaviour
         _animator.SetTrigger(AttackTriggerList[_currentAttackIndex]);
     }
 
-    public void Cancle()
+    public void Cancel()
     {
         PlayerManager.Instance.PlayerState = EPlayerState.None;
         InputQueued = false;
@@ -45,12 +45,12 @@ public class PlayerAttack : MonoBehaviour
         }
         else
         {
-            Cancle();
+            Cancel();
         }
     }
 
     public void OnAttackLoopEnd()
     {
-        Cancle();
+        Cancel();
     }
 }

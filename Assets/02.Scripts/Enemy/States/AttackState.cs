@@ -12,16 +12,6 @@ public class AttackState : IState<AEnemy>
 
     public void Update(AEnemy enemy)
     {
-        if (enemy.IsPlayingAnimation("Attack"))
-        {
-            enemy.EnemyRotation.IsFound = false;
-            return;
-        }
-        else
-        {
-            enemy.EnemyRotation.IsFound = true;
-        }
-
         float distanceToPlayer = Vector3.Distance(enemy.transform.position, PlayerManager.Instance.Player.transform.position);
 
         if (distanceToPlayer >= enemy.AttackOutDistance)
@@ -30,11 +20,14 @@ public class AttackState : IState<AEnemy>
             return;
         }
 
-        _time += Time.deltaTime;
-        if(_time >= enemy.AttackCooltime)
+        if (enemy.EnemyRotation.IsFound)
         {
-            enemy.SetAnimationTrigger("AttackDelayToAttack");
-            _time = 0f;
+            _time += Time.deltaTime;
+            if (_time >= enemy.AttackCooltime)
+            {
+                enemy.SetAnimationTrigger("AttackDelayToAttack");
+                _time = 0f;
+            }
         }
     }
 
