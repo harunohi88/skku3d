@@ -20,15 +20,11 @@ public class PlayerAttack : MonoBehaviour
     public void Attack()
     {
         PlayerManager.Instance.PlayerState = EPlayerState.Attack;
-        _animator.ResetTrigger(AttackTriggerList[_currentAttackIndex]);
         _animator.SetTrigger(AttackTriggerList[_currentAttackIndex]);
     }
 
     public void Cancle()
     {
-        Debug.Log("Cancle Attack");
-        _animator.ResetTrigger("Idle");
-        _animator.SetTrigger("Idle");
         PlayerManager.Instance.PlayerState = EPlayerState.None;
         InputQueued = false;
         _currentAttackIndex = 0;

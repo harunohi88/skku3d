@@ -36,10 +36,10 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
         PlayerMove.Move(inputDirection);
     }
 
-    public void Roll()
+    public void Roll(Vector2 direction)
     {
         if (!CanPerform(EPlayerAction.Roll)) return;
-        PlayerMove.Roll();
+        PlayerMove.Roll(direction);
     }
 
     public void Attack()

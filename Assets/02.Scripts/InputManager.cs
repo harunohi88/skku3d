@@ -21,7 +21,7 @@ public class InputManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            _playerManager.Roll();
+            _playerManager.Roll(moveInput);
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))

@@ -57,11 +57,28 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    public void Roll()
+    public void Roll(Vector2 direction)
     {
         PlayerManager.PlayerState = EPlayerState.Roll;
-        _animator.ResetTrigger("Roll");
+
+        Vector3 camForward = Camera.main.transform.forward;
+        Vector3 camRight = Camera.main.transform.right;
+        camForward.y = 0f;
+        camRight.y = 0f;
+        camForward.Normalize();
+        camRight.Normalize();
+
+        _rollDirection = (camRight * direction.x + camForward * direction.y).normalized;
+        if (_rollDirection == Vector3.zero)
+        {
+            _rollDirection = Model.transform.forward;
+        }
+        else
+        {
+            Model.transform.forward = _rollDirection;
+        }
         _animator.SetTrigger("Roll");
+        _animator.SetBool("isRolling", true);
         StartCoroutine(RollCoroutine());
     }
 
@@ -71,11 +88,13 @@ public class PlayerMove : MonoBehaviour
 
         while (elapsedTime < RollDuration)
         {
-            _characterController.Move(Model.transform.forward * RollSpeed * Time.deltaTime);
+            _characterController.Move(_rollDirection * RollSpeed * Time.deltaTime);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
+        _rollDirection = Vector3.zero;
+        _animator.SetBool("isRolling", false);
         PlayerManager.Instance.PlayerState = EPlayerState.None;
         PlayerManager.PlayerAttack.Cancle();
     }
