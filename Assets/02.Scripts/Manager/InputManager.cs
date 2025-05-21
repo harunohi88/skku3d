@@ -14,7 +14,7 @@ public class InputManager : MonoBehaviour
         HandleGameplayInput();
     }
 
-    public void HandleGameplayInput()
+    private void HandleGameplayInput()
     {
         Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
         _playerManager.Move(moveInput);

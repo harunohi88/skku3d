@@ -24,8 +24,9 @@ public class PlayerSkill : MonoBehaviour
     {
         if (slot < 0 || slot >= SkillList.Count) return;
         
+        
+        // 스킬 타겟팅중 발생하는 입력을 처리할 로직이 필요함
         SkillInterfaceList[slot]?.Execute();
-        //PlayerManager.Instance.PlayerState = EPlayerState.Skill; // 스킬에서 직접 바꿔줌
     }
 
     public void Cancel()
