@@ -21,7 +21,7 @@ namespace Rito.InventorySystem
 
     */
 
-    public abstract class ItemData : ScriptableObject
+    public abstract class ItemData
     {
         public int ID { get; set; }
         public string Name { get; set; }

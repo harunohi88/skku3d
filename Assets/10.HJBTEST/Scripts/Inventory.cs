@@ -57,28 +57,9 @@ namespace Rito.InventorySystem
     public class Inventory : MonoBehaviour
     {
         /***********************************************************************
-        *                               Public Properties
-        ***********************************************************************/
-        #region .
-        /// <summary> 아이템 수용 한도 </summary>
-        public int Capacity { get; private set; }
-
-        // /// <summary> 현재 아이템 개수 </summary>
-        //public int ItemCount => _itemArray.Count;
-
-        #endregion
-        /***********************************************************************
         *                               Private Fields
         ***********************************************************************/
         #region .
-
-        // 초기 수용 한도
-        [SerializeField, Range(8, 64)]
-        private int _initalCapacity = 32;
-
-        // 최대 수용 한도(아이템 배열 크기)
-        [SerializeField, Range(8, 64)]
-        private int _maxCapacity = 64;
 
         [SerializeField]
         private InventoryUI _inventoryUI; // 연결된 인벤토리 UI
@@ -140,13 +121,7 @@ namespace Rito.InventorySystem
             }
         }
 
-        // 테스트용!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
         public Action UpdateSlotEvent;
-
-
-
-
 
         #endregion
         /***********************************************************************
@@ -154,22 +129,26 @@ namespace Rito.InventorySystem
         ***********************************************************************/
         #region .
 
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            if(_initalCapacity > _maxCapacity)
-                _initalCapacity = _maxCapacity;
-        }
-#endif
         private void Awake()
         {
-            _items = new Item[_maxCapacity];
-            Capacity = _initalCapacity;
             _inventoryUI.SetInventoryReference(this);
         }
 
         private void Start()
         {
+            if (_inventoryUI == null)
+            {
+                Debug.LogError("InventoryUI reference is missing!");
+                return;
+            }
+
+            _items = new Item[_inventoryUI.SlotCount];
+            if (_items.Length == 0)
+            {
+                Debug.LogError("No slots found in InventoryUI!");
+                return;
+            }
+
             UpdateAccessibleStatesAll();
         }
 
@@ -181,13 +160,13 @@ namespace Rito.InventorySystem
         /// <summary> 인덱스가 수용 범위 내에 있는지 검사 </summary>
         private bool IsValidIndex(int index)
         {
-            return index >= 0 && index < Capacity;
+            return index >= 0 && index < _items.Length;
         }
 
         /// <summary> 앞에서부터 비어있는 슬롯 인덱스 탐색 </summary>
         private int FindEmptySlotIndex(int startIndex = 0)
         {
-            for (int i = startIndex; i < Capacity; i++)
+            for (int i = startIndex; i < _items.Length; i++)
                 if (_items[i] == null)
                     return i;
             return -1;
@@ -196,7 +175,7 @@ namespace Rito.InventorySystem
         /// <summary> 앞에서부터 개수 여유가 있는 Countable 아이템의 슬롯 인덱스 탐색 </summary>
         private int FindCountableItemSlotIndex(CountableItemData target, int startIndex = 0)
         {
-            for (int i = startIndex; i < Capacity; i++)
+            for (int i = startIndex; i < _items.Length; i++)
             {
                 var current = _items[i];
                 if (current == null)
@@ -279,7 +258,7 @@ namespace Rito.InventorySystem
         /// <summary> 모든 슬롯들의 상태를 UI에 갱신 </summary>
         public void UpdateAllSlot()
         {
-            for (int i = 0; i < Capacity; i++)
+            for (int i = 0; i < _items.Length; i++)
             {
                 UpdateSlot(i);
             }
@@ -550,7 +529,7 @@ namespace Rito.InventorySystem
         /// <summary> 모든 슬롯 UI에 접근 가능 여부 업데이트 </summary>
         public void UpdateAccessibleStatesAll()
         {
-            _inventoryUI.SetAccessibleSlotRange(Capacity);
+            _inventoryUI.SetAccessibleSlotRange(_items.Length);
         }
 
         /// <summary> 빈 슬롯 없이 앞에서부터 채우기 </summary>
@@ -564,7 +543,7 @@ namespace Rito.InventorySystem
 
             // i커서가 빈칸을 찾으면 j 커서는 i+1 위치부터 탐색
             // j커서가 아이템을 찾으면 아이템을 옮기고, i 커서는 i+1 위치로 이동
-            // j커서가 Capacity에 도달하면 루프 즉시 종료
+            // j커서가 배열 끝에 도달하면 루프 즉시 종료
 
             _indexSetForUpdate.Clear();
 
@@ -574,9 +553,9 @@ namespace Rito.InventorySystem
 
             while (true)
             {
-                while (++j < Capacity && _items[j] == null);
+                while (++j < _items.Length && _items[j] == null);
 
-                if (j == Capacity)
+                if (j == _items.Length)
                     break;
 
                 _indexSetForUpdate.Add(i);
@@ -604,9 +583,9 @@ namespace Rito.InventorySystem
 
             while (true)
             {
-                while (++j < Capacity && _items[j] == null) ;
+                while (++j < _items.Length && _items[j] == null) ;
 
-                if (j == Capacity)
+                if (j == _items.Length)
                     break;
 
                 _items[i] = _items[j];

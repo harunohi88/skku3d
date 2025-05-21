@@ -50,6 +50,7 @@ namespace Rito.InventorySystem
         ***********************************************************************/
         #region .
         [Header("Options")]
+        public bool IsDynamicInitSlot = true;
         [Range(0, 10)]
         [SerializeField] private int _horizontalSlotCount = 8;  // 슬롯 가로 개수
         [Range(0, 10)]
@@ -96,6 +97,7 @@ namespace Rito.InventorySystem
 
         [SerializeField]
         private List<ItemSlotUI> _slotUIList = new List<ItemSlotUI>();
+        public int SlotCount => _slotUIList.Count;
         private GraphicRaycaster _gr;
         private PointerEventData _ped;
         private List<RaycastResult> _rrList;
@@ -173,7 +175,20 @@ namespace Rito.InventorySystem
         /// <summary> 지정된 개수만큼 슬롯 영역 내에 슬롯들 동적 생성 </summary>
         private void InitSlots()
         {
-            // 슬롯 프리팹 설정
+            // 수동 배치된 슬롯들을 찾아서 초기화
+            if (!IsDynamicInitSlot)
+            {
+                _slotUIList.Clear();
+                var slots = GetComponentsInChildren<ItemSlotUI>();
+                foreach (var slot in slots)
+                {
+                    slot.SetSlotIndex(_slotUIList.Count);
+                    _slotUIList.Add(slot);
+                }
+                return;
+            }
+
+            // 동적 생성 코드는 그대로 유지
             _slotUiPrefab.TryGetComponent(out RectTransform slotRect);
             slotRect.sizeDelta = new Vector2(_slotSize, _slotSize);
 
@@ -371,6 +386,8 @@ namespace Rito.InventorySystem
                 }
             }
 
+            // 엑티브 아이템이 빠로 없기 때문에 사용하지 않는다.
+            /*
             // Right Click : Use Item
             else if (Input.GetMouseButtonDown(_rightClick))
             {
@@ -380,7 +397,7 @@ namespace Rito.InventorySystem
                 {
                     TryUseItem(slot.Index);
                 }
-            }
+            }*/
         }
         /// <summary> 드래그하는 도중 </summary>
         private void OnPointerDrag()
@@ -506,6 +523,8 @@ namespace Rito.InventorySystem
             // 버리기(커서가 UI 레이캐스트 타겟 위에 있지 않은 경우)
             if (!IsOverUI())
             {
+                // 버리기 기능은 필요 없다. 버리기 대신 행동을 취소하고 원래 자리로 돌아간다.
+                /*
                 // 확인 팝업 띄우고 콜백 위임
                 int index = _beginDragSlot.Index;
                 string itemName = _inventory.GetItemName(index);
@@ -519,6 +538,7 @@ namespace Rito.InventorySystem
                     _popup.OpenConfirmationPopup(() => TryRemoveItem(index), itemName);
                 else
                     TryRemoveItem(index);
+                    */
             }
             // 슬롯이 아닌 다른 UI 위에 놓은 경우
             else
@@ -653,10 +673,7 @@ namespace Rito.InventorySystem
         /// <summary> 접근 가능한 슬롯 범위 설정 </summary>
         public void SetAccessibleSlotRange(int accessibleSlotCount)
         {
-            for (int i = 0; i < _slotUIList.Count; i++)
-            {
-                _slotUIList[i].SetSlotAccessibleState(i < accessibleSlotCount);
-            }
+            // 모든 슬롯이 항상 접근 가능하므로 아무것도 하지 않음
         }
 
         /// <summary> 특정 슬롯의 필터 상태 업데이트 </summary>
@@ -683,9 +700,7 @@ namespace Rito.InventorySystem
         /// <summary> 모든 슬롯 필터 상태 업데이트 </summary>
         public void UpdateAllSlotFilters()
         {
-            int capacity = _inventory.Capacity;
-
-            for (int i = 0; i < capacity; i++)
+            for (int i = 0; i < _slotUIList.Count; i++)
             {
                 ItemData data = _inventory.GetItemData(i);
                 UpdateSlotFilterState(i, data);
