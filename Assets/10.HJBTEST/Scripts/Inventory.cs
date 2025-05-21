@@ -258,7 +258,7 @@ namespace Rito.InventorySystem
         }
 
         /// <summary> 모든 슬롯들의 상태를 UI에 갱신 </summary>
-        private void UpdateAllSlot()
+        public void UpdateAllSlot()
         {
             for (int i = 0; i < Capacity; i++)
             {
@@ -599,6 +599,31 @@ namespace Rito.InventorySystem
             // 3. Update
             UpdateAllSlot();
             _inventoryUI.UpdateAllSlotFilters(); // 필터 상태 업데이트
+        }
+
+        /// <summary> 특정 슬롯에 아이템 추가 (성공 시 0, 실패 시 남은 수량 반환) </summary>
+        public int AddToSlot(ItemData itemData, int amount, int slotIndex)
+        {
+            if (!IsValidIndex(slotIndex)) return amount;
+            if (_items[slotIndex] != null) return amount; // 이미 아이템이 있으면 추가 불가(혹은 교환 등 추가 구현 가능)
+
+            // 1. 수량이 있는 아이템
+            if (itemData is CountableItemData ciData)
+            {
+                CountableItem ci = ciData.CreateItem() as CountableItem;
+                int addAmount = Mathf.Min(amount, ciData.MaxAmount);
+                ci.SetAmount(addAmount);
+                _items[slotIndex] = ci;
+                UpdateSlot(slotIndex);
+                return amount - addAmount;
+            }
+            // 2. 수량 없는 아이템
+            else
+            {
+                _items[slotIndex] = itemData.CreateItem();
+                UpdateSlot(slotIndex);
+                return amount - 1;
+            }
         }
 
         #endregion

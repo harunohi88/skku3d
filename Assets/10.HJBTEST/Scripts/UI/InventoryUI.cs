@@ -82,6 +82,9 @@ namespace Rito.InventorySystem
         [Space(16)]
         [SerializeField] private bool _mouseReversed = false; // 마우스 클릭 반전 여부
 
+        [Header("Drag Icon Root (드래그 아이콘을 올릴 부모)")]
+        public Transform dragIconRoot;
+
         #endregion
         /***********************************************************************
         *                               Private Fields
@@ -114,6 +117,11 @@ namespace Rito.InventorySystem
             All, Equipment, Portion
         }
         private FilterOption _currentFilterOption = FilterOption.All;
+
+        private InventoryUI _otherInventoryUI;
+        private Inventory _otherInventory;
+
+        private Transform _beginDragIconOriginalParent;
 
         #endregion
         /***********************************************************************
@@ -342,7 +350,15 @@ namespace Rito.InventorySystem
                     _beginDragIconPoint = _beginDragIconTransform.position;
                     _beginDragCursorPoint = Input.mousePosition;
 
-                    // 맨 위에 보이기
+                    // 드래그 아이콘 부모 기억 및 Canvas 등으로 이동
+                    _beginDragIconOriginalParent = _beginDragIconTransform.parent;
+                    if (dragIconRoot != null)
+                    {
+                        _beginDragIconTransform.SetParent(dragIconRoot, true);
+                        _beginDragIconTransform.SetAsLastSibling();
+                    }
+
+                    // 맨 위에 보이기 (기존)
                     _beginDragSlotSiblingIndex = _beginDragSlot.transform.GetSiblingIndex();
                     _beginDragSlot.transform.SetAsLastSibling();
 
@@ -388,6 +404,13 @@ namespace Rito.InventorySystem
                 {
                     // 위치 복원
                     _beginDragIconTransform.position = _beginDragIconPoint;
+
+                    // 드래그 아이콘 부모 복원
+                    if (_beginDragIconOriginalParent != null)
+                    {
+                        _beginDragIconTransform.SetParent(_beginDragIconOriginalParent, true);
+                        _beginDragIconOriginalParent = null;
+                    }
 
                     // UI 순서 복원
                     _beginDragSlot.transform.SetSiblingIndex(_beginDragSlotSiblingIndex);
@@ -444,6 +467,35 @@ namespace Rito.InventorySystem
                 // 툴팁 갱신
                 UpdateTooltipUI(endDragSlot);
                 return;
+            }
+
+            // 다른 인벤토리 UI의 슬롯에 드롭한 경우
+            if (_otherInventoryUI != null)
+            {
+                var otherSlot = _otherInventoryUI.RaycastAndGetFirstComponent<ItemSlotUI>();
+                if (otherSlot != null && otherSlot.IsAccessible)
+                {
+                    // 내 인벤토리에서 아이템 정보 가져오기
+                    var itemData = _inventory.GetItemData(_beginDragSlot.Index);
+                    var amount = _inventory.GetCurrentAmount(_beginDragSlot.Index);
+
+                    // 상대 인벤토리의 해당 슬롯에 추가 시도
+                    int remain = _otherInventory.AddToSlot(itemData, amount, otherSlot.Index);
+
+                    // 내 인벤토리에서 남은 수량만큼 제거
+                    if (remain < amount)
+                        _inventory.Remove(_beginDragSlot.Index);
+
+                    // UI 갱신
+                    _inventory.UpdateAllSlot();
+                    _otherInventory.UpdateAllSlot();
+
+                    // 툴팁 갱신
+                    UpdateTooltipUI(_beginDragSlot);
+                    _otherInventoryUI.UpdateTooltipUI(otherSlot);
+
+                    return;
+                }
             }
 
             // 버리기(커서가 UI 레이캐스트 타겟 위에 있지 않은 경우)
@@ -633,6 +685,12 @@ namespace Rito.InventorySystem
                 ItemData data = _inventory.GetItemData(i);
                 UpdateSlotFilterState(i, data);
             }
+        }
+
+        public void SetOtherInventoryReference(Inventory otherInventory, InventoryUI otherInventoryUI)
+        {
+            _otherInventory = otherInventory;
+            _otherInventoryUI = otherInventoryUI;
         }
 
         #endregion

@@ -1445,6 +1445,7 @@ GameObject:
   - component: {fileID: 700772046}
   - component: {fileID: 700772045}
   - component: {fileID: 700772044}
+  - component: {fileID: 700772048}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1536,6 +1537,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &700772048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700772043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aafde2e72b4bcd4480cf4290dd90833, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInventoryUI: {fileID: 2097376546}
+  storageInventoryUI: {fileID: 734372751}
+  playerInventory: {fileID: 2097376545}
+  storageInventory: {fileID: 734372750}
 --- !u!1 &706337212
 GameObject:
   m_ObjectHideFlags: 0
@@ -1603,7 +1620,7 @@ GameObject:
   - component: {fileID: 734372751}
   - component: {fileID: 734372750}
   m_Layer: 5
-  m_Name: Inventory (1)
+  m_Name: EquipInventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1681,6 +1698,7 @@ MonoBehaviour:
   _toggleFilterEquipments: {fileID: 0}
   _toggleFilterPortions: {fileID: 0}
   _mouseReversed: 0
+  dragIconRoot: {fileID: 700772047}
   _slotUIList: []
   _showDebug: 1
   __showPreview: 0
@@ -3873,7 +3891,7 @@ GameObject:
   - component: {fileID: 2097376546}
   - component: {fileID: 2097376545}
   m_Layer: 5
-  m_Name: Inventory
+  m_Name: RuneInventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3989,6 +4007,7 @@ MonoBehaviour:
   _toggleFilterEquipments: {fileID: 0}
   _toggleFilterPortions: {fileID: 0}
   _mouseReversed: 0
+  dragIconRoot: {fileID: 700772047}
   _slotUIList: []
   _showDebug: 1
   __showPreview: 0
