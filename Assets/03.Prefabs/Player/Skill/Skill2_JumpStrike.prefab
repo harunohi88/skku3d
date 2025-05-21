@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerSkill: {fileID: 0}
   _cooldownManager: {fileID: 0}
+  IndicatorPrefab: {fileID: 0}
   Indicator: {fileID: 0}
   SkillName: 
   AttackRange: 0

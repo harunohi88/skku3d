@@ -42,6 +42,6 @@ public class CircleAOE : MonoBehaviour
     public void SetSize(float size)
     {
         Vector3 originalSize = DecalProjector.size;
-        DecalProjector.size = new Vector3(size, size, originalSize.z);
+        DecalProjector.size = new Vector3(2 * size, 2 * size, originalSize.z);
     }
 }

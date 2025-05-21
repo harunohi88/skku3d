@@ -4,7 +4,8 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
 {
     [SerializeField] private PlayerSkill _playerSkill;
     [SerializeField] private CooldownManager _cooldownManager;
-    public GameObject Indicator;
+    // public GameObject IndicatorPrefab;
+    // public TwoCircleIndicator Indicator;
     public string SkillName = "JumpStrike";
     public float AttackRange = 7f; // 공격 반경
     public int SkillIndex = 1;
@@ -17,6 +18,9 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
 
     public void Initialize()
     {
+        // Indicator = Instantiate(IndicatorPrefab).GetComponent<TwoCircleIndicator>();
+        // Indicator.gameObject.SetActive(false);
+        
         _cooldownManager = CooldownManager.Instance;
         _enemyLayer = LayerMask.GetMask("Enemy");
         _animator = PlayerManager.Instance.PlayerSkill.Model.GetComponent<Animator>();
@@ -35,13 +39,13 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
         {
             IsAvailable = false;
             //_animator.SetTrigger("JumpStrike");
-            Indicator.SetActive(false);
+            // Indicator.gameObject.SetActive(false);
         }
     }
 
     private void SkillTargeting()
     {
-        Indicator.SetActive(true);
+        // Indicator.gameObject.SetActive(true);
     }
 
     // 이벤트 시스템에서 호출할 메서드
