@@ -125,7 +125,10 @@ namespace Rito.InventorySystem
                 Add(ItemDataArray[2], 1);
             }
         }
+
         // 테스트용!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        public Action UpdateSlotEvent;
 
 
 
@@ -255,6 +258,8 @@ namespace Rito.InventorySystem
             {
                 UpdateSlot(i);
             }
+            // 모든 슬롯 업데이트가 완료된 후 한 번만 이벤트 발생
+            UpdateSlotEvent?.Invoke();
         }
 
         /// <summary> 모든 슬롯들의 상태를 UI에 갱신 </summary>
@@ -264,6 +269,8 @@ namespace Rito.InventorySystem
             {
                 UpdateSlot(i);
             }
+            // 모든 슬롯 업데이트가 완료된 후 한 번만 이벤트 발생
+            UpdateSlotEvent?.Invoke();
         }
 
         #endregion
@@ -624,6 +631,17 @@ namespace Rito.InventorySystem
                 UpdateSlot(slotIndex);
                 return amount - 1;
             }
+        }
+
+        /// <summary> 두 인벤토리의 슬롯끼리 아이템을 교환 </summary>
+        public void SwapWithOtherInventory(int myIndex, Inventory other, int otherIndex)
+        {
+            if (!IsValidIndex(myIndex) || !other.IsValidIndex(otherIndex)) return;
+            var temp = _items[myIndex];
+            _items[myIndex] = other._items[otherIndex];
+            other._items[otherIndex] = temp;
+            UpdateSlot(myIndex);
+            other.UpdateSlot(otherIndex);
         }
 
         #endregion

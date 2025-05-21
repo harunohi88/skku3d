@@ -479,12 +479,17 @@ namespace Rito.InventorySystem
                     var itemData = _inventory.GetItemData(_beginDragSlot.Index);
                     var amount = _inventory.GetCurrentAmount(_beginDragSlot.Index);
 
-                    // 상대 인벤토리의 해당 슬롯에 추가 시도
-                    int remain = _otherInventory.AddToSlot(itemData, amount, otherSlot.Index);
-
-                    // 내 인벤토리에서 남은 수량만큼 제거
-                    if (remain < amount)
-                        _inventory.Remove(_beginDragSlot.Index);
+                    // 상대 슬롯에 이미 아이템이 있으면 Swap, 아니면 AddToSlot
+                    if (_otherInventory.HasItem(otherSlot.Index))
+                    {
+                        _inventory.SwapWithOtherInventory(_beginDragSlot.Index, _otherInventory, otherSlot.Index);
+                    }
+                    else
+                    {
+                        int remain = _otherInventory.AddToSlot(itemData, amount, otherSlot.Index);
+                        if (remain < amount)
+                            _inventory.Remove(_beginDragSlot.Index);
+                    }
 
                     // UI 갱신
                     _inventory.UpdateAllSlot();
@@ -705,7 +710,7 @@ namespace Rito.InventorySystem
         private void EditorLog(object message)
         {
             if (!_showDebug) return;
-            UnityEngine.Debug.Log($"[InventoryUI] {message}");
+            //UnityEngine.Debug.Log($"[InventoryUI] {message}");
         }
 
         #endregion
