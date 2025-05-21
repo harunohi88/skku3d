@@ -11,7 +11,7 @@ public class BossSpecialAttack02State : IState<AEnemy>
         Debug.Log(this);
         enemy.SetAnimationTrigger("SpecialAttack02_1_Idle");
         _time = 0;
-        indicator = BossIndicatorManager.Instance.SetIndicator(enemy.transform.position, BossAIManager.Instance.Pattern2Radius, BossAIManager.Instance.Pattern2Radius, 0, 360, 0, BossAIManager.Instance.Patter2FirstCastingtime, 0);
+        indicator = BossIndicatorManager.Instance.SetCircularIndicator(enemy.transform.position, BossAIManager.Instance.Pattern2Radius, BossAIManager.Instance.Pattern2Radius, 0, 360, 0, BossAIManager.Instance.Patter2FirstCastingtime, 0);
     }
 
     public void Update(AEnemy enemy)

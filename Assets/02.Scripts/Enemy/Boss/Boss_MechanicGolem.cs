@@ -102,7 +102,7 @@ public class Boss_MechanicGolem : AEnemy
         {
             float size = ( (i + 1) / 3.0f ) * BossAIManager.Instance.Pattern3Range;
             float innerRange = i / (float)(i + 1);
-            indicatorList.Add(BossIndicatorManager.Instance.SetIndicator(position, size, size, 0, BossAIManager.Instance.Pattern3Angle, innerRange, castingTime, 0, false));
+            indicatorList.Add(BossIndicatorManager.Instance.SetCircularIndicator(position, size, size, 0, BossAIManager.Instance.Pattern3Angle, innerRange, castingTime, 0, false));
 
             Quaternion rotation = Quaternion.LookRotation(forward);
 

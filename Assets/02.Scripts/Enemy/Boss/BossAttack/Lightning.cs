@@ -21,7 +21,7 @@ public class Lightning : MonoBehaviour
     {
         _castingTime = castingTime;
         _collider.enabled = false;
-        BossIndicatorManager.Instance.SetIndicator(transform.position, BossAIManager.Instance.Pattern1Radius, BossAIManager.Instance.Pattern1Radius, 0, 360, 0, castingTime, 0);
+        BossIndicatorManager.Instance.SetCircularIndicator(transform.position, BossAIManager.Instance.Pattern1Radius, BossAIManager.Instance.Pattern1Radius, 0, 360, 0, castingTime, 0);
         _time = 0f;
         transform.localScale = new Vector3(BossAIManager.Instance.Pattern1Radius, 1, BossAIManager.Instance.Pattern1Radius);
     }
