@@ -109,20 +109,34 @@ namespace Rito.InventorySystem
         private static readonly ItemComparer _itemComparer = new ItemComparer();
 
         // 테스트용!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        public ItemData[] ItemDataArray;
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                Add(ItemDataArray[0], 1);
+                RuneData runeData = DataTable.Instance.GetRuneData(10000);
+                if (runeData != null)
+                {
+                    RuneItemData runeItemData = RuneItemConverter.ConvertToItemData(runeData);
+                    Add(runeItemData, 1);
+                }
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                Add(ItemDataArray[1], 1);
+                RuneData runeData = DataTable.Instance.GetRuneData(10001);
+                if (runeData != null)
+                {
+                    RuneItemData runeItemData = RuneItemConverter.ConvertToItemData(runeData);
+                    Add(runeItemData, 1);
+                }
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                Add(ItemDataArray[2], 1);
+                RuneData runeData = DataTable.Instance.GetRuneData(10002);
+                if (runeData != null)
+                {
+                    RuneItemData runeItemData = RuneItemConverter.ConvertToItemData(runeData);
+                    Add(runeItemData, 1);
+                }
             }
         }
 
