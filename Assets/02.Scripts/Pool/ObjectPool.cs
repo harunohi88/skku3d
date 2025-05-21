@@ -1,28 +1,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool<T> where T : MonoBehaviour
+public class ObjectPool<T> where T : Behaviour
 {
     private Queue<T> _poolQueue = new Queue<T>();
-    private List<T> _prefabs;
+    private List<T> _prefabList;
     private Transform _parent;
     
     /// <summary>
     /// 생성자에서 initialSize만큼 만들어서 pool에 넣어놓기
     /// </summary>
-    /// <param name="prefabs"></param>
+    /// <param name="prefabList"></param>
     /// <param name="initialSize"></param>
     /// <param name="parent"></param>
-    public ObjectPool(List<T> prefabs, int initialSize, Transform parent = null)
+    public ObjectPool(List<T> prefabList, int initialSize, Transform parent = null)
     {
-        this._prefabs = prefabs;
+        this._prefabList = prefabList;
         this._parent = parent;
 
         for (int i = 0; i < initialSize; i++)
         {
             /// 랜덤 프리팹으로 만든다.
-            T randomPrefab = _prefabs[Random.Range(0, _prefabs.Count)];
+            T randomPrefab = _prefabList[Random.Range(0, _prefabList.Count)];
             T obj = Object.Instantiate(randomPrefab, parent);
+            obj.gameObject.SetActive(false);
+            _poolQueue.Enqueue(obj);
+        }
+    }
+
+    public ObjectPool(T prefab, int initialSize, Transform parent = null)
+    {
+        this._prefabList = new List<T>();
+        this._prefabList.Add(prefab);
+        this._parent = parent;
+
+        for(int i = 0; i < initialSize; i++)
+        {
+            T obj = Object.Instantiate(prefab, parent);
             obj.gameObject.SetActive(false);
             _poolQueue.Enqueue(obj);
         }
@@ -42,7 +56,7 @@ public class ObjectPool<T> where T : MonoBehaviour
         }
         else
         {
-            T randomPrefab = _prefabs[Random.Range(0, _prefabs.Count)];
+            T randomPrefab = _prefabList[Random.Range(0, _prefabList.Count)];
             T newObj = Object.Instantiate(randomPrefab, _parent);
             return newObj;
         }

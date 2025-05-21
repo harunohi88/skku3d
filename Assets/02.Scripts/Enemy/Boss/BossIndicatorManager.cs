@@ -4,12 +4,12 @@ using UnityEngine;
 public class BossIndicatorManager : BehaviourSingleton<BossIndicatorManager>
 {
     private ObjectPool<SkillIndicator> _circularIndicatorPool;
-    public List<SkillIndicator> CircularIndicatorPrefabList;
+    public SkillIndicator CircularIndicatorPrefab;
     public GameObject PoolParent;
 
     private void Start()
     {
-        _circularIndicatorPool = new ObjectPool<SkillIndicator>(CircularIndicatorPrefabList, 20, PoolParent.transform);
+        _circularIndicatorPool = new ObjectPool<SkillIndicator>(CircularIndicatorPrefab, 20, PoolParent.transform);
     }
 
     public SkillIndicator SetIndicator(Vector3 position, float width, float height, float direction, float angleRange, float innerRange, float castingTime, float castingPercent, bool immediateStart = true)

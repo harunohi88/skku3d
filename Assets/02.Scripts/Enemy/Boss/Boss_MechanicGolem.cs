@@ -8,14 +8,14 @@ using System.Linq;
 public class Boss_MechanicGolem : AEnemy
 {
     public Collider WeaponCollider;
-    public List<Lightning> LightningPrefabList;
+    public Lightning LightningPrefab;
     private ObjectPool<Lightning> _lightningPool;
     private int _attackCount = 0;
 
     protected override void Start()
     {
         base.Start();
-        _lightningPool = new ObjectPool<Lightning>(LightningPrefabList, 20, GameObject.FindGameObjectWithTag("Pool").transform);
+        _lightningPool = new ObjectPool<Lightning>(LightningPrefab, 20, GameObject.FindGameObjectWithTag("Pool").transform);
     }
 
     public override void Init()
@@ -102,8 +102,12 @@ public class Boss_MechanicGolem : AEnemy
         {
             float size = ( (i + 1) / 3.0f ) * BossAIManager.Instance.Pattern3Range;
             float innerRange = i / (float)(i + 1);
-            float directionAngle = Vector3.Angle(Vector3.forward, forward);
-            indicatorList.Add(BossIndicatorManager.Instance.SetIndicator(position, size, size, directionAngle, BossAIManager.Instance.Pattern3Angle, innerRange, castingTime, 0, false));
+            indicatorList.Add(BossIndicatorManager.Instance.SetIndicator(position, size, size, 0, BossAIManager.Instance.Pattern3Angle, innerRange, castingTime, 0, false));
+
+            Quaternion rotation = Quaternion.LookRotation(forward);
+
+            Vector3 fixedEuler = new Vector3(90f, 0f, -rotation.eulerAngles.y);
+            indicatorList[i].transform.rotation = Quaternion.Euler(fixedEuler);
         }
 
         for(int i = 0; i < 3; i++)
@@ -123,7 +127,11 @@ public class Boss_MechanicGolem : AEnemy
                 Vector3 directionToTarget = (playerObject.transform.position - position).normalized;
                 if(Vector3.Dot(forward, directionToTarget) > Mathf.Cos(BossAIManager.Instance.Pattern3Angle))
                 {
-                    Debug.Log("Pattern 3 데미지 발생");
+                    float distance = Vector3.Distance(playerObject.transform.position, position);
+                    if(distance > (i / (float)(i + 1)) * radius)
+                    {
+                        Debug.Log("Pattern 3 데미지 발생");
+                    }
                 }
             }
         }
