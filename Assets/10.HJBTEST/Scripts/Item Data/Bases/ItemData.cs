@@ -21,12 +21,12 @@ namespace Rito.InventorySystem
 
     */
 
-    public abstract class ItemData : ScriptableObject
+    public abstract class ItemData
     {
-        public int ID => _id;
-        public string Name => _name;
-        public string Tooltip => _tooltip;
-        public Sprite IconSprite => _iconSprite;
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Tooltip { get; set; }
+        public Sprite IconSprite { get; set; }
 
         [SerializeField] private int      _id;
         [SerializeField] private string   _name;    // 아이템 이름
