@@ -3954,6 +3954,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 602851570}
     m_Modifications:
+    - target: {fileID: 280520761009412220, guid: 647bf7a21b838a147be83adbb9d77a71, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1361669845977010855, guid: 647bf7a21b838a147be83adbb9d77a71, type: 3}
       propertyPath: _slotUIList.Array.size
       value: 0
@@ -4038,9 +4042,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2853655876610242019, guid: 647bf7a21b838a147be83adbb9d77a71, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3184503835552248922, guid: 647bf7a21b838a147be83adbb9d77a71, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6870091410634666173, guid: 647bf7a21b838a147be83adbb9d77a71, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7181423484501075020, guid: 647bf7a21b838a147be83adbb9d77a71, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9118905099183994851, guid: 647bf7a21b838a147be83adbb9d77a71, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
