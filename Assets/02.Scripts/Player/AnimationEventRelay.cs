@@ -25,4 +25,14 @@ public class AnimationEventRelay : MonoBehaviour
     {
         _playerAttack.OnAttackLoopEnd();
     }
+
+    public void OnSkillAnimationEffect()
+    {
+        _playerSkill.CurrentSkill.OnSkillAnimationEffect();
+    }
+    
+    public void OnSkillAnimationEnd()
+    {
+        _playerSkill.CurrentSkill.OnSkillAnimationEnd();
+    }
 }

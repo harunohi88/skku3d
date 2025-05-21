@@ -61,7 +61,7 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
         PlayerAttack.Attack();
     }
 
-    public void Skill(int skillIndex)
+    public void UseSkill(int skillIndex)
     {
         if (!CanPerform(EPlayerAction.Skill)) return;
 

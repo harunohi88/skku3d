@@ -31,7 +31,7 @@ public class InputManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            _playerManager.Skill(0);
+            _playerManager.UseSkill(0);
         }
     }
 }

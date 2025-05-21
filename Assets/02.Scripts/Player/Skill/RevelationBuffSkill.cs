@@ -19,7 +19,7 @@ public class RevelationBuffSkill : MonoBehaviour, ISkill
 
     private LayerMask _enemyLayer;
     
-    private void Start()
+    public void Initialize()
     {
         _cooldownManager = CooldownManager.Instance;
         _enemyLayer = LayerMask.GetMask("Enemy");
@@ -42,11 +42,10 @@ public class RevelationBuffSkill : MonoBehaviour, ISkill
         Debug.Log("Revelation Buff Activated");
         if (!IsAvailable) return;
 
-        ApplyBuff();
         _buffTimer = _buffDuration;
         _isBuffActive = true; 
         IsAvailable = false;
-        //_animator.SetTrigger("Buff");
+        //_animator.SetTrigger("Skill3");
     }
 
     private void ApplyBuff()
@@ -65,8 +64,9 @@ public class RevelationBuffSkill : MonoBehaviour, ISkill
     }
 
     // 이벤트 시스템에서 호출할 메서드
-    public void OnSkillAnimationHit()
+    public void OnSkillAnimationEffect()
     {
+        ApplyBuff();
     }
 
     public void OnSkillAnimationEnd()
