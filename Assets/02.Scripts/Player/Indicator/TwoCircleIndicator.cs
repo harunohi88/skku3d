@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class TwoCircleIndicator : MonoBehaviour
 {
@@ -83,5 +84,13 @@ public class TwoCircleIndicator : MonoBehaviour
         }
         
         return PointInRange;
+    }
+    
+    public List<Collider> GetCollidersInTargetRange()
+    {
+        Collider[] colliders = Physics.OverlapSphere(TargetIndicator.transform.position, TargetRadius);
+     
+        List<Collider> colliderList = new List<Collider>(colliders);
+        return colliderList;
     }
 }

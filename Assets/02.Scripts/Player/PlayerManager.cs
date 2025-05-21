@@ -57,6 +57,7 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
         if (PlayerState == EPlayerState.Skill)
         {
             // PlayerSkill.ExecuteSkill();
+            return;
         }
         PlayerAttack.Attack();
     }
