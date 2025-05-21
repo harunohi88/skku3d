@@ -12,13 +12,13 @@ public class BossIndicatorManager : BehaviourSingleton<BossIndicatorManager>
         _circularIndicatorPool = new ObjectPool<SkillIndicator>(CircularIndicatorPrefabList, 20, PoolParent.transform);
     }
 
-    public SkillIndicator SetIndicator(Vector3 position, float width, float height, float direction, float angleRange, float innerRange, float castingTime, float castingPercent)
+    public SkillIndicator SetIndicator(Vector3 position, float width, float height, float direction, float angleRange, float innerRange, float castingTime, float castingPercent, bool immediateStart = true)
     {
         SkillIndicator indicator = _circularIndicatorPool.Get();
         indicator.Init(width, height, direction, angleRange, innerRange, castingPercent, _circularIndicatorPool);
         indicator.transform.position = position;
 
-        indicator.Ready(castingTime);
+        if(immediateStart) indicator.Ready(castingTime);
 
         return indicator;
     }

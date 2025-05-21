@@ -15,6 +15,13 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
     public float Pattern1Range;
     public float Pattern1LightningLastTime;
 
+    public float Patter2FirstCastingtime;
+    public float Pattern2Radius;
+    public float Pattern2Range;
+
+    public float Pattern3Range;
+    public float Pattern3Angle;
+   
     [SerializeField] private float _healthThreshold = 0.5f;
 
     private void Start()

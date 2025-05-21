@@ -10,7 +10,7 @@ public class SkillIndicator : MonoBehaviour
     private Material _instancedMaterial;
 
     private float percent = 0f;
-    private bool IsReady = false;
+    private bool _isReady = false;
     private float _castingTime = 0f;
     private float _time = 0f;
 
@@ -26,12 +26,13 @@ public class SkillIndicator : MonoBehaviour
     {
         _projector.size = new Vector3(width, height, 1);
         _time = 0f;
-
+        _isReady = false;
         _instancedMaterial.SetFloat("_Direction", direction);
         _instancedMaterial.SetFloat("_AngleRange", angleRange);
         _instancedMaterial.SetFloat("_InnerRange", innerRange);
         _instancedMaterial.SetFloat("_CastingPercent", castingPercent);
         thisPool = pool;
+        transform.eulerAngles = new Vector3(90, 0, 0);
 
         percent = 0;
     }
@@ -39,12 +40,12 @@ public class SkillIndicator : MonoBehaviour
     public void Ready(float castingTime)
     {
         _castingTime = castingTime;
-        IsReady = true;
+        _isReady = true;
     }
 
     private void Update()
     {
-        if (IsReady)
+        if (_isReady)
         {
             _time += Time.deltaTime;
             percent = _time / _castingTime;

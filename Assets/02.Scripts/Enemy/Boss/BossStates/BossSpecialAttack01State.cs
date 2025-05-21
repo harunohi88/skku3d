@@ -16,7 +16,7 @@ public class BossSpecialAttack01State : IState<AEnemy>
     {
         _time += Time.deltaTime;
 
-        if (_time >= BossAIManager.Instance.PatternCooltimeList[1] + 0.5f)
+        if (_time >= BossAIManager.Instance.PatternCastingtimeList[1] + 0.5f)
         {
             // 임시
             (enemy as Boss_MechanicGolem).OnSpecialAttack01End();

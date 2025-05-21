@@ -17,6 +17,8 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     public float DamagedTime;
     public float DeathTime;
 
+    public LayerMask LayerMask;
+
     public NavMeshAgent Agent;
     protected CharacterController _characterController;
     protected Animator _animator;
