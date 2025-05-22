@@ -8,7 +8,7 @@ public class ObjectPool<T> where T : Behaviour
     private Transform _parent;
     
     /// <summary>
-    /// 생성자에서 initialSize만큼 만들어서 pool에 넣어놓기
+    /// 풀에 들어갈 오브젝트가 여러 개일 경우 생성자에서 initialSize 만큼 만들어서 pool에 넣어놓기
     /// </summary>
     /// <param name="prefabList"></param>
     /// <param name="initialSize"></param>
@@ -28,6 +28,12 @@ public class ObjectPool<T> where T : Behaviour
         }
     }
 
+    /// <summary>
+    /// 풀에 들어갈 오브젝트가 하나일 경우 생성자에서 initialSize 만큼 만들어서 pool에 넣어놓기
+    /// </summary>
+    /// <param name="prefab"></param>
+    /// <param name="initialSize"></param>
+    /// <param name="parent"></param>
     public ObjectPool(T prefab, int initialSize, Transform parent = null)
     {
         this._prefabList = new List<T>();

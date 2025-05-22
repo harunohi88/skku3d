@@ -88,38 +88,8 @@ namespace Rito.InventorySystem
             }
         }
         private static readonly ItemComparer _itemComparer = new ItemComparer();
-
-        // 테스트용!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                RuneData runeData = DataTable.Instance.GetRuneData(10000);
-                if (runeData != null)
-                {
-                    RuneItemData runeItemData = RuneItemConverter.ConvertToItemData(runeData);
-                    Add(runeItemData, 1);
-                }
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                RuneData runeData = DataTable.Instance.GetRuneData(10001);
-                if (runeData != null)
-                {
-                    RuneItemData runeItemData = RuneItemConverter.ConvertToItemData(runeData);
-                    Add(runeItemData, 1);
-                }
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                RuneData runeData = DataTable.Instance.GetRuneData(10002);
-                if (runeData != null)
-                {
-                    RuneItemData runeItemData = RuneItemConverter.ConvertToItemData(runeData);
-                    Add(runeItemData, 1);
-                }
-            }
-        }
+        
+        
 
         public Action UpdateSlotEvent;
 

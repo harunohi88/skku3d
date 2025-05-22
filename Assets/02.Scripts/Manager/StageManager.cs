@@ -39,7 +39,7 @@ public class StageManager : Singleton<StageManager>
         }
     }
 
-    /// <summary> 보스 소환 or 보스 장소 열림림 </summary>
+    /// <summary> 보스 소환 or 보스 장소 열림 </summary>
     private void SpawnBoss()
     {
         // 보스 소환
