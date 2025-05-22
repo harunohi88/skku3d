@@ -50,6 +50,7 @@ namespace Rito.InventorySystem
         ***********************************************************************/
         #region .
         [Header("Options")]
+        public bool IsDynamicInitSlot = true;
         [Range(0, 10)]
         [SerializeField] private int _horizontalSlotCount = 8;  // 슬롯 가로 개수
         [Range(0, 10)]
@@ -82,6 +83,9 @@ namespace Rito.InventorySystem
         [Space(16)]
         [SerializeField] private bool _mouseReversed = false; // 마우스 클릭 반전 여부
 
+        [Header("Drag Icon Root (드래그 아이콘을 올릴 부모)")]
+        public Transform dragIconRoot;
+
         #endregion
         /***********************************************************************
         *                               Private Fields
@@ -93,6 +97,7 @@ namespace Rito.InventorySystem
 
         [SerializeField]
         private List<ItemSlotUI> _slotUIList = new List<ItemSlotUI>();
+        public int SlotCount => _slotUIList.Count;
         private GraphicRaycaster _gr;
         private PointerEventData _ped;
         private List<RaycastResult> _rrList;
@@ -114,6 +119,11 @@ namespace Rito.InventorySystem
             All, Equipment, Portion
         }
         private FilterOption _currentFilterOption = FilterOption.All;
+
+        private InventoryUI _otherInventoryUI;
+        private Inventory _otherInventory;
+
+        private Transform _beginDragIconOriginalParent;
 
         #endregion
         /***********************************************************************
@@ -165,7 +175,20 @@ namespace Rito.InventorySystem
         /// <summary> 지정된 개수만큼 슬롯 영역 내에 슬롯들 동적 생성 </summary>
         private void InitSlots()
         {
-            // 슬롯 프리팹 설정
+            // 수동 배치된 슬롯들을 찾아서 초기화
+            if (!IsDynamicInitSlot)
+            {
+                _slotUIList.Clear();
+                var slots = GetComponentsInChildren<ItemSlotUI>();
+                foreach (var slot in slots)
+                {
+                    slot.SetSlotIndex(_slotUIList.Count);
+                    _slotUIList.Add(slot);
+                }
+                return;
+            }
+
+            // 동적 생성 코드는 그대로 유지
             _slotUiPrefab.TryGetComponent(out RectTransform slotRect);
             slotRect.sizeDelta = new Vector2(_slotSize, _slotSize);
 
@@ -342,7 +365,15 @@ namespace Rito.InventorySystem
                     _beginDragIconPoint = _beginDragIconTransform.position;
                     _beginDragCursorPoint = Input.mousePosition;
 
-                    // 맨 위에 보이기
+                    // 드래그 아이콘 부모 기억 및 Canvas 등으로 이동
+                    _beginDragIconOriginalParent = _beginDragIconTransform.parent;
+                    if (dragIconRoot != null)
+                    {
+                        _beginDragIconTransform.SetParent(dragIconRoot, true);
+                        _beginDragIconTransform.SetAsLastSibling();
+                    }
+
+                    // 맨 위에 보이기 (기존)
                     _beginDragSlotSiblingIndex = _beginDragSlot.transform.GetSiblingIndex();
                     _beginDragSlot.transform.SetAsLastSibling();
 
@@ -355,6 +386,8 @@ namespace Rito.InventorySystem
                 }
             }
 
+            // 엑티브 아이템이 빠로 없기 때문에 사용하지 않는다.
+            /*
             // Right Click : Use Item
             else if (Input.GetMouseButtonDown(_rightClick))
             {
@@ -364,7 +397,7 @@ namespace Rito.InventorySystem
                 {
                     TryUseItem(slot.Index);
                 }
-            }
+            }*/
         }
         /// <summary> 드래그하는 도중 </summary>
         private void OnPointerDrag()
@@ -388,6 +421,13 @@ namespace Rito.InventorySystem
                 {
                     // 위치 복원
                     _beginDragIconTransform.position = _beginDragIconPoint;
+
+                    // 드래그 아이콘 부모 복원
+                    if (_beginDragIconOriginalParent != null)
+                    {
+                        _beginDragIconTransform.SetParent(_beginDragIconOriginalParent, true);
+                        _beginDragIconOriginalParent = null;
+                    }
 
                     // UI 순서 복원
                     _beginDragSlot.transform.SetSiblingIndex(_beginDragSlotSiblingIndex);
@@ -446,9 +486,45 @@ namespace Rito.InventorySystem
                 return;
             }
 
+            // 다른 인벤토리 UI의 슬롯에 드롭한 경우
+            if (_otherInventoryUI != null)
+            {
+                var otherSlot = _otherInventoryUI.RaycastAndGetFirstComponent<ItemSlotUI>();
+                if (otherSlot != null && otherSlot.IsAccessible)
+                {
+                    // 내 인벤토리에서 아이템 정보 가져오기
+                    var itemData = _inventory.GetItemData(_beginDragSlot.Index);
+                    var amount = _inventory.GetCurrentAmount(_beginDragSlot.Index);
+
+                    // 상대 슬롯에 이미 아이템이 있으면 Swap, 아니면 AddToSlot
+                    if (_otherInventory.HasItem(otherSlot.Index))
+                    {
+                        _inventory.SwapWithOtherInventory(_beginDragSlot.Index, _otherInventory, otherSlot.Index);
+                    }
+                    else
+                    {
+                        int remain = _otherInventory.AddToSlot(itemData, amount, otherSlot.Index);
+                        if (remain < amount)
+                            _inventory.Remove(_beginDragSlot.Index);
+                    }
+
+                    // UI 갱신
+                    _inventory.UpdateAllSlot();
+                    _otherInventory.UpdateAllSlot();
+
+                    // 툴팁 갱신
+                    UpdateTooltipUI(_beginDragSlot);
+                    _otherInventoryUI.UpdateTooltipUI(otherSlot);
+
+                    return;
+                }
+            }
+
             // 버리기(커서가 UI 레이캐스트 타겟 위에 있지 않은 경우)
             if (!IsOverUI())
             {
+                // 버리기 기능은 필요 없다. 버리기 대신 행동을 취소하고 원래 자리로 돌아간다.
+                /*
                 // 확인 팝업 띄우고 콜백 위임
                 int index = _beginDragSlot.Index;
                 string itemName = _inventory.GetItemName(index);
@@ -462,6 +538,7 @@ namespace Rito.InventorySystem
                     _popup.OpenConfirmationPopup(() => TryRemoveItem(index), itemName);
                 else
                     TryRemoveItem(index);
+                    */
             }
             // 슬롯이 아닌 다른 UI 위에 놓은 경우
             else
@@ -596,10 +673,7 @@ namespace Rito.InventorySystem
         /// <summary> 접근 가능한 슬롯 범위 설정 </summary>
         public void SetAccessibleSlotRange(int accessibleSlotCount)
         {
-            for (int i = 0; i < _slotUIList.Count; i++)
-            {
-                _slotUIList[i].SetSlotAccessibleState(i < accessibleSlotCount);
-            }
+            // 모든 슬롯이 항상 접근 가능하므로 아무것도 하지 않음
         }
 
         /// <summary> 특정 슬롯의 필터 상태 업데이트 </summary>
@@ -626,13 +700,17 @@ namespace Rito.InventorySystem
         /// <summary> 모든 슬롯 필터 상태 업데이트 </summary>
         public void UpdateAllSlotFilters()
         {
-            int capacity = _inventory.Capacity;
-
-            for (int i = 0; i < capacity; i++)
+            for (int i = 0; i < _slotUIList.Count; i++)
             {
                 ItemData data = _inventory.GetItemData(i);
                 UpdateSlotFilterState(i, data);
             }
+        }
+
+        public void SetOtherInventoryReference(Inventory otherInventory, InventoryUI otherInventoryUI)
+        {
+            _otherInventory = otherInventory;
+            _otherInventoryUI = otherInventoryUI;
         }
 
         #endregion
@@ -647,7 +725,7 @@ namespace Rito.InventorySystem
         private void EditorLog(object message)
         {
             if (!_showDebug) return;
-            UnityEngine.Debug.Log($"[InventoryUI] {message}");
+            //UnityEngine.Debug.Log($"[InventoryUI] {message}");
         }
 
         #endregion

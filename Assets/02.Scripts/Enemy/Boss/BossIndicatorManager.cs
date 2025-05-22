@@ -3,22 +3,33 @@ using UnityEngine;
 
 public class BossIndicatorManager : BehaviourSingleton<BossIndicatorManager>
 {
-    private ObjectPool<SkillIndicator> _circularIndicatorPool;
-    public List<SkillIndicator> CircularIndicatorPrefabList;
+    private ObjectPool<SkillIndicator> _indicatorPool;
+    public SkillIndicator IndicatorPrefab;
     public GameObject PoolParent;
 
     private void Start()
     {
-        _circularIndicatorPool = new ObjectPool<SkillIndicator>(CircularIndicatorPrefabList, 20, PoolParent.transform);
+        _indicatorPool = new ObjectPool<SkillIndicator>(IndicatorPrefab, 20, PoolParent.transform);
     }
 
-    public SkillIndicator SetIndicator(Vector3 position, float width, float height, float direction, float angleRange, float innerRange, float castingTime, float castingPercent)
+    public SkillIndicator SetCircularIndicator(Vector3 position, float width, float height, float direction, float angleRange, float innerRange, float castingTime, float castingPercent, bool immediateStart = true)
     {
-        SkillIndicator indicator = _circularIndicatorPool.Get();
-        indicator.Init(width, height, direction, angleRange, innerRange, castingPercent, _circularIndicatorPool);
+        SkillIndicator indicator = _indicatorPool.Get();
+        indicator.CircularInit(width, height, direction, angleRange, innerRange, castingPercent, _indicatorPool);
         indicator.transform.position = position;
 
-        indicator.Ready(castingTime);
+        if(immediateStart) indicator.Ready(castingTime);
+
+        return indicator;
+    }
+
+    public SkillIndicator SetSquareIndicator(Vector3 position, float width, float height, float direction, float innerRange, float castingTime, float castingPercent, bool immediateStart = true)
+    {
+        SkillIndicator indicator = _indicatorPool.Get();
+        indicator.SquareInit(width, height, direction, innerRange, castingPercent, _indicatorPool);
+        indicator.transform.position = position;
+
+        if (immediateStart) indicator.Ready(castingTime);
 
         return indicator;
     }

@@ -105,7 +105,7 @@ namespace Rito.InventorySystem
                 Debug.LogWarning($"[{gameObject.name}] InventoryUI not found in parent hierarchy. Some functionality may be limited.");
             }
 
-            Debug.Log($"Parent: {transform.parent?.name}, InventoryUI: {_inventoryUI}");
+            //Debug.Log($"Parent: {transform.parent?.name}, InventoryUI: {_inventoryUI}");
 
             // Rects
             _slotRect = GetComponent<RectTransform>();

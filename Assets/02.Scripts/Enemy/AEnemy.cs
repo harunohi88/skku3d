@@ -9,6 +9,7 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     public int MaxHealth;
     public int Health;
     public int Damage;
+    public float MoveSpeed = 3.5f;
 
     public float TraceDistance;
     public float AttackDistance;
@@ -16,6 +17,11 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     public float AttackCooltime;
     public float DamagedTime;
     public float DeathTime;
+
+    public EnemySpawner ThisSpawner;
+
+
+    public LayerMask LayerMask;
 
     public NavMeshAgent Agent;
     protected CharacterController _characterController;
@@ -29,13 +35,13 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
 
     public EnemyRotation EnemyRotation;
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
         _characterController = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
         EnemyRotation = GetComponent<EnemyRotation>();
-
+        Agent.speed = MoveSpeed;
         Init();
     }
 
@@ -85,6 +91,6 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
 
     public bool IsPlayingAnimation(string animationName)
     {
-        return _animator.GetCurrentAnimatorStateInfo(0).IsName(animationName);
+        return _animator.GetCurrentAnimatorStateInfo(0).IsName(animationName) && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.2f && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f;
     }
 }

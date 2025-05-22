@@ -6,7 +6,10 @@ public class Lightning : MonoBehaviour
 
     private BoxCollider _collider;
     private float _time = 0f;
+    private float _tickTime = 0f;
     private float _castingTime;
+    private float _duration;
+    private bool _isLightnigOn = false;
 
     public ParticleSystem LightningStrikeParticle;
     public ParticleSystem LightningSpinParticle;
@@ -17,26 +20,39 @@ public class Lightning : MonoBehaviour
         _collider.enabled = false;
     }
 
-    public void Init(float castingTime)
+    public void Init(float castingTime, float radius, float duration)
     {
         _castingTime = castingTime;
         _collider.enabled = false;
-        BossIndicatorManager.Instance.SetIndicator(transform.position, BossAIManager.Instance.Pattern1Radius, BossAIManager.Instance.Pattern1Radius, 0, 360, 0, castingTime, 0);
+        _duration = duration;
+        _isLightnigOn = false;
+        _tickTime = 0f;
+        BossIndicatorManager.Instance.SetCircularIndicator(transform.position, radius, radius, 0, 360, 0, castingTime, 0);
         _time = 0f;
-        transform.localScale = new Vector3(BossAIManager.Instance.Pattern1Radius, 1, BossAIManager.Instance.Pattern1Radius);
+        transform.localScale = new Vector3(radius, 1, radius);
     }
 
     private void Update()
     {
-        if (_collider.enabled)
+        if (_isLightnigOn)
         {
             _time += Time.deltaTime;
-            if (_time >= BossAIManager.Instance.Pattern1LightningLastTime)
+            if (_time >= _duration)
             {
                 thisPool.Return(this);
+                return;
+            }
+
+            _tickTime += Time.deltaTime;
+            if(_tickTime >= 0.5f)
+            {
+                _collider.enabled = false;
+                _collider.enabled = true;
+                _tickTime = 0f;
             }
         }
-        else
+
+        if (_isLightnigOn == false)
         {
             _time += Time.deltaTime;
             if (_time >= _castingTime)
@@ -45,9 +61,9 @@ public class Lightning : MonoBehaviour
                 LightningStrikeParticle.Play();
                 LightningSpinParticle.Play();
                 _time = 0;
+                _isLightnigOn = true;
             }
         }
-
     }
 
     private void OnTriggerEnter(Collider other)

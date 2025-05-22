@@ -26,6 +26,15 @@ public class RuneData
     ///<summary>티어3 값</summary>
     private readonly int Tier3;
 
+    ///<summary>시간</summary>
+    public readonly float Time;
+
+    ///<summary>체력 퍼센트</summary>
+    public readonly int HealthPercent;
+
+    ///<summary>치명타 확률</summary>
+    public readonly int CriticalChance;
+
     ///<summary>Tier 리스트</summary>
     public readonly List<int> TierList = new List<int>();
     public RuneData(BinaryReader reader)
@@ -39,6 +48,9 @@ public class RuneData
         Tier1 = reader.ReadInt32();
         Tier2 = reader.ReadInt32();
         Tier3 = reader.ReadInt32();
+        Time = reader.ReadSingle();
+        HealthPercent = reader.ReadInt32();
+        CriticalChance = reader.ReadInt32();
 
         LinkTable();
     }

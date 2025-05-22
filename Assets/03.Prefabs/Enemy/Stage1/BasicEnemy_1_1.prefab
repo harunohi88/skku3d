@@ -1592,16 +1592,19 @@ MonoBehaviour:
   MaxHealth: 100
   Health: 100
   Damage: 10
+  MoveSpeed: 3.5
   TraceDistance: 15
   AttackDistance: 3
   AttackOutDistance: 5
   AttackCooltime: 1
   DamagedTime: 0.5
   DeathTime: 2
+  LayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   Agent: {fileID: 0}
   AttackPosition: {fileID: 6771006797817667778}
   SkillObject: {fileID: 0}
-  WeaponCollider: {fileID: 0}
   EnemyRotation: {fileID: 0}
 --- !u!195 &488686211954916071
 NavMeshAgent:
