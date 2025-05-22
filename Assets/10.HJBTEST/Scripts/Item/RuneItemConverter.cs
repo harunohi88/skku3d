@@ -5,16 +5,18 @@ namespace Rito.InventorySystem
 {
     public static class RuneItemConverter
     {
-        private static Dictionary<int, RuneItemData> _runeItemDataCache = new Dictionary<int, RuneItemData>();
+        private static Dictionary<(int, int), RuneItemData> _runeItemDataCache = new Dictionary<(int, int), RuneItemData>();
 
-        public static RuneItemData ConvertToItemData(RuneData runeData)
+        public static RuneItemData ConvertToItemData(RuneData runeData, int tier)
         {
             if (runeData == null) return null;
 
-            if (!_runeItemDataCache.TryGetValue(runeData.TID, out RuneItemData itemData))
+            var key = (runeData.TID, tier);
+
+            if (!_runeItemDataCache.TryGetValue(key, out RuneItemData itemData))
             {
-                itemData = new RuneItemData(runeData);
-                _runeItemDataCache[runeData.TID] = itemData;
+                itemData = new RuneItemData(runeData, tier);
+                _runeItemDataCache[key] = itemData;
             }
 
             return itemData;
@@ -25,4 +27,4 @@ namespace Rito.InventorySystem
             _runeItemDataCache.Clear();
         }
     }
-} 
+}

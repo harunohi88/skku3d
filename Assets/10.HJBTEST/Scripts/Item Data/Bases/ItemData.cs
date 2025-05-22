@@ -27,12 +27,17 @@ namespace Rito.InventorySystem
         public string Name { get; set; }
         public string Tooltip { get; set; }
         public Sprite IconSprite { get; set; }
+        public int Tier { get; set; }
+        public int TierFactor { get; set; }
 
         [SerializeField] private int      _id;
         [SerializeField] private string   _name;    // 아이템 이름
         [Multiline]
         [SerializeField] private string   _tooltip; // 아이템 설명
         [SerializeField] private Sprite   _iconSprite; // 아이템 아이콘
+        [SerializeField] private int      _tier; // 아이템 티어
+        [SerializeField] private int      _tierFactor; // 아이템 티어 계수
+        
         [SerializeField] private GameObject _dropItemPrefab; // 바닥에 떨어질 때 생성할 프리팹
 
         /// <summary> 타입에 맞는 새로운 아이템 생성 </summary>
