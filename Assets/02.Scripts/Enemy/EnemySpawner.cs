@@ -21,50 +21,25 @@ public class EnemySpawner : MonoBehaviour
     private float _eliteSpawnRate = 0.1f;
     private float _eliteSpawnRateIncrease = 0.1f;
 
+    [SerializeField]
     private bool _isPlayerInRangeOnce = false;
     [SerializeField]
     private int _activedEnemy;
 
-    public GameObject Target;
-
-    private void Update()
+    /// <summary>
+    /// 플레이어가 범위(콜라이더) 안에 들어왔을 때 호출되는 함수
+    /// </summary>
+    void OnTriggerEnter(Collider other)
     {
-        // 테스트용
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            ActivedEnemyCountDecrease();
-        }
-
-        // 방문한적이 없을 때
         if(!_isPlayerInRangeOnce)
-        {   /* 실제 사용
-            // 범위 내에 들어오면 활성화 해준다.
-            if(Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position) <= DetectPlayerRange)
-            {
-                _isPlayerInRangeOnce = true;
-                SummonEnemy();
-            }*/
-            // 테스트용
-            if(Vector3.Distance(transform.position, Target.transform.position) <= DetectPlayerRange)
+        {
+            if(other.gameObject.CompareTag("Player"))
             {
                 _isPlayerInRangeOnce = true;
                 SummonEnemy();
             }
         }
-        else
-        {
-            ResetPlayerInRangeOnce();
-        }
     }
-
-    private void ResetPlayerInRangeOnce()
-    {
-        if(_activedEnemy <= 0)
-        {
-            _isPlayerInRangeOnce = false;
-        }
-    }
-
     private void SummonEnemy()
     {
         for(int i=0; i<EnemySpawnCount; i++)
@@ -81,9 +56,17 @@ public class EnemySpawner : MonoBehaviour
             else
             {
                 var enemy = BasicEnemyPool.Instance.Get();
-                enemy.Init();
-                enemy.ThisSpawner = this;
-                ResetPosition(enemy.gameObject);
+                if(enemy != null)
+                {
+                    enemy.Init();
+                    enemy.ThisSpawner = this;
+                    ResetPosition(enemy.gameObject);
+                }
+                else
+                {
+                    Debug.LogError("EnemyPool에 빈 객체가 없습니다.");
+                }
+                
             }
         }
         
@@ -113,6 +96,10 @@ public class EnemySpawner : MonoBehaviour
     public void ActivedEnemyCountDecrease()
     {
         _activedEnemy--;
+        if(_activedEnemy <= 0)
+        {
+            _isPlayerInRangeOnce = false;
+        }
     }
 
 
