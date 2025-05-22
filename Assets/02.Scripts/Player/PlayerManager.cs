@@ -41,7 +41,36 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
     public void Roll(Vector2 direction)
     {
         if (!CanPerform(EPlayerAction.Roll)) return;
+
+        if (PlayerState == EPlayerState.Targeting || PlayerState == EPlayerState.Skill)
+        {
+            PlayerSkill.Cancel();
+        }
         PlayerMove.Roll(direction);
+    }
+
+    public void MouseInputLeft()
+    {
+        if (PlayerState == EPlayerState.Targeting)
+        {
+            PlayerSkill.CurrentSkill.Execute();
+        }
+        else
+        {
+            Attack();
+        }
+    }
+
+    public void MouseInputRight()
+    {
+        if (PlayerState == EPlayerState.Targeting)
+        {
+            PlayerSkill.Cancel();
+        }
+        else
+        {
+            UseSkill(0);
+        }
     }
 
     public void Attack()
@@ -51,12 +80,6 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
         if (PlayerState == EPlayerState.Attack)
         {
             PlayerAttack.InputQueued = true;
-            return;
-        }
-
-        if (PlayerState == EPlayerState.Skill)
-        {
-            // PlayerSkill.ExecuteSkill();
             return;
         }
         PlayerAttack.Attack();

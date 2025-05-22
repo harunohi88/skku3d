@@ -1036,6 +1036,7 @@ MonoBehaviour:
   SkillDamage: 20
   IsTargeting: 0
   IsAvailable: 1
+  MoveDuration: 0.8
   CooldownTime: 0
 --- !u!114 &1898923145
 MonoBehaviour:

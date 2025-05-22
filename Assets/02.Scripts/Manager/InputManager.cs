@@ -26,12 +26,12 @@ public class InputManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            _playerManager.Attack();
+            _playerManager.MouseInputLeft();
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            _playerManager.UseSkill(0);
+            _playerManager.MouseInputRight();
         }
 
         if (Input.GetKeyDown(KeyCode.E))

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,9 +19,12 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
     private TwoCircleIndicator _indicator;
     private Animator _animator;
     private LayerMask _enemyLayer;
+    private Coroutine _moveCoroutine;
+    private CharacterController _characterController;
 
     public void Initialize()
     {
+        _characterController = GetComponent<CharacterController>();
         _playerSkill = PlayerManager.Instance.PlayerSkill;
         _cooldownManager = CooldownManager.Instance;
         _enemyLayer = LayerMask.GetMask("Enemy");
@@ -48,8 +52,40 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
             PlayerManager.Instance.PlayerState = EPlayerState.Skill;
             IsTargeting = false;
             IsAvailable = false;
+            Vector3 destination = _indicator.GetTargetPosition();
+            if (_moveCoroutine != null)
+            {
+                StopCoroutine(_moveCoroutine);
+            }
+            _playerSkill.Model.transform.forward = (destination - transform.position).normalized;
+            _moveCoroutine = StartCoroutine(MoveToTargetCoroutine(destination, MoveDuration));
             _animator.SetTrigger("Skill2");
         }
+    }
+
+    private IEnumerator MoveToTargetCoroutine(Vector3 destination, float duration)
+    {
+        Vector3 start = transform.position;
+        Vector3 direction = (destination - start).normalized;
+        float distance = Vector3.Distance(start, destination);
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            float delta = Time.deltaTime;
+            elapsed += delta;
+
+            float moveSpeed = distance / duration;
+            Vector3 moveDelta = direction * moveSpeed * delta;
+
+            _characterController.Move(moveDelta); // 장애물 자동 처리
+
+            yield return null;
+        }
+
+        // 마지막 위치 정렬 보정 (선택)
+        Vector3 finalDelta = destination - transform.position;
+        _characterController.Move(finalDelta);
     }
 
     private List<Collider> GetCollidersInTargetArea()
@@ -90,6 +126,10 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
             _playerSkill.CurrentSkill = null;
             _indicator.gameObject.SetActive(false);
             PlayerManager.Instance.PlayerState = EPlayerState.None;
+        }
+        else
+        {
+            OnSkillAnimationEnd();
         }
     }
 
