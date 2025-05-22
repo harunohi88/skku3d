@@ -2,47 +2,61 @@ using UnityEngine;
 
 public class SpinSlashSkill : MonoBehaviour, ISkill
 {
-    [SerializeField] CooldownManager _cooldownManager;
-
-    public GameObject Model;
-    LayerMask enemyLayer = LayerMask.GetMask("Enemy");
-
-    string ISkill.SkillName => "SpinSlash";
-
+    public string SkillName = "SpinSlash";
     public float AttackRange = 3f; // 공격 반경
-    private float _cooldownTime;
-
     public bool IsAvailable = true;
 
+    private PlayerManager _playerManager;
+    private CooldownManager _cooldownManager;
+    private Animator _animator;
+    private LayerMask _enemyLayer;
+    private float _cooldownTime;
+    
+    public void Initialize()
+    {
+        _playerManager = PlayerManager.Instance;
+        _cooldownManager = CooldownManager.Instance;
+        _enemyLayer = LayerMask.GetMask("Enemy");
+        _animator = _playerManager.PlayerSkill.Model.GetComponent<Animator>();
+    }
+    
     // 즉발기
     public void Execute()
     {
+        PlayerManager.Instance.PlayerSkill.CurrentSkill = this;
         Debug.Log("Spin Slash Activated");
-        //_animator.SetTrigger("SpinSlash");
-        // PlayerState 변경 가능
+        _animator.SetTrigger("Skill1");
+        _playerManager.PlayerState = EPlayerState.Skill;
     }
 
     // 이벤트 시스템에서 호출할 메서드
-    public void OnSkillAnimationonHit()
+    public void OnSkillAnimationEffect()
     {
         // 데미지 구현
-        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, AttackRange, enemyLayer);
+        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, AttackRange, _enemyLayer);
         Damage damage = new Damage() { Value = 10, From = PlayerManager.Instance.Player.gameObject };
         foreach (Collider enemy in hitEnemies)
         {
-            enemy.gameObject.GetComponent<IDamageable>().TakeDamage(damage);
+            if (enemy.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
+            {
+                damageable.TakeDamage(damage);
+            }
         }
     }
 
-    public void OnSkillAnimationonEnd()
+    public void OnSkillAnimationEnd()
     {
-        PlayerManager.Instance.PlayerState = EPlayerState.None;
+        _playerManager.PlayerState = EPlayerState.None;
         //쿨다운 매니저에 등록
         _cooldownManager.StartCooldown(_cooldownTime, SetAvailable);
+        _playerManager.PlayerSkill.CurrentSkill = null;
     }
 
     public void Cancel()
     {
+        _playerManager.PlayerState = EPlayerState.None;
+        _cooldownManager.StartCooldown(_cooldownTime, SetAvailable);
+        _playerManager.PlayerSkill.CurrentSkill = null;
     }
 
     private void SetAvailable()

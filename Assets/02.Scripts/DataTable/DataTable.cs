@@ -6,33 +6,6 @@ using UnityEngine;
 
 public partial class DataTable
 {
-    #region Stat
-    private ReadOnlyList<StatData> StatList = null;
-    private ReadOnlyDictionary<int, StatData> StatTable = null;
-
-    public ReadOnlyList<StatData> GetStatDataList()
-    {
-        return StatList;
-    }
-
-    public StatData GetStatData(int key)
-    {
-        if (key == 0)
-        {
-            return null;
-        }
-
-        if (StatTable.TryGetValue(key, out StatData retVal) == true)
-        {
-            return retVal;
-        }
-        else
-        {
-            Debug.LogError($"Can not find UniqueID of StatData: <{key}>");
-            return null;
-        }
-    }
-    #endregion
     #region Rune
     private ReadOnlyList<RuneData> RuneList = null;
     private ReadOnlyDictionary<int, RuneData> RuneTable = null;
@@ -60,56 +33,56 @@ public partial class DataTable
         }
     }
     #endregion
-    #region FireLight
-    private ReadOnlyList<FireLightData> FireLightList = null;
-    private ReadOnlyDictionary<int, FireLightData> FireLightTable = null;
+    #region Time
+    private ReadOnlyList<TimeData> TimeList = null;
+    private ReadOnlyDictionary<int, TimeData> TimeTable = null;
 
-    public ReadOnlyList<FireLightData> GetFireLightDataList()
+    public ReadOnlyList<TimeData> GetTimeDataList()
     {
-        return FireLightList;
+        return TimeList;
     }
 
-    public FireLightData GetFireLightData(int key)
+    public TimeData GetTimeData(int key)
     {
         if (key == 0)
         {
             return null;
         }
 
-        if (FireLightTable.TryGetValue(key, out FireLightData retVal) == true)
+        if (TimeTable.TryGetValue(key, out TimeData retVal) == true)
         {
             return retVal;
         }
         else
         {
-            Debug.LogError($"Can not find UniqueID of FireLightData: <{key}>");
+            Debug.LogError($"Can not find UniqueID of TimeData: <{key}>");
             return null;
         }
     }
     #endregion
-    #region FireUnit
-    private ReadOnlyList<FireUnitData> FireUnitList = null;
-    private ReadOnlyDictionary<int, FireUnitData> FireUnitTable = null;
+    #region Stat
+    private ReadOnlyList<StatData> StatList = null;
+    private ReadOnlyDictionary<int, StatData> StatTable = null;
 
-    public ReadOnlyList<FireUnitData> GetFireUnitDataList()
+    public ReadOnlyList<StatData> GetStatDataList()
     {
-        return FireUnitList;
+        return StatList;
     }
 
-    public FireUnitData GetFireUnitData(int key)
+    public StatData GetStatData(int key)
     {
         if (key == 0)
         {
             return null;
         }
 
-        if (FireUnitTable.TryGetValue(key, out FireUnitData retVal) == true)
+        if (StatTable.TryGetValue(key, out StatData retVal) == true)
         {
             return retVal;
         }
         else
         {
-            Debug.LogError($"Can not find UniqueID of FireUnitData: <{key}>");
+            Debug.LogError($"Can not find UniqueID of StatData: <{key}>");
             return null;
         }
     }
@@ -121,27 +94,21 @@ public partial class DataTable
         int loadedCount = 0;
 
         allCount++;
-        GetBytes_FromResources("Stat", (bytes) =>
-        {
-            LoadStatData(bytes);
-            loadedCount++;
-        });
-        allCount++;
         GetBytes_FromResources("Rune", (bytes) =>
         {
             LoadRuneData(bytes);
             loadedCount++;
         });
         allCount++;
-        GetBytes_FromResources("FireLight", (bytes) =>
+        GetBytes_FromResources("Time", (bytes) =>
         {
-            LoadFireLightData(bytes);
+            LoadTimeData(bytes);
             loadedCount++;
         });
         allCount++;
-        GetBytes_FromResources("FireUnit", (bytes) =>
+        GetBytes_FromResources("Stat", (bytes) =>
         {
-            LoadFireUnitData(bytes);
+            LoadStatData(bytes);
             loadedCount++;
         });
 
@@ -150,45 +117,12 @@ public partial class DataTable
 
     public void LoadForEditor()
     {
-        byte[] statBytes = GetBytes_ForEditor("StatData");
-        LoadStatData(statBytes);
         byte[] runeBytes = GetBytes_ForEditor("RuneData");
         LoadRuneData(runeBytes);
-        byte[] fireLightBytes = GetBytes_ForEditor("FireLightData");
-        LoadFireLightData(fireLightBytes);
-        byte[] fireUnitBytes = GetBytes_ForEditor("FireUnitData");
-        LoadFireUnitData(fireUnitBytes);
-    }
-
-    private void LoadStatData(byte[] bytes)
-    {
-        List<StatData> statList = new List<StatData>();
-        Dictionary<int, StatData> statTable = new Dictionary<int, StatData>();
-
-        Reader = new BinaryReader(new MemoryStream(bytes));
-
-        while (Reader.BaseStream.Position < bytes.Length)
-        {
-            StatData data = new StatData(Reader);
-            if (statTable.ContainsKey(data.TID) == true)
-            {
-                Debug.LogError("The duplicate TID: " + data.TID + " in Stat");
-                continue;
-            }
-            else if (data.TID == 0)
-            {
-                Debug.LogError("TID is 0 in Stat");
-                continue;
-            }
-
-            statList.Add(data);
-            statTable.Add(data.TID, data);
-        }
-
-        Reader.Close();
-
-        StatList = new ReadOnlyList<StatData>(statList);
-        StatTable = new ReadOnlyDictionary<int, StatData>(statTable);
+        byte[] timeBytes = GetBytes_ForEditor("TimeData");
+        LoadTimeData(timeBytes);
+        byte[] statBytes = GetBytes_ForEditor("StatData");
+        LoadStatData(statBytes);
     }
 
     private void LoadRuneData(byte[] bytes)
@@ -222,66 +156,66 @@ public partial class DataTable
         RuneTable = new ReadOnlyDictionary<int, RuneData>(runeTable);
     }
 
-    private void LoadFireLightData(byte[] bytes)
+    private void LoadTimeData(byte[] bytes)
     {
-        List<FireLightData> fireLightList = new List<FireLightData>();
-        Dictionary<int, FireLightData> fireLightTable = new Dictionary<int, FireLightData>();
+        List<TimeData> timeList = new List<TimeData>();
+        Dictionary<int, TimeData> timeTable = new Dictionary<int, TimeData>();
 
         Reader = new BinaryReader(new MemoryStream(bytes));
 
         while (Reader.BaseStream.Position < bytes.Length)
         {
-            FireLightData data = new FireLightData(Reader);
-            if (fireLightTable.ContainsKey(data.TID) == true)
+            TimeData data = new TimeData(Reader);
+            if (timeTable.ContainsKey(data.TID) == true)
             {
-                Debug.LogError("The duplicate TID: " + data.TID + " in FireLight");
+                Debug.LogError("The duplicate TID: " + data.TID + " in Time");
                 continue;
             }
             else if (data.TID == 0)
             {
-                Debug.LogError("TID is 0 in FireLight");
+                Debug.LogError("TID is 0 in Time");
                 continue;
             }
 
-            fireLightList.Add(data);
-            fireLightTable.Add(data.TID, data);
+            timeList.Add(data);
+            timeTable.Add(data.TID, data);
         }
 
         Reader.Close();
 
-        FireLightList = new ReadOnlyList<FireLightData>(fireLightList);
-        FireLightTable = new ReadOnlyDictionary<int, FireLightData>(fireLightTable);
+        TimeList = new ReadOnlyList<TimeData>(timeList);
+        TimeTable = new ReadOnlyDictionary<int, TimeData>(timeTable);
     }
 
-    private void LoadFireUnitData(byte[] bytes)
+    private void LoadStatData(byte[] bytes)
     {
-        List<FireUnitData> fireUnitList = new List<FireUnitData>();
-        Dictionary<int, FireUnitData> fireUnitTable = new Dictionary<int, FireUnitData>();
+        List<StatData> statList = new List<StatData>();
+        Dictionary<int, StatData> statTable = new Dictionary<int, StatData>();
 
         Reader = new BinaryReader(new MemoryStream(bytes));
 
         while (Reader.BaseStream.Position < bytes.Length)
         {
-            FireUnitData data = new FireUnitData(Reader);
-            if (fireUnitTable.ContainsKey(data.TID) == true)
+            StatData data = new StatData(Reader);
+            if (statTable.ContainsKey(data.TID) == true)
             {
-                Debug.LogError("The duplicate TID: " + data.TID + " in FireUnit");
+                Debug.LogError("The duplicate TID: " + data.TID + " in Stat");
                 continue;
             }
             else if (data.TID == 0)
             {
-                Debug.LogError("TID is 0 in FireUnit");
+                Debug.LogError("TID is 0 in Stat");
                 continue;
             }
 
-            fireUnitList.Add(data);
-            fireUnitTable.Add(data.TID, data);
+            statList.Add(data);
+            statTable.Add(data.TID, data);
         }
 
         Reader.Close();
 
-        FireUnitList = new ReadOnlyList<FireUnitData>(fireUnitList);
-        FireUnitTable = new ReadOnlyDictionary<int, FireUnitData>(fireUnitTable);
+        StatList = new ReadOnlyList<StatData>(statList);
+        StatTable = new ReadOnlyDictionary<int, StatData>(statTable);
     }
 
 }

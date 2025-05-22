@@ -1,67 +1,136 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class JumpStrikeSkill : MonoBehaviour, ISkill
 {
-    [SerializeField] private PlayerSkill _playerSkill;
-    [SerializeField] private CooldownManager _cooldownManager;
-
-    public GameObject Indicator;
-    LayerMask enemyLayer = LayerMask.GetMask("Enemy");
-
-    string ISkill.SkillName => "JumpStrike";
-
-    public float AttackRange = 7f; // 공격 반경
-    public int SkillIndex = 1;
-    private float _cooldownTime;
-
+    public GameObject IndicatorPrefab;
+    public float Range; // 공격 반경
+    public float TargetAreaRadius;
+    public float SkillDamage;
     public bool IsTargeting = false;
     public bool IsAvailable = true;
+    public float MoveDuration;
+    public float CooldownTime;
+    
+    private PlayerSkill _playerSkill;
+    private CooldownManager _cooldownManager;
+    private TwoCircleIndicator _indicator;
+    private Animator _animator;
+    private LayerMask _enemyLayer;
+    private Coroutine _moveCoroutine;
+    private CharacterController _characterController;
 
+    public void Initialize()
+    {
+        _characterController = GetComponent<CharacterController>();
+        _playerSkill = PlayerManager.Instance.PlayerSkill;
+        _cooldownManager = CooldownManager.Instance;
+        _enemyLayer = LayerMask.GetMask("Enemy");
+        _animator = PlayerManager.Instance.PlayerSkill.Model.GetComponent<Animator>();
+
+        _indicator = Instantiate(IndicatorPrefab).GetComponent<TwoCircleIndicator>();
+        _indicator.SetAreaOfEffects(Range, TargetAreaRadius);
+        _indicator.gameObject.SetActive(false);
+    }
+    
     public void Execute()
     {
-        Debug.Log("Jump Strike Activated");
         if (!IsTargeting)
         {
-            _playerSkill.Istargeting = true;
+            PlayerManager.Instance.PlayerState = EPlayerState.Targeting;
+            _playerSkill.CurrentSkill = this;
+            _playerSkill.IsTargeting = true;
             IsTargeting = true;
-            _playerSkill.TargetingSlot = SkillIndex;
-            SkillTargeting();
+            _indicator.gameObject.SetActive(true);
         }
         else
         {
+            _indicator.gameObject.SetActive(false);
+            _playerSkill.IsTargeting = false;
+            PlayerManager.Instance.PlayerState = EPlayerState.Skill;
+            IsTargeting = false;
             IsAvailable = false;
-            //_animator.SetTrigger("JumpStrike");
-            Indicator.SetActive(false);
+            Vector3 destination = _indicator.GetTargetPosition();
+            if (_moveCoroutine != null)
+            {
+                StopCoroutine(_moveCoroutine);
+            }
+            _playerSkill.Model.transform.forward = (destination - transform.position).normalized;
+            _moveCoroutine = StartCoroutine(MoveToTargetCoroutine(destination, MoveDuration));
+            _animator.SetTrigger("Skill2");
         }
     }
 
-    private void SkillTargeting()
+    private IEnumerator MoveToTargetCoroutine(Vector3 destination, float duration)
     {
-        Indicator.SetActive(true);
-    }
+        Vector3 start = transform.position;
+        Vector3 direction = (destination - start).normalized;
+        float distance = Vector3.Distance(start, destination);
+        float elapsed = 0f;
 
-    // 이벤트 시스템에서 호출할 메서드
-    public void OnSkillAnimationonHit()
-    {
-        // 데미지 구현
-        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, AttackRange, enemyLayer);
-        Damage damage = new Damage() { Value = 20, From = PlayerManager.Instance.Player.gameObject };
-        foreach (Collider enemy in hitEnemies)
+        while (elapsed < duration)
         {
-            enemy.gameObject.GetComponent<IDamageable>().TakeDamage(damage);
+            float delta = Time.deltaTime;
+            elapsed += delta;
+
+            float moveSpeed = distance / duration;
+            Vector3 moveDelta = direction * moveSpeed * delta;
+
+            _characterController.Move(moveDelta); // 장애물 자동 처리
+
+            yield return null;
+        }
+
+        // 마지막 위치 정렬 보정 (선택)
+        Vector3 finalDelta = destination - transform.position;
+        _characterController.Move(finalDelta);
+    }
+
+    private List<Collider> GetCollidersInTargetArea()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, TargetAreaRadius);
+
+        List<Collider> collisionList = colliders.ToList();
+        return collisionList;
+    }
+    
+    public void OnSkillAnimationEffect()
+    {
+        Debug.Log("Jump Strike Activated");
+        List<Collider> collisionList = GetCollidersInTargetArea();
+        Damage damage = new() { Value = (int)SkillDamage, From = PlayerManager.Instance.Player.gameObject };
+        foreach (Collider obj in collisionList)
+        {
+            if (obj.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
+            {
+                damageable.TakeDamage(damage);
+            }
         }
     }
 
-    public void OnSkillAnimationonEnd()
+    public void OnSkillAnimationEnd()
     {
+        Debug.Log("Jump Strike End");
         PlayerManager.Instance.PlayerState = EPlayerState.None;
-        //쿨다운 매니저에 등록
-        _cooldownManager.StartCooldown(_cooldownTime, SetAvailable);
+        _cooldownManager.StartCooldown(CooldownTime, SetAvailable);
     }
 
     public void Cancel()
     {
-        PlayerManager.Instance.PlayerState = EPlayerState.None;
+        if (IsTargeting)
+        {
+            IsTargeting = false;
+            _playerSkill.IsTargeting = false;
+            _playerSkill.CurrentSkill = null;
+            _indicator.gameObject.SetActive(false);
+            PlayerManager.Instance.PlayerState = EPlayerState.None;
+        }
+        else
+        {
+            OnSkillAnimationEnd();
+        }
     }
 
     public void SetAvailable()

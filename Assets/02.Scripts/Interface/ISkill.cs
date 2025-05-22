@@ -1,6 +1,8 @@
 public interface ISkill
 {
-    void Execute();
-    void Cancel();
-    string SkillName { get; }
+    public void Initialize();
+    public void Execute();
+    public void Cancel();
+    public void OnSkillAnimationEffect();
+    public void OnSkillAnimationEnd();
 }
