@@ -13,7 +13,6 @@ public class EnemySpawner : MonoBehaviour
     public int EnemySpawnCount = 10;
     public int EliteEnemySpawnCount = 3;
     
-    public float DetectPlayerRange = 20f;
 
     [SerializeField]
     private float _spawnRadius = 10f;
