@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(BossAIManager))]
 public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
@@ -10,11 +11,11 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
     public Collider WeaponCollider;
     public Lightning LightningPrefab;
     private ObjectPool<Lightning> _lightningPool;
+    private int _baseAttackCount = 0;
     private int _attackCount = 0;
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
         _lightningPool = new ObjectPool<Lightning>(LightningPrefab, 20, GameObject.FindGameObjectWithTag("Pool").transform);
     }
 
@@ -33,15 +34,16 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
     {
         WeaponCollider.enabled = true;
         EnemyRotation.IsFound = false;
+        _attackCount = 0;
     }
 
     public void OnBaseAttackEnd()
     {
         WeaponCollider.enabled = false;
-        _attackCount++;
-        if(_attackCount >= 4)
+        _baseAttackCount++;
+        if(_baseAttackCount >= 2)
         {
-            _attackCount = 0;
+            _baseAttackCount = 0;
             BossAIManager.Instance.SetLastFinishedTime(0, Time.time);
             OnAnimationEnd();
         }
@@ -76,7 +78,19 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
         }
         else if(_attackCount == 1)
         {
-            // 직선공격 ㄱㄱ
+            EnemyPatternData _patternData = BossAIManager.Instance.GetPatternData(2, 1);
+            List<Collider> colliderList = Physics.OverlapSphere(transform.position, _patternData.Range, LayerMask).ToList();
+
+            GameObject playerObject = colliderList.Find(x => x.CompareTag("Player"))?.gameObject;
+
+            if (playerObject)
+            {
+                Vector3 directionToTarget = playerObject.transform.position - transform.position;
+                if (Vector3.Dot(transform.forward, directionToTarget.normalized) > 0 && Mathf.Abs(Vector3.Dot(transform.right, directionToTarget)) <= _patternData.Width / 2)
+                {
+                    Debug.Log("Pattern 3 데미지 발생");
+                }
+            }
         }
     }
 
@@ -104,7 +118,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
 
     public IEnumerator SpecialAttack03_Coroutine(Vector3 position, Vector3 forward)
     {
-        var patternData = BossAIManager.Instance.GetPatternData(3);
+        var patternData = BossAIManager.Instance.GetPatternData(3, 1);
         if (patternData == null) yield break;
 
         List<SkillIndicator> indicatorList = new List<SkillIndicator>();
@@ -175,7 +189,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
     public override void OnAnimationEnd()
     {
         base.OnAnimationEnd();
-        ChangeState(BossAIManager.Instance.DecideNextState());
+        ChangeState(new BossTraceState());
     }
 
     private void ClusterInstantiate(Vector3 center, int count, float radiusX, float radiusY)
@@ -194,7 +208,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
             Vector3 spawnPoint = center + new Vector3(x, center.y, y);
             Lightning lightning = _lightningPool.Get();
             lightning.transform.position = spawnPoint;
-            lightning.Init(patternData.CastingTime);
+            lightning.Init(patternData.CastingTime, patternData.Radius, patternData.Duration);
             if (lightning.thisPool == null) lightning.thisPool = _lightningPool;
 
             placed++;

@@ -11,7 +11,7 @@ public class BossSpecialAttack03State : IState<AEnemy>
         enemy.SetAnimationTrigger("SpecialAttack03_1");
         if (enemy is ISpecialAttackable specialAttackable)
         {
-            specialAttackable.SpecialAttack_03();
+            specialAttackable.SpecialAttack_01();
         }
         _time = 0f;
 
@@ -49,7 +49,7 @@ public class BossSpecialAttack03State : IState<AEnemy>
         {
             if(_time >= _patternData.CastingTime + 1f)
             {
-                enemy.ChangeState(BossAIManager.Instance.DecideNextState());
+                enemy.ChangeState(new BossTraceState());
             }
         }
     }

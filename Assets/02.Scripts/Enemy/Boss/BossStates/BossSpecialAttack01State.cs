@@ -14,6 +14,7 @@ public class BossSpecialAttack01State : IState<AEnemy>
         }
         
         _time = 0f;
+        enemy.Agent.speed = enemy.MoveSpeed + 2;
 
         _patternData = BossAIManager.Instance.GetPatternData(1);
     }
@@ -28,11 +29,12 @@ public class BossSpecialAttack01State : IState<AEnemy>
             {
                 specialAttackable.OnSpecialAttack01End();
             }
-            enemy.ChangeState(BossAIManager.Instance.DecideNextState());
+            enemy.ChangeState(new BossTraceState());
         }
     }
 
     public void Exit(AEnemy enemy)
     {
+        enemy.Agent.speed = enemy.MoveSpeed;
     }
 }

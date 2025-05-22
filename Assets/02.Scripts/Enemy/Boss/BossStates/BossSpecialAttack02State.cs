@@ -21,7 +21,7 @@ public class BossSpecialAttack02State : IState<AEnemy>
                 _patternData.Radius, 
                 _patternData.Radius, 
                 0, 
-                360, 
+                _patternData.Angle, 
                 0, 
                 _patternData.CastingTime, 
                 0
@@ -34,30 +34,38 @@ public class BossSpecialAttack02State : IState<AEnemy>
         if (_indicator) _indicator.transform.position = enemy.transform.position;
 
         _time += Time.deltaTime;
-        var patternData = BossAIManager.Instance.GetPatternData(2);
-        if (patternData == null) return;
+        if (_patternData == null) return;
 
         if(_currentOrder == 0)
         {
-            if (_time >= patternData.CastingTime)
+            if (_time >= _patternData.CastingTime)
             {
                 _time = 0f;
                 enemy.SetAnimationTrigger("SpecialAttack02_1");
                 _currentOrder++;
+
+
             }
         }
         else if(_currentOrder == 1)
         {
-            if (enemy.IsPlayingAnimation("SpecialAttack02_1") == false)
+            if (_time >= 2f)
             {
                 _currentOrder++;
                 enemy.EnemyRotation.IsFound = true;
+
                 _patternData = BossAIManager.Instance.GetPatternData(2, 1);
+                _indicator = BossIndicatorManager.Instance.SetSquareIndicator(enemy.transform.position, _patternData.Width, _patternData.Range, 0, 0, _patternData.CastingTime, 0);
+                _time = 0f;
             }
         }
         else if(_currentOrder == 2)
         {
-            if(_time >= patternData.CoolTime)
+            Quaternion rotation = Quaternion.LookRotation(enemy.transform.forward);
+            Vector3 fixedEuler = new Vector3(90f, 0f, -rotation.eulerAngles.y);
+            _indicator.transform.rotation = Quaternion.Euler(fixedEuler);
+
+            if (_time >= _patternData.CastingTime)
             {
                 _time = 0f;
                 enemy.SetAnimationTrigger("SpecialAttack02_2");

@@ -9,30 +9,30 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
     [SerializeField] private float _healthThreshold = 0.5f;
 
     [Header("Base Attack Patterns")]
-    [SerializeField] private List<EnemyPatternData> _baseAttackPatterns;
+    [SerializeField] private List<EnemyPatternData> _baseAttackPatternList;
 
     [Header("Special Attack 1 Patterns")]
-    [SerializeField] private List<EnemyPatternData> _specialAttack1Patterns;
+    [SerializeField] private List<EnemyPatternData> _specialAttack1PatternList;
 
     [Header("Special Attack 2 Patterns")]
-    [SerializeField] private List<EnemyPatternData> _specialAttack2Patterns;
+    [SerializeField] private List<EnemyPatternData> _specialAttack2PatternList;
 
     [Header("Special Attack 3 Patterns")]
-    [SerializeField] private List<EnemyPatternData> _specialAttack3Patterns;
+    [SerializeField] private List<EnemyPatternData> _specialAttack3PatternList;
 
     [Header("Special Attack 4 Patterns")]
-    [SerializeField] private List<EnemyPatternData> _specialAttack4Patterns;
+    [SerializeField] private List<EnemyPatternData> _specialAttack4PatternList;
 
-    public float Pattern1Radius;
-    public float Pattern1Range;
-    public float Pattern1LightningLastTime;
+    //public float Pattern1Radius;
+    //public float Pattern1Range;
+    //public float Pattern1LightningLastTime;
 
-    public float Patter2FirstCastingtime;
-    public float Pattern2Radius;
-    public float Pattern2Range;
+    //public float Patter2FirstCastingtime;
+    //public float Pattern2Radius;
+    //public float Pattern2Range;
 
-    public float Pattern3Range;
-    public float Pattern3Angle;
+    //public float Pattern3Range;
+    //public float Pattern3Angle;
 
     private void Start()
     {
@@ -61,23 +61,24 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
 
     private bool IsPatternAvailable(int patternIndex)
     {
-        var patterns = GetPatternList(patternIndex);
-        if (patterns == null || patterns.Count == 0) return false;
+        List<EnemyPatternData> patternList = GetPatternList(patternIndex);
+        if (patternList == null || patternList.Count == 0) return false;
 
-        return patterns.Any(pattern => 
-            Time.time - pattern.LastFinishedTime >= pattern.CoolTime);
+        EnemyPatternData firstPattern = patternList[0];
+        EnemyPatternData lastPattern = patternList[patternList.Count - 1];
+        return  Time.time - lastPattern.LastFinishedTime >= firstPattern.CoolTime;
     }
 
     private List<EnemyPatternData> GetPatternList(int patternIndex)
     {
         switch(patternIndex)
         {
-            case 0: return _baseAttackPatterns;
-            case 1: return _specialAttack1Patterns;
-            case 2: return _specialAttack2Patterns;
-            case 3: return _specialAttack3Patterns;
-            case 4: return _specialAttack4Patterns;
-            default: return _baseAttackPatterns;
+            case 0: return _baseAttackPatternList;
+            case 1: return _specialAttack1PatternList;
+            case 2: return _specialAttack2PatternList;
+            case 3: return _specialAttack3PatternList;
+            case 4: return _specialAttack4PatternList;
+            default: return _baseAttackPatternList;
         }
     }
 
