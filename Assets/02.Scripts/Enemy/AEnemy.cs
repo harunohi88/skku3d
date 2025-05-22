@@ -18,6 +18,9 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     public float DamagedTime;
     public float DeathTime;
 
+    public EnemySpawner ThisSpawner;
+
+
     public LayerMask LayerMask;
 
     public NavMeshAgent Agent;

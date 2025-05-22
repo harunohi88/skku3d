@@ -66,6 +66,15 @@ public class DropTable : MonoBehaviour
         }
     }
 
+    // 예시
+
+    public void Drop(EnemyType enemyType, Vector3 position)
+    {
+        // 몬스터 타입에 따라 경험치(는 그냥주고), 룬은 확률, 골드도 확률로 생성
+        // 그 죽은 위치에 경험치, 룬, 골드 스폰 그냥 인스턴스화
+        // 나머지 DropRandomRune 등등 private 은닉
+    }
+
     /// <summary> 랜덤 룬 드랍 </summary>
     public void DropRandomRune()
     {
@@ -86,7 +95,7 @@ public class DropTable : MonoBehaviour
     {
         int randomRuneTier = 1;
         // 룬 램덤 티어
-        float randomFloat = Random.Range(0f, 1f);
+        float randomFloat = Random.value;
         Debug.Log($"randomFloat: {randomFloat}");
         if (randomFloat < _tier1DropRate)
         {
@@ -119,24 +128,8 @@ public class DropTable : MonoBehaviour
         return 0;
     }
 
-    /// <summary> 시간에 따른 드랍 확류 변화</summary>
-    public void TimeUpdate()
+    public void DropExp()
     {
-        ChangeTierDropRate();
-        ChangeGoldDropRate();
-    }
 
-    /// <summary> 티어 드랍 확률 변화</summary>
-    public void ChangeTierDropRate()
-    {
-        _tier1DropRate -= TierDropRateChange[0];
-        _tier2DropRate += TierDropRateChange[1];
-        _tier3DropRate += TierDropRateChange[2];
-    }
-
-    /// <summary> 골드 드랍 확률 변화</summary>
-    public void ChangeGoldDropRate()
-    {
-        _goldDropRate -= GoldDropRateChange;
     }
 }
