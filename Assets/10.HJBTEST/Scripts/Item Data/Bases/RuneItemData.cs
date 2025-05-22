@@ -18,18 +18,18 @@ namespace Rito.InventorySystem
             // 티어에 따라 계수 변환
             if(tier == 1)
             {
-                TierFactor = runeData.TierList[0];
+                RuneValue = runeData.TierList[0];
             }
             else if(tier == 2)
             {
-                TierFactor = runeData.TierList[1];
+                RuneValue = runeData.TierList[1];
             }
             else
             {
-                TierFactor = runeData.TierList[2];
+                RuneValue = runeData.TierList[2];
             }
             // 티어에 맞게 툴팁 변경
-            runeDescription = runeDescription.Replace("N", TierFactor.ToString());
+            runeDescription = runeDescription.Replace("N", RuneValue.ToString());
             Tooltip = runeDescription;
 
             // 스프라이트 로드
