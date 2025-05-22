@@ -89,6 +89,10 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
     {
         if (!CanPerform(EPlayerAction.Skill)) return;
 
+        if (PlayerState == EPlayerState.Attack)
+        {
+            PlayerAttack.Cancel();
+        }
         PlayerSkill.UseSkill(skillIndex); // PlayerSKill.Skill 내부에서 PlayerState 변경
     }
 }

@@ -20,6 +20,14 @@ public class PlayerSkill : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (IsTargeting)
+        {
+            PlayerManager.Instance.PlayerState = EPlayerState.Targeting;
+        }
+    }
+
     public void UseSkill(int slot)
     {
         if (slot < 0 || slot >= _skillList.Count) return;
