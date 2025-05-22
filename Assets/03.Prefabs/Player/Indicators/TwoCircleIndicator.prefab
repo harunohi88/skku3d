@@ -68,7 +68,7 @@ MonoBehaviour:
   m_DecalLayerMask: 2
   m_ScaleMode: 0
   m_Offset: {x: 0, y: 0, z: 0}
-  m_Size: {x: 16, y: 16, z: 10}
+  m_Size: {x: 16, y: 16, z: 1}
   m_FadeFactor: 0.7
 --- !u!1 &6166412502837477813
 GameObject:
@@ -133,7 +133,7 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 64
-  MaxRayDistance: 30
+  MaxRayDistance: 150
 --- !u!1 &8331675484087928456
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,5 +202,5 @@ MonoBehaviour:
   m_DecalLayerMask: 2
   m_ScaleMode: 0
   m_Offset: {x: 0, y: 0, z: 0}
-  m_Size: {x: 2, y: 2, z: 10}
+  m_Size: {x: 2, y: 2, z: 1}
   m_FadeFactor: 0.7

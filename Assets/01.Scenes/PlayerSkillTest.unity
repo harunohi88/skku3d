@@ -904,6 +904,8 @@ GameObject:
   - component: {fileID: 1898923140}
   - component: {fileID: 1898923142}
   - component: {fileID: 1898923143}
+  - component: {fileID: 1898923145}
+  - component: {fileID: 1898923144}
   - component: {fileID: 1898923139}
   m_Layer: 0
   m_Name: Player
@@ -1014,12 +1016,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b2e5fc3482d74b49bea98fe08ee3bfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SkillList:
-  - {fileID: 8645396015049878287, guid: 6598ba523873f8c428d227eb34c60a45, type: 3}
-  - {fileID: 9108636965986289457, guid: 30dd9c88723580747a26044a35ca894a, type: 3}
-  - {fileID: 381746301451799419, guid: 66885a849a3d4b749830cb50cfdb0d80, type: 3}
   Model: {fileID: 1748261885}
   IsTargeting: 0
+--- !u!114 &1898923144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898923137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2258efb7a5767f4eb271b1423abbb3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IndicatorPrefab: {fileID: 6166412502837477813, guid: 04683f1dc0b0eef4ab19c41133191feb, type: 3}
+  Range: 8
+  TargetAreaRadius: 3
+  SkillDamage: 20
+  IsTargeting: 0
+  IsAvailable: 1
+  CooldownTime: 0
+--- !u!114 &1898923145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898923137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22af4a457766cf043accf6d975cbdb3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillName: SpinSlash
+  AttackRange: 3
+  IsAvailable: 1
 --- !u!1 &1934800494
 GameObject:
   m_ObjectHideFlags: 0
@@ -1573,6 +1605,10 @@ PrefabInstance:
     - target: {fileID: 6166412502837477813, guid: 04683f1dc0b0eef4ab19c41133191feb, type: 3}
       propertyPath: m_Name
       value: TwoCircleIndicator
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166412502837477813, guid: 04683f1dc0b0eef4ab19c41133191feb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6959173763805185460, guid: 04683f1dc0b0eef4ab19c41133191feb, type: 3}
       propertyPath: m_LocalPosition.x

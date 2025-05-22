@@ -33,5 +33,10 @@ public class InputManager : MonoBehaviour
         {
             _playerManager.UseSkill(0);
         }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            _playerManager.UseSkill(1);
+        }
     }
 }

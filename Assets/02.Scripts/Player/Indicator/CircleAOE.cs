@@ -7,7 +7,7 @@ public class CircleAOE : MonoBehaviour
 
     private Material _material;
 
-    private void Awake()
+    public void Awake()
     {
         DecalProjector = GetComponent<DecalProjector>();
         _material = Instantiate(DecalProjector.material);
