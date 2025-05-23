@@ -46,7 +46,7 @@ public class DropTable : BehaviourSingleton<DropTable>
 
 
     // 룬 데이터 시트에서 룬 개수
-    // 데이터 시트 늘어나면 변경해주어야 한다
+    // 데이터 시트 늘어나면 변경해주어야 한다.
     public int RuneDataCount = 2;
 
     public void Update()
