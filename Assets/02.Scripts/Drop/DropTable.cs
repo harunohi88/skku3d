@@ -109,13 +109,13 @@ public class DropTable : BehaviourSingleton<DropTable>
 
         int randomRuneDataTIDPlus = Random.Range(0, RuneDataCount);
         RuneData runeData = DataTable.Instance.GetRuneData(RUNE_DATA_TID_MIN + randomRuneDataTIDPlus);
-        RuneItemData runeItemData = RuneItemConverter.ConvertToItemData(runeData, randomRuneTier);
+        RuneItem runeItemData = RuneItemConverter.ConvertToRuneItem(runeData, randomRuneTier);
 
         // TODO: 지금은 인벤토리로 추가하고 있는데
         // Return을 RuneItemData로 바꿔야 할듯
         // 그리고 아이템 자체에서 획득하면 인벤토리로 추가하도록 하는게 나을듯?
         // 프리팹으로 인스턴스화화
-        RuneInventory.Add(runeItemData, 1);
+        RuneInventory.Add(runeData, randomRuneTier, 1);
 
         if(RunePrefab != null)
         {

@@ -85,7 +85,7 @@ namespace Rito.InventorySystem
         ***********************************************************************/
         #region .
         /// <summary> 툴팁 UI에 아이템 정보 등록 </summary>
-        public void SetItemInfo(ItemData data)
+        public void SetItemInfo(RuneItem data)
         {
             _titleText.text = $"{data.Name} (Tier.{data.Tier})";
             _contentText.text = data.Tooltip;
