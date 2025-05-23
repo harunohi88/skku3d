@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -5,6 +6,12 @@ public class BuffManager : BehaviourSingleton<BuffManager>
 {
     private PlayerStat _playerStat;
     private List<StatBuff> _activeBuffList;
+
+    private void Awake()
+    {
+        _playerStat = PlayerManager.Instance.PlayerStat;
+        _activeBuffList = new List<StatBuff>();
+    }
 
     public void AddBuff(StatBuff buff)
     {
@@ -19,7 +26,8 @@ public class BuffManager : BehaviourSingleton<BuffManager>
             StatBuff buff = _activeBuffList[i];
             if (!buff.IsValid())
             {
-                // buff의 타입을 보고 PlayerStat을 통해 접근해서 제거
+                _playerStat.StatDictionary[buff.BuffStatType].RemoveBuff(buff);
+                _activeBuffList.RemoveAt(i);
             }
         }
     }
