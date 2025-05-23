@@ -3,10 +3,12 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     [SerializeField] private PlayerManager _playerManager;
+    [SerializeField] private InventoryManager _inventoryManager;
 
     private void Start()
     {
         _playerManager = PlayerManager.Instance;
+        _inventoryManager = InventoryManager.Instance;
     }
 
     private void Update()
@@ -32,6 +34,12 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             _playerManager.UseSkill(0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            _inventoryManager.ToggleRuneInventoryUI();
+            _inventoryManager.ToggleEquipInventoryUI();
         }
     }
 }

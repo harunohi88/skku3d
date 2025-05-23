@@ -1,9 +1,8 @@
-using System.Collections.Generic;
-using Rito.InventorySystem;
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-public class DropTable : BehaviourSingleton<DropTable>
+public class DropTable : MonoBehaviour
 {
 
     [Header("룬 드랍")]
