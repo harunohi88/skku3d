@@ -616,7 +616,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8922654717237505033
 RectTransform:
   m_ObjectHideFlags: 0
@@ -705,15 +705,10 @@ MonoBehaviour:
   _popup: {fileID: 0}
   _trimButton: {fileID: 0}
   _sortButton: {fileID: 0}
-  _toggleFilterAll: {fileID: 0}
-  _toggleFilterEquipments: {fileID: 0}
-  _toggleFilterPortions: {fileID: 0}
   _mouseReversed: 0
   dragIconRoot: {fileID: 2247223005261170347}
   _slotUIList: []
   _showDebug: 1
-  __showPreview: 0
-  __previewAlpha: 1
 --- !u!114 &2071923045692030044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -727,6 +722,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inventoryUI: {fileID: 2143114098673091173}
+  _inventoryType: 0
+  _items: []
 --- !u!1 &4935005590232866304
 GameObject:
   m_ObjectHideFlags: 0
@@ -746,7 +743,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3722625032745512328
 RectTransform:
   m_ObjectHideFlags: 0
@@ -835,15 +832,10 @@ MonoBehaviour:
   _popup: {fileID: 0}
   _trimButton: {fileID: 0}
   _sortButton: {fileID: 0}
-  _toggleFilterAll: {fileID: 0}
-  _toggleFilterEquipments: {fileID: 0}
-  _toggleFilterPortions: {fileID: 0}
   _mouseReversed: 0
   dragIconRoot: {fileID: 2247223005261170347}
   _slotUIList: []
   _showDebug: 1
-  __showPreview: 0
-  __previewAlpha: 1
 --- !u!114 &716273467188120278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -857,6 +849,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inventoryUI: {fileID: 1361669845977010855}
+  _inventoryType: 1
+  _items: []
 --- !u!1 &5205074341091033009
 GameObject:
   m_ObjectHideFlags: 0
@@ -1387,6 +1381,7 @@ GameObject:
   - component: {fileID: 1978649859195848331}
   - component: {fileID: 935284123225062667}
   - component: {fileID: 6861949354296350054}
+  - component: {fileID: 959046546600386049}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1494,6 +1489,19 @@ MonoBehaviour:
   _equipInventoryUI: {fileID: 1361669845977010855}
   _runeInventory: {fileID: 2071923045692030044}
   _equipInventory: {fileID: 716273467188120278}
+--- !u!114 &959046546600386049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6870091410634666173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76e022585fb9e8749a369fd8b8e438e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EquipInventory: {fileID: 716273467188120278}
 --- !u!1 &7871519558316868793
 GameObject:
   m_ObjectHideFlags: 0
