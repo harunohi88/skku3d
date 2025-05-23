@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BossIndicatorManager : BehaviourSingleton<BossIndicatorManager>
@@ -16,7 +17,7 @@ public class BossIndicatorManager : BehaviourSingleton<BossIndicatorManager>
     {
         SkillIndicator indicator = _indicatorPool.Get();
         indicator.CircularInit(width, height, direction, angleRange, innerRange, castingPercent, _indicatorPool);
-        indicator.transform.position = position;
+        indicator.SetPosition(position);
 
         if(immediateStart) indicator.Ready(castingTime);
 
@@ -27,7 +28,7 @@ public class BossIndicatorManager : BehaviourSingleton<BossIndicatorManager>
     {
         SkillIndicator indicator = _indicatorPool.Get();
         indicator.SquareInit(width, height, direction, innerRange, castingPercent, _indicatorPool);
-        indicator.transform.position = position;
+        indicator.SetPosition(position);
 
         if (immediateStart) indicator.Ready(castingTime);
 
