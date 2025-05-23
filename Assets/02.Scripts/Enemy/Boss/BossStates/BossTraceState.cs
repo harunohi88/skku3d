@@ -16,25 +16,7 @@ public class BossTraceState : IState<AEnemy>
 
     public void Update(AEnemy enemy)
     {
-        //float distanceToPlayer = Vector3.Distance(enemy.transform.position, PlayerManager.Instance.Player.transform.position);
-        //if (distanceToPlayer < enemy.Agent.stoppingDistance + 1f)
-        //{
-        //    if (_isIdle == false)
-        //    {
-        //        enemy.SetAnimationTrigger("Idle");
-        //        _isIdle = true;
-        //    }
-        //    enemy.Agent.ResetPath();
-        //}
-        //else
-        //{
-        //    if (_isIdle)
-        //    {
-        //        enemy.SetAnimationTrigger("Run");
-        //        _isIdle = false;
-        //    }
-            enemy.Agent.SetDestination(PlayerManager.Instance.Player.transform.position);
-        //}
+        enemy.Agent.SetDestination(PlayerManager.Instance.Player.transform.position);
 
         _time += Time.deltaTime;
         if(_time >= 3f)

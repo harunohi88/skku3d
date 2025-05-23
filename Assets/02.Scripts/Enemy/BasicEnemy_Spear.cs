@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class BasicEnemy_Spear : AEnemy
 {
-    public override void Init()
+    public override void Init(EnemySpawner spawner)
     {
-        base.Init();
+        base.Init(spawner);
         _stateMachine.ChangeState(new IdleState());
     }
 

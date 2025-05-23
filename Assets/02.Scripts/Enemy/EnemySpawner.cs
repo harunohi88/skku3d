@@ -10,37 +10,64 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public Transform SpawnPosition;
-    public int EnemySpawnCount = 10;
+    public const int OriginEnemySpawnCount = 10;
     public int EliteEnemySpawnCount = 3;
     
+    public float DetectPlayerRange = 20f;
 
+
+    private int EnemySpawnCount;
     [SerializeField]
     private float _spawnRadius = 10f;
     [SerializeField]
     private float _eliteSpawnRate = 0.1f;
     private float _eliteSpawnRateIncrease = 0.1f;
 
-    [SerializeField]
     private bool _isPlayerInRangeOnce = false;
     [SerializeField]
     private int _activedEnemy;
 
-    /// <summary>
-    /// 플레이어가 범위(콜라이더) 안에 들어왔을 때 호출되는 함수
-    /// </summary>
-    void OnTriggerEnter(Collider other)
+    private void Update()
     {
-        if(!_isPlayerInRangeOnce)
+        // 테스트용
+        if(Input.GetKeyDown(KeyCode.A))
         {
-            if(other.gameObject.CompareTag("Player"))
+            ActivedEnemyCountDecrease();
+        }
+
+        // 방문한적이 없을 때
+        if(!_isPlayerInRangeOnce)
+        {   /* 실제 사용
+            // 범위 내에 들어오면 활성화 해준다.
+            if(Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position) <= DetectPlayerRange)
+            {
+                _isPlayerInRangeOnce = true;
+                SummonEnemy();
+            }*/
+            // 테스트용
+            if(Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position) <= DetectPlayerRange)
             {
                 _isPlayerInRangeOnce = true;
                 SummonEnemy();
             }
         }
+        else
+        {
+            ResetPlayerInRangeOnce();
+        }
     }
+
+    private void ResetPlayerInRangeOnce()
+    {
+        if(_activedEnemy <= 0)
+        {
+            _isPlayerInRangeOnce = false;
+        }
+    }
+
     private void SummonEnemy()
     {
+        EnemySpawnCount = (int)(OriginEnemySpawnCount * TimeManager.Instance.DifficultyMultiplier.EnemyCountMultiplier);
         for(int i=0; i<EnemySpawnCount; i++)
         {
             // TODO: 엘리트 에너미도 풀에서 받아와서 리스트에 추가하기
@@ -55,17 +82,8 @@ public class EnemySpawner : MonoBehaviour
             else
             {
                 var enemy = BasicEnemyPool.Instance.Get();
-                if(enemy != null)
-                {
-                    enemy.Init();
-                    enemy.ThisSpawner = this;
-                    ResetPosition(enemy.gameObject);
-                }
-                else
-                {
-                    Debug.LogError("EnemyPool에 빈 객체가 없습니다.");
-                }
-                
+                enemy.Init(this);
+                ResetPosition(enemy.gameObject);
             }
         }
         
@@ -95,10 +113,6 @@ public class EnemySpawner : MonoBehaviour
     public void ActivedEnemyCountDecrease()
     {
         _activedEnemy--;
-        if(_activedEnemy <= 0)
-        {
-            _isPlayerInRangeOnce = false;
-        }
     }
 
 

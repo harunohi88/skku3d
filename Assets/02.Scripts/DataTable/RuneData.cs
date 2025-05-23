@@ -14,17 +14,23 @@ public class RuneData
     ///<summary>룬 타입</summary>
     public readonly RuneType RuneType;
 
+    ///<summary>룬 발동 타입</summary>
+    public readonly RuneTriggerType RuneTriggerType;
+
+    ///<summary>룬 데이터 타입</summary>
+    public readonly RuneDataType RuneDataType;
+
     ///<summary>룬 설명</summary>
     public readonly string RuneDescription;
 
     ///<summary>티어1 값</summary>
-    private readonly int Tier1;
+    private readonly float Tier1;
 
     ///<summary>티어2 값</summary>
-    private readonly int Tier2;
+    private readonly float Tier2;
 
     ///<summary>티어3 값</summary>
-    private readonly int Tier3;
+    private readonly float Tier3;
 
     ///<summary>시간</summary>
     public readonly float Time;
@@ -35,22 +41,36 @@ public class RuneData
     ///<summary>치명타 확률</summary>
     public readonly int CriticalChance;
 
+    ///<summary>거리</summary>
+    public readonly float Distance;
+
+    ///<summary>데미지 퍼센트</summary>
+    public readonly int DamagePercent;
+
+    ///<summary>발동 확률</summary>
+    public readonly int Probability;
+
     ///<summary>Tier 리스트</summary>
-    public readonly List<int> TierList = new List<int>();
+    public readonly List<float> TierList = new List<float>();
     public RuneData(BinaryReader reader)
     {
         TID = reader.ReadInt32();
         int runename = reader.ReadInt32();
         RuneName = Encoding.UTF8.GetString(reader.ReadBytes(runename));
         RuneType = (RuneType)reader.ReadInt32();
+        RuneTriggerType = (RuneTriggerType)reader.ReadInt32();
+        RuneDataType = (RuneDataType)reader.ReadInt32();
         int runedescription = reader.ReadInt32();
         RuneDescription = Encoding.UTF8.GetString(reader.ReadBytes(runedescription));
-        Tier1 = reader.ReadInt32();
-        Tier2 = reader.ReadInt32();
-        Tier3 = reader.ReadInt32();
+        Tier1 = reader.ReadSingle();
+        Tier2 = reader.ReadSingle();
+        Tier3 = reader.ReadSingle();
         Time = reader.ReadSingle();
         HealthPercent = reader.ReadInt32();
         CriticalChance = reader.ReadInt32();
+        Distance = reader.ReadSingle();
+        DamagePercent = reader.ReadInt32();
+        Probability = reader.ReadInt32();
 
         LinkTable();
     }

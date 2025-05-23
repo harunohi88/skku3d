@@ -15,6 +15,7 @@ public class Projectile : MonoBehaviour
 
     public float MoveSpeed = 5f;
     private Vector3 _direction;
+    public float Radius = 0.5f;
 
     private float _destroyTime = 0f;
     private bool _isDestroyed = false;
@@ -40,7 +41,7 @@ public class Projectile : MonoBehaviour
     {
         if (_isDestroyed) return;
 
-        float radius = _sphereCollider.radius;
+        float radius = Radius;
 
         transform.position += _direction * MoveSpeed * Time.deltaTime;
 

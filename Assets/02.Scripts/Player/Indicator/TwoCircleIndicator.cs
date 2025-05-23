@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class TwoCircleIndicator : MonoBehaviour
 {
@@ -14,7 +15,6 @@ public class TwoCircleIndicator : MonoBehaviour
     public float RangeCastingPercentage;
     public float RangeRadius;
     
-    
     [Header("Target")]
     public CircleAOE TargetIndicator;
     public Color TargetColor;
@@ -23,17 +23,15 @@ public class TwoCircleIndicator : MonoBehaviour
     public float TargetInnerRadius;
     public float TargetCastingPercentage;
     public float TargetRadius;
+    
+    [Header("Targeting Options")]
     public LayerMask GroundLayer;
     public float MaxRayDistance;
 
-    private void Awake()
+    private void Start()
     {
         InitRangeIndicator();
         InitTargetIndicator();
-    }
-
-    private void Start()
-    {
         _player = PlayerManager.Instance.Player;
     }
 
@@ -74,14 +72,33 @@ public class TwoCircleIndicator : MonoBehaviour
 
     private Vector3 GetPointInRange(Vector3 hitPoint)
     {
-        Vector3 PointInRange = hitPoint;
+        Vector3 pointInRange = hitPoint;
         
         if (Vector3.Distance(hitPoint, RangeIndicator.transform.position) > RangeRadius)
         {
             Vector3 direction = (hitPoint - RangeIndicator.transform.position).normalized;
-            PointInRange = RangeIndicator.transform.position + direction * RangeRadius;
+            pointInRange = RangeIndicator.transform.position + direction * RangeRadius;
         }
         
-        return PointInRange;
+        return pointInRange;
+    }
+
+    public void SetAreaOfEffects(float range, float targetAreaRadius)
+    {
+        RangeRadius = range;
+        TargetRadius = targetAreaRadius;
+    }
+
+    public Vector3 GetTargetPosition()
+    {
+        return TargetIndicator.transform.position;
+    }
+    
+    public List<Collider> GetCollidersInTargetRange()
+    {
+        Collider[] colliders = Physics.OverlapSphere(TargetIndicator.transform.position, TargetRadius);
+     
+        List<Collider> colliderList = new List<Collider>(colliders);
+        return colliderList;
     }
 }

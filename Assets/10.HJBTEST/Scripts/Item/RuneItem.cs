@@ -20,7 +20,7 @@ public class RuneItem : MonoBehaviour
 
     public Inventory RuneInventory;
 
-    public void Initialize(RuneData runeData, int tier, int amount = 1)
+    public void Initialize(RuneData runeData, int tier = 1, int amount = 1)
     {
         RuneData = runeData;
         ID = runeData.TID;
@@ -28,18 +28,18 @@ public class RuneItem : MonoBehaviour
         Tier = tier;
         
         // 티어에 따라 계수 변환
-        if(tier == 1)
-        {
-            RuneValue = runeData.TierList[0];
-        }
-        else if(tier == 2)
-        {
-            RuneValue = runeData.TierList[1];
-        }
-        else
-        {
-            RuneValue = runeData.TierList[2];
-        }
+        //if(tier == 1)
+        //{
+        //    RuneValue = runeData.TierList[0];
+        //}
+        //else if(tier == 2)
+        //{
+        //    RuneValue = runeData.TierList[1];
+        //}
+        //else
+        //{
+        //    RuneValue = runeData.TierList[2];
+        //}
 
         // 티어에 맞게 툴팁 변경
         string runeDescription = runeData.RuneDescription;
