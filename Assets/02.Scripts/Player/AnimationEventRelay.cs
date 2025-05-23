@@ -28,11 +28,11 @@ public class AnimationEventRelay : MonoBehaviour
 
     public void OnSkillAnimationEffect()
     {
-        _playerSkill.CurrentSkill?.OnSkillAnimationEffect();
+        _playerSkill.CurrentSkill.OnSkillAnimationEffect();
     }
     
     public void OnSkillAnimationEnd()
     {
-        _playerSkill.CurrentSkill?.OnSkillAnimationEnd();
+        _playerSkill.CurrentSkill.OnSkillAnimationEnd();
     }
 }

@@ -31,7 +31,7 @@ public class BossSpecialAttack02State : IState<AEnemy>
 
     public void Update(AEnemy enemy)
     {
-        if (_indicator) _indicator.SetPosition(enemy.transform.position);
+        if (_indicator) _indicator.transform.position = enemy.transform.position;
 
         _time += Time.deltaTime;
         if (_patternData == null) return;

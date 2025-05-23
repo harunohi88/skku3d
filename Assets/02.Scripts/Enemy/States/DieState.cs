@@ -8,7 +8,6 @@ public class DieState : IState<AEnemy>
     {
         enemy.SetAnimationTrigger("Die");
         enemy.Agent.ResetPath();
-        enemy.EnemyRotation.IsFound = false;
         _time = 0;
     }
 

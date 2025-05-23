@@ -30,7 +30,7 @@ public class SkillIndicator : MonoBehaviour
     {
         _projector.material = CircularMaterial;
         _instancedMaterial = _projector.material;
-        _projector.size = new Vector3(width, height, _projector.size.z);
+        _projector.size = new Vector3(width, height, 1);
         _time = 0f;
         _isReady = false;
         _instancedMaterial.SetFloat("_Direction", direction);
@@ -47,7 +47,7 @@ public class SkillIndicator : MonoBehaviour
     {
         _projector.material = SquareMaterial;
         _instancedMaterial = _projector.material;
-        _projector.size = new Vector3(width, height, _projector.size.z);
+        _projector.size = new Vector3(width, height, 1);
         _time = 0f;
         _isReady = false;
         _instancedMaterial.SetFloat("_Direction", direction);
@@ -84,10 +84,5 @@ public class SkillIndicator : MonoBehaviour
     {
         if (thisPool != null) thisPool.Return(this);
         else Destroy(this.gameObject);
-    }
-
-    public void SetPosition(Vector3 position)
-    {
-        transform.position = new Vector3(position.x, 2f, position.z);
     }
 }

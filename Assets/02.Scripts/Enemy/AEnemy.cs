@@ -49,11 +49,8 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     {
         ThisSpawner = spawner;
 
-        if(TimeManager.Instance.DifficultyMultiplier != null)
-        {
-            MaxHealth = (int)(MaxHealth * TimeManager.Instance.DifficultyMultiplier.EnemyHealthMultiplier);
-            Damage = (int)(Damage * TimeManager.Instance.DifficultyMultiplier.EnemyDamageMultiplier);
-        }
+        MaxHealth = (int)(MaxHealth * TimeManager.Instance.DifficultyMultiplier.EnemyHealthMultiplier);
+        Damage = (int)(Damage * TimeManager.Instance.DifficultyMultiplier.EnemyDamageMultiplier);
 
         Health = MaxHealth;
         _stateMachine = new StateMachine<AEnemy>(this);
@@ -79,9 +76,8 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
         if(Health <= 0)
         {
             ChangeState(new DieState());
-            return;
         }
-        
+
         ChangeState(new DamagedState());
     }
 
