@@ -53,7 +53,10 @@ public class Projectile : MonoBehaviour
             ImpactParticle = Instantiate(ImpactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, hit.normal));
             if (hit.transform.CompareTag("Player"))
             {
-                Debug.Log("플레이어 맞음!!!!");
+                Damage damage = new Damage();
+                damage.From = this.gameObject;
+                damage.Value = 10;
+                PlayerManager.Instance.Player.TakeDamage(damage);
             }
 
             foreach(GameObject trail in TrailParticleList)
