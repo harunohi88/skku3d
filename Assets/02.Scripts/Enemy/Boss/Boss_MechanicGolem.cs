@@ -19,15 +19,15 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
         _lightningPool = new ObjectPool<Lightning>(LightningPrefab, 20, GameObject.FindGameObjectWithTag("Pool").transform);
     }
 
-    public override void Init()
+    public override void Init(EnemySpawner spawner)
     {
-        base.Init();
+        base.Init(spawner);
         _stateMachine.ChangeState(new BossIdleState());
     }
 
     public override void TakeDamage(Damage damage)
     {
-        // 구현 예정
+        base.TakeDamage(damage);
     }
 
     public override void Attack()

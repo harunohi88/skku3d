@@ -15,8 +15,6 @@ public class BasicEnemyPool : BehaviourSingleton<BasicEnemyPool>
     public AEnemy Get()
     {
         var enemy = _pool.Get();
-
-        enemy.Init();
         return enemy;
     }
 

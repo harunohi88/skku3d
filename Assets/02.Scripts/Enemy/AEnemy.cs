@@ -11,6 +11,8 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     public int Damage;
     public float MoveSpeed = 3.5f;
 
+    public EnemyType Type;
+
     public float TraceDistance;
     public float AttackDistance;
     public float AttackOutDistance;
@@ -19,7 +21,6 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     public float DeathTime;
 
     public EnemySpawner ThisSpawner;
-
 
     public LayerMask LayerMask;
 
@@ -42,11 +43,15 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
         _animator = GetComponent<Animator>();
         EnemyRotation = GetComponent<EnemyRotation>();
         Agent.speed = MoveSpeed;
-        Init();
     }
 
-    public virtual void Init()
+    public virtual void Init(EnemySpawner spawner)
     {
+        ThisSpawner = spawner;
+
+        MaxHealth = (int)(MaxHealth * TimeManager.Instance.DifficultyMultiplier.EnemyHealthMultiplier);
+        Damage = (int)(Damage * TimeManager.Instance.DifficultyMultiplier.EnemyDamageMultiplier);
+
         Health = MaxHealth;
         _stateMachine = new StateMachine<AEnemy>(this);
     }
@@ -63,18 +68,17 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
 
     public virtual void TakeDamage(Damage damage)
     {
-        // 죽음 상태면 return
-        // if (_stateMachine.CurrentState is DieState) return;
+        if (_stateMachine.CurrentState is DieState) return;
         Health -= damage.Value;
 
         // 맞았을때 이펙트
 
         if(Health <= 0)
         {
-            // ChangeState(new DieState());
+            ChangeState(new DieState());
         }
 
-        // ChangeState(new DamageState());
+        ChangeState(new DamagedState());
     }
 
     public abstract void Attack();

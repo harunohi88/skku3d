@@ -60,33 +60,6 @@ public partial class DataTable
         }
     }
     #endregion
-    #region Stat
-    private ReadOnlyList<StatData> StatList = null;
-    private ReadOnlyDictionary<int, StatData> StatTable = null;
-
-    public ReadOnlyList<StatData> GetStatDataList()
-    {
-        return StatList;
-    }
-
-    public StatData GetStatData(int key)
-    {
-        if (key == 0)
-        {
-            return null;
-        }
-
-        if (StatTable.TryGetValue(key, out StatData retVal) == true)
-        {
-            return retVal;
-        }
-        else
-        {
-            Debug.LogError($"Can not find UniqueID of StatData: <{key}>");
-            return null;
-        }
-    }
-    #endregion
 
     public IEnumerator LoadRoutine()
     {
@@ -105,12 +78,6 @@ public partial class DataTable
             LoadTimeData(bytes);
             loadedCount++;
         });
-        allCount++;
-        GetBytes_FromResources("Stat", (bytes) =>
-        {
-            LoadStatData(bytes);
-            loadedCount++;
-        });
 
         yield return new WaitUntil(() => allCount == loadedCount);
     }
@@ -121,8 +88,6 @@ public partial class DataTable
         LoadRuneData(runeBytes);
         byte[] timeBytes = GetBytes_ForEditor("TimeData");
         LoadTimeData(timeBytes);
-        byte[] statBytes = GetBytes_ForEditor("StatData");
-        LoadStatData(statBytes);
     }
 
     private void LoadRuneData(byte[] bytes)
@@ -185,37 +150,6 @@ public partial class DataTable
 
         TimeList = new ReadOnlyList<TimeData>(timeList);
         TimeTable = new ReadOnlyDictionary<int, TimeData>(timeTable);
-    }
-
-    private void LoadStatData(byte[] bytes)
-    {
-        List<StatData> statList = new List<StatData>();
-        Dictionary<int, StatData> statTable = new Dictionary<int, StatData>();
-
-        Reader = new BinaryReader(new MemoryStream(bytes));
-
-        while (Reader.BaseStream.Position < bytes.Length)
-        {
-            StatData data = new StatData(Reader);
-            if (statTable.ContainsKey(data.TID) == true)
-            {
-                Debug.LogError("The duplicate TID: " + data.TID + " in Stat");
-                continue;
-            }
-            else if (data.TID == 0)
-            {
-                Debug.LogError("TID is 0 in Stat");
-                continue;
-            }
-
-            statList.Add(data);
-            statTable.Add(data.TID, data);
-        }
-
-        Reader.Close();
-
-        StatList = new ReadOnlyList<StatData>(statList);
-        StatTable = new ReadOnlyDictionary<int, StatData>(statTable);
     }
 
 }

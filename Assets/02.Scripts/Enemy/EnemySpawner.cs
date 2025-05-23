@@ -10,11 +10,13 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public Transform SpawnPosition;
-    public int EnemySpawnCount = 10;
+    public const int OriginEnemySpawnCount = 10;
     public int EliteEnemySpawnCount = 3;
     
     public float DetectPlayerRange = 20f;
 
+
+    private int EnemySpawnCount;
     [SerializeField]
     private float _spawnRadius = 10f;
     [SerializeField]
@@ -24,8 +26,6 @@ public class EnemySpawner : MonoBehaviour
     private bool _isPlayerInRangeOnce = false;
     [SerializeField]
     private int _activedEnemy;
-
-    public GameObject Target;
 
     private void Update()
     {
@@ -45,7 +45,7 @@ public class EnemySpawner : MonoBehaviour
                 SummonEnemy();
             }*/
             // 테스트용
-            if(Vector3.Distance(transform.position, Target.transform.position) <= DetectPlayerRange)
+            if(Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position) <= DetectPlayerRange)
             {
                 _isPlayerInRangeOnce = true;
                 SummonEnemy();
@@ -67,6 +67,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void SummonEnemy()
     {
+        EnemySpawnCount = (int)(OriginEnemySpawnCount * TimeManager.Instance.DifficultyMultiplier.EnemyCountMultiplier);
         for(int i=0; i<EnemySpawnCount; i++)
         {
             // TODO: 엘리트 에너미도 풀에서 받아와서 리스트에 추가하기
@@ -81,8 +82,7 @@ public class EnemySpawner : MonoBehaviour
             else
             {
                 var enemy = BasicEnemyPool.Instance.Get();
-                enemy.Init();
-                enemy.ThisSpawner = this;
+                enemy.Init(this);
                 ResetPosition(enemy.gameObject);
             }
         }

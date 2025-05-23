@@ -77,23 +77,23 @@ public class AudioManager : BehaviourSingleton<AudioManager>
         _mixer.SetFloat(exposedParam, to);
     }
 
-    public void PlayResourceAudio(ResourceType type, Vector3 position, bool isDone)
-    {
-        //AudioSource audioSource = GetAvailableAudioSource();
-        //audioSource.outputAudioMixerGroup = _sfxMixerGroup;
-        //audioSource.spatialBlend = 1;
-        //audioSource.transform.position = position;
-        //if (type == ResourceType.Tree)
-        //{
-        //    if (isDone) audioSource.resource = TreeAudioList[1];
-        //    else audioSource.resource = TreeAudioList[0];
-        //}
-        //else if (type == ResourceType.Rock)
-        //{
-        //    if (isDone) audioSource.resource = RockAudioList[1];
-        //    else audioSource.resource = RockAudioList[0];
-        //}
-        //audioSource.Play();
-    }
+    //public void PlayResourceAudio(ResourceType type, Vector3 position, bool isDone)
+    //{
+    //    AudioSource audioSource = GetAvailableAudioSource();
+    //    audioSource.outputAudioMixerGroup = _sfxMixerGroup;
+    //    audioSource.spatialBlend = 1;
+    //    audioSource.transform.position = position;
+    //    if (type == ResourceType.Tree)
+    //    {
+    //        if (isDone) audioSource.resource = TreeAudioList[1];
+    //        else audioSource.resource = TreeAudioList[0];
+    //    }
+    //    else if (type == ResourceType.Rock)
+    //    {
+    //        if (isDone) audioSource.resource = RockAudioList[1];
+    //        else audioSource.resource = RockAudioList[0];
+    //    }
+    //    audioSource.Play();
+    //}
 
 }

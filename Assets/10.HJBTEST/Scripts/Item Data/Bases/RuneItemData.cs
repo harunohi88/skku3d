@@ -16,18 +16,18 @@ namespace Rito.InventorySystem
             string runeDescription = runeData.RuneDescription;
             Tier = tier;
             // 티어에 따라 계수 변환
-            if(tier == 1)
-            {
-                TierFactor = runeData.TierList[0];
-            }
-            else if(tier == 2)
-            {
-                TierFactor = runeData.TierList[1];
-            }
-            else
-            {
-                TierFactor = runeData.TierList[2];
-            }
+            //if(tier == 1)
+            //{
+            //    TierFactor = runeData.TierList[0];
+            //}
+            //else if(tier == 2)
+            //{
+            //    TierFactor = runeData.TierList[1];
+            //}
+            //else
+            //{
+            //    TierFactor = runeData.TierList[2];
+            //}
             // 티어에 맞게 툴팁 변경
             runeDescription = runeDescription.Replace("N", TierFactor.ToString());
             Tooltip = runeDescription;

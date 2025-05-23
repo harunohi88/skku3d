@@ -16,6 +16,19 @@ public class DieState : IState<AEnemy>
         _time += Time.deltaTime;
         if(_time >= enemy.DeathTime)
         {
+            enemy.ThisSpawner.ActivedEnemyCountDecrease();
+            switch (enemy.Type)
+            {
+                case EnemyType.Basic:
+                    BasicEnemyPool.Instance.Return(enemy);
+                    break;
+                case EnemyType.Elite:
+                    EliteEnemyPool.Instance.Return(enemy);
+                    break;
+            }
+
+
+            enemy.gameObject.SetActive(false);
             Debug.Log("사라짐");
         }
     }
