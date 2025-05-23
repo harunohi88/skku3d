@@ -177,6 +177,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MagentRange
       objectReference: {fileID: 0}
+    - target: {fileID: 3220539651935848256, guid: 9753f2965938e654eb40d4c974817c23, type: 3}
+      propertyPath: Movespeed
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

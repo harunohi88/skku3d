@@ -78,6 +78,6 @@ public class BossSpecialAttack04State : IState<AEnemy>
     public Vector3 GetRandomPosition(AEnemy enemy)
     {
         Vector2 randomPosition = Random.insideUnitCircle;
-        return new Vector3(randomPosition.x * _patternData.Radius, enemy.transform.position.y, randomPosition.y * _patternData.Radius);
+        return enemy.transform.position + new Vector3(randomPosition.x * _patternData.Radius, enemy.transform.position.y, randomPosition.y * _patternData.Radius);
     }
 }

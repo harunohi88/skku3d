@@ -103,7 +103,7 @@ public class DropTable : BehaviourSingleton<DropTable>
     }
 
     /// <summary> 랜덤 룬 드랍 </summary>
-    private void DropRandomRune(Vector3 position, EnemyType enemyType)
+    public void DropRandomRune(Vector3 position, EnemyType enemyType)
     {
         int randomRuneTier = GetRandomTier(enemyType);
 

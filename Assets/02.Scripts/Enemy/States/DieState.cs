@@ -22,9 +22,11 @@ public class DieState : IState<AEnemy>
             {
                 case EnemyType.Basic:
                     BasicEnemyPool.Instance.Return(enemy);
+                    DropTable.Instance.DropRandomRune(enemy.transform.position, enemy.Type);
                     break;
                 case EnemyType.Elite:
                     EliteEnemyPool.Instance.Return(enemy);
+                    DropTable.Instance.DropRandomRune(enemy.transform.position, enemy.Type);
                     break;
             }
 
