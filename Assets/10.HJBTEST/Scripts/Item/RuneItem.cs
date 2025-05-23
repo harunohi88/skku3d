@@ -20,7 +20,7 @@ public class RuneItem : MonoBehaviour
 
     public Inventory RuneInventory;
 
-    public void Initialize(RuneData runeData, int tier, int amount = 1)
+    public void Initialize(RuneData runeData, int tier = 1, int amount = 1)
     {
         RuneData = runeData;
         ID = runeData.TID;

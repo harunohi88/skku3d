@@ -30,7 +30,18 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
 
     public override void TakeDamage(Damage damage)
     {
-        base.TakeDamage(damage);
+        if (_stateMachine.CurrentState is BossDieState) return;
+        Health -= damage.Value;
+
+        // 맞았을때 이펙트
+
+        if (Health <= 0)
+        {
+            ChangeState(new BossDieState());
+            return;
+        }
+
+        Debug.Log("맞음");
     }
 
     public override void Attack()
