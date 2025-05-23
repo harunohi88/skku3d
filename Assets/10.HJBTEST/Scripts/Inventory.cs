@@ -241,6 +241,8 @@ public class Inventory : MonoBehaviour
     /// </summary>
     public int Add(RuneData runeData, int tier, int amount = 1)
     {
+        if (_items == null || _items.Length == 0) return amount;
+
         // Normal 인벤토리인 경우 자동 정렬 및 합치기
         if (_inventoryType == InventoryType.Normal)
         {
@@ -252,8 +254,11 @@ public class Inventory : MonoBehaviour
                 if (index == -1) break; // 더 이상 합칠 수 있는 슬롯이 없음
 
                 RuneItem item = _items[index];
-                remainingAmount = item.AddAmountAndGetExcess(remainingAmount);
-                UpdateSlot(index);
+                if (item != null)
+                {
+                    remainingAmount = item.AddAmountAndGetExcess(remainingAmount);
+                    UpdateSlot(index);
+                }
             }
 
             // 2. 남은 수량이 있다면 빈 슬롯에 추가
@@ -263,10 +268,13 @@ public class Inventory : MonoBehaviour
                 if (emptyIndex != -1)
                 {
                     RuneItem newItem = RuneItemConverter.ConvertToRuneItem(runeData, tier);
-                    newItem.SetAmount(remainingAmount);
-                    _items[emptyIndex] = newItem;
-                    UpdateSlot(emptyIndex);
-                    remainingAmount = 0;
+                    if (newItem != null)
+                    {
+                        newItem.SetAmount(remainingAmount);
+                        _items[emptyIndex] = newItem;
+                        UpdateSlot(emptyIndex);
+                        remainingAmount = 0;
+                    }
                 }
             }
 
@@ -456,14 +464,16 @@ public class Inventory : MonoBehaviour
     /// <summary> 빈 슬롯 없이 채우면서 아이템 종류별로 정렬하기 </summary>
     public void SortAll()
     {
+        if (_items == null || _items.Length == 0) return;
+
         // 1. Trim
-        int i = -1;
-        while (_items[++i] != null) ;
+        int i = 0;
+        while (i < _items.Length && _items[i] != null) i++;
         int j = i;
 
-        while (true)
+        while (j < _items.Length)
         {
-            while (++j < _items.Length && _items[j] == null) ;
+            while (j < _items.Length && _items[j] == null) j++;
 
             if (j == _items.Length)
                 break;
@@ -471,6 +481,7 @@ public class Inventory : MonoBehaviour
             _items[i] = _items[j];
             _items[j] = null;
             i++;
+            j++;
         }
 
         // 2. Sort

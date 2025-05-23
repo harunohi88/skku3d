@@ -13,7 +13,9 @@ public static class RuneItemConverter
 
         if (!_runeItemCache.TryGetValue(key, out RuneItem runeItem))
         {
-            runeItem = new RuneItem(runeData, tier);
+            GameObject go = new GameObject($"RuneItem_{runeData.RuneName}_Tier{tier}");
+            runeItem = go.AddComponent<RuneItem>();
+            runeItem.Initialize(runeData, tier);
             _runeItemCache[key] = runeItem;
         }
 

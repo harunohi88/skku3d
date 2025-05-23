@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-public class RuneItem
+public class RuneItem : MonoBehaviour
 {
     // Basic Properties
     public int ID { get; private set; }
@@ -18,7 +18,9 @@ public class RuneItem
     public bool IsMax => Amount >= MaxAmount;
     public bool IsEmpty => Amount <= 0;
 
-    public RuneItem(RuneData runeData, int tier, int amount = 1)
+    public Inventory RuneInventory;
+
+    public void Initialize(RuneData runeData, int tier, int amount = 1)
     {
         RuneData = runeData;
         ID = runeData.TID;
@@ -71,7 +73,14 @@ public class RuneItem
             amount = Amount;
 
         Amount -= amount;
-        return new RuneItem(RuneData, Tier, amount);
+
+        // 새로운 게임오브젝트 생성
+        GameObject newGo = new GameObject($"RuneItem_{Name}_Tier{Tier}_Split");
+        RuneItem newItem = newGo.AddComponent<RuneItem>();
+        newItem.Initialize(RuneData, Tier, amount);
+        newItem.RuneInventory = RuneInventory;
+
+        return newItem;
     }
 
     public bool Use()
@@ -82,5 +91,21 @@ public class RuneItem
         Debug.Log($"Using rune: {RuneData.RuneName}");
         Amount--;
         return true;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            if (RuneInventory != null)
+            {
+                RuneInventory.Add(RuneData, Tier, Amount);
+                Destroy(gameObject);
+            }
+            else
+            {
+                Debug.LogWarning("RuneInventory reference is missing!");
+            }
+        }
     }
 } 

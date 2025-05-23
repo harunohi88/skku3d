@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-public class DropTable : MonoBehaviour
+public class DropTable : BehaviourSingleton<DropTable>
 {
 
     [Header("룬 드랍")]
@@ -53,7 +53,7 @@ public class DropTable : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            DropRandomRune(Vector3.zero, EnemyType.Basic);
+            DropRandomRune(new Vector3(-383.12f, 0.882762f, 417.03f), EnemyType.Basic);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
@@ -92,13 +92,14 @@ public class DropTable : MonoBehaviour
         {
             DropRandomRune(position, enemyType);
         }
-
+        /* 프로토 타입때는 안씀
         if(Random.value < goldDropRate)
         {
             DropRandomGold(position);
         }
 
         DropExp(position);
+        */
     }
 
     /// <summary> 랜덤 룬 드랍 </summary>
@@ -108,17 +109,16 @@ public class DropTable : MonoBehaviour
 
         int randomRuneDataTIDPlus = Random.Range(0, RuneDataCount);
         RuneData runeData = DataTable.Instance.GetRuneData(RUNE_DATA_TID_MIN + randomRuneDataTIDPlus);
-        RuneItem runeItemData = RuneItemConverter.ConvertToRuneItem(runeData, randomRuneTier);
-
-        // TODO: 지금은 인벤토리로 추가하고 있는데
-        // Return을 RuneItemData로 바꿔야 할듯
-        // 그리고 아이템 자체에서 획득하면 인벤토리로 추가하도록 하는게 나을듯?
-        // 프리팹으로 인스턴스화화
-        RuneInventory.Add(runeData, randomRuneTier, 1);
 
         if(RunePrefab != null)
         {
             GameObject runeObject = Instantiate(RunePrefab, position, Quaternion.identity);
+            RuneItem runeItem = runeObject.GetComponent<RuneItem>();
+            if (runeItem != null)
+            {
+                runeItem.Initialize(runeData, randomRuneTier, 1);
+                runeItem.RuneInventory = RuneInventory;
+            }
         }
     }
 
