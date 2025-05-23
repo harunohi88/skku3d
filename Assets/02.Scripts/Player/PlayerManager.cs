@@ -6,10 +6,11 @@ using UnityEngine.Playables;
 public class PlayerManager : BehaviourSingleton<PlayerManager>
 {
     [SerializeField] public Player Player;
-    [SerializeField] public EPlayerState PlayerState;
+    [SerializeField] public PlayerStat PlayerStat;
     [SerializeField] public PlayerMove PlayerMove;
     [SerializeField] public PlayerAttack PlayerAttack;
     [SerializeField] public PlayerSkill PlayerSkill;
+    [SerializeField] public EPlayerState PlayerState;
 
     private Dictionary<EPlayerAction, HashSet<EPlayerState>> _actionStateMap = new()
     {
@@ -21,6 +22,7 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
 
     private void Awake()
     {
+        PlayerStat = Player.gameObject.GetComponent<PlayerStat>();
         PlayerMove = Player.gameObject.GetComponent<PlayerMove>();
         PlayerAttack = Player.gameObject.GetComponent<PlayerAttack>();
         PlayerSkill = Player.gameObject.GetComponent<PlayerSkill>();

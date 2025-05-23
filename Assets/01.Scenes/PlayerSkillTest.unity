@@ -351,6 +351,7 @@ GameObject:
   - component: {fileID: 741435604}
   - component: {fileID: 741435605}
   - component: {fileID: 741435606}
+  - component: {fileID: 741435607}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -399,10 +400,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 1898923141}
-  PlayerState: 0
+  PlayerStat: {fileID: 0}
   PlayerMove: {fileID: 0}
   PlayerAttack: {fileID: 0}
   PlayerSkill: {fileID: 0}
+  PlayerState: 0
 --- !u!114 &741435606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,6 +415,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fe95bf9a3e3af740b15e335963dba11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &741435607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 741435602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e5d6699194d77845968a4f1e7163cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &766043953
@@ -901,6 +915,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1898923138}
   - component: {fileID: 1898923141}
+  - component: {fileID: 1898923146}
   - component: {fileID: 1898923140}
   - component: {fileID: 1898923142}
   - component: {fileID: 1898923143}
@@ -923,7 +938,7 @@ Transform:
   m_GameObject: {fileID: 1898923137}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 4.94, y: 0, z: 2.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1053,6 +1068,26 @@ MonoBehaviour:
   SkillName: SpinSlash
   AttackRange: 3
   IsAvailable: 1
+--- !u!114 &1898923146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898923137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d07a4930d371444469a0529692d85ee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackPower: 100
+  CooldownReduction: 0
+  CriticalHitChance: 0.2
+  CriticalHitDamage: 1.5
+  ExperienceGain: 1
+  MaxHealth: 1000
+  MaxStamina: 100
+  MoveSpeed: 10
 --- !u!1 &1934800494
 GameObject:
   m_ObjectHideFlags: 0
