@@ -117,7 +117,6 @@ public class DropTable : BehaviourSingleton<DropTable>
             if (runeItem != null)
             {
                 runeItem.Initialize(runeData, randomRuneTier, 1);
-                runeItem.RuneInventory = RuneInventory;
             }
         }
     }

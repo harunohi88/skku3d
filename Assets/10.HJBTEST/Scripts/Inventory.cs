@@ -347,6 +347,12 @@ public class Inventory : MonoBehaviour
     {
         if (!IsValidIndex(index)) return;
 
+        // 아이템이 있는 경우 게임오브젝트 파괴
+        if (_items[index] != null)
+        {
+            Destroy(_items[index].gameObject);
+        }
+
         _items[index] = null;
         _inventoryUI.RemoveItem(index);
     }

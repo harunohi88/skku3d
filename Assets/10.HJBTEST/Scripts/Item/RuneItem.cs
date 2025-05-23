@@ -49,6 +49,9 @@ public class RuneItem : MonoBehaviour
         // 스프라이트 로드
         string spritePath = $"Assets/04.Images/{runeData.RuneName}.png";
         IconSprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
+        
+        RuneInventory = DropTable.Instance.RuneInventory;
+        
 
         SetAmount(amount);
     }
@@ -78,7 +81,6 @@ public class RuneItem : MonoBehaviour
         GameObject newGo = new GameObject($"RuneItem_{Name}_Tier{Tier}_Split");
         RuneItem newItem = newGo.AddComponent<RuneItem>();
         newItem.Initialize(RuneData, Tier, amount);
-        newItem.RuneInventory = RuneInventory;
 
         return newItem;
     }

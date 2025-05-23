@@ -9,6 +9,8 @@ public class InputManager : MonoBehaviour
     {
         _playerManager = PlayerManager.Instance;
         _inventoryManager = InventoryManager.Instance;
+        _inventoryManager.ToggleRuneInventoryUI();
+        _inventoryManager.ToggleEquipInventoryUI();
     }
 
     private void Update()
