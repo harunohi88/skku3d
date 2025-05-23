@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-// 날짜 : 2021-03-18 PM 9:05:42
-// 작성자 : Rito
 
 namespace Rito
 {
