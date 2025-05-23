@@ -396,7 +396,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -1.59}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9079478934415448473}
@@ -438,21 +438,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 2000
-  Health: 2000
+  Health: 100
   Damage: 20
+  MoveSpeed: 8
+  Type: 0
   TraceDistance: 10
   AttackDistance: 5
-  AttackOutDistance: 10
+  AttackOutDistance: 8
   AttackCooltime: 8
   DamagedTime: 0
   DeathTime: 5
+  ThisSpawner: {fileID: 0}
+  LayerMask:
+    serializedVersion: 2
+    m_Bits: 8
   Agent: {fileID: 0}
   AttackPosition: {fileID: 0}
   SkillObject: {fileID: 0}
   EnemyRotation: {fileID: 0}
   WeaponCollider: {fileID: 2134041351530682417}
-  LightningPrefabList:
-  - {fileID: 6469414794945876405, guid: cec0d26a829636540b7324d1f2cadbb0, type: 3}
+  LightningPrefab: {fileID: 6469414794945876405, guid: cec0d26a829636540b7324d1f2cadbb0, type: 3}
 --- !u!195 &3079381348969806132
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -538,23 +543,89 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BossEnemy: {fileID: 9215087438003173663}
-  PatternCooltimeList:
-  - 6
-  - 5
-  - 20
-  - 25
-  - 30
-  LastFinishedtimeList: []
-  PatternCastingtimeList:
-  - 0
-  - 3
-  - 0
-  - 0
-  - 0
-  Pattern1Radius: 2
-  Pattern1Range: 10
-  Pattern1LightningLastTime: 5
-  _healthThreshold: 0.5
+  _healthThreshold: 1
+  _baseAttackPatternList:
+  - CoolTime: 3
+    CastingTime: 0
+    LastFinishedTime: 0
+    Range: 0
+    Width: 0
+    Radius: 0
+    Angle: 0
+    Duration: 0
+    MaxCount: 0
+    Damage: 10
+    InnerRange: 0
+  _specialAttack1PatternList:
+  - CoolTime: 10
+    CastingTime: 2
+    LastFinishedTime: 0
+    Range: 10
+    Width: 0
+    Radius: 3
+    Angle: 360
+    Duration: 5
+    MaxCount: 20
+    Damage: 5
+    InnerRange: 0
+  _specialAttack2PatternList:
+  - CoolTime: 12
+    CastingTime: 2
+    LastFinishedTime: 0
+    Range: 5
+    Width: 0
+    Radius: 6
+    Angle: 360
+    Duration: 0
+    MaxCount: 0
+    Damage: 20
+    InnerRange: 0
+  - CoolTime: 0
+    CastingTime: 3
+    LastFinishedTime: 0
+    Range: 40
+    Width: 4
+    Radius: 0
+    Angle: 0
+    Duration: 0
+    MaxCount: 0
+    Damage: 40
+    InnerRange: 0
+  _specialAttack3PatternList:
+  - CoolTime: 15
+    CastingTime: 2
+    LastFinishedTime: 0
+    Range: 5
+    Width: 0
+    Radius: 6
+    Angle: 360
+    Duration: 0
+    MaxCount: 0
+    Damage: 20
+    InnerRange: 0
+  - CoolTime: 0
+    CastingTime: 6
+    LastFinishedTime: 0
+    Range: 30
+    Width: 0
+    Radius: 0
+    Angle: 120
+    Duration: 0
+    MaxCount: 0
+    Damage: 50
+    InnerRange: 0
+  _specialAttack4PatternList:
+  - CoolTime: 18
+    CastingTime: 2
+    LastFinishedTime: 0
+    Range: 12
+    Width: 0
+    Radius: 12
+    Angle: 360
+    Duration: 15
+    MaxCount: 0
+    Damage: 12
+    InnerRange: 0.7
 --- !u!114 &4661919229261591734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -567,8 +638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b3e0fa350fdf7945a3495e871d3b2c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CircularIndicatorPrefabList:
-  - {fileID: 4867199023843455643, guid: 685eb2655e33df24495b668e55f32ac2, type: 3}
+  IndicatorPrefab: {fileID: 4867199023843455643, guid: 685eb2655e33df24495b668e55f32ac2, type: 3}
   PoolParent: {fileID: 0}
 --- !u!114 &5683387996090228650
 MonoBehaviour:
