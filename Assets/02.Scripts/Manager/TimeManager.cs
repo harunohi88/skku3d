@@ -28,17 +28,19 @@ public class TimeManager : BehaviourSingleton<TimeManager>
         DifficultyText = data.DifficultyText;
         DifficultyMultiplier = new EnemyDifficultyMultiplier(data.EnemyCountMultiplier, data.EnemyHealthMultiplier, data.EnemyDamageMultiplier);
 
-        if(DataTable.Instance.GetTimeData(_currentTID + 1) != null)
+        if (DataTable.Instance.GetTimeData(_currentTID + 1) != null)
         {
             _difficultyChangeTime = DataTable.Instance.GetTimeData(_currentTID + 1).Time;
         }
     }
 
+    public float GetTime() => _time;
+
     public void Update()
     {
         _time += Time.deltaTime;
 
-        if(_time > _difficultyChangeTime)
+        if (_time > _difficultyChangeTime)
         {
             _currentTID++;
             LoadTimeData();
