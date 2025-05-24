@@ -1844,7 +1844,7 @@ MonoBehaviour:
   AttackDistance: 8
   AttackOutDistance: 12
   AttackCooltime: 2
-  DamagedTime: 0.5
+  DamagedTime: 1
   DeathTime: 2
   ThisSpawner: {fileID: 0}
   LayerMask:
