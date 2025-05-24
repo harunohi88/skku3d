@@ -45,6 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TID: 10001
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: 34f14eaff7cf1ca4db9b35d875682013, type: 3}
   TierValue: 0
   RuneDescription: 
