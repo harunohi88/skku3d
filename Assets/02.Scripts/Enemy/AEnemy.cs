@@ -35,6 +35,7 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     public GameObject SkillObject;
 
     public EnemyRotation EnemyRotation;
+    public EnemyHitEffect EnemyHitEffect;
 
     protected virtual void Awake()
     {
@@ -42,6 +43,7 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
         _characterController = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
         EnemyRotation = GetComponent<EnemyRotation>();
+        EnemyHitEffect = GetComponentInChildren<EnemyHitEffect>();
         Agent.speed = MoveSpeed;
     }
 

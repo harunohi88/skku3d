@@ -8,6 +8,7 @@ public class DamagedState : IState<AEnemy>
         enemy.Agent.isStopped = true;
         enemy.Agent.ResetPath();
         enemy.SetAnimationTrigger("Hit");
+        enemy.EnemyHitEffect.PlayHitEffect(enemy.DamagedTime);
         _time = 0f;
     }
 

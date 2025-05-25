@@ -1,6 +1,14 @@
 using UnityEngine;
 using System.Collections;
 using DG.Tweening;
+using System.Collections.Generic;
+
+public enum EItemType
+{
+    Rune,
+    Exp,
+    Coin,
+}
 
 [RequireComponent(typeof(Collider))]
 public class DroppableItem : MonoBehaviour
@@ -15,7 +23,14 @@ public class DroppableItem : MonoBehaviour
     public float RetreatDuration = 0.1f;
     public float GetDuration = 0.25f;
 
+    public EItemType Type;
+    public ARune Rune;
+    public int Amount;
+
     public bool IsCollected = false;
+    public List<GameObject> SparkleEffectList;
+    private int _tier = 1;
+
     private Transform _player;
 
     private void Start()
@@ -30,9 +45,26 @@ public class DroppableItem : MonoBehaviour
         if (!IsCollected) transform.Rotate(Vector3.up, RotationSpeed * Time.deltaTime);
     }
 
+    public void Init(int tier, int amount, EItemType type)
+    {
+        _tier = tier;
+        Type = type;
+
+        if (type == EItemType.Rune) Rune = GetComponentInParent<ARune>();
+        else Amount = amount;
+
+        for (int i = 0; i < SparkleEffectList.Count; i++)
+        {
+            if (_tier <= i + 1) SparkleEffectList[i].SetActive(true);
+            else SparkleEffectList[i].SetActive(false);
+        }
+        BounceEffect();
+    }
+
     private void BounceEffect()
     {
         Vector3 startPos = transform.position;
+        startPos = new Vector3(startPos.x, 0.3f, startPos.z);
 
         Vector3 randomDir = (Vector3.up + Random.onUnitSphere * 0.5f).normalized;
         Vector3 peakPos = startPos + randomDir * InitialBounceHeight;
@@ -67,6 +99,22 @@ public class DroppableItem : MonoBehaviour
         yield return transform.DOMove(_player.position, GetDuration).SetEase(Ease.InQuad).WaitForCompletion();
 
         ApplyEffect();
+
+        // 인벤토리에 넣기. DroppableItem이기 때문에 룬, 코인, 경험치가 될 수 있음
+
+        switch (Type)
+        {
+            case EItemType.Rune:
+
+                break;
+            case EItemType.Exp:
+
+                break;
+            case EItemType.Coin:
+
+                break;
+        }
+
         Destroy(gameObject);
     }
 

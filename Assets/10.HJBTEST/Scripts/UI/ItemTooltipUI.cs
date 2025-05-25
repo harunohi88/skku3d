@@ -82,7 +82,7 @@ public class ItemTooltipUI : MonoBehaviour
     /// <summary> 툴팁 UI에 아이템 정보 등록 </summary>
     public void SetItemInfo(RuneItem data)
     {
-        _titleText.text = $"{data.Name} (Tier.{data.Tier})";
+        _titleText.text = $"{data.Name} (_tier.{data.Tier})";
         _contentText.text = data.Tooltip;
     }
 

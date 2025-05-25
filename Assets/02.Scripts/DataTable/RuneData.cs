@@ -50,7 +50,7 @@ public class RuneData
     ///<summary>발동 확률</summary>
     public readonly int Probability;
 
-    ///<summary>Tier 리스트</summary>
+    ///<summary>_tier 리스트</summary>
     public readonly List<float> TierList = new List<float>();
     public RuneData(BinaryReader reader)
     {
