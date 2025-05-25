@@ -4,42 +4,42 @@ using UnityEngine.EventSystems;
 
 public abstract class BaseInventory : MonoBehaviour
 {
-    [SerializeField] protected int slotCount = 20;
-    [SerializeField] protected GameObject slotPrefab;
-    [SerializeField] protected Transform slotsParent;
-    [SerializeField] protected bool autoCreateSlots = true;
-    [SerializeField] public List<InventorySlot> manualSlots;
+    [SerializeField] protected int _slotCount = 20;
+    [SerializeField] protected GameObject _slotPrefab;
+    [SerializeField] protected Transform _slotsParent;
+    [SerializeField] protected bool _autoCreateSlots = true;
+    [SerializeField] public List<InventorySlot> ManualSlotsList;
     
-    protected List<InventoryItem> items;
-    protected List<InventorySlot> slots;
+    protected List<InventoryItem> _itemsList;
+    protected List<InventorySlot> _slotsList;
     
     protected virtual void Awake()
     {
-        items = new List<InventoryItem>();
-        slots = new List<InventorySlot>();
+        _itemsList = new List<InventoryItem>();
+        _slotsList = new List<InventorySlot>();
 
-        if (autoCreateSlots)
+        if (_autoCreateSlots)
         {
-            // Create slots automatically
-            for (int i = 0; i < slotCount; i++)
+            // 슬롯 자동 생성
+            for (int i = 0; i < _slotCount; i++)
             {
-                GameObject slotObj = Instantiate(slotPrefab, slotsParent);
+                GameObject slotObj = Instantiate(_slotPrefab, _slotsParent);
                 InventorySlot slot = slotObj.GetComponent<InventorySlot>();
                 slot.Initialize(this, i);
-                slots.Add(slot);
-                items.Add(null);
+                _slotsList.Add(slot);
+                _itemsList.Add(null);
             }
         }
         else
         {
-            // Use manually placed slots
-            for (int i = 0; i < manualSlots.Count; i++)
+            // 수동으로 배치된 슬롯 사용
+            for (int i = 0; i < ManualSlotsList.Count; i++)
             {
-                manualSlots[i].Initialize(this, i);
-                slots.Add(manualSlots[i]);
-                items.Add(null);
+                ManualSlotsList[i].Initialize(this, i);
+                _slotsList.Add(ManualSlotsList[i]);
+                _itemsList.Add(null);
             }
-            slotCount = manualSlots.Count;
+            _slotCount = ManualSlotsList.Count;
         }
 
         UpdateAllSlots();
@@ -47,18 +47,18 @@ public abstract class BaseInventory : MonoBehaviour
 
     public virtual bool AddItem(ARune rune, int quantity = 1)
     {
-        return false; // To be implemented by derived classes
+        return false; // 파생 클래스에서 구현해야 함
     }
 
     public virtual bool RemoveItem(int slotIndex, int quantity = 1)
     {
-        if (slotIndex < 0 || slotIndex >= items.Count || items[slotIndex] == null)
+        if (slotIndex < 0 || slotIndex >= _itemsList.Count || _itemsList[slotIndex] == null)
             return false;
 
-        items[slotIndex].RemoveQuantity(quantity);
-        if (items[slotIndex].IsEmpty())
+        _itemsList[slotIndex].RemoveQuantity(quantity);
+        if (_itemsList[slotIndex].IsEmpty())
         {
-            items[slotIndex] = null;
+            _itemsList[slotIndex] = null;
         }
         UpdateSlot(slotIndex);
         return true;
@@ -66,12 +66,12 @@ public abstract class BaseInventory : MonoBehaviour
 
     public virtual bool MoveItem(int fromSlot, int toSlot)
     {
-        if (fromSlot < 0 || fromSlot >= items.Count || toSlot < 0 || toSlot >= items.Count)
+        if (fromSlot < 0 || fromSlot >= _itemsList.Count || toSlot < 0 || toSlot >= _itemsList.Count)
             return false;
 
-        InventoryItem temp = items[toSlot];
-        items[toSlot] = items[fromSlot];
-        items[fromSlot] = temp;
+        InventoryItem temp = _itemsList[toSlot];
+        _itemsList[toSlot] = _itemsList[fromSlot];
+        _itemsList[fromSlot] = temp;
 
         UpdateSlot(fromSlot);
         UpdateSlot(toSlot);
@@ -80,29 +80,29 @@ public abstract class BaseInventory : MonoBehaviour
 
     public virtual void UpdateSlot(int index)
     {
-        if (index >= 0 && index < slots.Count)
+        if (index >= 0 && index < _slotsList.Count)
         {
-            slots[index].UpdateSlot(items[index]);
+            _slotsList[index].UpdateSlot(_itemsList[index]);
         }
     }
 
     protected void UpdateAllSlots()
     {
-        for (int i = 0; i < slots.Count; i++)
+        for (int i = 0; i < _slotsList.Count; i++)
         {
-            slots[i].UpdateSlot(items[i]);
+            _slotsList[i].UpdateSlot(_itemsList[i]);
         }
     }
 
     public virtual void OnItemDoubleClick(int slotIndex)
     {
-        // To be implemented by derived classes
+        // 파생 클래스에서 구현해야 함
     }
 
     public List<ARune> GetRuneList()
     {
         List<ARune> runeList = new List<ARune>();
-        foreach (var item in items)
+        foreach (var item in _itemsList)
         {
             if (item != null && !item.IsEmpty())
             {

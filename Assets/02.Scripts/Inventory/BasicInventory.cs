@@ -4,52 +4,52 @@ using UnityEngine;
 
 public class BasicInventory : BaseInventory
 {
-    [SerializeField] private EquipInventory equipInventory;
+    [SerializeField] private EquipInventory _equipInventory;
 
     public override bool AddItem(ARune rune, int quantity = 1)
     {
-        // Try to find existing stack of the same rune
-        for (int i = 0; i < items.Count; i++)
+        // 동일한 룬의 기존 스택 찾기
+        for (int i = 0; i < _itemsList.Count; i++)
         {
-            if (items[i] != null && items[i].Rune.TID == rune.TID)
+            if (_itemsList[i] != null && _itemsList[i].Rune.TID == rune.TID)
             {
-                items[i].AddQuantity(quantity);
+                _itemsList[i].AddQuantity(quantity);
                 UpdateSlot(i);
                 return true;
             }
         }
 
-        // Find empty slot
-        for (int i = 0; i < items.Count; i++)
+        // 빈 슬롯 찾기
+        for (int i = 0; i < _itemsList.Count; i++)
         {
-            if (items[i] == null)
+            if (_itemsList[i] == null)
             {
-                items[i] = new InventoryItem(rune, quantity);
+                _itemsList[i] = new InventoryItem(rune, quantity);
                 UpdateSlot(i);
                 SortInventory();
                 return true;
             }
         }
 
-        return false; // Inventory is full
+        return false; // 인벤토리가 가득 참
     }
 
     private void SortInventory()
     {
-        // Remove null items
-        items.RemoveAll(item => item == null);
+        // null 아이템 제거
+        _itemsList.RemoveAll(item => item == null);
         
-        // Sort by TID
-        items = items.OrderBy(item => item.Rune.TID).ToList();
+        // TID로 정렬
+        _itemsList = _itemsList.OrderBy(item => item.Rune.TID).ToList();
         
-        // Fill remaining slots with null
-        while (items.Count < slotCount)
+        // 남은 슬롯을 null로 채우기
+        while (_itemsList.Count < _slotCount)
         {
-            items.Add(null);
+            _itemsList.Add(null);
         }
 
-        // Update all slots
-        for (int i = 0; i < slots.Count; i++)
+        // 모든 슬롯 업데이트
+        for (int i = 0; i < _slotsList.Count; i++)
         {
             UpdateSlot(i);
         }
@@ -59,30 +59,30 @@ public class BasicInventory : BaseInventory
     {
         Debug.Log($"BasicInventory.MoveItemToEquip - From Slot: {fromSlot}, To Slot: {toSlot}");
         
-        if (fromSlot < 0 || fromSlot >= items.Count || equipInventory == null)
+        if (fromSlot < 0 || fromSlot >= _itemsList.Count || _equipInventory == null)
         {
-            Debug.Log($"BasicInventory.MoveItemToEquip - Invalid slot or equip inventory not set");
+            Debug.Log($"BasicInventory.MoveItemToEquip - 잘못된 슬롯이거나 장비 인벤토리가 설정되지 않음");
             return false;
         }
 
-        // Move one item to equip inventory
-        if (items[fromSlot] != null && items[fromSlot].Quantity > 0)
+        // 장비 인벤토리로 아이템 하나 이동
+        if (_itemsList[fromSlot] != null && _itemsList[fromSlot].Quantity > 0)
         {
-            Debug.Log($"BasicInventory.MoveItemToEquip - Attempting to move item to equip inventory");
-            // Try to add to equip inventory at specified slot
-            if (equipInventory.AddItemToSlot(items[fromSlot].Rune, toSlot, 1))
+            Debug.Log($"BasicInventory.MoveItemToEquip - 장비 인벤토리로 아이템 이동 시도");
+            // 지정된 슬롯에 장비 인벤토리에 추가 시도
+            if (_equipInventory.AddItemToSlot(_itemsList[fromSlot].Rune, toSlot, 1))
             {
-                Debug.Log($"BasicInventory.MoveItemToEquip - Successfully added to equip inventory");
-                // Remove one item from source
-                items[fromSlot].RemoveQuantity(1);
-                if (items[fromSlot].Quantity <= 0)
+                Debug.Log($"BasicInventory.MoveItemToEquip - 장비 인벤토리에 성공적으로 추가됨");
+                // 소스에서 아이템 하나 제거
+                _itemsList[fromSlot].RemoveQuantity(1);
+                if (_itemsList[fromSlot].Quantity <= 0)
                 {
-                    items[fromSlot] = null;
+                    _itemsList[fromSlot] = null;
                 }
                 UpdateSlot(fromSlot);
                 return true;
             }
-            Debug.Log($"BasicInventory.MoveItemToEquip - Failed to add to equip inventory");
+            Debug.Log($"BasicInventory.MoveItemToEquip - 장비 인벤토리에 추가 실패");
         }
         return false;
     }
@@ -91,27 +91,27 @@ public class BasicInventory : BaseInventory
     {
         Debug.Log($"BasicInventory.MoveItem - From Slot: {fromSlot}, To Slot: {toSlot}");
         
-        if (fromSlot < 0 || fromSlot >= items.Count || toSlot < 0 || toSlot >= items.Count)
+        if (fromSlot < 0 || fromSlot >= _itemsList.Count || toSlot < 0 || toSlot >= _itemsList.Count)
         {
-            Debug.Log($"BasicInventory.MoveItem - Invalid slot indices");
+            Debug.Log($"BasicInventory.MoveItem - 잘못된 슬롯 인덱스");
             return false;
         }
 
-        // If both slots have items and they're the same type, stack them
-        if (items[fromSlot] != null && items[toSlot] != null && 
-            items[fromSlot].Rune.TID == items[toSlot].Rune.TID)
+        // 두 슬롯에 아이템이 있고 같은 타입이면 스택
+        if (_itemsList[fromSlot] != null && _itemsList[toSlot] != null && 
+            _itemsList[fromSlot].Rune.TID == _itemsList[toSlot].Rune.TID)
         {
-            Debug.Log($"BasicInventory.MoveItem - Stacking items");
-            items[toSlot].AddQuantity(items[fromSlot].Quantity);
-            items[fromSlot] = null;
+            Debug.Log($"BasicInventory.MoveItem - 아이템 스택");
+            _itemsList[toSlot].AddQuantity(_itemsList[fromSlot].Quantity);
+            _itemsList[fromSlot] = null;
         }
         else
         {
-            Debug.Log($"BasicInventory.MoveItem - Swapping items");
-            // Regular swap
-            InventoryItem temp = items[toSlot];
-            items[toSlot] = items[fromSlot];
-            items[fromSlot] = temp;
+            Debug.Log($"BasicInventory.MoveItem - 아이템 교환");
+            // 일반적인 교환
+            InventoryItem temp = _itemsList[toSlot];
+            _itemsList[toSlot] = _itemsList[fromSlot];
+            _itemsList[fromSlot] = temp;
         }
 
         UpdateSlot(fromSlot);

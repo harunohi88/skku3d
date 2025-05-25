@@ -5,23 +5,23 @@ public class InventoryTest : MonoBehaviour
 {
     [SerializeField] private BasicInventory _basicInventory;
     [SerializeField] private EquipInventory _equipInventory;
-    [SerializeField] private List<ARune> _runePrefabs; // List of rune prefabs to test with
+    [SerializeField] private List<ARune> _runePrefabsList; // 테스트용 룬 프리팹 목록
 
     private void Update()
     {
-        // Press 1 to add random rune
+        // 1번 키를 눌러 랜덤 룬 추가
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            if (_runePrefabs.Count > 0)
+            if (_runePrefabsList.Count > 0)
             {
-                int randomIndex = Random.Range(0, _runePrefabs.Count);
-                ARune randomRune = Instantiate(_runePrefabs[randomIndex]);
+                int randomIndex = Random.Range(0, _runePrefabsList.Count);
+                ARune randomRune = Instantiate(_runePrefabsList[randomIndex]);
                 AddRuneToInventory(randomRune);
                 Debug.Log($"Added rune: {randomRune.GetType().Name} (TID: {randomRune.TID})");
             }
         }
 
-        // Press 2 to check inventory contents
+        // 2번 키를 눌러 인벤토리 내용 확인
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             CheckInventoryContents();
@@ -35,7 +35,7 @@ public class InventoryTest : MonoBehaviour
 
     private void CheckInventoryContents()
     {
-        Debug.Log("=== Basic Inventory Contents ===");
+        Debug.Log("=== 기본 인벤토리 내용 ===");
         var runeList = _basicInventory.GetRuneList();
         if (runeList != null)
         {
@@ -52,10 +52,10 @@ public class InventoryTest : MonoBehaviour
         }
         else
         {
-            Debug.Log("No runes in basic inventory");
+            Debug.Log("기본 인벤토리에 룬이 없습니다");
         }
 
-        Debug.Log("=== Equip Inventory Contents ===");
+        Debug.Log("=== 장비 인벤토리 내용 ===");
 
         var test = _equipInventory.GetRuneAtSlot(0);
         if(test != null)
@@ -67,7 +67,7 @@ public class InventoryTest : MonoBehaviour
         }
         else
         {
-            Debug.Log("No rune in slot 0");
+            Debug.Log("슬롯 0에 룬이 없습니다");
         }
         var test2 = _equipInventory.GetRuneAtSlot(1);
         if(test2 != null)
@@ -79,7 +79,7 @@ public class InventoryTest : MonoBehaviour
         }
         else
         {
-            Debug.Log("No rune in slot 1");
+            Debug.Log("슬롯 1에 룬이 없습니다");
         }
         var test3 = _equipInventory.GetRuneAtSlot(2);
         if(test3 != null)
@@ -91,7 +91,7 @@ public class InventoryTest : MonoBehaviour
         }
         else
         {
-            Debug.Log("No rune in slot 2");
+            Debug.Log("슬롯 2에 룬이 없습니다");
         }
     }
 }

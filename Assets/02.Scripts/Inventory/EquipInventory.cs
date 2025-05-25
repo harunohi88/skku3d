@@ -2,55 +2,55 @@ using UnityEngine;
 
 public class EquipInventory : BaseInventory
 {
-    [SerializeField] private BasicInventory basicInventory;
+    [SerializeField] private BasicInventory _basicInventory;
 
     protected override void Awake()
     {
-        autoCreateSlots = false; // 기본적으로 수동 슬롯 배치 사용
+        _autoCreateSlots = false; // 기본적으로 수동 슬롯 배치 사용
         base.Awake();
     }
 
     public override bool AddItem(ARune rune, int quantity = 1)
     {
-        // Find empty slot
-        for (int i = 0; i < items.Count; i++)
+        // 빈 슬롯 찾기
+        for (int i = 0; i < _itemsList.Count; i++)
         {
-            if (items[i] == null)
+            if (_itemsList[i] == null)
             {
-                items[i] = new InventoryItem(rune, 1); // Always quantity 1 in equip inventory
+                _itemsList[i] = new InventoryItem(rune, 1); // 장비 인벤토리는 항상 수량 1
                 UpdateSlot(i);
                 return true;
             }
         }
 
-        return false; // No empty slots
+        return false; // 빈 슬롯 없음
     }
 
     public bool AddItemToSlot(ARune rune, int slotIndex, int quantity = 1)
     {
-        if (slotIndex < 0 || slotIndex >= items.Count)
+        if (slotIndex < 0 || slotIndex >= _itemsList.Count)
             return false;
 
-        // Check if slot is empty
-        if (items[slotIndex] == null)
+        // 슬롯이 비어있는지 확인
+        if (_itemsList[slotIndex] == null)
         {
-            items[slotIndex] = new InventoryItem(rune, 1); // Always quantity 1 in equip inventory
+            _itemsList[slotIndex] = new InventoryItem(rune, 1); // 장비 인벤토리는 항상 수량 1
             UpdateSlot(slotIndex);
             return true;
         }
 
-        return false; // Slot is not empty
+        return false; // 슬롯이 비어있지 않음
     }
 
     public override bool MoveItem(int fromSlot, int toSlot)
     {
-        if (fromSlot < 0 || fromSlot >= items.Count || toSlot < 0 || toSlot >= items.Count)
+        if (fromSlot < 0 || fromSlot >= _itemsList.Count || toSlot < 0 || toSlot >= _itemsList.Count)
             return false;
 
-        // Regular swap
-        InventoryItem temp = items[toSlot];
-        items[toSlot] = items[fromSlot];
-        items[fromSlot] = temp;
+        // 일반적인 교환
+        InventoryItem temp = _itemsList[toSlot];
+        _itemsList[toSlot] = _itemsList[fromSlot];
+        _itemsList[fromSlot] = temp;
 
         UpdateSlot(fromSlot);
         UpdateSlot(toSlot);
@@ -59,14 +59,14 @@ public class EquipInventory : BaseInventory
 
     public override void OnItemDoubleClick(int slotIndex)
     {
-        if (slotIndex < 0 || slotIndex >= items.Count || items[slotIndex] == null)
+        if (slotIndex < 0 || slotIndex >= _itemsList.Count || _itemsList[slotIndex] == null)
             return;
 
-        // Move item back to basic inventory
-        ARune rune = items[slotIndex].Rune;
-        if (basicInventory.AddItem(rune, 1))
+        // 아이템을 기본 인벤토리로 이동
+        ARune rune = _itemsList[slotIndex].Rune;
+        if (_basicInventory.AddItem(rune, 1))
         {
-            items[slotIndex] = null;
+            _itemsList[slotIndex] = null;
             UpdateSlot(slotIndex);
         }
     }
@@ -75,10 +75,10 @@ public class EquipInventory : BaseInventory
     // 모든 슬롯의 룬 정보를 배열로 반환
     public ARune[] GetEquippedRunes()
     {
-        ARune[] equippedRunes = new ARune[items.Count];
-        for (int i = 0; i < items.Count; i++)
+        ARune[] equippedRunes = new ARune[_itemsList.Count];
+        for (int i = 0; i < _itemsList.Count; i++)
         {
-            equippedRunes[i] = items[i]?.Rune;
+            equippedRunes[i] = _itemsList[i]?.Rune;
         }
         return equippedRunes;
     }*/
@@ -86,9 +86,9 @@ public class EquipInventory : BaseInventory
     // 특정 슬롯의 룬 정보를 반환
     public ARune GetRuneAtSlot(int slotIndex)
     {
-        if (slotIndex < 0 || slotIndex >= items.Count)
+        if (slotIndex < 0 || slotIndex >= _itemsList.Count)
             return null;
             
-        return items[slotIndex]?.Rune;
+        return _itemsList[slotIndex]?.Rune;
     }
 } 
