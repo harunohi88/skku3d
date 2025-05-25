@@ -50,6 +50,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         {
             _highlightObject.SetActive(true);
             _tooltipObject.SetActive(true);
+            _tooltipObject.transform.SetAsLastSibling();
             _tooltipNameText.text = $"Rune T{CurrentItem.Rune.TierValue}";
             _tooltipDescriptionText.text = CurrentItem.Rune.RuneDescription;
         }
