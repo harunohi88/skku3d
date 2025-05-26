@@ -13,6 +13,8 @@ public abstract class BaseInventory : MonoBehaviour
     protected List<InventoryItem> _itemsList;
     protected List<InventorySlot> _slotsList;
     
+    [SerializeField] protected Tooltip _tooltip;
+    
     protected virtual void Awake()
     {
         _itemsList = new List<InventoryItem>();
@@ -25,7 +27,7 @@ public abstract class BaseInventory : MonoBehaviour
             {
                 GameObject slotObj = Instantiate(_slotPrefab, _slotsParent);
                 InventorySlot slot = slotObj.GetComponent<InventorySlot>();
-                slot.Initialize(this, i);
+                slot.Initialize(this, i, _tooltip);
                 _slotsList.Add(slot);
                 _itemsList.Add(null);
             }
@@ -35,7 +37,7 @@ public abstract class BaseInventory : MonoBehaviour
             // 수동으로 배치된 슬롯 사용
             for (int i = 0; i < ManualSlotsList.Count; i++)
             {
-                ManualSlotsList[i].Initialize(this, i);
+                ManualSlotsList[i].Initialize(this, i, _tooltip);
                 _slotsList.Add(ManualSlotsList[i]);
                 _itemsList.Add(null);
             }

@@ -8,7 +8,6 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField] private Image _itemImage;
     [SerializeField] private TextMeshProUGUI _quantityText;
     [SerializeField] private GameObject _highlightObject;
-    [SerializeField] private GameObject _tooltipObject;
     [SerializeField] private TextMeshProUGUI _tooltipNameText;
     [SerializeField] private TextMeshProUGUI _tooltipDescriptionText;
 
@@ -18,12 +17,14 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private bool _isDragging;
     private Vector2 _dragOffset;
 
-    public void Initialize(BaseInventory inv, int index)
+    private Tooltip _tooltip;
+
+    public void Initialize(BaseInventory inv, int index, Tooltip tooltip)
     {
         _inventory = inv;
         _slotIndex = index;
         _highlightObject.SetActive(false);
-        _tooltipObject.SetActive(false);
+        _tooltip = tooltip;
     }
 
     public void UpdateSlot(InventoryItem item)
@@ -49,17 +50,18 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (CurrentItem != null && !CurrentItem.IsEmpty())
         {
             _highlightObject.SetActive(true);
-            _tooltipObject.SetActive(true);
-            _tooltipObject.transform.SetAsLastSibling();
-            _tooltipNameText.text = $"Rune T{CurrentItem.Rune.TierValue}";
-            _tooltipDescriptionText.text = CurrentItem.Rune.RuneDescription;
+            if (_tooltip != null)
+            {
+                _tooltip.Show($"Rune T{CurrentItem.Rune.TierValue}", CurrentItem.Rune.RuneDescription, transform as RectTransform);
+            }
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         _highlightObject.SetActive(false);
-        _tooltipObject.SetActive(false);
+        if (_tooltip != null)
+            _tooltip.Hide();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
