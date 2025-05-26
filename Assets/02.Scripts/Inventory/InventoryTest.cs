@@ -15,7 +15,8 @@ public class InventoryTest : MonoBehaviour
             if (_runePrefabsList.Count > 0)
             {
                 int randomIndex = Random.Range(0, _runePrefabsList.Count);
-                ARune randomRune = Instantiate(_runePrefabsList[randomIndex]);
+                //ARune randomRune = Instantiate(_runePrefabsList[randomIndex]);
+                ARune randomRune = RuneFactory.CreateRune(10000, 1);
                 AddRuneToInventory(randomRune);
                 Debug.Log($"Added rune: {randomRune.GetType().Name} (TID: {randomRune.TID})");
             }

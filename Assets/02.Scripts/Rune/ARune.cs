@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-public abstract class ARune : MonoBehaviour
+public abstract class ARune
 {
     public int TID;
     public Sprite Sprite;
@@ -10,13 +10,14 @@ public abstract class ARune : MonoBehaviour
     private int _currentTier;
 
     private RuneData _data;
-    
-    private void Start()
-    {
-        if (_data == null) LoadData();
-        Init(1);
-    }
 
+    public ARune(int tid, int tier)
+    {
+        TID = tid;
+     
+        Init(tier);
+    }
+    
     public void Init(int tier)
     {
         LoadData();
