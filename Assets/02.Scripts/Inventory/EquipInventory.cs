@@ -42,8 +42,25 @@ public class EquipInventory : BaseInventory
         return false; // 슬롯이 비어있지 않음
     }
 
+    public override void UpdateSlot(int index)
+    {
+        base.UpdateSlot(index);
+        // TODO: 룬이 장착되고 해제 될 때 마다 함수 호출예정----------------------------------------------------------
+        if(_itemsList[index] != null)
+        {
+            Debug.Log($"Equip Rune : {index} {_itemsList[index].Rune.TID}");
+        }
+        else
+        {
+            Debug.Log($"Unequip Rune : {index}");
+        }
+    }
+
     public override bool MoveItem(int fromSlot, int toSlot)
     {
+        // 같은 슬롯으로 이동 시도 시 실패 처리
+        if (fromSlot == toSlot)
+            return false;
         if (fromSlot < 0 || fromSlot >= _itemsList.Count || toSlot < 0 || toSlot >= _itemsList.Count)
             return false;
 

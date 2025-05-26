@@ -97,7 +97,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             
             if (hitObject != null)
             {
-                InventorySlot targetSlot = hitObject.GetComponent<InventorySlot>();
+                InventorySlot targetSlot = hitObject.GetComponentInParent<InventorySlot>();
                 Debug.Log($"OnEndDrag - Target Slot: {(targetSlot != null ? "Found" : "Not Found")}");
                 
                 if (targetSlot != null)

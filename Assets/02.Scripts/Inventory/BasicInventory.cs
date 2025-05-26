@@ -69,15 +69,14 @@ public class BasicInventory : BaseInventory
         if (_itemsList[fromSlot] != null && _itemsList[fromSlot].Quantity > 0)
         {
             Debug.Log($"BasicInventory.MoveItemToEquip - 장비 인벤토리로 아이템 이동 시도");
-            // 지정된 슬롯에 장비 인벤토리에 추가 시도
             if (_equipInventory.AddItemToSlot(_itemsList[fromSlot].Rune, toSlot, 1))
             {
                 Debug.Log($"BasicInventory.MoveItemToEquip - 장비 인벤토리에 성공적으로 추가됨");
-                // 소스에서 아이템 하나 제거
                 _itemsList[fromSlot].RemoveQuantity(1);
                 if (_itemsList[fromSlot].Quantity <= 0)
                 {
                     _itemsList[fromSlot] = null;
+                    SortInventory();
                 }
                 UpdateSlot(fromSlot);
                 return true;
