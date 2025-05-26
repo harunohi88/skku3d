@@ -441,7 +441,7 @@ MonoBehaviour:
   Health: 100
   Damage: 20
   MoveSpeed: 8
-  Type: 0
+  Type: 2
   TraceDistance: 10
   AttackDistance: 5
   AttackOutDistance: 8

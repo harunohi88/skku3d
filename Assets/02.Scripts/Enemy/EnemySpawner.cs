@@ -74,10 +74,11 @@ public class EnemySpawner : MonoBehaviour
             // 확률 적으로 basic이냐 엘리트냐 받아온다
             if(Random.Range(0f, 1f) < _eliteSpawnRate)
             {
-                /*
                 var enemy = EliteEnemyPool.Instance.Get();
-                EnemyList.Add(enemy);
-                */
+                enemy.Init(this);
+                EnemyTracker.Register(enemy.transform);
+
+                ResetPosition(enemy.gameObject);
             }
             else
             {

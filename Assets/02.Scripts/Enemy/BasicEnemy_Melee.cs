@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BasicEnemy_Spear : AEnemy
+public class BasicEnemy_Melee : AEnemy
 {
     public override void Init(EnemySpawner spawner)
     {
