@@ -45,10 +45,11 @@ public class DroppableItem : MonoBehaviour
         if (!IsCollected) transform.Rotate(Vector3.up, RotationSpeed * Time.deltaTime);
     }
 
-    public void Init(int tier, int amount, EItemType type)
+    public void Init(int tier, int amount, ARune rune, EItemType type)
     {
         _tier = tier;
         Type = type;
+        Rune = rune;
 
         if (type == EItemType.Rune) Rune = GetComponentInParent<ARune>();
         else Amount = amount;
