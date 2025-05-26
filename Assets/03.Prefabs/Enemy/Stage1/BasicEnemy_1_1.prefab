@@ -265,6 +265,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2134459808655081850}
   - component: {fileID: 6333590883013239695}
+  - component: {fileID: 9196929365999012952}
   m_Layer: 7
   m_Name: SM_Chr_Scarecrow_01
   m_TagString: Untagged
@@ -392,6 +393,19 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.000000059604645, y: 0.8434789, z: -0.045883328}
     m_Extent: {x: 1.0245616, y: 0.9445722, z: 0.27280745}
   m_DirtyAABB: 0
+--- !u!114 &9196929365999012952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943523491068539544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0254bb01a7082e4e9a6962b9947feba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitEmissionColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1132603984739172305
 GameObject:
   m_ObjectHideFlags: 0
@@ -1598,7 +1612,7 @@ MonoBehaviour:
   AttackDistance: 3
   AttackOutDistance: 5
   AttackCooltime: 1
-  DamagedTime: 0.5
+  DamagedTime: 0.3
   DeathTime: 2
   ThisSpawner: {fileID: 0}
   LayerMask:
@@ -1608,6 +1622,7 @@ MonoBehaviour:
   AttackPosition: {fileID: 6771006797817667778}
   SkillObject: {fileID: 0}
   EnemyRotation: {fileID: 0}
+  EnemyHitEffect: {fileID: 0}
 --- !u!195 &488686211954916071
 NavMeshAgent:
   m_ObjectHideFlags: 0
