@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class SpinSlashSkill : MonoBehaviour, ISkill
 {
+    public ARune Rune;
     public string SkillName = "SpinSlash";
     public float AttackRange = 3f; // 공격 반경
     public bool IsAvailable = true;
@@ -47,9 +48,27 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
     public void OnSkillAnimationEnd()
     {
         _playerManager.PlayerState = EPlayerState.None;
-        //쿨다운 매니저에 등록
         _cooldownManager.StartCooldown(_cooldownTime, SetAvailable);
         _playerManager.PlayerSkill.CurrentSkill = null;
+    }
+
+    public void EquipRune(ARune rune)
+    {
+        if (Rune != null)
+        {
+            UnequipRune();
+        }
+
+        // 룬 효과 적용하는 로직 (스탯에 영향을 주는 경우)
+        Rune = rune;
+    }
+
+    public void UnequipRune()
+    {
+        if (Rune == null) return;
+
+        // 룬 효과 제거하는 로직 (스탯에 영향을 주는 경우)
+        Rune = null;
     }
 
     public void Cancel()

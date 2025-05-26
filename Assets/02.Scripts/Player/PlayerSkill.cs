@@ -31,15 +31,16 @@ public class PlayerSkill : MonoBehaviour
     public void UseSkill(int slot)
     {
         if (slot < 0 || slot >= _skillList.Count) return;
+
+        if (!IsTargeting && CurrentSkill != null) return;
         
-        
-        // 스킬 타겟팅중 발생하는 입력을 처리할 로직이 필요함
         _skillList[slot]?.Execute();
     }
 
     public void Cancel()
     {
         CurrentSkill?.Cancel();
+        CurrentSkill = null;
         IsTargeting = false;
     }
 }

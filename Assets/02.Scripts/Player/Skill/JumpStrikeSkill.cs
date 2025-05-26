@@ -6,7 +6,8 @@ using UnityEngine;
 public class JumpStrikeSkill : MonoBehaviour, ISkill
 {
     public GameObject IndicatorPrefab;
-    public float Range; // 공격 반경
+    public ARune Rune;
+    public float Range;
     public float TargetAreaRadius;
     public float SkillDamage;
     public bool IsTargeting = false;
@@ -114,7 +115,28 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
     {
         Debug.Log("Jump Strike End");
         PlayerManager.Instance.PlayerState = EPlayerState.None;
-        _cooldownManager.StartCooldown(CooldownTime, SetAvailable);
+        _playerSkill.CurrentSkill = null;
+        _cooldownManager.StartCooldown(CooldownTime, SetAvailable); // 쿨다운 등록 스킬 시전시점으로 변경해야됨
+    }
+    
+    public void EquipRune(ARune rune)
+    {
+        if (Rune != null)
+        {
+            UnequipRune();
+        }
+
+        // 룬 효과 적용하는 로직 (스탯에 영향을 주는 경우)
+        Rune = rune;
+        
+    }
+
+    public void UnequipRune()
+    {
+        if (Rune == null) return;
+
+        // 룬 효과 제거하는 로직 (스탯에 영향을 주는 경우)
+        Rune = null;
     }
 
     public void Cancel()
