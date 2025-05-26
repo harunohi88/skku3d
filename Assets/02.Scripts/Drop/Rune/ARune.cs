@@ -13,8 +13,7 @@ public abstract class ARune : MonoBehaviour
     
     private void Start()
     {
-        if (_data == null) LoadData();
-        Init(1);
+        if (_data == null) Global.Instance.OnDataLoaded += LoadData;
     }
 
     public void Init(int tier)

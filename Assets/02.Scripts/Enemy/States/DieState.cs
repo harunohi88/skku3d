@@ -29,7 +29,7 @@ public class DieState : IState<AEnemy>
                     DropTable.Instance.DropRandomRune(enemy.transform.position, enemy.Type);
                     break;
             }
-
+            EnemyTracker.Unregister(enemy.transform);
 
             enemy.gameObject.SetActive(false);
             Debug.Log("사라짐");

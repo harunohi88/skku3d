@@ -50,7 +50,6 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     public virtual void Init(EnemySpawner spawner)
     {
         ThisSpawner = spawner;
-
         if(TimeManager.Instance.DifficultyMultiplier != null)
         {
             MaxHealth = (int)(MaxHealth * TimeManager.Instance.DifficultyMultiplier.EnemyHealthMultiplier);

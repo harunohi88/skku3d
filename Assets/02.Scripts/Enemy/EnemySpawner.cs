@@ -83,6 +83,8 @@ public class EnemySpawner : MonoBehaviour
             {
                 var enemy = BasicEnemyPool.Instance.Get();
                 enemy.Init(this);
+                EnemyTracker.Register(enemy.transform);
+
                 ResetPosition(enemy.gameObject);
             }
         }
