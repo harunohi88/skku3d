@@ -54,8 +54,6 @@ public class MapIconRenderer : MonoBehaviour
         u = Mathf.Clamp01(u);
         v = Mathf.Clamp01(v);
 
-        Debug.Log($"{target.name} UV: ({u:F2}, {v:F2}) from world pos ({pos.x:F1}, {pos.z:F1}) | MapMin: {min} Max: {max}");
-
         float width = IconsContainer.rect.width;
         float height = IconsContainer.rect.height;
 
