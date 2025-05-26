@@ -6,6 +6,7 @@ public class PlayerMove : MonoBehaviour
 {
     [Header("Movement Speed")]
     public float MoveSpeed;
+    public float Gravity = -9.81f;
 
     [Header("Roll")]
     public float RollSpeed;
@@ -18,6 +19,8 @@ public class PlayerMove : MonoBehaviour
     private Camera _mainCamera;
     private CharacterController _characterController;
     private Animator _animator;
+    private float _verticalVelocity;
+    private bool _isGrounded;
 
     private void Awake()
     {
@@ -35,9 +38,21 @@ public class PlayerMove : MonoBehaviour
     {
         _animator.SetFloat("Movement", inputDirection.magnitude);
 
+        _isGrounded = _characterController.isGrounded;
+
+        if (_isGrounded && _verticalVelocity < 0)
+        {
+            _verticalVelocity = -1f; // 살짝 붙여주는 느낌
+        }
+        else
+        {
+            _verticalVelocity += Gravity * Time.deltaTime;
+        }
+
         if (inputDirection.sqrMagnitude < 0.01f)
         {
-            _characterController.Move(Vector3.zero);
+            Vector3 fallOnly = new Vector3(0, _verticalVelocity, 0);
+            _characterController.Move(fallOnly * Time.deltaTime);
             return;
         }
 
@@ -53,8 +68,12 @@ public class PlayerMove : MonoBehaviour
         if (move != Vector3.zero)
         {
             Model.transform.forward = move;
-            _characterController.Move(move * MoveSpeed * Time.deltaTime);
         }
+
+        Vector3 totalMove = move * MoveSpeed;
+        totalMove.y = _verticalVelocity;
+
+        _characterController.Move(totalMove * Time.deltaTime);
     }
 
     public void Roll(Vector2 direction)
