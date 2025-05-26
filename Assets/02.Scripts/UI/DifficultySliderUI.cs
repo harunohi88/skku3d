@@ -12,10 +12,7 @@ public class DifficultySliderUI : MonoBehaviour
     private void Start()
     {
         _startPos = _diffIndexTransform.anchoredPosition;
-        float _indexWidth = _diffIndexTransform.rect.width;
-        float _frameWidth = _diffFrameTransform.rect.width;
-        float _slideRange = _indexWidth - _frameWidth;
-        _endPos = _startPos + new Vector2(-_slideRange, 0f);
+        _endPos = _startPos + new Vector2(-_diffIndexTransform.rect.width, 0f);
     }
 
     private void Update()

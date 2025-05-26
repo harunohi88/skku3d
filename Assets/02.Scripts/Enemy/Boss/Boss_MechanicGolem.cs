@@ -1,9 +1,7 @@
-using NUnit.Framework;
-using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.UIElements;
+using UnityEngine;
 
 [RequireComponent(typeof(BossAIManager))]
 public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
@@ -26,12 +24,14 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
     {
         base.Init(spawner);
         _stateMachine.ChangeState(new BossIdleState());
+        BossUIManager.Instance.SetBossUI("Lumen", MaxHealth); ///// HealthBar 추가한 코드
     }
 
     public override void TakeDamage(Damage damage)
     {
         if (_stateMachine.CurrentState is BossDieState) return;
         Health -= damage.Value;
+        BossUIManager.Instance.UPdateHealth(Health); ///// HealthBar 추가한 코드
 
         // 맞았을때 이펙트
 
@@ -55,7 +55,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
     {
         WeaponCollider.enabled = false;
         _baseAttackCount++;
-        if(_baseAttackCount >= 2)
+        if (_baseAttackCount >= 2)
         {
             _baseAttackCount = 0;
             BossAIManager.Instance.SetLastFinishedTime(0, Time.time);
@@ -69,7 +69,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
         if (patternData != null)
         {
             ClusterInstantiate(
-                transform.position, 
+                transform.position,
                 patternData.MaxCount,
                 patternData.Range,
                 patternData.Range
@@ -90,7 +90,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
             WeaponCollider.enabled = true;
             EnemyRotation.IsFound = false;
         }
-        else if(_attackCount == 1)
+        else if (_attackCount == 1)
         {
             EnemyPatternData _patternData = BossAIManager.Instance.GetPatternData(2, 1);
             List<Collider> colliderList = Physics.OverlapSphere(transform.position, _patternData.Range, LayerMask).ToList();
@@ -111,7 +111,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
     public void OnSpecialAttack02End()
     {
         _attackCount++;
-        if(_attackCount >= 2)
+        if (_attackCount >= 2)
         {
             WeaponCollider.enabled = false;
             BossAIManager.Instance.SetLastFinishedTime(2, Time.time);
@@ -143,14 +143,14 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
             float size = ((i + 1) / 3.0f) * patternData.Range;
             float innerRange = i / (float)(i + 1);
             indicatorList.Add(BossIndicatorManager.Instance.SetCircularIndicator(
-                position, 
-                size, 
-                size, 
-                0, 
-                patternData.Angle, 
-                innerRange, 
-                castingTime, 
-                0, 
+                position,
+                size,
+                size,
+                0,
+                patternData.Angle,
+                innerRange,
+                castingTime,
+                0,
                 false
             ));
 
@@ -159,7 +159,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
             indicatorList[i].transform.rotation = Quaternion.Euler(fixedEuler);
         }
 
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             indicatorList[i].Ready(castingTime);
             yield return new WaitForSeconds(castingTime);
@@ -172,10 +172,10 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
             if (playerObject)
             {
                 Vector3 directionToTarget = (playerObject.transform.position - position).normalized;
-                if(Vector3.Dot(forward, directionToTarget) > Mathf.Cos(patternData.Angle))
+                if (Vector3.Dot(forward, directionToTarget) > Mathf.Cos(patternData.Angle))
                 {
                     float distance = Vector3.Distance(playerObject.transform.position, position);
-                    if(distance > (i / (float)(i + 1)) * radius)
+                    if (distance > (i / (float)(i + 1)) * radius)
                     {
                         Debug.Log("Pattern 3 데미지 발생");
                     }
@@ -211,7 +211,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
         int placed = 0;
         var patternData = BossAIManager.Instance.GetPatternData(1);
 
-        while(placed < count)
+        while (placed < count)
         {
             float angle = Random.Range(0f, Mathf.PI * 2);
             float radius = Mathf.Sqrt(Random.Range(0, 1f));
