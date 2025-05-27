@@ -45,7 +45,7 @@ public class Item : MonoBehaviour
         if (!IsCollected) transform.Rotate(Vector3.up, RotationSpeed * Time.deltaTime);
     }
 
-    public void Init(int tier, int amount, ARune rune, EItemType type)
+    public void Init(int tier, int amount, Rune rune, EItemType type)
     {
         _tier = tier;
         Type = type;
