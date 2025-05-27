@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a4584fff780f3d841b159c7de9745d4a
+guid: 7e582f9bf86dee94aaffb36cadf2ad63
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Roaring
+      name: Sword And Sheid Casting
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 162
+      lastFrame: 89
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
