@@ -1,14 +1,13 @@
-using NUnit.Framework;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections.Generic;
 
 [RequireComponent(typeof(EnemyRotation))]
 public abstract class AEnemy : MonoBehaviour, IDamageable
 {
-    public int MaxHealth;
-    public int Health;
-    public int Damage;
+    public float MaxHealth;
+    public float Health;
+    public float Damage;
     public float MoveSpeed = 3.5f;
 
     public EnemyType Type;
@@ -35,6 +34,9 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     public GameObject SkillObject;
 
     public EnemyRotation EnemyRotation;
+    public EnemyHitEffect EnemyHitEffect;
+
+    public Action OnStatChanged;
 
     protected virtual void Awake()
     {
@@ -42,6 +44,7 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
         _characterController = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
         EnemyRotation = GetComponent<EnemyRotation>();
+        EnemyHitEffect = GetComponentInChildren<EnemyHitEffect>();
         Agent.speed = MoveSpeed;
     }
 
@@ -49,7 +52,7 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     {
         ThisSpawner = spawner;
 
-        if(TimeManager.Instance.DifficultyMultiplier != null)
+        if (TimeManager.Instance.DifficultyMultiplier != null)
         {
             MaxHealth = (int)(MaxHealth * TimeManager.Instance.DifficultyMultiplier.EnemyHealthMultiplier);
             Damage = (int)(Damage * TimeManager.Instance.DifficultyMultiplier.EnemyDamageMultiplier);
@@ -73,15 +76,15 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     {
         if (_stateMachine.CurrentState is DieState) return;
         Health -= damage.Value;
-
+        OnStatChanged?.Invoke();
         // 맞았을때 이펙트
 
-        if(Health <= 0)
+        if (Health <= 0)
         {
             ChangeState(new DieState());
             return;
         }
-        
+
         ChangeState(new DamagedState());
     }
 

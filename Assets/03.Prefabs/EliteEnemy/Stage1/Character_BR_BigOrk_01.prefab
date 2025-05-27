@@ -171,6 +171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4184543053477360}
   - component: {fileID: 137682818761148812}
+  - component: {fileID: 6258159298340923243}
   m_Layer: 0
   m_Name: Character_Big_Ork_01
   m_TagString: Untagged
@@ -298,6 +299,18 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.0093589425, y: 0.9434749, z: 0.013898134}
     m_Extent: {x: 1.4619842, y: 1.0403415, z: 0.4199332}
   m_DirtyAABB: 0
+--- !u!114 &6258159298340923243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070804649064472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0254bb01a7082e4e9a6962b9947feba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1073814223139560
 GameObject:
   m_ObjectHideFlags: 0

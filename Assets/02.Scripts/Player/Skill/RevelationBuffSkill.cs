@@ -3,6 +3,7 @@ using UnityEngine;
 public class RevelationBuffSkill : MonoBehaviour, ISkill
 {
     [SerializeField] CooldownManager _cooldownManager;
+    public Rune Rune;
     private Animator _animator;
     public string SkillName = "RevelationBuff";
 
@@ -71,6 +72,26 @@ public class RevelationBuffSkill : MonoBehaviour, ISkill
 
     public void OnSkillAnimationEnd()
     {
+    }
+
+    public void EquipRune(Rune rune)
+    {
+        if (Rune != null)
+        {
+            UnequipRune();
+        }
+
+        // 룬 효과 적용하는 로직 (스탯에 영향을 주는 경우)
+        Rune = rune;
+        
+    }
+
+    public void UnequipRune()
+    {
+        if (Rune == null) return;
+
+        // 룬 효과 제거하는 로직 (스탯에 영향을 주는 경우)
+        Rune = null;
     }
 
     public void Cancel()

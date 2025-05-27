@@ -137,6 +137,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4581575867686328}
   - component: {fileID: 137007628262973810}
+  - component: {fileID: 5497551784345924863}
   m_Layer: 0
   m_Name: Character_ElementalGolem_01
   m_TagString: Untagged
@@ -264,6 +265,18 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.00013124943, y: 0.87951803, z: 0.024444416}
     m_Extent: {x: 1.4533635, y: 0.99762917, z: 0.42728543}
   m_DirtyAABB: 0
+--- !u!114 &5497551784345924863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099091925308708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0254bb01a7082e4e9a6962b9947feba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1100281123452230
 GameObject:
   m_ObjectHideFlags: 0

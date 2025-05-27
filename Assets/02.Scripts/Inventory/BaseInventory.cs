@@ -47,7 +47,7 @@ public abstract class BaseInventory : MonoBehaviour
         UpdateAllSlots();
     }
 
-    public virtual bool AddItem(ARune rune, int quantity = 1)
+    public virtual bool AddItem(Rune rune, int quantity = 1)
     {
         return false; // 파생 클래스에서 구현해야 함
     }
@@ -101,9 +101,9 @@ public abstract class BaseInventory : MonoBehaviour
         // 파생 클래스에서 구현해야 함
     }
 
-    public List<ARune> GetRuneList()
+    public List<Rune> GetRuneList()
     {
-        List<ARune> runeList = new List<ARune>();
+        List<Rune> runeList = new List<Rune>();
         foreach (var item in _itemsList)
         {
             if (item != null && !item.IsEmpty())

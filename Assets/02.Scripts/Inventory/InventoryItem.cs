@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class InventoryItem
 {
-    public ARune Rune { get; private set; }
+    public Rune Rune { get; private set; }
     public int Quantity { get; private set; }
 
-    public InventoryItem(ARune rune, int quantity = 1)
+    public InventoryItem(Rune rune, int quantity = 1)
     {
         Rune = rune;
         Quantity = quantity;
