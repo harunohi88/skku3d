@@ -3,7 +3,7 @@ using UnityEngine;
 public class RevelationBuffSkill : MonoBehaviour, ISkill
 {
     [SerializeField] CooldownManager _cooldownManager;
-    public ARune Rune;
+    public Rune Rune;
     private Animator _animator;
     public string SkillName = "RevelationBuff";
 
@@ -74,7 +74,7 @@ public class RevelationBuffSkill : MonoBehaviour, ISkill
     {
     }
 
-    public void EquipRune(ARune rune)
+    public void EquipRune(Rune rune)
     {
         if (Rune != null)
         {

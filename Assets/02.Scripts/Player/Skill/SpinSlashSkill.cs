@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SpinSlashSkill : MonoBehaviour, ISkill
 {
-    public ARune Rune;
+    public Rune Rune;
     public string SkillName = "SpinSlash";
     public float AttackRange = 3f; // 공격 반경
     public bool IsAvailable = true;
@@ -52,7 +52,7 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         _playerManager.PlayerSkill.CurrentSkill = null;
     }
 
-    public void EquipRune(ARune rune)
+    public void EquipRune(Rune rune)
     {
         if (Rune != null)
         {

@@ -24,7 +24,7 @@ public class DroppableItem : MonoBehaviour
     public float GetDuration = 0.25f;
 
     public EItemType Type;
-    public ARune Rune;
+    public Rune Rune;
     public int Amount;
 
     public bool IsCollected = false;
@@ -50,7 +50,7 @@ public class DroppableItem : MonoBehaviour
         _tier = tier;
         Type = type;
 
-        if (type == EItemType.Rune) Rune = GetComponentInParent<ARune>();
+        if (type == EItemType.Rune) Rune = GetComponentInParent<Rune>();
         else Amount = amount;
 
         for (int i = 0; i < SparkleEffectList.Count; i++)

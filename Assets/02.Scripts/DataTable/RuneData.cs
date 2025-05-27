@@ -14,14 +14,17 @@ public class RuneData
     ///<summary>룬 타입</summary>
     public readonly RuneType RuneType;
 
-    ///<summary>룬 발동 타입</summary>
-    public readonly RuneTriggerType RuneTriggerType;
-
-    ///<summary>룬 데이터 타입</summary>
-    public readonly RuneDataType RuneDataType;
-
     ///<summary>룬 설명</summary>
     public readonly string RuneDescription;
+
+    ///<summary>룬 발동 타입</summary>
+    public readonly string RuneTriggerType;
+
+    ///<summary>룬 효과 타입</summary>
+    public readonly string RuneEffectType;
+
+    ///<summary>스탯 변경 타입</summary>
+    public readonly string StatModifierType;
 
     ///<summary>티어1 값</summary>
     private readonly float Tier1;
@@ -50,7 +53,7 @@ public class RuneData
     ///<summary>발동 확률</summary>
     public readonly int Probability;
 
-    ///<summary>_tier 리스트</summary>
+    ///<summary>Tier 리스트</summary>
     public readonly List<float> TierList = new List<float>();
     public RuneData(BinaryReader reader)
     {
@@ -58,10 +61,14 @@ public class RuneData
         int runename = reader.ReadInt32();
         RuneName = Encoding.UTF8.GetString(reader.ReadBytes(runename));
         RuneType = (RuneType)reader.ReadInt32();
-        RuneTriggerType = (RuneTriggerType)reader.ReadInt32();
-        RuneDataType = (RuneDataType)reader.ReadInt32();
         int runedescription = reader.ReadInt32();
         RuneDescription = Encoding.UTF8.GetString(reader.ReadBytes(runedescription));
+        int runetriggertype = reader.ReadInt32();
+        RuneTriggerType = Encoding.UTF8.GetString(reader.ReadBytes(runetriggertype));
+        int runeeffecttype = reader.ReadInt32();
+        RuneEffectType = Encoding.UTF8.GetString(reader.ReadBytes(runeeffecttype));
+        int statmodifiertype = reader.ReadInt32();
+        StatModifierType = Encoding.UTF8.GetString(reader.ReadBytes(statmodifiertype));
         Tier1 = reader.ReadSingle();
         Tier2 = reader.ReadSingle();
         Tier3 = reader.ReadSingle();

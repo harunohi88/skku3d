@@ -7,60 +7,70 @@ public enum RuneType
     Dynamic = 1,
 }
 
-public enum RuneDataType
+public enum RuneEffectType
 {
-    ///<summary>회복</summary>
-    Recovery = 0,
-    ///<summary>공격</summary>
-    Damage = 1,
-    ///<summary>쿨타임</summary>
-    Cooltime = 2,
-    ///<summary>이동속도</summary>
-    MoveSpeed = 3,
-    ///<summary>공격속도</summary>
-    AttackSpeed = 4,
-    ///<summary>치명타 피해</summary>
-    CriticalDamage = 5,
-    ///<summary>범위</summary>
-    Range = 6,
-    ///<summary>투사체</summary>
-    Projectile = 7,
-    ///<summary>체력</summary>
-    Health = 8,
-    ///<summary>무적</summary>
-    Invincible = 9,
-    ///<summary>적</summary>
-    Enemy = 10,
-    ///<summary>치명타 확률</summary>
-    CriticalChance = 11,
+    ///<summary>없음</summary>
+    None = 0,
+    ///<summary>체력 회복</summary>
+    RecoverEffect = 1,
+    ///<summary>이동 속도 증가</summary>
+    MoveSpeedBuffEffect = 2,
+    ///<summary>피해 증가</summary>
+    DamageBuffEffect = 3,
+    ///<summary>치명타 확률 증가</summary>
+    CriticalChanceBuffEffect = 4,
+    ///<summary>치명타 피해 증가</summary>
+    CriticalDamageBuffEffect = 5,
+    ///<summary>최대 체력 증가</summary>
+    HealthIncreaseEffect = 6,
+    ///<summary>스킬 범위 증가</summary>
+    RangeBuffEffect = 7,
+    ///<summary>쿨타임 감소</summary>
+    CooldownReductionEffect = 8,
+    ///<summary>투사체 수 증가</summary>
+    ProjectileCountEffect = 9,
+    ///<summary>흡혈 (피해량 비례 회복)</summary>
+    VampiricEffect = 10,
+    ///<summary>체력 기반 피해 증가</summary>
+    HPScalingDamageEffect = 11,
+}
+
+public enum StatModifierType
+{
+    ///<summary>없음</summary>
+    None = 0,
+    ///<summary>최대 체력 증가</summary>
+    MaxHealthModifier = 1,
+    ///<summary>이동 속도 증가</summary>
+    MoveSpeedModifier = 2,
+    ///<summary>투사체 수 증가</summary>
+    ProjectileModifier = 3,
+    ///<summary>치명타 확률 증가</summary>
+    CriticalChanceModifier = 4,
+    ///<summary>치명타 피해 증가</summary>
+    CriticalDamageModifier = 5,
+    ///<summary>스킬 범위 증가</summary>
+    RangeModifier = 6,
 }
 
 public enum RuneTriggerType
 {
-    ///<summary>일반</summary>
-    General = 0,
+    ///<summary>없음</summary>
+    None = 0,
     ///<summary>스킬 사용 시</summary>
-    Skill = 1,
-    ///<summary>시간에 따라</summary>
-    Time = 2,
-    ///<summary>적 체력</summary>
-    EnemyHealth = 3,
-    ///<summary>거리</summary>
-    Distance = 4,
-    ///<summary>적 처치</summary>
-    Kill = 5,
-    ///<summary>데미지</summary>
-    Damage = 6,
-    ///<summary>치명타</summary>
-    Critical = 7,
-    ///<summary>보스</summary>
-    Boss = 8,
-    ///<summary>거리 안</summary>
-    InDistance = 9,
-    ///<summary>거리 밖</summary>
-    OutDistance = 10,
-    ///<summary>죽음</summary>
-    Death = 11,
+    OnSkillUseTrigger = 1,
+    ///<summary>주기적 발동</summary>
+    OnTimeElapsedTrigger = 2,
+    ///<summary>적 체력 조건에 따라</summary>
+    OnEnemyHealthConditionTrigger = 3,
+    ///<summary>근접 여부</summary>
+    OnDistanceCheckTrigger = 4,
+    ///<summary>치명타 시</summary>
+    OnCriticalHitTrigger = 5,
+    ///<summary>적 타격 시</summary>
+    OnEnemyDamagedTrigger = 6,
+    ///<summary>보스 대상</summary>
+    OnBossHitTrigger = 7,
 }
 
 public enum EnemyAudioType

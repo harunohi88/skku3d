@@ -6,7 +6,7 @@ public class BasicInventory : BaseInventory
 {
     [SerializeField] private EquipInventory _equipInventory;
 
-    public override bool AddItem(ARune rune, int quantity = 1)
+    public override bool AddItem(Rune rune, int quantity = 1)
     {
         // 동일한 룬의 기존 스택 찾기
         for (int i = 0; i < _itemsList.Count; i++)

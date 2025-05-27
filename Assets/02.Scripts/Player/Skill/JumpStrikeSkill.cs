@@ -6,7 +6,7 @@ using UnityEngine;
 public class JumpStrikeSkill : MonoBehaviour, ISkill
 {
     public GameObject IndicatorPrefab;
-    public ARune Rune;
+    public Rune Rune;
     public float Range;
     public float TargetAreaRadius;
     public float SkillDamage;
@@ -119,7 +119,7 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
         _cooldownManager.StartCooldown(CooldownTime, SetAvailable); // 쿨다운 등록 스킬 시전시점으로 변경해야됨
     }
     
-    public void EquipRune(ARune rune)
+    public void EquipRune(Rune rune)
     {
         if (Rune != null)
         {

@@ -10,7 +10,7 @@ public class EquipInventory : BaseInventory
         base.Awake();
     }
 
-    public override bool AddItem(ARune rune, int quantity = 1)
+    public override bool AddItem(Rune rune, int quantity = 1)
     {
         // 빈 슬롯 찾기
         for (int i = 0; i < _itemsList.Count; i++)
@@ -26,7 +26,7 @@ public class EquipInventory : BaseInventory
         return false; // 빈 슬롯 없음
     }
 
-    public bool AddItemToSlot(ARune rune, int slotIndex, int quantity = 1)
+    public bool AddItemToSlot(Rune rune, int slotIndex, int quantity = 1)
     {
         if (slotIndex < 0 || slotIndex >= _itemsList.Count)
             return false;
@@ -80,7 +80,7 @@ public class EquipInventory : BaseInventory
             return;
 
         // 아이템을 기본 인벤토리로 이동
-        ARune rune = _itemsList[slotIndex].Rune;
+        Rune rune = _itemsList[slotIndex].Rune;
         if (_basicInventory.AddItem(rune, 1))
         {
             _itemsList[slotIndex] = null;
@@ -101,7 +101,7 @@ public class EquipInventory : BaseInventory
     }*/
 
     // 특정 슬롯의 룬 정보를 반환
-    public ARune GetRuneAtSlot(int slotIndex)
+    public Rune GetRuneAtSlot(int slotIndex)
     {
         if (slotIndex < 0 || slotIndex >= _itemsList.Count)
             return null;
