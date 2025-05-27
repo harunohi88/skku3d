@@ -1,0 +1,13 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: EliteEnemyController_Hammer
+  m_Controller: {fileID: 9100000, guid: 396ade59a4d4e9347aabdf6a2e60692d, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: -203655887218126122, guid: 9a1e9e0becebd7e4d8e30cd95219797e, type: 3}
+    m_OverrideClip: {fileID: 3094330708855449807, guid: 83df4d5dafed0644cab3c8e9c682b952, type: 3}
