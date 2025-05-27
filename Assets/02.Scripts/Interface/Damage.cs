@@ -2,6 +2,7 @@ using UnityEngine;
 
 public struct Damage
 {
-    public int Value;
+    public float Value;
+    public bool IsCritical;
     public GameObject From;
 }

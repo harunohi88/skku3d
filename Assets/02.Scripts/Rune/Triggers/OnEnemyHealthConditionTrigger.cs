@@ -12,6 +12,11 @@ public class OnEnemyHealthConditionTrigger : ARuneTrigger
     public override bool Trigger(RuneExecuteContext context)
     {
         AEnemy target = context.TargetEnemy;
+        
+        if (target == null || target.Health <= 0)
+        {
+            return false;
+        }
 
         return (_bound < target.Health / target.MaxHealth);
     }
