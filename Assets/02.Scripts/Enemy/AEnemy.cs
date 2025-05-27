@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -34,6 +35,8 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
 
     public EnemyRotation EnemyRotation;
     public EnemyHitEffect EnemyHitEffect;
+
+    public Action OnStatChanged;
 
     protected virtual void Awake()
     {
@@ -73,7 +76,7 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     {
         if (_stateMachine.CurrentState is DieState) return;
         Health -= damage.Value;
-
+        OnStatChanged?.Invoke();
         // 맞았을때 이펙트
 
         if (Health <= 0)
