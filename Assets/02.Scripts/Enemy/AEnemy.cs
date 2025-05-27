@@ -5,9 +5,9 @@ using UnityEngine.AI;
 [RequireComponent(typeof(EnemyRotation))]
 public abstract class AEnemy : MonoBehaviour, IDamageable
 {
-    public int MaxHealth;
-    public int Health;
-    public int Damage;
+    public float MaxHealth;
+    public float Health;
+    public float Damage;
     public float MoveSpeed = 3.5f;
 
     public EnemyType Type;
