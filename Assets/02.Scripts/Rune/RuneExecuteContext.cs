@@ -8,6 +8,5 @@ public struct RuneExecuteContext
     public AEnemy TargetEnemy;
     public float DistanceToTarget;
     public float TargetHelthPercentage;
-    public bool IsBoss;
     public bool IsKill;
 }

@@ -85,8 +85,8 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
         }
 
         // 마지막 위치 정렬 보정 (선택)
-        Vector3 finalDelta = destination - transform.position;
-        _characterController.Move(finalDelta);
+        // Vector3 finalDelta = destination - transform.position;
+        // _characterController.Move(finalDelta);
     }
 
     private List<Collider> GetCollidersInTargetArea()

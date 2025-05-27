@@ -39,19 +39,19 @@ public class RuneData
     public readonly float Time;
 
     ///<summary>체력 퍼센트</summary>
-    public readonly int HealthPercent;
+    public readonly float HealthPercent;
 
     ///<summary>치명타 확률</summary>
-    public readonly int CriticalChance;
+    public readonly float CriticalChance;
 
     ///<summary>거리</summary>
     public readonly float Distance;
 
     ///<summary>데미지 퍼센트</summary>
-    public readonly int DamagePercent;
+    public readonly float DamagePercent;
 
     ///<summary>발동 확률</summary>
-    public readonly int Probability;
+    public readonly float Probability;
 
     ///<summary>Tier 리스트</summary>
     public readonly List<float> TierList = new List<float>();
@@ -73,11 +73,11 @@ public class RuneData
         Tier2 = reader.ReadSingle();
         Tier3 = reader.ReadSingle();
         Time = reader.ReadSingle();
-        HealthPercent = reader.ReadInt32();
-        CriticalChance = reader.ReadInt32();
+        HealthPercent = reader.ReadSingle();
+        CriticalChance = reader.ReadSingle();
         Distance = reader.ReadSingle();
-        DamagePercent = reader.ReadInt32();
-        Probability = reader.ReadInt32();
+        DamagePercent = reader.ReadSingle();
+        Probability = reader.ReadSingle();
 
         LinkTable();
     }
