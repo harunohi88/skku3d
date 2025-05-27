@@ -19,9 +19,6 @@ public class DropTable : BehaviourSingleton<DropTable>
     public float BossTier1DropRate = 0f;
     public float BossTier2DropRate = 0.7f;
 
-    public GameObject RunePrefab;
-
-
     [Header("골드 드랍")]
     public float BasicGoldDropRate = 0.3f;
     public float EliteGoldDropRate = 0.5f;
@@ -36,18 +33,16 @@ public class DropTable : BehaviourSingleton<DropTable>
     public Inventory RuneInventory;
     // 룬 데이터 시작 TID
     public const int RUNE_DATA_TID_MIN = 10000;
-    public GameObject GoldPrefab;
 
     [Header("경험치 드랍")]
     public int BasicDropExpAmount;
     public int EliteDropExpAmount;
     public int BossDropExpAmount;
+
+    [Header("드랍 아이템 프리펩")]
+    public GameObject RunePrefab;
+    public GameObject CoinPrefab;
     public GameObject ExpPrefab;
-
-
-    // 룬 데이터 시트에서 룬 개수
-    // 데이터 시트 늘어나면 변경해주어야 한다.
-    public int RuneDataCount = 2;
 
     public void Update()
     {
@@ -105,20 +100,16 @@ public class DropTable : BehaviourSingleton<DropTable>
     /// <summary> 랜덤 룬 드랍 </summary>
     public void DropRandomRune(Vector3 position, EnemyType enemyType)
     {
-        int randomRuneTier = GetRandomTier(enemyType);
+        int tier = GetRandomTier(enemyType);
 
-        int randomRuneDataTIDPlus = Random.Range(0, RuneDataCount);
-        RuneData runeData = DataTable.Instance.GetRuneData(RUNE_DATA_TID_MIN + randomRuneDataTIDPlus);
+        int runeTID = Random.Range(0, DataTable.Instance.GetRuneDataList().Count);
 
         if(RunePrefab != null)
         {
-            GameObject runeObject = Instantiate(RunePrefab, position, Quaternion.identity);
-            RuneItem runeItem = runeObject.GetComponent<RuneItem>();
-            if (runeItem != null)
-            {
-                runeItem.Initialize(runeData, randomRuneTier, 1);
-                runeItem.RuneInventory = RuneInventory;
-            }
+            Item item = Instantiate(RunePrefab, position, Quaternion.identity).GetComponent<Item>();
+            
+            // 룬 초기화
+            // item.Init(tier, 0, , EItemType.Rune);
         }
     }
 
@@ -174,9 +165,12 @@ public class DropTable : BehaviourSingleton<DropTable>
     private void DropRandomGold(Vector3 position)
     {
         // 골드 인스턴스
-        if(GoldPrefab != null)
+        if(CoinPrefab != null)
         {
-            GameObject goldObject = Instantiate(GoldPrefab, position, Quaternion.identity);
+            Item item = Instantiate(CoinPrefab, position, Quaternion.identity).GetComponent<Item>();
+
+            // 코인 값 초기화
+            // item.Init(1, 5, null, EItemType.Coin);
         }
     }
 
@@ -185,7 +179,10 @@ public class DropTable : BehaviourSingleton<DropTable>
         // 경험치 인스턴스
         if(ExpPrefab != null)
         {
-            GameObject expObject = Instantiate(ExpPrefab, position, Quaternion.identity);
+            Item item = Instantiate(ExpPrefab, position, Quaternion.identity).GetComponent<Item>();
+
+            // 경험치 값 초기화
+            // item.Init(1, 5, null, EItemType.Exp);
         }
     }
 }

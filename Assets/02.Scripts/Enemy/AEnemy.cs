@@ -1,7 +1,6 @@
-using NUnit.Framework;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections.Generic;
 
 [RequireComponent(typeof(EnemyRotation))]
 public abstract class AEnemy : MonoBehaviour, IDamageable
@@ -37,6 +36,8 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     public EnemyRotation EnemyRotation;
     public EnemyHitEffect EnemyHitEffect;
 
+    public Action OnStatChanged;
+
     protected virtual void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
@@ -51,7 +52,7 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     {
         ThisSpawner = spawner;
 
-        if(TimeManager.Instance.DifficultyMultiplier != null)
+        if (TimeManager.Instance.DifficultyMultiplier != null)
         {
             MaxHealth = (int)(MaxHealth * TimeManager.Instance.DifficultyMultiplier.EnemyHealthMultiplier);
             Damage = (int)(Damage * TimeManager.Instance.DifficultyMultiplier.EnemyDamageMultiplier);
@@ -75,15 +76,15 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     {
         if (_stateMachine.CurrentState is DieState) return;
         Health -= damage.Value;
-
+        OnStatChanged?.Invoke();
         // 맞았을때 이펙트
 
-        if(Health <= 0)
+        if (Health <= 0)
         {
             ChangeState(new DieState());
             return;
         }
-        
+
         ChangeState(new DamagedState());
     }
 

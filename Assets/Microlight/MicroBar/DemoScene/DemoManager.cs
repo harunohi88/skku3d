@@ -56,7 +56,6 @@ namespace Microlight.MicroBar {
             if(hpLeft < 0f) hpLeft = 0f;
             soundSource.clip = hurtSound;
             if(soundOn) soundSource.Play();
-
             // Update HealthBar
             if(leftMicroBar != null) leftMicroBar.UpdateBar(hpLeft, false, UpdateAnim.Damage);
             leftAnimator.SetTrigger("Damage");

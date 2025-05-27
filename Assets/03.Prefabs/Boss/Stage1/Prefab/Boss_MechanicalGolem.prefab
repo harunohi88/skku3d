@@ -396,7 +396,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -1.59}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9079478934415448473}
@@ -441,7 +441,7 @@ MonoBehaviour:
   Health: 100
   Damage: 20
   MoveSpeed: 8
-  Type: 0
+  Type: 2
   TraceDistance: 10
   AttackDistance: 5
   AttackOutDistance: 8
@@ -456,6 +456,7 @@ MonoBehaviour:
   AttackPosition: {fileID: 0}
   SkillObject: {fileID: 0}
   EnemyRotation: {fileID: 0}
+  EnemyHitEffect: {fileID: 0}
   WeaponCollider: {fileID: 2134041351530682417}
   LightningPrefab: {fileID: 6469414794945876405, guid: cec0d26a829636540b7324d1f2cadbb0, type: 3}
 --- !u!195 &3079381348969806132
@@ -622,7 +623,7 @@ MonoBehaviour:
     Width: 0
     Radius: 12
     Angle: 360
-    Duration: 15
+    Duration: 10
     MaxCount: 0
     Damage: 12
     InnerRange: 0.7
