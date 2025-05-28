@@ -21,12 +21,20 @@ public class ArrowRuneEffect : ARuneEffect
     public IEnumerator Arrow_Coroutine(RuneExecuteContext context, Damage damage)
     {
         List<Collider> colliderList = Physics.OverlapSphere(context.Player.transform.position, 10f, LayerMask.GetMask("Enemy")).ToList();
+        Damage DamageBase = new Damage();
+        DamageBase.Value = damage.Value * 0.5f;
+        DamageBase.From = damage.From;
 
         if (colliderList.Count != 0)
         {
             int n = 4 + (int)PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.ProjectileCountGain].TotalStat;
             for (int i = 0; i <= n; i++)
             {
+                Damage newDamage = new Damage();
+                newDamage.Value = DamageBase.Value;
+                newDamage.From = DamageBase.From;
+                RuneManager.Instance.CheckCritical(ref newDamage);
+
                 int index = Random.Range(0, colliderList.Count);
                 Transform targetTransform = colliderList[index].transform;
 
@@ -36,7 +44,7 @@ public class ArrowRuneEffect : ARuneEffect
                 dyRune.gameObject.SetActive(false);
 
                 damage.Value *= _damageMultiplier;
-                dyRune.Init(damage, 0, 10f, spawnPos, targetTransform, _tid);
+                dyRune.Init(newDamage, 0, 10f, spawnPos, targetTransform, _tid);
                 dyRune.gameObject.SetActive(true);
 
                 yield return new WaitForSeconds(0.1f);

@@ -13,17 +13,22 @@ public class SlaughterRuneEffect : ARuneEffect
         _stabCount = (int)data.TierList[tier - 1];
     }
 
-    public override void ApplyEffect(RuneExecuteContext context, ref Damage damage)
+    public override void ApplyEffect(RuneExecuteContext context, ref Damage  damage)
     {
         List<Collider> colliderList = Physics.OverlapSphere(context.Player.transform.position, 10f, LayerMask.GetMask("Enemy")).ToList();
-        Damage newDamage = new Damage();
-        newDamage.Value = damage.Value * 0.5f;
-        newDamage.From = damage.From;
-        damage.Value *= 0.5f;
+        Damage DamageBase = new Damage();
+        DamageBase.Value = damage.Value * 0.5f;
+        DamageBase.From = damage.From;
+
         if (colliderList.Count != 0)
         {
             for (int i = 0; i <= PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.ProjectileCountGain].TotalStat; i++)
             {
+                Damage newDamage = new Damage();
+                newDamage.Value = DamageBase.Value;
+                newDamage.From = DamageBase.From;
+                RuneManager.Instance.CheckCritical(ref newDamage);
+
                 int index = Random.Range(0, colliderList.Count);
                 Transform targetTransform = colliderList[index].transform;
 
@@ -32,7 +37,7 @@ public class SlaughterRuneEffect : ARuneEffect
                 Knife_DynamicRune dyRune = RuneManager.Instance.ProjectilePoolDic[_tid].Get() as Knife_DynamicRune;
                 dyRune.gameObject.SetActive(false);
 
-                dyRune.Init(damage, 0, 10f, spawnPos, targetTransform, _tid);
+                dyRune.Init(newDamage, 0, 10f, spawnPos, targetTransform, _tid);
                 dyRune.gameObject.SetActive(true);
 
                 dyRune.MaxStabCount = _stabCount;
