@@ -13,7 +13,7 @@ public class MoveSpeedBuffEffect : ARuneEffect
         _tid = data.TID;
     }
 
-    public override void ApplyEffect(RuneExecuteContext context)
+    public override void ApplyEffect(RuneExecuteContext context, ref Damage damage)
     {
         StatBuff buff = new StatBuff(
             EStatType.MoveSpeed,

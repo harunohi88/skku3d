@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 
@@ -29,7 +30,9 @@ public class Rune
         _currentTier = tier;
         TierValue = _data.TierList[_currentTier - 1];
         RuneDescription = _data.RuneDescription;
-        RuneDescription = RuneDescription.Replace("N", _data.RuneDescription.ToString());
+        RuneDescription = RuneDescription.Replace("N", TierValue.ToString(CultureInfo.CurrentCulture));
+        InitTriggerList();
+        InitEffectList();
     }
     
     public void InitTriggerList()
@@ -91,6 +94,20 @@ public class Rune
             }
         }
         return true;
+    }
+    
+    public void ApplyEffect(RuneExecuteContext context, ref Damage damage)
+    {
+        if (_effectList == null || _effectList.Count == 0)
+        {
+            Debug.Log("상시 발동 하는 룬");
+            return;
+        }
+
+        foreach (ARuneEffect effect in _effectList)
+        {
+            effect.ApplyEffect(context, ref damage);
+        }
     }
 
     public void OnSkill(RuneExecuteContext context, ref Damage damage)
