@@ -107,9 +107,10 @@ public class DropTable : BehaviourSingleton<DropTable>
         if(RunePrefab != null)
         {
             Item item = Instantiate(RunePrefab, position, Quaternion.identity).GetComponent<Item>();
-            
+
+            Rune rune = new Rune(runeTID, tier);
             // 룬 초기화
-            // item.Init(tier, 0, , EItemType.Rune);
+            item.Init(tier, 0, rune, EItemType.Rune);
         }
     }
 
