@@ -3,6 +3,7 @@ using UnityEngine;
 public struct RuneExecuteContext
 {
     public Player Player;
+    public EffectTimingType Timing;
     public Damage Damage;
     public ISkill Skill;
     public AEnemy TargetEnemy;
