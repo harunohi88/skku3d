@@ -1889,7 +1889,7 @@ MonoBehaviour:
   TraceDistance: 15
   AttackDistance: 10
   AttackOutDistance: 12
-  AttackCooltime: 2
+  AttackCooltime: 10
   DamagedTime: 0.3
   DeathTime: 2
   ThisSpawner: {fileID: 0}
