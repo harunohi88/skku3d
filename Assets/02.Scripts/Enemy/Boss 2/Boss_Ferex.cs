@@ -5,11 +5,13 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 {
     // 속성 정의
     public Collider WeaponCollider;
+    private int _baseAttackCount = 0;
 
 
     protected void Start()
     {
-
+        Debug.Log("임시 코드");
+        Init(null);
     }
 
     public override void Init(EnemySpawner spawner)
@@ -37,17 +39,24 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 
     public override void Attack()
     {
-
+        WeaponCollider.enabled = true;
+        EnemyRotation.IsFound = false;
     }
 
     public void OnBaseAttackEnd()
     {
-
+        WeaponCollider.enabled = false;
+        _baseAttackCount++;
+        if (_baseAttackCount >= 2)
+        {
+            _baseAttackCount = 0;
+            BossAIManager.Instance.SetLastFinishedTime(0, Time.time); // 쿨타임 관리
+            OnAnimationEnd();
+        }
     }
 
     public void Boss2SpecialAttack_01()
     {
-
     }
 
     public void OnBoss2SpecialAttack01End()
@@ -58,6 +67,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     public void Boss2SpecialAttack_02()
     {
 
+
     }
 
     public void OnBos22SpecialAttack02End()
@@ -67,6 +77,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 
     public void Boss2SpecialAttack_03()
     {
+
 
     }
 

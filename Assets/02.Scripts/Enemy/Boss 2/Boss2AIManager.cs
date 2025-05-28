@@ -5,6 +5,7 @@ using UnityEngine;
 public class Boss2AIManager : BehaviourSingleton<Boss2AIManager>
 {
     public AEnemy Boss2Enemy;
+
     [SerializeField] private float _healthThreshold = 0.5f;
 
     [Header("기본 공격 패턴")]
@@ -29,14 +30,15 @@ public class Boss2AIManager : BehaviourSingleton<Boss2AIManager>
         float hpRatio = Boss2Enemy.Health / Boss2Enemy.MaxHealth;
 
         List<int> usablePatternList = (hpRatio > _healthThreshold)
-            ? new List<int> { 0, 1, 2 }
-            : new List<int> { 0, 1, 2, 3 };
-        List<int> availablePatternList = usablePatternList
+            ? new List<int> { 0, 1, 2 } // 체력비율이 0.5보다 높으면 패턴 0~2만 사용
+            : new List<int> { 0, 1, 2, 3 }; // 체력 비율이 0.5보다 낮으면 패턴 0~3까지 사용
+        List<int> availablePatternList = usablePatternList // 쿨타임이 지난 패턴만 선택 가능 대상이다.
             .Where(index => IsPatternAvailable(index))
             .ToList();
+
         if (availablePatternList.Count > 0)
         {
-            int selectedIndex = availablePatternList[Random.Range(0, availablePatternList.Count)];
+            int selectedIndex = availablePatternList[Random.Range(0, availablePatternList.Count)]; // 사용가능한 패턴 중 랜덤으로 선택한다.
             return GetAttackState(selectedIndex);
         }
         return new Boss2TraceState();
