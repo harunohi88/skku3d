@@ -203,6 +203,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9079478934415448473}
   - component: {fileID: 3229577563669560454}
+  - component: {fileID: 3869720431033319480}
   m_Layer: 0
   m_Name: Character_MechanicalGolem_01
   m_TagString: Untagged
@@ -330,6 +331,18 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.000000059604645, y: 0.8628965, z: -0.009381667}
     m_Extent: {x: 1.4625807, y: 0.9403073, z: 0.42791557}
   m_DirtyAABB: 0
+--- !u!114 &3869720431033319480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553139183578566300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0254bb01a7082e4e9a6962b9947feba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1814676252993384861
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,7 +469,7 @@ MonoBehaviour:
   AttackPosition: {fileID: 0}
   SkillObject: {fileID: 0}
   EnemyRotation: {fileID: 0}
-  EnemyHitEffect: {fileID: 0}
+  EnemyHitEffect: {fileID: 3869720431033319480}
   WeaponCollider: {fileID: 2134041351530682417}
   LightningPrefab: {fileID: 6469414794945876405, guid: cec0d26a829636540b7324d1f2cadbb0, type: 3}
 --- !u!195 &3079381348969806132

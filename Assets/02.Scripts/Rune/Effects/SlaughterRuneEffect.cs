@@ -13,9 +13,9 @@ public class SlaughterRuneEffect : ARuneEffect
         _stabCount = (int)data.TierList[tier - 1];
     }
 
-    public override void ApplyEffect(RuneExecuteContext context)
+    public override void ApplyEffect(RuneExecuteContext context, ref Damage damage)
     {
-        List<Collider> colliderList = Physics.OverlapSphere(context.Player.transform.position, 10f, LayerMask.NameToLayer("Enemy")).ToList();
+        List<Collider> colliderList = Physics.OverlapSphere(context.Player.transform.position, 10f, LayerMask.GetMask("Enemy")).ToList();
         
         if(colliderList.Count != 0)
         {
@@ -25,11 +25,11 @@ public class SlaughterRuneEffect : ARuneEffect
             Debug.Log("투사체 개수 가져와야됨");
             for (int i = 0; i < 1; i++)
             {
-                Vector3 offset = Quaternion.Euler(0, (360f / 1), 0) * (-context.Player.transform.forward * 1.5f);
+                Vector3 offset = Quaternion.Euler(0, (360f / _stabCount) * i, 0) * (-context.Player.transform.forward * 1.5f);
                 Vector3 spawnPos = context.Player.transform.position + offset + Vector3.up * 1f;
                 Knife_DynamicRune dyRune = RuneManager.Instance.ProjectilePoolDic[_tid].Get() as Knife_DynamicRune;
-                dyRune.Init(context.Damage, 0, 2f, spawnPos, targetTransform);
-                dyRune.StabCount = 3;
+                dyRune.Init(damage, 0, 1f, spawnPos, targetTransform, _tid);
+                dyRune.MaxStabCount = 3;
             }
         }
     }

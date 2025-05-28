@@ -11,7 +11,9 @@ public abstract class ADynamicRuneObject : MonoBehaviour
     protected float _time;
     protected float _approachDuration;
 
-    public virtual void Init(Damage damage, float radius, float approachDuration, Vector3 startPosition, Transform targetTransform)
+    protected int TID;
+
+    public virtual void Init(Damage damage, float radius, float approachDuration, Vector3 startPosition, Transform targetTransform, int TID)
     {
         _damage = damage;
         _radius = radius;
@@ -21,6 +23,7 @@ public abstract class ADynamicRuneObject : MonoBehaviour
         _startPosition = startPosition;
         _targetTransform = targetTransform;
         _time = 0f;
+        this.TID = TID;
 
         float distance = Vector3.Distance(_startPosition, _targetTransform.position);
         _controlPoint = GetRandomBezierControlPoint(_startPosition, _targetTransform.position, Mathf.Clamp(distance - 2, 0.5f, distance / 2), distance);

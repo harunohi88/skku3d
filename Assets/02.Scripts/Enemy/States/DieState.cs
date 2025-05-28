@@ -18,6 +18,7 @@ public class DieState : IState<AEnemy>
         if(_time >= enemy.DeathTime)
         {
             enemy.ThisSpawner.ActivedEnemyCountDecrease();
+            enemy.GetComponent<Collider>().enabled = false;
             switch (enemy.Type)
             {
                 case EnemyType.Basic:
@@ -31,7 +32,7 @@ public class DieState : IState<AEnemy>
             }
             EnemyTracker.Unregister(enemy.transform);
 
-            enemy.gameObject.SetActive(false);
+            //enemy.gameObject.SetActive(false);
             Debug.Log("사라짐");
         }
     }

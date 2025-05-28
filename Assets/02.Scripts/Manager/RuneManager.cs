@@ -13,12 +13,12 @@ public class RuneManager : BehaviourSingleton<RuneManager>
         RegisterRuneTriggers();
         RegisterRuneEffects(); // 필요 시
 
-        InitProjectilePool();
+        Global.Instance.OnDataLoaded += InitProjectilePool;
     }
 
     private void InitProjectilePool()
     {
-        int dynamicTID = DataTable.Instance.GetRuneDataList().Find(x => x.RuneType == RuneType.Dynamic).TID + 1;
+        int dynamicTID = DataTable.Instance.GetRuneDataList().Find(x => x.RuneType == RuneType.Dynamic).TID;
 
         for(int i = 0; i < _dynamicAttackPrefabList.Count; i++)
         {
@@ -44,5 +44,6 @@ public class RuneManager : BehaviourSingleton<RuneManager>
         factory.Register("DamageBuffEffect", () => new DamageBuffEffect());
         factory.Register("MoveSpeedBuffEffect", () => new MoveSpeedBuffEffect());
         factory.Register("HealEffect", () => new HealEffect());
+        factory.Register("SlaughterRuneEffect", () => new SlaughterRuneEffect());
     }
 }

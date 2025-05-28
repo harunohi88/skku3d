@@ -44,17 +44,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf0bcf607380b4488407b898a065501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitTier1DropRate: 0.6
-  InitTier2DropRate: 0.3
-  _tier1DropRate: 0
-  _tier2DropRate: 0
-  _tier3DropRate: 0
-  TierDropRateChange:
-  - 0
-  - 0
-  - 0
-  InitGoldDropRate: 0
-  DropGoldAmount: 0
-  _goldDropRate: 0
+  BasicRuneDropRate: 0.3
+  EliteRuneDropRate: 0.5
+  BossRuneDropRate: 1
+  BasicTier1DropRate: 0.6
+  BasicTier2DropRate: 0.3
+  EliteTier1DropRate: 0.5
+  EliteTier2DropRate: 0.3
+  BossTier1DropRate: 0
+  BossTier2DropRate: 0.7
+  BasicGoldDropRate: 0.3
+  EliteGoldDropRate: 0.5
+  BossGoldDropRate: 1
+  BasicDropGoldAmount: 0
+  EliteDropGoldAmount: 0
+  BossDropGoldAmount: 0
   RuneInventory: {fileID: 0}
-  RuneDataCount: 2
+  BasicDropExpAmount: 0
+  EliteDropExpAmount: 0
+  BossDropExpAmount: 0
+  RunePrefab: {fileID: 3944309379289761369, guid: e089cce4706c94e409cdb8cca52bb45c, type: 3}
+  CoinPrefab: {fileID: 7329521451058596429, guid: 7570d22e2332dfb459ffe7ab10035375, type: 3}
+  ExpPrefab: {fileID: 4309954605313705772, guid: 1ed1c76fae1a25241b085432c35a3cd4, type: 3}
