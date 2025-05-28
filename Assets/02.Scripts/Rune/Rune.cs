@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Rune
@@ -29,6 +30,38 @@ public class Rune
         TierValue = _data.TierList[_currentTier - 1];
         RuneDescription = _data.RuneDescription;
         RuneDescription = RuneDescription.Replace("N", _data.RuneDescription.ToString());
+    }
+    
+    public void InitTriggerList()
+    {
+        List<string> triggerNameList = _data.RuneTriggerType.Split(", ").ToList();
+        _triggerList = new List<ARuneTrigger>();
+        
+        foreach (string triggerName in triggerNameList)
+        {
+            ARuneTrigger trigger = RuneTriggerFactory.Instance.CreateRuneTrigger(triggerName);
+            if (trigger != null)
+            {
+                trigger.Initialize(_data);
+                _triggerList.Add(trigger);
+            }
+        }
+    }
+
+    public void InitEffectList()
+    {
+        List<string> effectNameList = _data.RuneEffectType.Split(", ").ToList();
+        _effectList = new List<ARuneEffect>();
+        
+        foreach (string effectName in effectNameList)
+        {
+            ARuneEffect effect = RuneEffectFactory.Instance.CreateRuneEffect(effectName);
+            if (effect != null)
+            {
+                effect.Initialize(_data, _currentTier);
+                _effectList.Add(effect);
+            }
+        }
     }
 
     public void EquipRune(int skillIndex)

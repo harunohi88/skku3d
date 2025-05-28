@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class OnHitBossTrigger : ARuneTrigger
+public class OnBossHitTrigger : ARuneTrigger
 {
     public override void Initialize(RuneData data)
     {
