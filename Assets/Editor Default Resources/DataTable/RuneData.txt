@@ -1,21 +1,22 @@
 10000	재생의 룬	Static	스킬을 전투 중에 시전하면 7초에 걸쳐 자신의 체력을 N 회복합니다.	OnTimeElapsedTrigger	RecoverEffect	None	29	41	154	7	0	0	0	0	0	
-10001	가속의 룬	Static	스킬을 시전하면 이동 속도가 N% 증가하고 2.5초에 걸쳐 원래대로 돌아옵니다.	OnTimeElapsedTrigger	MoveSpeedBuffEffect	MoveSpeedModifier	21	30	120	2.5	0	0	0	0	0	
+10001	가속의 룬	Static	스킬을 시전하면 이동 속도가 N% 증가하고 2.5초에 걸쳐 원래대로 돌아옵니다.	OnTimeElapsedTrigger	MoveSpeedBuffEffect	MoveSpeedModifier	0.21	0.3	1.2	2.5	0	0	0	0	0	
 10002	강화의 룬	Static	10초마다 스킬의 시전이 강화됩니다. 강화된 시전으로 개별 적에게 처음 주는 피해량이 N%증가합니다.	OnTimeElapsedTrigger	DamageBuffEffect	None	264	480	2640	10	0	0	0	0	0	
 10003	압박의 룬	Static	스킬이 체력의 70% 이상인 적에게 주는 피해가 N% 증가합니다.	OnEnemyHealthConditionTrigger	DamageBuffEffect	None	33	60	330	0	0.7	0	0	0	0	
 10004	근접 타격 룬	Static	스킬이 가까운 적에게 주는 피해량이 N% 증가합니다.	OnDistanceCheckTrigger	DamageBuffEffect	None	22	40	220	0	0	0	10	0	0	
 10005	흡혈의 룬	Static	스킬로 주는 피해의 N% 만큼 자신의 체력을 회복합니다.	OnEnemyDamagedTrigger	VampiricEffect	None	5	7	30	0	0	0	0	0	0	
-10006	격노의 룬	Static	치명타 피해가 N% 증가합니다.	None	CriticalDamageBuffEffect	CriticalDamageModifier	10	30	50	0	0	0	0	0	0	
+10006	격노의 룬	Static	치명타 피해가 N% 증가합니다.	OnEquipTrigger	CriticalDamageBuffEffect	CriticalDamageModifier	10	30	50	0	0	0	0	0	0	
 10007	속공의 룬	Static	적을 공격할 때마다 스킬의 재사용 대기시간이 N초 감소합니다.	OnEnemyDamagedTrigger	CooldownReductionEffect	None	0.2	0.4	0.6	0	0	0	0	0	0	
-10008	거인의 룬	Static	최대 체력이 N 증가합니다. 스킬이 적에게 주는 피해량이 내 최대 체력 50당 1% 증가합니다.	None	HealthIncreaseEffect, HPScalingDamageEffect	MaxHealthModifier	142	260	1429	0	0	0	0	0	0	
+10008	거인의 룬	Static	최대 체력이 N 증가합니다. 스킬이 적에게 주는 피해량이 내 최대 체력 50당 1% 증가합니다.	OnSkillUseTrigger	HealthIncreaseEffect, HPScalingDamageEffect	MaxHealthModifier	142	260	1429	0	0	0	0	0	0	
 10009	절정의 룬	Static	치명타 확률 5%를 얻습니다. 치명타가 터지면 체력이 N 치유됩니다.	OnCriticalHitTrigger	CriticalChanceBuffEffect, RecoverEffect	CriticalChanceModifier	4	6	10	0	0	5	0	0	0	
 10010	파멸의 룬	Static	보스에게 N% 의 피해를 추가로 입힙니다.	OnBossHitTrigger	DamageBuffEffect	None	10	15	20	0	0	0	0	0	0	
-10011	사신의 룬	Static	치명타 확률이 N% 증가합니다.	None	CriticalChanceBuffEffect	CriticalChanceModifier	20	30	40	0	0	0	0	0	0	
-10012	확산의 룬	Static	스킬의 범위가 N% 증가합니다.	None	RangeBuffEffect	RangeModifier	10	20	30	0	0	0	0	0	0	
-10013	분열의 룬	Static	투사체 횟수가 N 증가합니다.	None	ProjectileCountEffect	ProjectileModifier	1	2	3	0	0	0	0	0	0	
-10014	난도질의 룬	Dynamic	이 스킬을 시전 시 대상에게 50%의 피해를 주는 칼날을 소환해 N번 도려냅니다.	None	None	None	2	3	12	0	0	0	0	0	0	
-10015	유성의 룬	Dynamic	이 스킬을 시전하면 무작위 적에게 N% 의 피해를 주는 화살을 5번 발사합니다.	None	None	None	49	90	495	0	0	0	0	0	0	
-10016	불꽃의 룬	Dynamic	이 스킬을 시전하면 주변의 무작위 적 하나에게 화염구를 발사하여 N%의 피해를 줍니다.	None	None	None	63	90	360	0	0	0	0	0	0	
-10017	폭렬의 룬	Dynamic	이 스킬을 시전하면 추가로 폭발하여 4m반경 안의 적에게 총 N%의 피해를 추가로 입힙니다.	None	None	None	20	30	50	0	0	0	4	0	0	
-10018	부활의 룬	Dynamic	사망 시에 이 아이템이 소모되어 다시 살아나고 3초 동안 무적 상태가 됩니다.	None	None	None	0	0	0	3	0	0	0	0	0	
-10019	운명의 룬	Dynamic	이 스킬을 시전하면 30%의 확률로 미사일을 발사하여 총 N%의 피해를 입힙니다.	None	None	None	300	400	600	0	0	0	0	0	0.3	
-10020	전류의 룬	Dynamic	이 스킬을 시전하면 25% 확률로 연쇄 번개를 발사하여 20m 안에 있는 최대 N마리의 목표에 총 80% 피해를 입힙니다.	None	None	None	2	3	5	0	0	0	0	80	0.25	
+10011	사신의 룬	Static	치명타 확률이 N% 증가합니다.	OnEquipTrigger	CriticalChanceBuffEffect	CriticalChanceModifier	20	30	40	0	0	0	0	0	0	
+10012	확산의 룬	Static	스킬의 범위가 N% 증가합니다.	OnEquipTrigger	RangeBuffEffect	RangeModifier	10	20	30	0	0	0	0	0	0	
+10013	분열의 룬	Static	투사체 횟수가 N 증가합니다.	OnEquipTrigger	ProjectileCountEffect	ProjectileModifier	1	2	3	0	0	0	0	0	0	
+10014	부활의 룬	Dynamic	사망 시에 이 아이템이 소모되어 다시 살아나고 3초 동안 무적 상태가 됩니다.	OnDeathTrigger	RevivalRuneEffect	None	0	0	0	3	0	0	0	0	0	
+10015	난도질의 룬	Dynamic	이 스킬을 시전 시 대상에게 50%의 피해를 주는 칼날을 소환해 N번 도려냅니다.	OnSkillUseTrigger	SlaughterRuneEffect	None	2	3	12	0	0	0	0	0	0	
+10016	난사의 룬	Dynamic	이 스킬을 시전하면 무작위 적에게 N% 의 피해를 주는 화살을 5번 발사합니다.	OnSkillUseTrigger	ArrowRuneEffect	None	49	90	495	0	0	0	0	0	0	
+10017	불꽃의 룬	Dynamic	이 스킬을 시전하면 주변의 무작위 적 하나에게 화염구를 발사하여 N%의 피해를 줍니다.	OnSkillUseTrigger	FlameRuneEffect	None	63	90	360	0	0	0	0	0	0	
+10018	폭렬의 룬	Dynamic	이 스킬을 시전하면 추가로 폭발하여 4m반경 안의 적에게 총 N%의 피해를 추가로 입힙니다.	OnSkillUseTrigger	ExplosionRuneEffect	None	20	30	50	0	0	0	4	0	0	
+10019	운명의 룬	Dynamic	이 스킬을 시전하면 30%의 확률로 미사일을 발사하여 총 N%의 피해를 입힙니다.	OnSkillUseTrigger	FateRuneEffect	None	300	400	600	0	0	0	0	0	0.3	
+10020	전류의 룬	Dynamic	이 스킬을 시전하면 25% 확률로 연쇄 번개를 발사하여 20m 안에 있는 최대 N마리의 목표에 총 80% 피해를 입힙니다.	OnSkillUseTrigger	ElectricRuneEffect	None	2	3	5	0	0	0	0	80	0.25	
+10021	테스트 룬	Static	스킬 사용시 이동속도가 N% 증가합니다.	OnSkillUseTrigger	MoveSpeedBuffEffect	None	2	2	2	3	0	0	0	0	0	

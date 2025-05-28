@@ -10,8 +10,8 @@ public class DamageBuffEffect : ARuneEffect
         _amount = data.TierList[tier - 1];
     }
 
-    public override void ApplyEffect(RuneExecuteContext context)
+    public override void ApplyEffect(RuneExecuteContext context, ref Damage damage)
     {
-        context.Damage.Value *= (1 + _amount);
+        damage.Value *= (1 + _amount);
     }
 }
