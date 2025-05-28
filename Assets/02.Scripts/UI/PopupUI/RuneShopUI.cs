@@ -1,16 +1,61 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RuneShopUI : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public List<Image> RuneImageList;
+    public List<TextMeshProUGUI> RuneCostTextList;
+
+    public TextMeshProUGUI RerollCostText;
+    public TextMeshProUGUI GoldText;
+
+    public List<Image> SoldoutImageList;    // 판매 완료 이미지리스트
+    public List<Button> BuyButtonList;
+
+    public RuneShop RuneShop;
+
+    private void Awake()
     {
-        
+        RuneShop = GetComponent<RuneShop>();
+        RuneShop.OnRuneUpdated += UpdateShopItem;
+        RuneShop.OnItemSoldout += SetSoldout;
+        RuneShop.OnCreateRune += UnSetSoldout;
+        RuneShop.OnReroll += UpdateRerollCost;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        CurrencyManager.Instance.OnGoldChanged += UpdateGoldText;
     }
+
+    public void SetSoldout(int index)
+    {
+        SoldoutImageList[index].gameObject.SetActive(true);
+        BuyButtonList[index].interactable = false;
+    }
+
+    public void UnSetSoldout(int index)
+    {
+        SoldoutImageList[index].gameObject.SetActive(false);
+        BuyButtonList[index].interactable = true;
+    }
+
+    public void UpdateRerollCost(int currentRerollCost)
+    {
+        RerollCostText.text = $"{currentRerollCost}";
+    }
+
+    public void UpdateGoldText(int currentGold)
+    {
+        GoldText.text = $"{currentGold}";
+    }
+
+    public void UpdateShopItem(int index, Sprite runeIcon, int runeCost)
+    {
+        RuneImageList[index].sprite = runeIcon;
+        RuneCostTextList[index].text = $"{runeCost}";
+    }
+
 }

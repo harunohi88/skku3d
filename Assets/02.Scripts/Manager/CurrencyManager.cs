@@ -1,8 +1,12 @@
+using System;
 using UnityEngine;
 
 public class CurrencyManager : BehaviourSingleton<CurrencyManager>
 {
     [SerializeField]private int _currnetGold;
+
+    // 골드 변경시 이벤트
+    public Action<int> OnGoldChanged;
 
     // 테스트용용
     void Start()
@@ -13,6 +17,7 @@ public class CurrencyManager : BehaviourSingleton<CurrencyManager>
     public void AddGold(int amount)
     {
         _currnetGold += amount;
+        OnGoldChanged?.Invoke(_currnetGold);
     }
 
     public bool TrySpendGold(int amount)
@@ -20,6 +25,7 @@ public class CurrencyManager : BehaviourSingleton<CurrencyManager>
         if(_currnetGold >= amount)
         {
             _currnetGold -= amount;
+            OnGoldChanged?.Invoke(_currnetGold);
             return true;
         }
         return false;
