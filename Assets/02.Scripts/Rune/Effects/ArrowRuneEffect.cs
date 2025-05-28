@@ -22,7 +22,7 @@ public class ArrowRuneEffect : ARuneEffect
     {
         List<Collider> colliderList = Physics.OverlapSphere(context.Player.transform.position, 10f, LayerMask.GetMask("Enemy")).ToList();
         Damage DamageBase = new Damage();
-        DamageBase.Value = damage.Value * 0.5f;
+        DamageBase.Value = damage.Value * _damageMultiplier;
         DamageBase.From = damage.From;
 
         if (colliderList.Count != 0)
@@ -44,7 +44,7 @@ public class ArrowRuneEffect : ARuneEffect
                 dyRune.gameObject.SetActive(false);
 
                 damage.Value *= _damageMultiplier;
-                dyRune.Init(newDamage, 0, 10f, spawnPos, targetTransform, _tid);
+                dyRune.Init(newDamage, 0, 12f, spawnPos, targetTransform, _tid);
                 dyRune.gameObject.SetActive(true);
 
                 yield return new WaitForSeconds(0.1f);
