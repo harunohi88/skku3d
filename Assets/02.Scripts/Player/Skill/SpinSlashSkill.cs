@@ -36,6 +36,7 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         RuneExecuteContext context = new RuneExecuteContext
         {
             Player = _playerManager.Player,
+            Timing = EffectTimingType.BeforeAttack,
             Damage = damage,
             Skill = this,
             TargetEnemy = target,
@@ -52,32 +53,43 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         damage.IsCritical = damage.CriticalRate <= Random.Range(0f, 1f);
     }
     
+    private void RuneEffectExecute(RuneExecuteContext context, ref Damage damage)
+    {
+        if (Rune != null && Rune.CheckTrigger(context))
+        {
+            Debug.LogWarning("Rune effect applied");
+            Rune.ApplyEffect(context, ref damage);
+        }
+    }
+    
     // 이벤트 시스템에서 호출할 메서드
     public void OnSkillAnimationEffect()
     {
         // 데미지 구현
         Collider[] hitEnemies = Physics.OverlapSphere(transform.position, AttackRange, _enemyLayer);
         Damage damage = new Damage() { Value = 100, From = PlayerManager.Instance.Player.gameObject };
+        if (hitEnemies.Length == 0)
+        {
+            return;
+        }
+        Damage finalDamage = new Damage();
+        RuneExecuteContext context = new RuneExecuteContext();
         foreach (Collider enemy in hitEnemies)
         {
             if (enemy.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
+                finalDamage = damage;
                 AEnemy enemyComponent = enemy.gameObject.GetComponent<AEnemy>();
-                CheckCritical(ref damage);
-                RuneExecuteContext context = SetContext(damage, enemyComponent);
-                if (Rune != null && Rune.CheckTrigger(context))
-                {
-                    Debug.LogWarning("Rune effect applied");
-                    Rune.ApplyEffect(context, ref damage);
-                }
-                damageable.TakeDamage(damage);
-                if (Rune != null && Rune.CheckTrigger(context))
-                {
-                    Debug.LogWarning("Rune effect applied");
-                    Rune.ApplyEffect(context, ref damage);
-                }
+                CheckCritical(ref finalDamage);
+                context = SetContext(finalDamage, enemyComponent);
+                RuneEffectExecute(context, ref finalDamage);
+                context.Timing = EffectTimingType.AfterAttack;
+                damageable.TakeDamage(finalDamage);
+                RuneEffectExecute(context, ref finalDamage);
             }
         }
+        context.Timing = EffectTimingType.OncePerAttack;
+        RuneEffectExecute(context, ref finalDamage);
     }
 
     public void OnSkillAnimationEnd()

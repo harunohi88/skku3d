@@ -7,6 +7,16 @@ public enum RuneType
     Dynamic = 1,
 }
 
+public enum EffectTimingType
+{
+    ///<summary>공격 전</summary>
+    BeforeAttack = 0,
+    ///<summary>공격 후</summary>
+    AfterAttack = 1,
+    ///<summary>시전당 1회</summary>
+    OncePerAttack = 2,
+}
+
 public enum RuneEffectType
 {
     ///<summary>없음</summary>
@@ -89,6 +99,12 @@ public enum RuneTriggerType
     OnEquipTrigger = 8,
     ///<summary>죽을 시</summary>
     OnDeathTrigger = 9,
+    ///<summary>공격 전</summary>
+    OnBeforeAttackTrigger = 10,
+    ///<summary>공격 후</summary>
+    OnAfterAttactTrigger = 11,
+    ///<summary>스킬 시전당 1회</summary>
+    OnOncePerAttackTrigger = 12,
 }
 
 public enum EnemyAudioType
