@@ -23,7 +23,7 @@ public class BossSpecialAttack03State : IState<AEnemy>
         _time += Time.deltaTime;
         if (_patternData == null) return;
 
-        if(_currentOrder == 0)
+        if (_currentOrder == 0)
         {
             if (_time >= _patternData.CastingTime)
             {
@@ -35,9 +35,9 @@ public class BossSpecialAttack03State : IState<AEnemy>
                 _patternData = BossAIManager.Instance.GetPatternData(3, 1);
             }
         }
-        else if(_currentOrder == 1)
+        else if (_currentOrder == 1)
         {
-            if(_time >= _patternData.CastingTime / 3)
+            if (_time >= _patternData.CastingTime / 3)
             {
                 enemy.SetAnimationTrigger("SpecialAttack03_2");
                 enemy.EnemyRotation.IsFound = false;
@@ -45,9 +45,9 @@ public class BossSpecialAttack03State : IState<AEnemy>
                 _time = 0f;
             }
         }
-        else if(_currentOrder == 2)
+        else if (_currentOrder == 2)
         {
-            if(_time >= _patternData.CastingTime + 1f)
+            if (_time >= _patternData.CastingTime + 1f)
             {
                 enemy.ChangeState(new BossTraceState());
             }

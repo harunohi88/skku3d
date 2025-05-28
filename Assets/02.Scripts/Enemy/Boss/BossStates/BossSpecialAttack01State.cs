@@ -12,7 +12,7 @@ public class BossSpecialAttack01State : IState<AEnemy>
         {
             specialAttackable.SpecialAttack_01();
         }
-        
+
         _time = 0f;
         enemy.Agent.speed = enemy.MoveSpeed + 2;
 

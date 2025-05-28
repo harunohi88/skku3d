@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BossTraceState : IState<AEnemy>
@@ -19,7 +18,7 @@ public class BossTraceState : IState<AEnemy>
         enemy.Agent.SetDestination(PlayerManager.Instance.Player.transform.position);
 
         _time += Time.deltaTime;
-        if(_time >= 3f)
+        if (_time >= 3f)
         {
             IState<AEnemy> state = BossAIManager.Instance.DecideNextState();
             if (state is BossTraceState) return;

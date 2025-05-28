@@ -1483,13 +1483,70 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4003917648627406, guid: 3c9c85e47d53d1f4aaa97330d98c0680, type: 3}
       insertIndex: 0
       addedObject: {fileID: 604645779}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1248874732774416, guid: 3c9c85e47d53d1f4aaa97330d98c0680, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 1967308138}
+    - targetCorrespondingSourceObject: {fileID: 1248874732774416, guid: 3c9c85e47d53d1f4aaa97330d98c0680, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1967308137}
   m_SourcePrefab: {fileID: 100100000, guid: 3c9c85e47d53d1f4aaa97330d98c0680, type: 3}
 --- !u!4 &1967308135 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4003917648627406, guid: 3c9c85e47d53d1f4aaa97330d98c0680, type: 3}
   m_PrefabInstance: {fileID: 1967308134}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1967308136 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1248874732774416, guid: 3c9c85e47d53d1f4aaa97330d98c0680, type: 3}
+  m_PrefabInstance: {fileID: 1967308134}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1967308137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967308136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb56f30676be45341b63733d4c581cfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsFound: 0
+  RotationSpeed: 0
+--- !u!114 &1967308138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967308136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5125f9513a9d90448b4164eefcb11e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHealth: 0
+  Health: 0
+  Damage: 0
+  MoveSpeed: 3.5
+  Type: 0
+  TraceDistance: 0
+  AttackDistance: 0
+  AttackOutDistance: 0
+  AttackCooltime: 0
+  DamagedTime: 0
+  DeathTime: 0
+  ThisSpawner: {fileID: 0}
+  LayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  Agent: {fileID: 0}
+  AttackPosition: {fileID: 0}
+  SkillObject: {fileID: 0}
+  EnemyRotation: {fileID: 0}
+  EnemyHitEffect: {fileID: 0}
 --- !u!1001 &1978703659
 PrefabInstance:
   m_ObjectHideFlags: 0
