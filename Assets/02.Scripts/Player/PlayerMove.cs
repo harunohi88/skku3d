@@ -4,11 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMove : MonoBehaviour
 {
-    [Header("Gravity")]
     public float Gravity = -9.81f;
 
-    [Header("Roll")]
-    public float RollSpeed;
     public float RollDuration;
     private Vector3 _rollDirection;
 
@@ -21,6 +18,7 @@ public class PlayerMove : MonoBehaviour
     private float _verticalVelocity;
     private bool _isGrounded;
     private float _moveSpeed => PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MoveSpeed].TotalStat;
+    private float _rollSpeed => PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MoveSpeed].TotalStat;
 
     private void Awake()
     {
@@ -107,7 +105,7 @@ public class PlayerMove : MonoBehaviour
 
         while (elapsedTime < RollDuration)
         {
-            _characterController.Move(_rollDirection * RollSpeed * Time.deltaTime);
+            _characterController.Move(_rollDirection * _rollSpeed * Time.deltaTime);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
