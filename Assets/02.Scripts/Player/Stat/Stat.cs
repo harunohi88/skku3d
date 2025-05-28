@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Stat
 {
-    public float TotalStat => _baseStat * _multiply + _add;
+    public float TotalStat => _baseStat + _baseStat * _multiply + _add;
     
     private float _baseStat;
     private float _multiply;

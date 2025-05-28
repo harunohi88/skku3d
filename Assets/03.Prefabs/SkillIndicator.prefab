@@ -69,5 +69,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48ce69a49f47dd941abb37aecf073eb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CircularMaterial: {fileID: -876546973899608171, guid: 095516e206e360f4fb99be528ca82504, type: 3}
-  SquareMaterial: {fileID: -876546973899608171, guid: 71eb4833715bda441a51facc6e57bfa1, type: 3}
+  CircularMaterial: {fileID: 2100000, guid: aeddca42a83e8564091139b6a9902fbb, type: 2}
+  SquareMaterial: {fileID: 2100000, guid: bc54a6ec07589bc40a61db90befb8cb3, type: 2}

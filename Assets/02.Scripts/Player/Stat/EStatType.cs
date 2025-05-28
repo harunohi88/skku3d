@@ -10,4 +10,5 @@ public enum EStatType
     MaxHealth,
     MaxStamina,
     MoveSpeed,
+    ProjectileCountGain,
 }

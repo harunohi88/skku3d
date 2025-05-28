@@ -1,5 +1,5 @@
 10000	재생의 룬	Static	스킬을 전투 중에 시전하면 7초에 걸쳐 자신의 체력을 N 회복합니다.	OnTimeElapsedTrigger	RecoverEffect	None	29	41	154	7	0	0	0	0	0	
-10001	가속의 룬	Static	스킬을 시전하면 이동 속도가 N% 증가하고 2.5초에 걸쳐 원래대로 돌아옵니다.	OnTimeElapsedTrigger	MoveSpeedBuffEffect	MoveSpeedModifier	0.21	0.3	1.2	2.5	0	0	0	0	0	
+10001	가속의 룬	Static	스킬을 시전하면 이동 속도가 N% 증가하고 2.5초에 걸쳐 원래대로 돌아옵니다.	OnTimeElapsedTrigger	MoveSpeedBuffEffect	MoveSpeedModifier	21	30	120	2.5	0	0	0	0	0	
 10002	강화의 룬	Static	10초마다 스킬의 시전이 강화됩니다. 강화된 시전으로 개별 적에게 처음 주는 피해량이 N%증가합니다.	OnTimeElapsedTrigger	DamageBuffEffect	None	264	480	2640	10	0	0	0	0	0	
 10003	압박의 룬	Static	스킬이 체력의 70% 이상인 적에게 주는 피해가 N% 증가합니다.	OnEnemyHealthConditionTrigger	DamageBuffEffect	None	33	60	330	0	0.7	0	0	0	0	
 10004	근접 타격 룬	Static	스킬이 가까운 적에게 주는 피해량이 N% 증가합니다.	OnDistanceCheckTrigger	DamageBuffEffect	None	22	40	220	0	0	0	10	0	0	

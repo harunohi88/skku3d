@@ -1,12 +1,13 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(EnemyRotation))]
 public abstract class AEnemy : MonoBehaviour, IDamageable
 {
-    public int MaxHealth;
-    public int Health;
-    public int Damage;
+    public float MaxHealth;
+    public float Health;
+    public float Damage;
     public float MoveSpeed = 3.5f;
 
     public EnemyType Type;
@@ -34,6 +35,8 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
 
     public EnemyRotation EnemyRotation;
     public EnemyHitEffect EnemyHitEffect;
+
+    public Action OnStatChanged;
 
     protected virtual void Awake()
     {
@@ -73,7 +76,7 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     {
         if (_stateMachine.CurrentState is DieState) return;
         Health -= damage.Value;
-
+        OnStatChanged?.Invoke();
         // 맞았을때 이펙트
 
         if (Health <= 0)

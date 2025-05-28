@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IDamageable
 {
-    [SerializeField] public int Health;
+    [SerializeField] public float Health;
 
     public void TakeDamage(Damage damage)
     {
@@ -11,6 +11,12 @@ public class Player : MonoBehaviour, IDamageable
         {
             Die();
         }
+    }
+    
+    public void Heal(float amount)
+    {
+        Health += amount;
+        Health = Mathf.Min(Health, PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxHealth].TotalStat);
     }
 
     public void Die()

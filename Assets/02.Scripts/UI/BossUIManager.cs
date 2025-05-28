@@ -14,13 +14,13 @@ public class BossUIManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    public void SetBossUI(string BossName, int maxHealth)
+    public void SetBossUI(string BossName, float maxHealth)
     {
         _bossNameText.text = BossName;
         _bossHealthBar.Initialize(maxHealth);
         _bossHealthBar.SetNewMaxHP(maxHealth);
     }
-    public void UPdateHealth(int currentHealth)
+    public void UPdateHealth(float currentHealth)
     {
         _bossHealthBar.UpdateBar(currentHealth);
     }
