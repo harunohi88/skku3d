@@ -30,6 +30,22 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         _playerManager.PlayerState = EPlayerState.Skill;
     }
 
+    public RuneExecuteContext SetContext(Damage damage, AEnemy target)
+    {
+        RuneExecuteContext context = new RuneExecuteContext
+        {
+            Player = _playerManager.Player,
+            Damage = damage,
+            Skill = this,
+            TargetEnemy = target,
+            DistanceToTarget = Vector3.Distance(transform.position, target.transform.position),
+            TargetHelthPercentage = target.Health / target.MaxHealth,
+            IsKill = target.Health <= damage.Value
+        };
+
+        return context;
+    }
+
     // 이벤트 시스템에서 호출할 메서드
     public void OnSkillAnimationEffect()
     {
@@ -40,6 +56,13 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         {
             if (enemy.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
+                // 데미지 구조체 생성
+                AEnemy enemyComponent = enemy.gameObject.GetComponent<AEnemy>();
+                // 룬 실행 컨텍스트 생성
+                RuneExecuteContext context = SetContext(damage, enemyComponent);
+                // 룬 트리거 체크
+                Rune.CheckTrigger(context);
+                // 룬 효과 적용
                 damageable.TakeDamage(damage);
             }
         }

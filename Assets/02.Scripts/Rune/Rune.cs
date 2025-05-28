@@ -74,6 +74,25 @@ public class Rune
         
     }
 
+    public bool CheckTrigger(RuneExecuteContext context)
+    {
+        if (_triggerList == null || _triggerList.Count == 0)
+        {
+            Debug.Log("상시 발동 하는 룬");
+            return true;
+        }
+
+        foreach (ARuneTrigger trigger in _triggerList)
+        {
+            // 모든 트리거에서 True 반환시 동작
+            if (!trigger.Trigger(context))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void OnSkill(RuneExecuteContext context, ref Damage damage)
     {
         

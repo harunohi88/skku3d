@@ -3,14 +3,16 @@ using System.Collections.Generic;
 
 public class PlayerStat : MonoBehaviour
 {
-    public float AttackPower;
-    public float CooldownReduction;
-    public float CriticalHitChance;
-    public float CriticalHitDamage;
-    public float ExperienceGain;
-    public float MaxHealth;
-    public float MaxStamina;
-    public float MoveSpeed;
+    [SerializeField] private float AttackPower;
+    [SerializeField] private float CooldownReduction;
+    [SerializeField] private float CriticalHitChance;
+    [SerializeField] private float CriticalHitDamage;
+    [SerializeField] private float ExperienceGain;
+    [SerializeField] private float MaxHealth;
+    [SerializeField] private float MaxStamina;
+    [SerializeField] private float MoveSpeed;
+    [SerializeField] private int ProjectileCountGain;
+    
     public Dictionary<EStatType, Stat> StatDictionary;
 
     private void Awake()
@@ -24,8 +26,8 @@ public class PlayerStat : MonoBehaviour
             { EStatType.ExperienceGain, new Stat(ExperienceGain) },
             { EStatType.MaxHealth, new Stat(MaxHealth) },
             { EStatType.MaxStamina, new Stat(MaxStamina) },
-            { EStatType.MoveSpeed, new Stat(MoveSpeed) }
+            { EStatType.MoveSpeed, new Stat(MoveSpeed) },
+            { EStatType.ProjectileCountGain, new Stat(ProjectileCountGain) }
         };
     }
-
 }
