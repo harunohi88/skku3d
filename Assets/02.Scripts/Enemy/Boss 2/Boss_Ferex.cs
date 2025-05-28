@@ -1,8 +1,11 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Boss2AIManager))]
 public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 {
     // 속성 정의
+    public Collider WeaponCollider;
+
 
     protected void Start()
     {
