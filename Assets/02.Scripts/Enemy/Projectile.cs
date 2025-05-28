@@ -33,8 +33,7 @@ public class Projectile : MonoBehaviour
             Destroy(MuzzleParticle, 1.5f);
         }
 
-        _direction = new Vector3(PlayerManager.Instance.Player.transform.position.x, transform.position.y, PlayerManager.Instance.Player.transform.position.z) - transform.position;
-        _direction = _direction.normalized;
+        _direction = transform.forward;
     }
 
     private void FixedUpdate()

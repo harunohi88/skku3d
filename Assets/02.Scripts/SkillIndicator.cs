@@ -83,7 +83,7 @@ public class SkillIndicator : MonoBehaviour
     public void StopIndicator()
     {
         if (thisPool != null) thisPool.Return(this);
-        else Destroy(this.gameObject);
+        else gameObject.SetActive(false);
     }
 
     public void SetPosition(Vector3 position)

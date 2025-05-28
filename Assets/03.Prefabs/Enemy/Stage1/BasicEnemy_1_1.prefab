@@ -96,7 +96,7 @@ MonoBehaviour:
   ThisSpawner: {fileID: 0}
   LayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   Agent: {fileID: 0}
   AttackPosition: {fileID: 606851106511225851}
   SkillObject: {fileID: 0}
