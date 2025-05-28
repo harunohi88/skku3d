@@ -1,7 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using System.Linq;
 
 public class BossSpecialAttack04State : IState<AEnemy>
 {
@@ -29,7 +26,7 @@ public class BossSpecialAttack04State : IState<AEnemy>
         if (_indicator != null) _indicator.transform.position = enemy.transform.position;
 
         _time += Time.deltaTime;
-        if(_currentOrder == 0)
+        if (_currentOrder == 0)
         {
             if (_time >= _patternData.CastingTime)
             {
@@ -41,16 +38,16 @@ public class BossSpecialAttack04State : IState<AEnemy>
                 enemy.Agent.stoppingDistance = 0.01f;
             }
         }
-        else if(_currentOrder == 1)
+        else if (_currentOrder == 1)
         {
-            if(enemy.Agent.remainingDistance - 0.1f <= enemy.Agent.stoppingDistance)
+            if (enemy.Agent.remainingDistance - 0.1f <= enemy.Agent.stoppingDistance)
             {
                 enemy.Agent.SetDestination(GetRandomPosition(enemy));
             }
 
 
             _tickTime += Time.deltaTime;
-            if(_tickTime >= 0.2f)
+            if (_tickTime >= 0.2f)
             {
                 float distanceToPlayer = Vector3.Distance(enemy.transform.position, PlayerManager.Instance.Player.transform.position);
 

@@ -1,7 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEngine;
 
 public class BossAIManager : BehaviourSingleton<BossAIManager>
 {
@@ -42,15 +41,15 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
     public IState<AEnemy> DecideNextState()
     {
         float hpRatio = BossEnemy.Health / BossEnemy.MaxHealth;
-        List<int> usablePatternList = (hpRatio > _healthThreshold) 
-            ? new List<int> { 0, 1, 2 } 
+        List<int> usablePatternList = (hpRatio > _healthThreshold)
+            ? new List<int> { 0, 1, 2 }
             : new List<int> { 0, 1, 2, 3, 4 };
 
         List<int> availablePatternList = usablePatternList
             .Where(x => IsPatternAvailable(x))
             .ToList();
 
-        if(availablePatternList.Count > 0)
+        if (availablePatternList.Count > 0)
         {
             int selectedIndex = availablePatternList[Random.Range(0, availablePatternList.Count)];
             return GetAttackState(selectedIndex);
@@ -66,12 +65,12 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
 
         EnemyPatternData firstPattern = patternList[0];
         EnemyPatternData lastPattern = patternList[patternList.Count - 1];
-        return  Time.time - lastPattern.LastFinishedTime >= firstPattern.CoolTime;
+        return Time.time - lastPattern.LastFinishedTime >= firstPattern.CoolTime;
     }
 
     private List<EnemyPatternData> GetPatternList(int patternIndex)
     {
-        switch(patternIndex)
+        switch (patternIndex)
         {
             case 0: return _baseAttackPatternList;
             case 1: return _specialAttack1PatternList;
@@ -86,7 +85,7 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
     {
         var patterns = GetPatternList(patternIndex);
         if (patterns == null || patterns.Count == 0) return null;
-        
+
         return patterns[Mathf.Clamp(subPatternIndex, 0, patterns.Count - 1)];
     }
 
