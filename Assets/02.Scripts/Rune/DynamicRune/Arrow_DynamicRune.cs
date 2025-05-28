@@ -2,14 +2,16 @@ using UnityEngine;
 
 public class Arrow_DynamicRune : ADynamicRuneObject
 {
-    public override void Init(Damage damage, float radius, float approachDuration, Vector3 startPosition, Transform targetTransform, int TID)
+    public override void Init(Damage damage, float radius, float moveSpeed, Vector3 startPosition, Transform targetTransform, int TID)
     {
-        base.Init(damage, radius, approachDuration, startPosition, targetTransform, TID);
+        base.Init(damage, radius, moveSpeed, startPosition, targetTransform, TID);
     }
 
     public override void Update()
     {
-        _time += Time.deltaTime / _approachDuration;
+        float moveStep = _moveSpeed * Time.deltaTime;
+        float timeStep = moveStep / _bezierLength;
+        _time += timeStep;
         transform.position = GetQuadraticBezierPoint(_time, _startPosition, _controlPoint, _targetTransform.position);
     }
 

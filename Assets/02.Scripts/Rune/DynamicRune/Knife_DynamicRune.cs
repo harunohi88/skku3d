@@ -5,18 +5,21 @@ public class Knife_DynamicRune : ADynamicRuneObject
     private bool _isStabbing;
     public int MaxStabCount = 3;
     private int StabCount = 0;
-    public override void Init(Damage damage, float radius, float approachDuration, Vector3 startPosition, Transform targetTransform, int TID)
+    public override void Init(Damage damage, float radius, float moveSpeed, Vector3 startPosition, Transform targetTransform, int TID)
     {
-        base.Init(damage, radius, approachDuration, startPosition, targetTransform, TID);
+        base.Init(damage, radius, moveSpeed, startPosition, targetTransform, TID);
         _isStabbing = false;
         StabCount = 0;
+        _time = 0;
     }
 
     public override void Update()
     {
         if(_isStabbing == false)
         {
-            _time += Time.deltaTime / _approachDuration;
+            float moveStep = _moveSpeed * Time.deltaTime;
+            float timeStep = moveStep / _bezierLength;
+            _time += timeStep;
             transform.position = GetQuadraticBezierPoint(_time, _startPosition, _controlPoint, _targetTransform.position);
 
             if(_time >= 1f)
@@ -27,7 +30,7 @@ public class Knife_DynamicRune : ADynamicRuneObject
         }
         else
         {
-            _time += Time.deltaTime * _approachDuration * 2;
+            _time += Time.deltaTime * 2f;
             float angle = _time * Mathf.PI * 2;
             float x = Mathf.Sin(angle);
             float y = Mathf.Sin(angle) * Mathf.Cos(angle);

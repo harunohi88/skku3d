@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class RuneManager : BehaviourSingleton<RuneManager>
 {
@@ -22,7 +23,7 @@ public class RuneManager : BehaviourSingleton<RuneManager>
 
         for(int i = 0; i < _dynamicAttackPrefabList.Count; i++)
         {
-            ProjectilePoolDic.Add(dynamicTID + i, new ObjectPool<ADynamicRuneObject>(_dynamicAttackPrefabList, 20, transform));
+            ProjectilePoolDic.Add(dynamicTID + i, new ObjectPool<ADynamicRuneObject>(_dynamicAttackPrefabList[i], 20, transform));
         }
     }
 
@@ -48,5 +49,11 @@ public class RuneManager : BehaviourSingleton<RuneManager>
         factory.Register("MoveSpeedBuffEffect", () => new MoveSpeedBuffEffect());
         factory.Register("HealEffect", () => new HealEffect());
         factory.Register("SlaughterRuneEffect", () => new SlaughterRuneEffect());
+        factory.Register("ArrowRuneEffect", () => new ArrowRuneEffect());
+    }
+
+    public void CheckCritical(ref Damage damage)
+    {
+        damage.IsCritical = damage.CriticalRate >= Random.Range(0f, 1f);
     }
 }

@@ -1,41 +1,45 @@
-using NUnit.Framework;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using System.Collections.Generic;
+using System.Collections;
 
-public class SlaughterRuneEffect : ARuneEffect
+public class ArrowRuneEffect : ARuneEffect
 {
     private int _tid;
-    private int _stabCount;
+    private float _damageMultiplier;
     public override void Initialize(RuneData data, int tier)
     {
         _tid = data.TID;
-        _stabCount = (int)data.TierList[tier - 1];
+        _damageMultiplier = (int)data.TierList[tier - 1];
     }
 
     public override void ApplyEffect(RuneExecuteContext context, ref Damage damage)
     {
+        RuneManager.Instance.StartCoroutine(Arrow_Coroutine(context, damage));   
+    }
+
+    public IEnumerator Arrow_Coroutine(RuneExecuteContext context, Damage damage)
+    {
         List<Collider> colliderList = Physics.OverlapSphere(context.Player.transform.position, 10f, LayerMask.GetMask("Enemy")).ToList();
-        Damage newDamage = new Damage();
-        newDamage.Value = damage.Value * 0.5f;
-        newDamage.From = damage.From;
-        damage.Value *= 0.5f;
+
         if (colliderList.Count != 0)
         {
-            for (int i = 0; i <= PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.ProjectileCountGain].TotalStat; i++)
+            int n = 4 + (int)PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.ProjectileCountGain].TotalStat;
+            for (int i = 0; i <= n; i++)
             {
                 int index = Random.Range(0, colliderList.Count);
                 Transform targetTransform = colliderList[index].transform;
 
-                Vector3 offset = Quaternion.Euler(0, (360f / _stabCount) * i, 0) * (-context.Player.transform.forward * 1.5f);
+                Vector3 offset = Quaternion.Euler(0, (360f / n) * i, 0) * (-context.Player.transform.forward * 1.5f);
                 Vector3 spawnPos = context.Player.transform.position + offset + Vector3.up * 1f;
-                Knife_DynamicRune dyRune = RuneManager.Instance.ProjectilePoolDic[_tid].Get() as Knife_DynamicRune;
+                Arrow_DynamicRune dyRune = RuneManager.Instance.ProjectilePoolDic[_tid].Get() as Arrow_DynamicRune;
                 dyRune.gameObject.SetActive(false);
 
+                damage.Value *= _damageMultiplier;
                 dyRune.Init(damage, 0, 10f, spawnPos, targetTransform, _tid);
                 dyRune.gameObject.SetActive(true);
 
-                dyRune.MaxStabCount = _stabCount;
+                yield return new WaitForSeconds(0.1f);
             }
         }
     }

@@ -9,16 +9,17 @@ public abstract class ADynamicRuneObject : MonoBehaviour
     protected Transform _targetTransform;
     protected Vector3 _controlPoint;
     protected float _time;
-    protected float _approachDuration;
+    protected float _moveSpeed;
+    protected float _bezierLength;
 
     protected int TID;
 
-    public virtual void Init(Damage damage, float radius, float approachDuration, Vector3 startPosition, Transform targetTransform, int TID)
+    public virtual void Init(Damage damage, float radius, float moveSpeed, Vector3 startPosition, Transform targetTransform, int TID)
     {
         _damage = damage;
         _radius = radius;
         transform.position = startPosition;
-        _approachDuration = approachDuration;
+        _moveSpeed = moveSpeed;
 
         _startPosition = startPosition;
         _targetTransform = targetTransform;
@@ -27,6 +28,7 @@ public abstract class ADynamicRuneObject : MonoBehaviour
 
         float distance = Vector3.Distance(_startPosition, _targetTransform.position);
         _controlPoint = GetRandomBezierControlPoint(_startPosition, _targetTransform.position, Mathf.Clamp(distance - 2, 0.5f, distance / 2), distance);
+        _bezierLength = EstimateBezierLength(_startPosition, _controlPoint, _targetTransform.position);
     }
 
 
@@ -48,6 +50,22 @@ public abstract class ADynamicRuneObject : MonoBehaviour
         return oneMinusT * oneMinusT * p0
          + 2f * oneMinusT * time * p1
          + time * time * p2;
+    }
+
+    private float EstimateBezierLength(Vector3 p0, Vector3 p1, Vector3 p2, int samples = 10)
+    {
+        float length = 0f;
+        Vector3 prev = p0;
+
+        for (int i = 1; i <= samples; i++)
+        {
+            float t = i / (float)samples;
+            Vector3 point = GetQuadraticBezierPoint(t, p0, p1, p2);
+            length += Vector3.Distance(prev, point);
+            prev = point;
+        }
+
+        return length;
     }
 
     public abstract void Update();
