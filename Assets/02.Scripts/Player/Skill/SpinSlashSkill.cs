@@ -63,18 +63,19 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
             if (enemy.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
                 AEnemy enemyComponent = enemy.gameObject.GetComponent<AEnemy>();
-                // 크리티컬 체크
                 CheckCritical(ref damage);
-                // 룬 실행 컨텍스트 생성
                 RuneExecuteContext context = SetContext(damage, enemyComponent);
-                // 룬 트리거 체크
                 if (Rune != null && Rune.CheckTrigger(context))
                 {
-                    // 룬 효과 적용
                     Debug.LogWarning("Rune effect applied");
                     Rune.ApplyEffect(context, ref damage);
                 }
                 damageable.TakeDamage(damage);
+                if (Rune != null && Rune.CheckTrigger(context))
+                {
+                    Debug.LogWarning("Rune effect applied");
+                    Rune.ApplyEffect(context, ref damage);
+                }
             }
         }
     }
