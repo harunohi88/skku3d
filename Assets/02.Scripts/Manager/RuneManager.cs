@@ -16,6 +16,7 @@ public class RuneManager : BehaviourSingleton<RuneManager>
         factory.Register("OnBossHitTrigger", () => new OnBossHitTrigger());
         factory.Register("OnDistanceToEnemyTrigger", () => new OnDistanceToEnemyTrigger());
         factory.Register("OnEnemyHealthConditionTrigger", () => new OnEnemyHealthConditionTrigger());
+        factory.Register("OnSkillUseTrigger", () => new OnSkillUseTrigger());
     }
 
     private void RegisterRuneEffects()

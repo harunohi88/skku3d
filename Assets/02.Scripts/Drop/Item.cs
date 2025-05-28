@@ -50,9 +50,7 @@ public class Item : MonoBehaviour
         _tier = tier;
         Type = type;
         Rune = rune;
-
-        if (type == EItemType.Rune) Rune = GetComponentInParent<Rune>();
-        else Amount = amount;
+        Amount = amount;
 
         for (int i = 0; i < SparkleEffectList.Count; i++)
         {
@@ -64,7 +62,7 @@ public class Item : MonoBehaviour
 
     private void BounceEffect()
     {
-        Vector3 startPos = transform.parent.position;
+        Vector3 startPos = transform.position;
         startPos = new Vector3(startPos.x, 1f, startPos.z);
 
         Vector3 randomDir = (Vector3.up + Random.onUnitSphere * 0.5f).normalized;
@@ -77,8 +75,8 @@ public class Item : MonoBehaviour
             float factor = 1f / (i + 1f);
             Vector3 upPeak = Vector3.Lerp(startPos, peakPos, factor);
 
-            bounceSeq.Append(transform.parent.DOMove(upPeak, BounceDuration / 2).SetEase(Ease.OutQuad));
-            bounceSeq.Append(transform.parent.DOMove(startPos, BounceDuration / 2).SetEase(Ease.InQuad));
+            bounceSeq.Append(transform.DOMove(upPeak, BounceDuration / 2).SetEase(Ease.OutQuad));
+            bounceSeq.Append(transform.DOMove(startPos, BounceDuration / 2).SetEase(Ease.InQuad));
         }
     }
 
@@ -92,12 +90,12 @@ public class Item : MonoBehaviour
     {
         IsCollected = true;
 
-        Vector3 direction = (transform.parent.position - _player.position).normalized;
-        Vector3 retreatPos = transform.parent.position + direction * RetreatDistance;
+        Vector3 direction = (transform.position - _player.position).normalized;
+        Vector3 retreatPos = transform.position + direction * RetreatDistance;
 
-        yield return transform.parent.DOMove(retreatPos, RetreatDuration).SetEase(Ease.OutQuad).WaitForCompletion();
-        transform.parent.DOScale(0.3f, GetDuration).SetEase(Ease.InOutQuad);
-        yield return transform.parent.DOMove(_player.position, GetDuration).SetEase(Ease.InQuad).WaitForCompletion();
+        yield return transform.DOMove(retreatPos, RetreatDuration).SetEase(Ease.OutQuad).WaitForCompletion();
+        transform.DOScale(0.3f, GetDuration).SetEase(Ease.InOutQuad);
+        yield return transform.DOMove(_player.position, GetDuration).SetEase(Ease.InQuad).WaitForCompletion();
 
         ApplyEffect();
 
@@ -106,7 +104,7 @@ public class Item : MonoBehaviour
         switch (Type)
         {
             case EItemType.Rune:
-
+                PlayerManager.Instance.PlayerSkill.AddRune(0, Rune);
                 break;
             case EItemType.Exp:
 

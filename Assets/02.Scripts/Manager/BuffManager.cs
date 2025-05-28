@@ -10,9 +10,13 @@ public class BuffManager : BehaviourSingleton<BuffManager>
 
     private void Awake()
     {
-        _playerStat = PlayerManager.Instance.PlayerStat;
         _activeBuffList = new List<StatBuff>();
         _activeBuffDictionary = new Dictionary<int, StatBuff>();
+    }
+
+    private void Start()
+    {
+        _playerStat = PlayerManager.Instance.PlayerStat;
     }
 
     public void AddBuff(StatBuff buff)
@@ -23,6 +27,7 @@ public class BuffManager : BehaviourSingleton<BuffManager>
         }
         else
         {
+            Debug.LogWarning("Apply Buff");
             _activeBuffDictionary[buff.SourceTid] = buff;
             _activeBuffList.Add(buff);
             _playerStat.StatDictionary[buff.BuffStatType].AddBuff(buff);
@@ -36,8 +41,10 @@ public class BuffManager : BehaviourSingleton<BuffManager>
             StatBuff buff = _activeBuffList[i];
             if (!buff.IsValid(Time.deltaTime))
             {
-                _playerStat.StatDictionary[buff.BuffStatType].RemoveBuff(buff);
+                Debug.LogWarning("Remove Buff");
                 _activeBuffList.RemoveAt(i);
+                _activeBuffDictionary.Remove(buff.SourceTid);
+                _playerStat.StatDictionary[buff.BuffStatType].RemoveBuff(buff);
             }
         }
     }

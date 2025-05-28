@@ -1,3 +1,4 @@
+using Mono.Cecil.Cil;
 using UnityEngine;
 
 public class SpinSlashSkill : MonoBehaviour, ISkill
@@ -46,23 +47,33 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         return context;
     }
 
+    public void CheckCritical(ref Damage damage)
+    {
+        damage.IsCritical = damage.CriticalRate <= Random.Range(0f, 1f);
+    }
+    
     // 이벤트 시스템에서 호출할 메서드
     public void OnSkillAnimationEffect()
     {
         // 데미지 구현
         Collider[] hitEnemies = Physics.OverlapSphere(transform.position, AttackRange, _enemyLayer);
-        Damage damage = new Damage() { Value = 10, From = PlayerManager.Instance.Player.gameObject };
+        Damage damage = new Damage() { Value = 100, From = PlayerManager.Instance.Player.gameObject };
         foreach (Collider enemy in hitEnemies)
         {
             if (enemy.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
-                // 데미지 구조체 생성
                 AEnemy enemyComponent = enemy.gameObject.GetComponent<AEnemy>();
+                // 크리티컬 체크
+                CheckCritical(ref damage);
                 // 룬 실행 컨텍스트 생성
                 RuneExecuteContext context = SetContext(damage, enemyComponent);
                 // 룬 트리거 체크
-                Rune.CheckTrigger(context);
-                // 룬 효과 적용
+                if (Rune != null && Rune.CheckTrigger(context))
+                {
+                    // 룬 효과 적용
+                    Debug.LogWarning("Rune effect applied");
+                    Rune.ApplyEffect(context, ref damage);
+                }
                 damageable.TakeDamage(damage);
             }
         }
