@@ -1,11 +1,29 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class RuneManager : BehaviourSingleton<RuneManager>
 {
+    [Header("동적 룬 투사체 프리펩")]
+    [SerializeField] private List<ADynamicObject> _dynamicAttackPrefab;
+
+    public Dictionary<int, ObjectPool<ADynamicObject>> ProjectilePoolDic = new();
+
     private void Awake()
     {
         RegisterRuneTriggers();
         RegisterRuneEffects(); // 필요 시
+
+        InitProjectilePool();
+    }
+
+    private void InitProjectilePool()
+    {
+        int dynamicTID = DataTable.Instance.GetRuneDataList().Find(x => x.RuneType == RuneType.Dynamic).TID + 1;
+
+        for(int i = 0; i < DataTable.Instance.GetRuneDataList().Count; i++)
+        {
+            ProjectilePoolDic.Add(dynamicTID + i, new ObjectPool<ADynamicObject>(_dynamicAttackPrefab, 20, transform));
+        }
     }
 
     private void RegisterRuneTriggers()
