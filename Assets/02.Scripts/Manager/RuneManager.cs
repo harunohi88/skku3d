@@ -4,9 +4,9 @@ using System.Collections.Generic;
 public class RuneManager : BehaviourSingleton<RuneManager>
 {
     [Header("동적 룬 투사체 프리펩")]
-    [SerializeField] private List<ADynamicObject> _dynamicAttackPrefab;
+    [SerializeField] private List<ADynamicRuneObject> _dynamicAttackPrefabList;
 
-    public Dictionary<int, ObjectPool<ADynamicObject>> ProjectilePoolDic = new();
+    public Dictionary<int, ObjectPool<ADynamicRuneObject>> ProjectilePoolDic = new();
 
     private void Awake()
     {
@@ -20,9 +20,9 @@ public class RuneManager : BehaviourSingleton<RuneManager>
     {
         int dynamicTID = DataTable.Instance.GetRuneDataList().Find(x => x.RuneType == RuneType.Dynamic).TID + 1;
 
-        for(int i = 0; i < DataTable.Instance.GetRuneDataList().Count; i++)
+        for(int i = 0; i < _dynamicAttackPrefabList.Count; i++)
         {
-            ProjectilePoolDic.Add(dynamicTID + i, new ObjectPool<ADynamicObject>(_dynamicAttackPrefab, 20, transform));
+            ProjectilePoolDic.Add(dynamicTID + i, new ObjectPool<ADynamicRuneObject>(_dynamicAttackPrefabList, 20, transform));
         }
     }
 
