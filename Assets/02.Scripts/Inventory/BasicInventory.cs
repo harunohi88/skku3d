@@ -7,6 +7,7 @@ public class BasicInventory : BaseInventory
     public List<Sprite> RuneSpriteList;
     private const int RUNE_SPRITE_START_INDEX = 10000;
     [SerializeField] private EquipInventory _equipInventory;
+    [SerializeField] private BasicAllInventory _basicAllInventory;
 
     public override bool AddItem(Rune rune, int quantity = 1)
     {
@@ -37,6 +38,31 @@ public class BasicInventory : BaseInventory
         }
 
         return false; // 인벤토리가 가득 참
+    }
+
+    public bool ReduceItemQuantity(int tid, int quantity)
+    {
+        for (int i = 0; i < _itemsList.Count; i++)
+        {
+            if (_itemsList[i] != null && _itemsList[i].Rune.TID == tid)
+            {
+                _itemsList[i].RemoveQuantity(quantity);
+                if (_itemsList[i].Quantity <= 0)
+                {
+                    _itemsList[i] = null;
+                    SortInventory();
+                }
+                UpdateSlot(i);
+
+                // BasicAllInventory에도 수량 감소 반영
+                if (_basicAllInventory != null)
+                {
+                    _basicAllInventory.ReduceItemQuantity(tid, _itemsList[i]?.Rune.CurrentTier ?? 0, quantity);
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     private void SortInventory()

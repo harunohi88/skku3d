@@ -48,6 +48,28 @@ public class BasicAllInventory : BaseInventory
         return false; // 인벤토리가 가득 참
     }
 
+    public bool ReduceItemQuantity(int tid, int tier, int quantity)
+    {
+        // 해당 TID와 티어를 가진 아이템 찾기
+        for (int i = 0; i < _itemsList.Count; i++)
+        {
+            if (_itemsList[i] != null && 
+                _itemsList[i].Rune.TID == tid && 
+                _itemsList[i].Rune.CurrentTier == tier)
+            {
+                _itemsList[i].RemoveQuantity(quantity);
+                if (_itemsList[i].Quantity <= 0)
+                {
+                    _itemsList[i] = null;
+                    SortInventory();
+                }
+                UpdateSlot(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void AddToTierInventory(Rune rune, int quantity)
     {
         switch (rune.CurrentTier)
@@ -106,8 +128,8 @@ public class BasicAllInventory : BaseInventory
                 Debug.Log($"BasicAllInventory.MoveItemToEquip - 장비 인벤토리에 성공적으로 추가됨");
                 _itemsList[fromSlot].RemoveQuantity(1);
                 
-                // 해당 티어의 인벤토리에서도 제거
-                RemoveFromTierInventory(_itemsList[fromSlot].Rune, 1);
+                // 해당 티어의 인벤토리에서도 수량 감소
+                ReduceTierInventoryQuantity(_itemsList[fromSlot].Rune, 1);
                 
                 if (_itemsList[fromSlot].Quantity <= 0)
                 {
@@ -122,18 +144,18 @@ public class BasicAllInventory : BaseInventory
         return false;
     }
 
-    private void RemoveFromTierInventory(Rune rune, int quantity)
+    private void ReduceTierInventoryQuantity(Rune rune, int quantity)
     {
         switch (rune.CurrentTier)
         {
             case 1:
-                if (_tier1Inventory != null) _tier1Inventory.RemoveItem(rune.TID, quantity);
+                if (_tier1Inventory != null) _tier1Inventory.ReduceItemQuantity(rune.TID, quantity);
                 break;
             case 2:
-                if (_tier2Inventory != null) _tier2Inventory.RemoveItem(rune.TID, quantity);
+                if (_tier2Inventory != null) _tier2Inventory.ReduceItemQuantity(rune.TID, quantity);
                 break;
             case 3:
-                if (_tier3Inventory != null) _tier3Inventory.RemoveItem(rune.TID, quantity);
+                if (_tier3Inventory != null) _tier3Inventory.ReduceItemQuantity(rune.TID, quantity);
                 break;
         }
     }

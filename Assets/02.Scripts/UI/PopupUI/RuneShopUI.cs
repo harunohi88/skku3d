@@ -37,13 +37,13 @@ public class RuneShopUI : MonoBehaviour
 
     public void UpdateRerollCost(int currentRerollCost)
     {
-        RerollCostText.text = $"{currentRerollCost}";
+        RerollCostText.text = currentRerollCost.ToString("N0");
     }
 
     public void UpdateShopItem(int index, Sprite runeIcon, int runeCost)
     {
         RuneImageList[index].sprite = runeIcon;
-        RuneCostTextList[index].text = $"{runeCost}";
+        RuneCostTextList[index].text = runeCost.ToString("N0");
     }
 
 }

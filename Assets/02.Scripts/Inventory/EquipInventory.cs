@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EquipInventory : BaseInventory
 {
-    [SerializeField] private BasicAllInventory _basicInventory;
+    [SerializeField] private BasicAllInventory _basicAllInventory;
     public List<Sprite> RuneSpriteList;
     private const int RUNE_SPRITE_START_INDEX = 10000;
     protected override void Awake()
@@ -83,9 +83,9 @@ public class EquipInventory : BaseInventory
         if (slotIndex < 0 || slotIndex >= _itemsList.Count || _itemsList[slotIndex] == null)
             return;
 
-        // 아이템을 기본 인벤토리로 이동
+        // 아이템을 BasicAllInventory로 이동
         Rune rune = _itemsList[slotIndex].Rune;
-        if (_basicInventory.AddItem(rune, 1))
+        if (_basicAllInventory.AddItem(rune, 1))
         {
             _itemsList[slotIndex] = null;
             UpdateSlot(slotIndex);

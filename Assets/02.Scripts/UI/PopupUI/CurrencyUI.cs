@@ -12,7 +12,7 @@ public class CurrencyUI : MonoBehaviour
 
     private void UpdateCurrency(int gold)
     {
-        ShopGoldText.text = gold.ToString();
-        InventoryGoldText.text = gold.ToString();
+        ShopGoldText.text = gold.ToString("N0");
+        InventoryGoldText.text = gold.ToString("N0");
     }
 }

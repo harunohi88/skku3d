@@ -114,7 +114,11 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                         if (targetInventory != _inventory)
                         {
                             Debug.Log($"OnEndDrag - 서로 다른 인벤토리 간 이동");
-                            if (_inventory is BasicInventory basicInv && targetInventory is EquipInventory)
+                            if (_inventory is BasicAllInventory basicAllInv && targetInventory is EquipInventory)
+                            {
+                                basicAllInv.MoveItemToEquip(_slotIndex, targetSlot._slotIndex);
+                            }
+                            else if (_inventory is BasicInventory basicInv && targetInventory is EquipInventory)
                             {
                                 basicInv.MoveItemToEquip(_slotIndex, targetSlot._slotIndex);
                             }
