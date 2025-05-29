@@ -3,8 +3,8 @@ using UnityEngine;
 public class Arrow_DynamicRune : ADynamicRuneObject
 {
     public GameObject HitObject;
-    public ParticleSystem SmokeTrail;
-    public float InitialPhaseDuration = 0.7f;
+    public GameObject SmokeTrail;
+    private float InitialPhaseDuration = 0.3f;
     private float _elapsedPhaseTime = 0f;
     private bool _isTrailOn = false;
 
@@ -12,7 +12,7 @@ public class Arrow_DynamicRune : ADynamicRuneObject
     {
         base.Init(damage, radius, moveSpeed, startPosition, targetTransform, TID);
         _elapsedPhaseTime = 0f;
-        SmokeTrail.Stop();
+        SmokeTrail.SetActive(false);
         _isTrailOn = false;
     }
 
@@ -24,7 +24,12 @@ public class Arrow_DynamicRune : ADynamicRuneObject
 
         if(_isTrailOn == false)
         {
-            //
+            _elapsedPhaseTime += Time.deltaTime;
+            if (_elapsedPhaseTime >= InitialPhaseDuration)
+            {
+                _isTrailOn = true;
+                SmokeTrail.SetActive(true);
+            }
         }
 
         Vector3 targetPosition = new Vector3(_targetTransform.position.x, 1f, _targetTransform.position.z);
@@ -40,13 +45,9 @@ public class Arrow_DynamicRune : ADynamicRuneObject
         Vector3 direction = (lookPos - currentPos).normalized;
         transform.forward = direction;
 
-        if (_elapsedPhaseTime >= InitialPhaseDuration)
-        {
-            SmokeTrail.Play();
-        }
-
         if (_time >= 1f)
         {
+            SmokeTrail.SetActive(false);
             RuneManager.Instance.ProjectilePoolDic[TID].Return(this);
         }
     }
@@ -72,7 +73,7 @@ public class Arrow_DynamicRune : ADynamicRuneObject
                 Instantiate(HitObject, hitPoint, rot);
             }
 
-            SmokeTrail.Stop();
+            SmokeTrail.SetActive(false);
             RuneManager.Instance.ProjectilePoolDic[TID].Return(this);
         }
     }
