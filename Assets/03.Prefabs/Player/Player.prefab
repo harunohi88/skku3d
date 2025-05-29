@@ -154,7 +154,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Gravity: -9.81
-  RollSpeed: 10
   RollDuration: 0.8
   Model: {fileID: 4918273216877875310}
   PlayerManager: {fileID: 0}
@@ -225,6 +224,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SkillName: SpinSlash
   AttackRange: 10
+  CooldownTime: 3
+  SkillBaseStat: {fileID: 11400000, guid: 35ff15a201dd90e459cfe90ca631cc31, type: 2}
   IsAvailable: 1
 --- !u!114 &315133918655934278
 MonoBehaviour:
