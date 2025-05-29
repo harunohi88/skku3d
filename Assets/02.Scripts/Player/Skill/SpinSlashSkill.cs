@@ -1,6 +1,7 @@
 using Mono.Cecil.Cil;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class SpinSlashSkill : MonoBehaviour, ISkill
 {
@@ -33,7 +34,6 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         }
     }
     
-    // 즉발기
     public void Execute()
     {
         if (!IsAvailable)
@@ -72,6 +72,17 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         }
     }
     
+    private List<Collider> GetCollidersInTargetArea()
+    {
+        Collider[] colliders = Physics.OverlapSphere(
+            transform.position,
+            SkillStatDictionary[ESkillStat.TargetRange].TotalStat,
+            _enemyLayer);
+
+        List<Collider> collisionList = colliders.ToList();
+        return collisionList;
+    }
+    
     private void RuneEffectExecute(RuneExecuteContext context, ref Damage damage)
     {
         if (Rune != null && Rune.CheckTrigger(context))
@@ -86,9 +97,9 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         damage.Value = _playerStatDictionary[EStatType.AttackPower].TotalStat
                         * SkillStatDictionary[ESkillStat.SkillMultiplier].TotalStat;
         damage.CriticalChance = _playerStatDictionary[EStatType.CriticalChance].TotalStat
-                                + SkillStatDictionary[ESkillStat.AdditionalCriticalChance].TotalStat;
+                                + SkillStatDictionary[ESkillStat.CriticalChance].TotalStat;
         damage.CriticalDamage = _playerStatDictionary[EStatType.CriticalDamage].TotalStat
-                                + SkillStatDictionary[ESkillStat.AdditionalCriticalDamage].TotalStat;
+                                + SkillStatDictionary[ESkillStat.CriticalDamage].TotalStat;
         damage.IsCritical = false;
         damage.From = _playerManager.Player.gameObject;
         return damage;
@@ -96,11 +107,8 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
     
     public void OnSkillAnimationEffect()
     {
-        Collider[] hitEnemies = Physics.OverlapSphere(
-            transform.position,
-            SkillStatDictionary[ESkillStat.TargetRange].TotalStat, 
-            _enemyLayer);
-        if (hitEnemies.Length == 0)
+        List<Collider> hitEnemies = GetCollidersInTargetArea();
+        if (hitEnemies.Count == 0)
         {
             return;
         }
