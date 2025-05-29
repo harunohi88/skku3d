@@ -6,6 +6,8 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     public int ProjectileCount = 3;
     public float ProjectileAngleStep = 30f;
 
+    public GameObject KnifePrefab;
+
     private void Start()
     {
         Init(null);
@@ -103,4 +105,48 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
         base.OnAnimationEnd();
         ChangeState(new Boss3TraceState());
     }
+
+    /// <summary>
+    /// 칼날 프리펩을 생성하고 방향을 설정한다. 칼날은 Projectile 컴포넌트를 가지고 있다.
+    /// </summary>
+    /// <param name="center">칼날이 생성될 중심 위치</param>
+    /// <param name="count">생성할 칼날의 개수</param>
+    /// <param name="innerRadius">칼날의 목표 방향의 반지름</param>
+    /// <param name="outerRadius">칼날이 생성될 반지름</param>
+    public void KnifeInstantiate(Vector3 center, int count, float innerRadius, float outerRadius)
+    {
+        int placed = 0;
+        var patterData = BossAIManager.Instance.GetPatternData(1);
+
+        while (placed < count)
+        {
+            // 원 범위 내 랜덤 위치 생성
+            // 방향은 center를 바라보게
+            float spawnAngle = Random.Range(0f, Mathf.PI * 2);
+            float spawnRadius = Mathf.Sqrt(Random.Range(0.5f, 1f));
+            
+
+            float spawnX = Mathf.Cos(spawnAngle) * spawnRadius * outerRadius;
+            float spawnZ = Mathf.Sin(spawnAngle) * spawnRadius * outerRadius;
+            Vector3 spawnPoint = center + new Vector3(spawnX, center.y, spawnZ);
+
+            float centerAngle = Random.Range(0f, Mathf.PI * 2);
+            float centerRadius = Mathf.Sqrt(Random.Range(0, 1f));
+
+            float centerX = Mathf.Cos(centerAngle) * centerRadius * innerRadius;
+            float centerZ = Mathf.Sin(centerAngle) * centerRadius * innerRadius;
+            Vector3 centerPoint = center + new Vector3(centerX, center.y, centerZ);
+
+            Projectile knife = Instantiate(KnifePrefab, spawnPoint, Quaternion.identity).GetComponent<Projectile>();
+            Damage damage = new Damage();
+            damage.Value = Damage;
+            damage.From = this.gameObject;
+            knife.Init(damage);
+            knife.transform.forward = centerPoint - spawnPoint;
+
+            placed++;
+        }
+    }
+
+
 }
