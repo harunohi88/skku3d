@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BossAIManager : BehaviourSingleton<BossAIManager>
+public class Boss3AIManager : BehaviourSingleton<Boss3AIManager>
 {
     public AEnemy BossEnemy;
     [SerializeField] private float _healthThreshold = 0.5f;
@@ -21,17 +21,6 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
 
     [Header("Special Attack 4 Patterns")]
     [SerializeField] private List<EnemyPatternData> _specialAttack4PatternList;
-
-    //public float Pattern1Radius;
-    //public float Pattern1Range;
-    //public float Pattern1LightningLastTime;
-
-    //public float Patter2FirstCastingtime;
-    //public float Pattern2Radius;
-    //public float Pattern2Range;
-
-    //public float Pattern3Range;
-    //public float Pattern3Angle;
 
     private void Start()
     {
@@ -55,7 +44,7 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
             return GetAttackState(selectedIndex);
         }
 
-        return new BossTraceState();
+        return new Boss3TraceState();
     }
 
     private bool IsPatternAvailable(int patternIndex)
@@ -104,12 +93,12 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
     {
         switch (index)
         {
-            case 0: return new BossBaseAttackState();
-            case 1: return new BossSpecialAttack01State();
-            case 2: return new BossSpecialAttack02State();
-            case 3: return new BossSpecialAttack03State();
-            case 4: return new BossSpecialAttack04State();
-            default: return new BossTraceState();
+            case 0: return new Boss3BaseAttackState();
+            case 1: return new Boss3SpecialAttack01State();
+            case 2: return new Boss3SpecialAttack02State();
+            case 3: return new Boss3SpecialAttack03State();
+            case 4: return new Boss3SpecialAttack04State();
+            default: return new Boss3TraceState();
         }
     }
 }
