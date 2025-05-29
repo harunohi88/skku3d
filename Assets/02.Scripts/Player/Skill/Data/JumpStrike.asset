@@ -30,4 +30,6 @@ MonoBehaviour:
   - StatType: 7
     BaseValue: 0
   - StatType: 8
+    BaseValue: 0
+  - StatType: 9
     BaseValue: 0.8

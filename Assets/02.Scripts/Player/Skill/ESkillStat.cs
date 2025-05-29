@@ -7,6 +7,7 @@ public enum ESkillStat
     SkillCooldown,
     SkillRange,
     TargetRange,
+    TargetAngle,
     CriticalChance,
     CriticalDamage,
     CooldownReduction,
