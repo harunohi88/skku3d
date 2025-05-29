@@ -26,13 +26,14 @@ public class SkillIndicator : MonoBehaviour
         transform.eulerAngles = new Vector3(90, 0, 0);
     }
 
-    public void CircularInit(float width, float height, float direction, float angleRange, float innerRange, float castingPercent, ObjectPool<SkillIndicator> pool = null)
+    public void CircularInit(float width, float height, float direction, float angleRange, float innerRange, float castingPercent, Color color, ObjectPool<SkillIndicator> pool = null)
     {
         _projector.material = CircularMaterial;
         _instancedMaterial = _projector.material;
         _projector.size = new Vector3(width, height, _projector.size.z);
         _time = 0f;
         _isReady = false;
+        _instancedMaterial.SetColor("_Color", color);
         _instancedMaterial.SetFloat("_Direction", direction);
         _instancedMaterial.SetFloat("_AngleRange", angleRange);
         _instancedMaterial.SetFloat("_InnerRange", innerRange);
@@ -43,13 +44,14 @@ public class SkillIndicator : MonoBehaviour
         percent = 0;
     }
 
-    public void SquareInit(float width, float height, float direction, float innerRange, float castingPercent, ObjectPool<SkillIndicator> pool = null)
+    public void SquareInit(float width, float height, float direction, float innerRange, float castingPercent, Color color, ObjectPool<SkillIndicator> pool = null)
     {
         _projector.material = SquareMaterial;
         _instancedMaterial = _projector.material;
         _projector.size = new Vector3(width, height, _projector.size.z);
         _time = 0f;
         _isReady = false;
+        _instancedMaterial.SetColor("_Color", color);
         _instancedMaterial.SetFloat("_Direction", direction);
         _instancedMaterial.SetFloat("_InnerRange", innerRange);
         _instancedMaterial.SetFloat("_CastingPercent", castingPercent);
