@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class RuneShop : MonoBehaviour
 {
-    [SerializeField] private BasicInventory _inventory;     // 인벤토리 참조
+    [SerializeField] private BasicAllInventory _inventory;     // 인벤토리 참조
+    public List<Sprite> RuneSpriteList;
+    private const int RUNE_SPRITE_START_INDEX = 10000;
 
     public List<Rune> RuneList = new List<Rune>(6);         // 룬 리스트
 
@@ -23,6 +25,7 @@ public class RuneShop : MonoBehaviour
     public Action<int> OnCreateRune;
     public Action<int> OnReroll;
 
+    // TODO: 스테이지 바뀔때마다 조건을 바꿔서 다시 리롤을 해줘야 한다.
 
     private void Start()
     {
@@ -79,13 +82,15 @@ public class RuneShop : MonoBehaviour
             // 가격도 전부 100으로 설정
             int randomTID = UnityEngine.Random.Range(RUNE_MIN_TID, RUNE_MIN_TID + RUNE_COUNT);
             Debug.Log($"룬 생성: {randomTID}");
-            Rune rune = new Rune(randomTID, 1);
+            // 룬 티어 랜덤으로 : 삭제예정
+            int randomTier = UnityEngine.Random.Range(1, 4);
+            Rune rune = new Rune(randomTID, randomTier);
             RuneList.Add(rune);
             _runeCostList.Add(100);
             
             // 룬 리스트 만들고 UI 업데이트
             OnReroll?.Invoke(_rerollCost);
-            OnRuneUpdated?.Invoke(i, rune.Sprite, _runeCostList[i]);
+            OnRuneUpdated?.Invoke(i, RuneSpriteList[randomTID - RUNE_SPRITE_START_INDEX], _runeCostList[i]);
             OnCreateRune?.Invoke(i);
         }
     }
