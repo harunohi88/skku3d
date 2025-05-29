@@ -151,6 +151,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
                 innerRange,
                 castingTime,
                 0,
+                Color.red,
                 false
             ));
 
