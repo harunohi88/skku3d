@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
@@ -52,7 +53,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             _highlightObject.SetActive(true);
             if (_tooltip != null)
             {
-                _tooltip.Show($"Rune T{CurrentItem.Rune.TierValue}", CurrentItem.Rune.RuneDescription, transform as RectTransform);
+                _tooltip.Show($"Rune T{CurrentItem.Rune.CurrentTier}", CurrentItem.Rune.RuneDescription, transform as RectTransform);
             }
         }
     }

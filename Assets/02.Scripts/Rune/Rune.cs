@@ -9,7 +9,7 @@ public class Rune
     public float TierValue;
     public string RuneDescription;
 
-    private int _currentTier;
+    public int CurrentTier;
     private RuneData _data;
     private List<ARuneTrigger> _triggerList;
     private List<ARuneEffect> _effectList;
@@ -25,8 +25,8 @@ public class Rune
     {
         LoadData();
 
-        _currentTier = tier;
-        TierValue = _data.TierList[_currentTier - 1];
+        CurrentTier = tier;
+        TierValue = _data.TierList[CurrentTier - 1];
         RuneDescription = _data.RuneDescription;
         RuneDescription = RuneDescription.Replace("N", _data.RuneDescription.ToString());
     }
@@ -48,10 +48,10 @@ public class Rune
 
     public bool TryUpgrade()
     {
-        if (_currentTier >= _data.TierList.Count) return false;
+        if (CurrentTier >= _data.TierList.Count) return false;
 
-        _currentTier++;
-        Init(_currentTier);
+        CurrentTier++;
+        Init(CurrentTier);
         return true;
     }
 

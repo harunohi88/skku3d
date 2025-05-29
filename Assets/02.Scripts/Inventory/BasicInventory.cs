@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BasicInventory : BaseInventory
 {
+    public List<Sprite> RuneSpriteList;
+    private const int RUNE_SPRITE_START_INDEX = 10000;
     [SerializeField] private EquipInventory _equipInventory;
 
     public override bool AddItem(Rune rune, int quantity = 1)
@@ -25,6 +27,9 @@ public class BasicInventory : BaseInventory
             if (_itemsList[i] == null)
             {
                 _itemsList[i] = new InventoryItem(rune, quantity);
+                // 룬 스프라이트 적용
+                _itemsList[i].Rune.Sprite = RuneSpriteList[rune.TID - RUNE_SPRITE_START_INDEX];
+
                 UpdateSlot(i);
                 SortInventory();
                 return true;

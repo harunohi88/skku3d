@@ -12,6 +12,7 @@ public class CurrencyManager : BehaviourSingleton<CurrencyManager>
     void Start()
     {
         _currnetGold = 9999;
+        OnGoldChanged?.Invoke(_currnetGold);
     }
 
     public void AddGold(int amount)
