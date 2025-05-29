@@ -2,18 +2,19 @@ using UnityEngine;
 
 public class Boss3BaseAttackState : IState<AEnemy>
 {
-    void IState<AEnemy>.Enter(AEnemy enemy)
+    public void Enter(AEnemy enemy)
     {
-        throw new System.NotImplementedException();
+        Debug.Log(this);
+        enemy.Agent.ResetPath();
+        enemy.SetAnimationTrigger("BaseAttack");
+        enemy.EnemyRotation.IsFound = false;
     }
 
-    void IState<AEnemy>.Exit(AEnemy enemy)
+    public void Update(AEnemy enemy)
     {
-        throw new System.NotImplementedException();
     }
 
-    void IState<AEnemy>.Update(AEnemy enemy)
+    public void Exit(AEnemy enemy)
     {
-        throw new System.NotImplementedException();
     }
 }

@@ -3,8 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(BossAIManager))]
 public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
 {
-    private int _baseAttackCount = 0;
-    private int _attackCount = 0;
+    public int ProjectileCount = 3;
+    public float ProjectileAngleStep = 30f;
 
     private void Start()
     {
@@ -36,6 +36,26 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     public override void Attack()
     {
         EnemyRotation.IsFound = false;
+
+        int middleIndex = ProjectileCount / 2;
+
+        for (int i = 0; i < ProjectileCount; i++)
+        {
+            int offsetFromMiddle = i - middleIndex;
+
+            if (ProjectileCount % 2 == 0 && i >= middleIndex) offsetFromMiddle += 1;
+
+            float angle = offsetFromMiddle * ProjectileAngleStep;
+
+            Vector3 dir = Quaternion.AngleAxis(angle, AttackPosition.transform.up) * AttackPosition.transform.forward;
+
+            Projectile projectile = Instantiate(SkillObject, AttackPosition.transform.position, Quaternion.identity).GetComponent<Projectile>();
+            Damage damage = new Damage();
+            damage.Value = Damage;
+            damage.From = this.gameObject;
+            projectile.Init(damage);
+            projectile.transform.forward = dir;
+        }
     }
 
     public void SpecialAttack_01()
