@@ -530,6 +530,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss_MechanicalGolem
       objectReference: {fileID: 0}
+    - target: {fileID: 2040524020807264824, guid: 44f41a59af6e15544aa2b17715919e75, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6270131517243122169, guid: 44f41a59af6e15544aa2b17715919e75, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.06
