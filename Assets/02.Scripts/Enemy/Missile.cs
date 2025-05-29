@@ -13,16 +13,18 @@ public class Missile : MonoBehaviour
     private float _destroyTime = 0f;
     private bool _isDestroyed = false;
     private bool _isShot = false;
+    private Damage _damage;
 
     private void Start()
     {
         _sphereCollider = GetComponent<SphereCollider>();
     }
 
-    public void Init()
+    public void Init(Damage damage)
     {
         Vector3 PlayerPosition = new Vector3(PlayerManager.Instance.Player.transform.position.x, 1f, PlayerManager.Instance.Player.transform.position.z);
         _direction = (PlayerPosition - transform.position).normalized;
+        _damage = damage;
         _isShot = true;
     }
 
@@ -42,7 +44,7 @@ public class Missile : MonoBehaviour
 
                 if (hit.collider.CompareTag("Player"))
                 {
-                    Debug.Log("데미지 줌");
+                    PlayerManager.Instance.Player.TakeDamage(_damage);
                 }
 
                 _isDestroyed = true;

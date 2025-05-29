@@ -19,6 +19,9 @@ public class Projectile : MonoBehaviour
 
     private float _destroyTime = 0f;
     private bool _isDestroyed = false;
+    private bool _isReady = false;
+
+    private Damage _damage;
 
     private void Start()
     {
@@ -36,29 +39,32 @@ public class Projectile : MonoBehaviour
         _direction = transform.forward;
     }
 
+    public void Init(Damage damage)
+    {
+        _damage = damage;
+        _isReady = true;
+    }
+
     private void FixedUpdate()
     {
-        if (_isDestroyed) return;
+        if (_isDestroyed || _isReady == false) return;
 
         float radius = Radius;
 
         transform.position += _direction * MoveSpeed * Time.deltaTime;
 
         RaycastHit hit;
-        if(Physics.SphereCast(transform.position, radius, transform.forward, out hit, radius, LayerMask))
+        if (Physics.SphereCast(transform.position, radius, transform.forward, out hit, radius, LayerMask))
         {
             transform.position = hit.point;
 
             ImpactParticle = Instantiate(ImpactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, hit.normal));
             if (hit.transform.CompareTag("Player"))
             {
-                Damage damage = new Damage();
-                damage.From = this.gameObject;
-                damage.Value = 10;
-                PlayerManager.Instance.Player.TakeDamage(damage);
+                PlayerManager.Instance.Player.TakeDamage(_damage);
             }
 
-            foreach(GameObject trail in TrailParticleList)
+            foreach (GameObject trail in TrailParticleList)
             {
                 GameObject currentTrail = transform.Find(ProjectileParticle.name + "/" + trail.name).gameObject;
                 currentTrail.transform.parent = null;
@@ -72,30 +78,44 @@ public class Projectile : MonoBehaviour
         {
             _destroyTime += Time.deltaTime;
 
-            if(_destroyTime >= 5f)
+            if (_destroyTime >= 5f)
             {
                 DestroyMissile();
             }
         }
     }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawWireSphere(transform.position, Radius); // 시작 지점
+
+    //    Vector3 end = transform.position + _direction.normalized * Radius;
+    //    Gizmos.DrawWireSphere(end, Radius);     // 끝 지점
+
+    //    // 본체 라인
+    //    Gizmos.DrawLine(transform.position + Vector3.right * Radius, end + Vector3.right * Radius);
+    //    Gizmos.DrawLine(transform.position + Vector3.up * Radius, end + Vector3.up * Radius);
+    //    Gizmos.DrawLine(transform.position - Vector3.up * Radius, end - Vector3.up * Radius);
+    //}
 
     private void DestroyMissile()
     {
         _isDestroyed = true;
 
-        foreach(GameObject trail in TrailParticleList)
+        foreach (GameObject trail in TrailParticleList)
         {
             GameObject currentTrail = transform.Find(ProjectileParticle.name + "/" + trail.name).gameObject;
             currentTrail.transform.parent = null;
             Destroy(currentTrail, 3f);
         }
         Destroy(ProjectileParticle, 3f);
+        _isReady = false;
         Destroy(gameObject);
 
         ParticleSystem[] trails = GetComponentsInChildren<ParticleSystem>();
 
         // 0번째는 자기 자신
-        for(int i = 1; i < trails.Length; i++)
+        for (int i = 1; i < trails.Length; i++)
         {
             ParticleSystem trail = trails[i];
             if (trail.gameObject.name.Contains("Trail"))

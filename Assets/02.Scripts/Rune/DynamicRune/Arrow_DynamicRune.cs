@@ -19,7 +19,12 @@ public class Arrow_DynamicRune : ADynamicRuneObject
     {
         if (other.gameObject.GetInstanceID() == _targetTransform.gameObject.GetInstanceID())
         {
-            other.GetComponent<AEnemy>().TakeDamage(_damage);
+            Damage newDamage = new Damage();
+            newDamage.Value = _damage.Value;
+            newDamage.From = _damage.From;
+            RuneManager.Instance.CheckCritical(ref newDamage);
+
+            other.GetComponent<AEnemy>().TakeDamage(newDamage);
 
             RuneManager.Instance.ProjectilePoolDic[TID].Return(this);
         }

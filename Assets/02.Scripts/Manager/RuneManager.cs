@@ -50,6 +50,9 @@ public class RuneManager : BehaviourSingleton<RuneManager>
         factory.Register("HealEffect", () => new HealEffect());
         factory.Register("SlaughterRuneEffect", () => new SlaughterRuneEffect());
         factory.Register("ArrowRuneEffect", () => new ArrowRuneEffect());
+        factory.Register("FlameRuneEffect", () => new FlameRuneEffect());
+
+        factory.Register("FateRuneEffect", () => new FateRuneEffect());
     }
 
     public void CheckCritical(ref Damage damage)
