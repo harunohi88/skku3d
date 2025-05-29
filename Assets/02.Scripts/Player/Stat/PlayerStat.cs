@@ -21,8 +21,8 @@ public class PlayerStat : MonoBehaviour
         {
             { EStatType.AttackPower, new Stat(AttackPower) }, 
             { EStatType.CooldownReduction, new Stat(CooldownReduction) },
-            { EStatType.CriticalHitChance, new Stat(CriticalHitChance) },
-            { EStatType.CriticalHitDamage, new Stat(CriticalHitDamage) },
+            { EStatType.CriticalChance, new Stat(CriticalHitChance) },
+            { EStatType.CriticalDamage, new Stat(CriticalHitDamage) },
             { EStatType.ExperienceGain, new Stat(ExperienceGain) },
             { EStatType.MaxHealth, new Stat(MaxHealth) },
             { EStatType.MaxStamina, new Stat(MaxStamina) },

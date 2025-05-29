@@ -4,8 +4,8 @@ public enum EStatType
 {
     AttackPower,
     CooldownReduction,
-    CriticalHitChance,
-    CriticalHitDamage,
+    CriticalChance,
+    CriticalDamage,
     ExperienceGain,
     MaxHealth,
     MaxStamina,

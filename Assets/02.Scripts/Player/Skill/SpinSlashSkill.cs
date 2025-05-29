@@ -1,15 +1,19 @@
 using Mono.Cecil.Cil;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class SpinSlashSkill : MonoBehaviour, ISkill
 {
     public Rune Rune;
     public string SkillName = "SpinSlash";
-    public float AttackRange = 3f; // 공격 반경
-    public float CooldownTime = 3f;
+
+    public SkillBaseSO SkillBaseStat;
+    public Dictionary<ESkillStat, Stat> SkillStatDictionary = new Dictionary<ESkillStat, Stat>();
+    
     public bool IsAvailable;
 
     private PlayerManager _playerManager;
+    private Dictionary<EStatType, Stat> _playerStatDictionary;
     private CooldownManager _cooldownManager;
     private Animator _animator;
     private LayerMask _enemyLayer;
@@ -17,10 +21,16 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
     public void Initialize()
     {
         _playerManager = PlayerManager.Instance;
+        _playerStatDictionary = _playerManager.PlayerStat.StatDictionary;
         _cooldownManager = CooldownManager.Instance;
         _enemyLayer = LayerMask.GetMask("Enemy");
         _animator = _playerManager.PlayerSkill.Model.GetComponent<Animator>();
         IsAvailable = true;
+
+        foreach (SkillBaseStat baseStat in SkillBaseStat.SkillStatList)
+        {
+            SkillStatDictionary[baseStat.StatType] = new Stat(baseStat.BaseValue);
+        }
     }
     
     // 즉발기
@@ -55,7 +65,7 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
 
     public void CheckCritical(ref Damage damage)
     {
-        damage.IsCritical = damage.CriticalRate >= Random.Range(0f, 1f);
+        damage.IsCritical = damage.CriticalChance >= Random.Range(0f, 1f);
         if (damage.IsCritical)
         {
             damage.Value *= 1f + damage.CriticalDamage;
@@ -70,19 +80,36 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
             Rune.ApplyEffect(context, ref damage);
         }
     }
+
+    public Damage SetDamage()
+    {
+        Damage damage = new Damage();
+        damage.Value = _playerStatDictionary[EStatType.AttackPower].TotalStat
+                        * SkillStatDictionary[ESkillStat.SkillMultiplier].TotalStat;
+        damage.CriticalChance = _playerStatDictionary[EStatType.CriticalChance].TotalStat
+                                + SkillStatDictionary[ESkillStat.AdditionalCriticalChance].TotalStat;
+        damage.CriticalDamage = _playerStatDictionary[EStatType.CriticalDamage].TotalStat
+                                + SkillStatDictionary[ESkillStat.AdditionalCriticalDamage].TotalStat;
+        damage.IsCritical = false;
+        damage.From = _playerManager.Player.gameObject;
+        return damage;
+    }
     
-    // 이벤트 시스템에서 호출할 메서드
     public void OnSkillAnimationEffect()
     {
-        // 데미지 구현
-        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, AttackRange, _enemyLayer);
-        Damage damage = new Damage() { Value = 100, From = PlayerManager.Instance.Player.gameObject };
+        Collider[] hitEnemies = Physics.OverlapSphere(
+            transform.position,
+            SkillStatDictionary[ESkillStat.TargetRange].TotalStat, 
+            _enemyLayer);
         if (hitEnemies.Length == 0)
         {
             return;
         }
-        Damage finalDamage = new Damage();
+        
+        Damage damage = SetDamage();
+        Damage finalDamage;
         RuneExecuteContext context = new RuneExecuteContext();
+        
         foreach (Collider enemy in hitEnemies)
         {
             if (enemy.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
@@ -106,7 +133,7 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
     {
         _playerManager.PlayerState = EPlayerState.None;
         IsAvailable = false;
-        _cooldownManager.StartCooldown(CooldownTime, SetAvailable);
+        _cooldownManager.StartCooldown(SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat, SetAvailable);
         _playerManager.PlayerSkill.CurrentSkill = null;
     }
 
@@ -132,7 +159,7 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
     public void Cancel()
     {
         _playerManager.PlayerState = EPlayerState.None;
-        _cooldownManager.StartCooldown(CooldownTime, SetAvailable);
+        _cooldownManager.StartCooldown(SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat, SetAvailable);
         _playerManager.PlayerSkill.CurrentSkill = null;
     }
 

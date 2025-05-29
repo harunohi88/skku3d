@@ -54,7 +54,7 @@ public class RuneManager : BehaviourSingleton<RuneManager>
 
     public void CheckCritical(ref Damage damage)
     {
-        damage.IsCritical = damage.CriticalRate >= Random.Range(0f, 1f);
+        damage.IsCritical = damage.CriticalChance >= Random.Range(0f, 1f);
         if (damage.IsCritical)
         {
             damage.Value *= 1f + damage.CriticalDamage;
