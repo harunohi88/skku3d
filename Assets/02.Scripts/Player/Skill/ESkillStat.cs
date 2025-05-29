@@ -7,7 +7,9 @@ public enum ESkillStat
     SkillCooldown,
     SkillRange,
     TargetRange,
-    AdditionalCriticalChance,
-    AdditionalCriticalDamage,
-    AdditionalCooldownReduction,
+    CriticalChance,
+    CriticalDamage,
+    CooldownReduction,
+    MoveDuration,
+    SkillBuffRemainingTime,
 }
