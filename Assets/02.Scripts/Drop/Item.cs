@@ -104,7 +104,7 @@ public class Item : MonoBehaviour
         switch (Type)
         {
             case EItemType.Rune:
-                PlayerManager.Instance.PlayerSkill.AddRune(0, Rune);
+                PlayerManager.Instance.PlayerSkill.AddRune(1, Rune);
                 break;
             case EItemType.Exp:
 
