@@ -9,7 +9,7 @@ public class HealEffect : ARuneEffect
         _amount = data.TierList[tier - 1];
     }
 
-    public override void ApplyEffect(RuneExecuteContext context)
+    public override void ApplyEffect(RuneExecuteContext context, ref Damage damage)
     {
         if (context.Player == null)
         {

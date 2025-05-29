@@ -16,6 +16,7 @@ public class Player : MonoBehaviour, IDamageable
     public void Heal(float amount)
     {
         Health += amount;
+        Debug.Log($"Heal {amount}");
         Health = Mathf.Min(Health, PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxHealth].TotalStat);
     }
 

@@ -18,7 +18,7 @@ public class InputManager : MonoBehaviour
 
     private void HandleGameplayInput()
     {
-        Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
+        Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
         _playerManager.Move(moveInput);
 
         if (Input.GetKeyDown(KeyCode.Space))

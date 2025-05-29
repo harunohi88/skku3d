@@ -1,3 +1,4 @@
+using Mono.Cecil.Cil;
 using UnityEngine;
 
 public class SpinSlashSkill : MonoBehaviour, ISkill
@@ -5,13 +6,13 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
     public Rune Rune;
     public string SkillName = "SpinSlash";
     public float AttackRange = 3f; // 공격 반경
-    public bool IsAvailable = true;
+    public float CooldownTime = 3f;
+    public bool IsAvailable;
 
     private PlayerManager _playerManager;
     private CooldownManager _cooldownManager;
     private Animator _animator;
     private LayerMask _enemyLayer;
-    private float _cooldownTime;
     
     public void Initialize()
     {
@@ -19,11 +20,16 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         _cooldownManager = CooldownManager.Instance;
         _enemyLayer = LayerMask.GetMask("Enemy");
         _animator = _playerManager.PlayerSkill.Model.GetComponent<Animator>();
+        IsAvailable = true;
     }
     
     // 즉발기
     public void Execute()
     {
+        if (!IsAvailable)
+        {
+            return;
+        }
         PlayerManager.Instance.PlayerSkill.CurrentSkill = this;
         Debug.Log("Spin Slash Activated");
         _animator.SetTrigger("Skill1");
@@ -35,6 +41,7 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         RuneExecuteContext context = new RuneExecuteContext
         {
             Player = _playerManager.Player,
+            Timing = EffectTimingType.BeforeAttack,
             Damage = damage,
             Skill = this,
             TargetEnemy = target,
@@ -46,32 +53,60 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         return context;
     }
 
+    public void CheckCritical(ref Damage damage)
+    {
+        damage.IsCritical = damage.CriticalRate >= Random.Range(0f, 1f);
+        if (damage.IsCritical)
+        {
+            damage.Value *= 1f + damage.CriticalDamage;
+        }
+    }
+    
+    private void RuneEffectExecute(RuneExecuteContext context, ref Damage damage)
+    {
+        if (Rune != null && Rune.CheckTrigger(context))
+        {
+            Debug.LogWarning("Rune effect applied");
+            Rune.ApplyEffect(context, ref damage);
+        }
+    }
+    
     // 이벤트 시스템에서 호출할 메서드
     public void OnSkillAnimationEffect()
     {
         // 데미지 구현
         Collider[] hitEnemies = Physics.OverlapSphere(transform.position, AttackRange, _enemyLayer);
-        Damage damage = new Damage() { Value = 10, From = PlayerManager.Instance.Player.gameObject };
+        Damage damage = new Damage() { Value = 100, From = PlayerManager.Instance.Player.gameObject };
+        if (hitEnemies.Length == 0)
+        {
+            return;
+        }
+        Damage finalDamage = new Damage();
+        RuneExecuteContext context = new RuneExecuteContext();
         foreach (Collider enemy in hitEnemies)
         {
             if (enemy.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
-                // 데미지 구조체 생성
+                finalDamage = damage;
                 AEnemy enemyComponent = enemy.gameObject.GetComponent<AEnemy>();
-                // 룬 실행 컨텍스트 생성
-                RuneExecuteContext context = SetContext(damage, enemyComponent);
-                // 룬 트리거 체크
-                Rune.CheckTrigger(context);
-                // 룬 효과 적용
-                damageable.TakeDamage(damage);
+                CheckCritical(ref finalDamage);
+                context = SetContext(finalDamage, enemyComponent);
+                RuneEffectExecute(context, ref finalDamage);
+                context.Timing = EffectTimingType.AfterAttack;
+                damageable.TakeDamage(finalDamage);
+                RuneEffectExecute(context, ref finalDamage);
             }
         }
+        finalDamage = damage;
+        context.Timing = EffectTimingType.OncePerAttack;
+        RuneEffectExecute(context, ref finalDamage);
     }
 
     public void OnSkillAnimationEnd()
     {
         _playerManager.PlayerState = EPlayerState.None;
-        _cooldownManager.StartCooldown(_cooldownTime, SetAvailable);
+        IsAvailable = false;
+        _cooldownManager.StartCooldown(CooldownTime, SetAvailable);
         _playerManager.PlayerSkill.CurrentSkill = null;
     }
 
@@ -97,7 +132,7 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
     public void Cancel()
     {
         _playerManager.PlayerState = EPlayerState.None;
-        _cooldownManager.StartCooldown(_cooldownTime, SetAvailable);
+        _cooldownManager.StartCooldown(CooldownTime, SetAvailable);
         _playerManager.PlayerSkill.CurrentSkill = null;
     }
 

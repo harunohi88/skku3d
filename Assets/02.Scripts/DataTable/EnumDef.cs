@@ -7,6 +7,16 @@ public enum RuneType
     Dynamic = 1,
 }
 
+public enum EffectTimingType
+{
+    ///<summary>공격 전</summary>
+    BeforeAttack = 0,
+    ///<summary>공격 후</summary>
+    AfterAttack = 1,
+    ///<summary>시전당 1회</summary>
+    OncePerAttack = 2,
+}
+
 public enum RuneEffectType
 {
     ///<summary>없음</summary>
@@ -33,6 +43,20 @@ public enum RuneEffectType
     VampiricEffect = 10,
     ///<summary>체력 기반 피해 증가</summary>
     HPScalingDamageEffect = 11,
+    ///<summary>난도질의 룬 (동적 룬)</summary>
+    SlaughterRuneEffect = 12,
+    ///<summary>난사의 룬 (동적 룬)</summary>
+    ArrowRuneEffect = 13,
+    ///<summary>불꽃의 룬 (동적 룬)</summary>
+    FlameRuneEffect = 14,
+    ///<summary>폭렬의 룬 (동적 룬)</summary>
+    ExplosionRuneEffect = 15,
+    ///<summary>부활의 룬 (동적 룬)</summary>
+    RevivalRuneEffect = 16,
+    ///<summary>운명의 룬 (동적 룬)</summary>
+    FateRuneEffect = 17,
+    ///<summary>전류의 룬 (동적 룬)</summary>
+    ElectricRuneEffect = 18,
 }
 
 public enum StatModifierType
@@ -71,6 +95,16 @@ public enum RuneTriggerType
     OnEnemyDamagedTrigger = 6,
     ///<summary>보스 대상</summary>
     OnBossHitTrigger = 7,
+    ///<summary>장착 시</summary>
+    OnEquipTrigger = 8,
+    ///<summary>죽을 시</summary>
+    OnDeathTrigger = 9,
+    ///<summary>공격 전</summary>
+    OnBeforeAttackTrigger = 10,
+    ///<summary>공격 후</summary>
+    OnAfterAttactTrigger = 11,
+    ///<summary>스킬 시전당 1회</summary>
+    OnOncePerAttackTrigger = 12,
 }
 
 public enum EnemyAudioType

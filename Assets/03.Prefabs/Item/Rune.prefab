@@ -24262,7 +24262,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -24289,7 +24289,6 @@ MonoBehaviour:
   RetreatDuration: 0.1
   GetDuration: 0.25
   Type: 0
-  Rune: {fileID: 0}
   Amount: 0
   IsCollected: 0
   SparkleEffectList: []
