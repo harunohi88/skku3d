@@ -33,8 +33,13 @@ public class Item : MonoBehaviour
 
     private Transform _player;
 
+    public BasicAllInventory BasicAllInventory;
+
     private void Start()
     {
+        // 테스트
+        BasicAllInventory = GameObject.FindGameObjectWithTag("BasicInventory").GetComponent<BasicAllInventory>();
+
         _player = PlayerManager.Instance.Player.transform;
 
         BounceEffect();
@@ -105,6 +110,8 @@ public class Item : MonoBehaviour
         {
             case EItemType.Rune:
                 PlayerManager.Instance.PlayerSkill.AddRune(0, Rune);
+                // 테스트 추가
+                BasicAllInventory.AddItem(Rune);
                 break;
             case EItemType.Exp:
 

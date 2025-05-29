@@ -28,9 +28,6 @@ public class DropTable : BehaviourSingleton<DropTable>
     public int EliteDropGoldAmount;
     public int BossDropGoldAmount;
 
-
-    // 룬이 추가될 인벤토리
-    public Inventory RuneInventory;
     // 룬 데이터 시작 TID
     public const int RUNE_DATA_TID_MIN = 10000;
 
@@ -48,11 +45,7 @@ public class DropTable : BehaviourSingleton<DropTable>
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            DropRandomRune(new Vector3(-383.12f, 0.882762f, 417.03f), EnemyType.Basic);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SceneManager.LoadScene("SampleScene");
+            DropRandomRune(new Vector3(362.96f, 0.72f, 85.49f), EnemyType.Basic);
         }
     }
 
