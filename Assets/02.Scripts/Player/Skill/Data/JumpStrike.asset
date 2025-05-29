@@ -20,7 +20,7 @@ MonoBehaviour:
   - StatType: 2
     BaseValue: 3
   - StatType: 3
-    BaseValue: 8
+    BaseValue: 10
   - StatType: 4
     BaseValue: 4
   - StatType: 5
@@ -32,4 +32,4 @@ MonoBehaviour:
   - StatType: 8
     BaseValue: 0
   - StatType: 9
-    BaseValue: 0.8
+    BaseValue: 0.67

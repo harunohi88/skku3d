@@ -17,7 +17,7 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
         { EPlayerAction.Attack, new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Attack } },
         { EPlayerAction.Skill,  new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Attack, EPlayerState.Skill, EPlayerState.Targeting } },
         { EPlayerAction.Roll,   new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Attack, EPlayerState.Skill, EPlayerState.Targeting } },
-        { EPlayerAction.Move,   new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Hit, EPlayerState.Targeting } },
+        { EPlayerAction.Move,   new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Attack, EPlayerState.Hit, EPlayerState.Targeting } },
     };
 
     private void Awake()
@@ -36,7 +36,7 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
 
     public void Move(Vector2 inputDirection)
     {
-        if (!CanPerform(EPlayerAction.Move)) return;
+        // if (!CanPerform(EPlayerAction.Move)) return;
         PlayerMove.Move(inputDirection);
     }
 
