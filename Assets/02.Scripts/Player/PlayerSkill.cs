@@ -30,6 +30,8 @@ public class PlayerSkill : MonoBehaviour
 
     public void UseSkill(int slot)
     {
+        Debug.Log("Use Skill");
+        Debug.Log(CurrentSkill);
         if (slot < 0 || slot >= _skillList.Count) return;
 
         if (!IsTargeting && CurrentSkill != null) return;

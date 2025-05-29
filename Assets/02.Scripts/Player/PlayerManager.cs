@@ -14,7 +14,7 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
 
     private Dictionary<EPlayerAction, HashSet<EPlayerState>> _actionStateMap = new()
     {
-        { EPlayerAction.Attack, new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Attack, EPlayerState.Skill } },
+        { EPlayerAction.Attack, new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Attack } },
         { EPlayerAction.Skill,  new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Attack, EPlayerState.Skill, EPlayerState.Targeting } },
         { EPlayerAction.Roll,   new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Attack, EPlayerState.Skill, EPlayerState.Targeting } },
         { EPlayerAction.Move,   new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Hit, EPlayerState.Targeting } },

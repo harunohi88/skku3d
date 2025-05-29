@@ -76,7 +76,6 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
     {
         if (Rune != null && Rune.CheckTrigger(context))
         {
-            Debug.LogWarning("Rune effect applied");
             Rune.ApplyEffect(context, ref damage);
         }
     }
