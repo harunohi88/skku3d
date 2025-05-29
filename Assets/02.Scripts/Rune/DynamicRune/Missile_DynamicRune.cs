@@ -9,6 +9,7 @@ public class Missile_DynamicRune : ADynamicRuneObject
     public float WobbleAngle = 30f;
 
     public ParticleSystem Booster;
+    public GameObject BoomPrefab;
 
     private float _elapsed = 0f;
     private bool _isHoming = false;
@@ -20,6 +21,9 @@ public class Missile_DynamicRune : ADynamicRuneObject
     public override void Init(Damage damage, float radius, float moveSpeed, Vector3 startPosition, Transform targetTransform, int TID)
     {
         base.Init(damage, radius, moveSpeed, startPosition, targetTransform, TID);
+        _dirTimer = 0f;
+        _elapsed = 0f;
+        _isHoming = false;
     }
 
     public override void Update()
@@ -56,6 +60,25 @@ public class Missile_DynamicRune : ADynamicRuneObject
 
             Vector3 forward = (GetQuadraticBezierPoint(t + 0.01f, _startPosition, _controlPoint, _targetTransform.position) - pos).normalized;
             if (forward != Vector3.zero) transform.rotation = Quaternion.LookRotation(forward);
+
+            if(t >= 0.95f)
+            {
+                Vector3 position = new Vector3(_targetTransform.position.x, 0.3f, _targetTransform.position.z);
+                Instantiate(BoomPrefab, position, Quaternion.identity);
+
+                Debug.Log("반지름 매직넘버");
+                Collider[] colliders = Physics.OverlapSphere(transform.position, 3.5f, LayerMask.GetMask("Enemy"));
+                for (int i = 0; i < colliders.Length; i++)
+                {
+                    Damage newDamage = new Damage();
+                    newDamage.Value = _damage.Value;
+                    newDamage.From = _damage.From;
+                    RuneManager.Instance.CheckCritical(ref newDamage);
+                    colliders[i].GetComponent<AEnemy>().TakeDamage(newDamage);
+                }
+
+                RuneManager.Instance.ProjectilePoolDic[TID].Return(this);
+            }
         }
     }
 
@@ -69,16 +92,16 @@ public class Missile_DynamicRune : ADynamicRuneObject
         return rot * transform.forward;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.GetInstanceID() == _targetTransform.gameObject.GetInstanceID())
-        {
-            Damage newDamage = new Damage();
-            newDamage.Value = _damage.Value;
-            newDamage.From = _damage.From;
-            RuneManager.Instance.CheckCritical(ref newDamage);
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.GetInstanceID() == _targetTransform.gameObject.GetInstanceID())
+    //    {
+    //        Damage newDamage = new Damage();
+    //        newDamage.Value = _damage.Value;
+    //        newDamage.From = _damage.From;
+    //        RuneManager.Instance.CheckCritical(ref newDamage);
 
-            other.GetComponent<AEnemy>().TakeDamage(newDamage);
-        }
-    }
+    //        other.GetComponent<AEnemy>().TakeDamage(newDamage);
+    //    }
+    //}
 }
