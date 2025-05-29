@@ -61,7 +61,7 @@ public class Rune
             ARuneEffect effect = RuneEffectFactory.Instance.CreateRuneEffect(effectName);
             if (effect != null)
             {
-                effect.Initialize(_data, _currentTier);
+                effect.Initialize(_data, CurrentTier);
                 _effectList.Add(effect);
             }
         }
