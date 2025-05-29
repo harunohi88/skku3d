@@ -59,6 +59,7 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
         }
 
         Health = MaxHealth;
+        OnStatChanged?.Invoke();
         _stateMachine = new StateMachine<AEnemy>(this);
     }
 
