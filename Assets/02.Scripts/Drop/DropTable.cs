@@ -103,7 +103,7 @@ public class DropTable : BehaviourSingleton<DropTable>
         int tier = GetRandomTier(enemyType);
 
         // int runeTID = Random.Range(0, DataTable.Instance.GetRuneDataList().Count);
-        int runeTID = 10019;
+        int runeTID = 10020;
 
         if(RunePrefab != null)
         {

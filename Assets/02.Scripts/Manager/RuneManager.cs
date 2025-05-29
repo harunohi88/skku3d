@@ -9,6 +9,8 @@ public class RuneManager : BehaviourSingleton<RuneManager>
 
     public Dictionary<int, ObjectPool<ADynamicRuneObject>> ProjectilePoolDic = new();
 
+    public GameObject ElectricEffectPrefab;
+
     private void Awake()
     {
         RegisterRuneTriggers();
@@ -53,6 +55,7 @@ public class RuneManager : BehaviourSingleton<RuneManager>
         factory.Register("FlameRuneEffect", () => new FlameRuneEffect());
 
         factory.Register("FateRuneEffect", () => new FateRuneEffect());
+        factory.Register("ElectricRuneEffect", () => new ElectricRuneEffect());
     }
 
     public void CheckCritical(ref Damage damage)

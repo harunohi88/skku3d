@@ -10,7 +10,7 @@ public class FateRuneEffect : ARuneEffect
     public override void Initialize(RuneData data, int tier)
     {
         _tid = data.TID;
-        _damageMultiplier = (int)data.TierList[tier - 1];
+        _damageMultiplier = data.TierList[tier - 1];
     }
 
     public override void ApplyEffect(RuneExecuteContext context, ref Damage damage)
