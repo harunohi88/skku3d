@@ -196,6 +196,7 @@ MonoBehaviour:
   - Attack2
   - Attack3
   InputQueued: 0
+  BaseStat: {fileID: 11400000, guid: 0c2b5cd27d0a20946ab0b5bb59a70af2, type: 2}
 --- !u!114 &3934724508934725611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,8 +224,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SkillName: SpinSlash
-  AttackRange: 10
-  CooldownTime: 3
   SkillBaseStat: {fileID: 11400000, guid: 35ff15a201dd90e459cfe90ca631cc31, type: 2}
   IsAvailable: 1
 --- !u!114 &315133918655934278
@@ -240,13 +239,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IndicatorPrefab: {fileID: 2139657755918875766}
-  Range: 8
-  TargetAreaRadius: 3
-  SkillDamage: 20
+  SkillBaseStat: {fileID: 11400000, guid: e2999ab62f2891343a6da020303b5f99, type: 2}
   IsTargeting: 0
   IsAvailable: 1
-  MoveDuration: 0.8
-  CooldownTime: 0
 --- !u!143 &3544017723541115662
 CharacterController:
   m_ObjectHideFlags: 0

@@ -26,9 +26,11 @@ public abstract class ADynamicRuneObject : MonoBehaviour
         _time = 0f;
         this.TID = TID;
 
-        float distance = Vector3.Distance(_startPosition, _targetTransform.position);
-        _controlPoint = GetRandomBezierControlPoint(_startPosition, _targetTransform.position, Mathf.Clamp(distance - 2, 0.5f, distance / 2), distance);
-        _bezierLength = EstimateBezierLength(_startPosition, _controlPoint, _targetTransform.position);
+        Vector3 targetPosition = new Vector3(_targetTransform.position.x, 1f, _targetTransform.position.z);
+
+        float distance = Vector3.Distance(_startPosition, targetPosition);
+        _controlPoint = GetRandomBezierControlPoint(_startPosition, targetPosition, Mathf.Clamp(distance - 2, 0.5f, distance / 2), distance);
+        _bezierLength = EstimateBezierLength(_startPosition, _controlPoint, targetPosition);
     }
 
 

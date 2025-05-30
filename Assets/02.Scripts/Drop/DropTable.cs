@@ -1,40 +1,24 @@
+using Unity.Profiling;
 using UnityEngine;
-using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 
 public class DropTable : BehaviourSingleton<DropTable>
 {
 
     [Header("룬 드랍")]
-    public float BasicRuneDropRate = 0.3f;
-    public float EliteRuneDropRate = 0.5f;
-    public float BossRuneDropRate = 1f;
-    public float BasicTier1DropRate = 0.6f;
-    public float BasicTier2DropRate = 0.3f;
-    //public float InitTier3DropRate = 0.1f;
-
-    public float EliteTier1DropRate = 0.5f;
-    public float EliteTier2DropRate = 0.3f;
-
-    public float BossTier1DropRate = 0f;
-    public float BossTier2DropRate = 0.7f;
+    public float RuneDropRate;
+    public float Tier1DropRate;
+    public float Tier2DropRate;
+    public float Tier3DropRate;
 
     [Header("골드 드랍")]
-    public float BasicGoldDropRate = 0.3f;
-    public float EliteGoldDropRate = 0.5f;
-    public float BossGoldDropRate = 1f;
     // 골드 드랍 양
-    public int BasicDropGoldAmount;
-    public int EliteDropGoldAmount;
-    public int BossDropGoldAmount;
+    public int GoldAmount;
 
     // 룬 데이터 시작 TID
     public const int RUNE_DATA_TID_MIN = 10000;
 
     [Header("경험치 드랍")]
-    public int BasicDropExpAmount;
-    public int EliteDropExpAmount;
-    public int BossDropExpAmount;
+    public int ExpAmount;
 
     [Header("드랍 아이템 프리펩")]
     public GameObject RunePrefab;
@@ -43,9 +27,10 @@ public class DropTable : BehaviourSingleton<DropTable>
 
     public void Update()
     {
+        // 테스트용
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            DropRandomRune(new Vector3(362.96f, 0.72f, 85.49f), EnemyType.Basic);
+            Drop(EnemyType.Elite, new Vector3(-335f, 0.72f, 448f));
         }
     }
 
@@ -56,47 +41,85 @@ public class DropTable : BehaviourSingleton<DropTable>
         // 그 죽은 위치에 경험치, 룬, 골드 스폰 그냥 인스턴스화
         // 나머지 DropRandomRune 등등 private 은닉
 
-        float runeDropRate = 0;
-        float goldDropRate = 0;
-        // 적 타입의 따라 드랍 확률 설정
+        //테스트트
+        int stage = 2;
+        //int stage = GameManager.Instance.GetCurrentStage();
+        int tid = 10000;
+        switch(stage)
+        {
+            case 1:
+                tid = 10000;
+                break;
+            case 2:
+                tid = 20000;
+                break;
+            case 3:
+                tid = 30000;
+                break; 
+        }
+
         switch(enemyType)
         {
             case EnemyType.Basic:
-                runeDropRate = BasicRuneDropRate;
-                goldDropRate = BasicGoldDropRate;
+                tid += 0;
                 break;
             case EnemyType.Elite:
-                runeDropRate = EliteRuneDropRate;
-                goldDropRate = EliteGoldDropRate;
+                tid += 1;
                 break;
             case EnemyType.Boss:
-                runeDropRate = BossRuneDropRate;
-                goldDropRate = BossGoldDropRate;
+                tid += 2;
                 break;
         }
-
+        // 스테이지와 적 타입에 따른 드랍 테이블 데이터 가져오기
+        var dropTableData = DataTable.Instance.GetDropTableData(tid);
+        
         // 룬 드랍
-        if(Random.value < runeDropRate)
+        RuneDropRate = dropTableData.RuneDropRate;
+        Tier1DropRate = dropTableData.TierDropRateList[0];
+        Tier2DropRate = dropTableData.TierDropRateList[1];
+        Tier3DropRate = dropTableData.TierDropRateList[2];
+
+
+        if(Random.value < RuneDropRate)
         {
             DropRandomRune(position, enemyType);
         }
-        /* 프로토 타입때는 안씀
-        if(Random.value < goldDropRate)
-        {
-            DropRandomGold(position);
-        }
 
-        DropExp(position);
-        */
+        // 골드 드랍
+        GoldAmount = Random.Range(dropTableData.MinCoin, dropTableData.MaxCoin + 1);
+        DropRandomGold(position, GoldAmount);
+
+        // 경험치 드랍
+        ExpAmount = dropTableData.Exp;
+        DropExp(position, ExpAmount);
+
+        Debug.Log($"Dropped {enemyType} {tid} {RuneDropRate} {Tier1DropRate} {Tier2DropRate} {Tier3DropRate} {GoldAmount} {ExpAmount}");
     }
 
     /// <summary> 랜덤 룬 드랍 </summary>
     public void DropRandomRune(Vector3 position, EnemyType enemyType)
     {
-        int tier = GetRandomTier(enemyType);
+        // 랜덤 티어
+        int tier = 1;
+        float randomFloat = Random.value;
 
-        // int runeTID = Random.Range(0, DataTable.Instance.GetRuneDataList().Count);
-        int runeTID = 10019;
+        if(randomFloat < Tier3DropRate)
+        {
+            // 티어3
+            tier = 3;
+        }
+        else if(randomFloat < Tier2DropRate)
+        {
+            // 티어2
+            tier = 2;
+        }
+        else
+        {
+            // 티어1
+            tier = 1;
+        }
+
+        int runeTID = Random.Range(RUNE_DATA_TID_MIN, RUNE_DATA_TID_MIN + DataTable.Instance.GetRuneDataList().Count);
 
         if(RunePrefab != null)
         {
@@ -106,58 +129,13 @@ public class DropTable : BehaviourSingleton<DropTable>
             // 룬 초기화
             item.Init(tier, 0, rune, EItemType.Rune);
         }
-    }
-
-    /// <summary> 랜덤 티어 반환 </summary>
-    private int GetRandomTier(EnemyType enemyType)
-    {
-        int randomRuneTier = 1;
-
-        float tier1DropRate = 0;
-        float tier2DropRate = 0;
-
-        switch(enemyType)
-        {
-            case EnemyType.Basic:
-                tier1DropRate = BasicTier1DropRate;
-                tier2DropRate = BasicTier2DropRate;
-                break;
-            case EnemyType.Elite:
-                tier1DropRate = EliteTier1DropRate;
-                tier2DropRate = EliteTier2DropRate;
-                break;
-            case EnemyType.Boss:
-                tier1DropRate = BossTier1DropRate;
-                tier2DropRate = BossTier2DropRate;
-                break;
-        }
-
-        // 룬 램덤 티어
-        float randomFloat = Random.value;
-        Debug.Log($"randomFloat: {randomFloat}");
-        if (randomFloat < tier1DropRate)
-        {
-            // 티어1
-            randomRuneTier = 1;
-        }
-        else if (randomFloat < tier1DropRate + tier2DropRate)
-        {
-            // 티어2
-            randomRuneTier = 2;
-        }
-        else
-        {
-            // 티어3
-            randomRuneTier = 3;
-        }
-
-        return randomRuneTier;
+        Debug.Log($"Dropped Rune {runeTID} {tier}");
     }
 
     // TODO: 각 골드, 경험치 클래스 만들어서 amount 지정 해줘야함
 
     /// <summary> 랜덤 골드 드랍 </summary>
-    private void DropRandomGold(Vector3 position)
+    private void DropRandomGold(Vector3 position, int amount)
     {
         // 골드 인스턴스
         if(CoinPrefab != null)
@@ -165,11 +143,12 @@ public class DropTable : BehaviourSingleton<DropTable>
             Item item = Instantiate(CoinPrefab, position, Quaternion.identity).GetComponent<Item>();
 
             // 코인 값 초기화
-            // item.Init(1, 5, null, EItemType.Coin);
+            item.Init(1, amount, null, EItemType.Coin);
         }
+        Debug.Log($"Dropped Gold {amount}");
     }
 
-    private void DropExp(Vector3 position)
+    private void DropExp(Vector3 position, int amount)
     {
         // 경험치 인스턴스
         if(ExpPrefab != null)
@@ -177,7 +156,8 @@ public class DropTable : BehaviourSingleton<DropTable>
             Item item = Instantiate(ExpPrefab, position, Quaternion.identity).GetComponent<Item>();
 
             // 경험치 값 초기화
-            // item.Init(1, 5, null, EItemType.Exp);
+            item.Init(1, amount, null, EItemType.Exp);
         }
+        Debug.Log($"Dropped Exp {amount}");
     }
 }

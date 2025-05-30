@@ -1,0 +1,5 @@
+10000	SkillUpgrade	500	200	
+10001	BuyRuneTier1	350	0	
+10002	BuyRuneTier2	600	0	
+10003	BuyRuneTier3	2000	0	
+10004	ReRollRune	50	200	

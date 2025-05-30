@@ -4,6 +4,7 @@ public enum EPlayerState
 {
     None,
     Roll,
+    Move,
     Attack,
     Targeting,
     Skill,

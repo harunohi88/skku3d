@@ -191,6 +191,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
                 0, // innerRange
                 indicatorTime,
                 0,
+                Color.red,
                 true
             );
             // 인디케이터 방향과 위치 

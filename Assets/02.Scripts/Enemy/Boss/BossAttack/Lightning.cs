@@ -27,7 +27,7 @@ public class Lightning : MonoBehaviour
         _duration = duration;
         _isLightnigOn = false;
         _tickTime = 0f;
-        BossIndicatorManager.Instance.SetCircularIndicator(transform.position, radius, radius, 0, 360, 0, castingTime, 0);
+        BossIndicatorManager.Instance.SetCircularIndicator(transform.position, radius, radius, 0, 360, 0, castingTime, 0, Color.red);
         _time = 0f;
         transform.localScale = new Vector3(radius, 1, radius);
     }

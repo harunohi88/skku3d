@@ -7,6 +7,7 @@ public class PlayerMove : MonoBehaviour
     public float Gravity = -9.81f;
 
     public float RollDuration;
+    public float RollAdditionalSpeed;
     private Vector3 _rollDirection;
 
     public GameObject Model;
@@ -18,7 +19,7 @@ public class PlayerMove : MonoBehaviour
     private float _verticalVelocity;
     private bool _isGrounded;
     private float _moveSpeed => PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MoveSpeed].TotalStat;
-    private float _rollSpeed => PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MoveSpeed].TotalStat;
+    private float _rollSpeed => PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MoveSpeed].TotalStat + RollAdditionalSpeed;
 
     private void Awake()
     {
@@ -65,6 +66,7 @@ public class PlayerMove : MonoBehaviour
 
         if (move != Vector3.zero)
         {
+            PlayerManager.PlayerState = EPlayerState.Move;
             Model.transform.forward = move;
         }
 

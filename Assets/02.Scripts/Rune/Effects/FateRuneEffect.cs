@@ -10,7 +10,7 @@ public class FateRuneEffect : ARuneEffect
     public override void Initialize(RuneData data, int tier)
     {
         _tid = data.TID;
-        _damageMultiplier = (int)data.TierList[tier - 1];
+        _damageMultiplier = data.TierList[tier - 1];
     }
 
     public override void ApplyEffect(RuneExecuteContext context, ref Damage damage)
@@ -28,8 +28,7 @@ public class FateRuneEffect : ARuneEffect
                 int index = Random.Range(0, colliderList.Count);
                 Transform targetTransform = colliderList[index].transform;
 
-                Vector3 offset = Quaternion.Euler(0, (360f / n) * i, 0) * (-context.Player.transform.forward * 1.5f);
-                Vector3 spawnPos = context.Player.transform.position + offset + Vector3.up * 3f;
+                Vector3 spawnPos = context.Player.transform.position + Vector3.up * 3f;
                 Missile_DynamicRune dyRune = RuneManager.Instance.ProjectilePoolDic[_tid].Get() as Missile_DynamicRune;
                 dyRune.gameObject.SetActive(false);
 

@@ -90,6 +90,8 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
 
             yield return null;
         }
+
+        _moveCoroutine = null;
     }
     
     public void CheckCritical(ref Damage damage)
@@ -225,6 +227,11 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
         }
         else
         {
+            if (_moveCoroutine != null)
+            {
+                StopCoroutine(_moveCoroutine);
+                _moveCoroutine = null;
+            }
             OnSkillAnimationEnd();
         }
     }

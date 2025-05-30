@@ -107,6 +107,80 @@ public enum RuneTriggerType
     OnOncePerAttackTrigger = 12,
 }
 
+public enum EnemyType
+{
+    ///<summary>기본</summary>
+    Basic = 0,
+    ///<summary>엘리트</summary>
+    Elite = 1,
+    ///<summary>보스</summary>
+    Boss = 2,
+}
+
+public enum EStatType
+{
+    ///<summary>데미지</summary>
+    AttackPower = 0,
+    ///<summary>쿨타임 감소</summary>
+    CooldownReduction = 1,
+    ///<summary>치명타 확률</summary>
+    CriticalChance = 2,
+    ///<summary>치명타 피해</summary>
+    CriticalDamage = 3,
+    ///<summary>경험치 획득량</summary>
+    ExperienceGain = 4,
+    ///<summary>최대 체력</summary>
+    MaxHealth = 5,
+    ///<summary>최대 스태미나</summary>
+    MaxStamina = 6,
+    ///<summary>이동 속도</summary>
+    MoveSpeed = 7,
+    ///<summary>투사체 증가량</summary>
+    ProjectileCountGain = 8,
+}
+
+public enum ESkillType
+{
+    ///<summary>기본공격</summary>
+    Skill0 = 0,
+    ///<summary>스킬1</summary>
+    Skill1 = 1,
+    ///<summary>스킬2</summary>
+    Skill2 = 2,
+    ///<summary>스킬3</summary>
+    Skill3 = 3,
+    ///<summary>구르기</summary>
+    Roll = 4,
+}
+
+public enum CurrencyUseType
+{
+    ///<summary>스킬 업그레이드</summary>
+    SkillUpgrade = 0,
+    ///<summary>룬 티어1 구매</summary>
+    BuyRuneTier1 = 1,
+    ///<summary>룬 티어2 구매</summary>
+    BuyRuneTier2 = 2,
+    ///<summary>룬 티어3 구매</summary>
+    BuyRuneTier3 = 3,
+    ///<summary>룬 리롤</summary>
+    ReRollRune = 4,
+}
+
+public enum SkillUpgradeType
+{
+    ///<summary>데미지 배수</summary>
+    DamageMultiplier = 0,
+    ///<summary>쿨타임 감소</summary>
+    CooldownReduction = 1,
+    ///<summary>범위 증가</summary>
+    Range = 2,
+    ///<summary>스태미나 감소</summary>
+    StaminaReduction = 3,
+    ///<summary>없음</summary>
+    None = 4,
+}
+
 public enum EnemyAudioType
 {
     ///<summary>공격</summary>

@@ -37,8 +37,7 @@ public class Item : MonoBehaviour
 
     private void Start()
     {
-        // 테스트
-        BasicAllInventory = GameObject.FindGameObjectWithTag("BasicInventory").GetComponent<BasicAllInventory>();
+        BasicAllInventory = GameObject.FindAnyObjectByType<BasicAllInventory>();
 
         _player = PlayerManager.Instance.Player.transform;
 
@@ -114,10 +113,11 @@ public class Item : MonoBehaviour
                 BasicAllInventory.AddItem(Rune);
                 break;
             case EItemType.Exp:
-
+                // TODO: 플레이어 경험치 증가가 필요함
                 break;
             case EItemType.Coin:
-
+                // TODO: 골드 증가
+                CurrencyManager.Instance.AddGold(Amount);
                 break;
         }
 

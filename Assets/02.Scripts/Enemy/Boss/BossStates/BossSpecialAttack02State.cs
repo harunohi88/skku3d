@@ -24,7 +24,8 @@ public class BossSpecialAttack02State : IState<AEnemy>
                 _patternData.Angle,
                 0,
                 _patternData.CastingTime,
-                0
+                0,
+                Color.red
             );
         }
     }
@@ -55,7 +56,7 @@ public class BossSpecialAttack02State : IState<AEnemy>
                 enemy.EnemyRotation.IsFound = true;
 
                 _patternData = BossAIManager.Instance.GetPatternData(2, 1);
-                _indicator = BossIndicatorManager.Instance.SetSquareIndicator(enemy.transform.position, _patternData.Width, _patternData.Range, 0, 0, _patternData.CastingTime, 0);
+                _indicator = BossIndicatorManager.Instance.SetSquareIndicator(enemy.transform.position, _patternData.Width, _patternData.Range, 0, 0, _patternData.CastingTime, 0, Color.red);
                 _time = 0f;
             }
         }
