@@ -23,11 +23,11 @@ public class DieState : IState<AEnemy>
             {
                 case EnemyType.Basic:
                     BasicEnemyPool.Instance.Return(enemy);
-                    DropTable.Instance.DropRandomRune(enemy.transform.position, enemy.Type);
+                    DropTable.Instance.Drop(enemy.Type, enemy.transform.position);
                     break;
                 case EnemyType.Elite:
                     EliteEnemyPool.Instance.Return(enemy);
-                    DropTable.Instance.DropRandomRune(enemy.transform.position, enemy.Type);
+                    DropTable.Instance.Drop(enemy.Type, enemy.transform.position);
                     break;
             }
             EnemyTracker.Unregister(enemy.transform);

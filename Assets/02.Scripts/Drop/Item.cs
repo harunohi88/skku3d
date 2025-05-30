@@ -33,8 +33,12 @@ public class Item : MonoBehaviour
 
     private Transform _player;
 
+    public BasicAllInventory BasicAllInventory;
+
     private void Start()
     {
+        BasicAllInventory = GameObject.FindAnyObjectByType<BasicAllInventory>();
+
         _player = PlayerManager.Instance.Player.transform;
 
         BounceEffect();
@@ -104,14 +108,16 @@ public class Item : MonoBehaviour
         switch (Type)
         {
             case EItemType.Rune:
-                PlayerManager.Instance.PlayerSkill.AddRune(1, Rune);
-                PlayerManager.Instance.PlayerAttack.EquipRune(Rune);
+                PlayerManager.Instance.PlayerSkill.AddRune(0, Rune);
+                // 테스트 추가
+                BasicAllInventory.AddItem(Rune);
                 break;
             case EItemType.Exp:
-
+                // TODO: 플레이어 경험치 증가가 필요함
                 break;
             case EItemType.Coin:
-
+                // TODO: 골드 증가
+                CurrencyManager.Instance.AddGold(Amount);
                 break;
         }
 
