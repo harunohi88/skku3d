@@ -11,6 +11,13 @@ public class Stat
     private float _multiply;
     private float _add;
 
+    public Stat(float baseStat)
+    {
+        _baseStat = baseStat;
+        _increaseAmountPerLevel = 0f;
+        CanLevelUp = false;
+    }
+    
     public Stat(float baseStat, float increaseAmountPerLevel, bool canLevelUp)
     {
         _baseStat = baseStat;
