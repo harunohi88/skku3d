@@ -29,8 +29,9 @@ public class FlameRuneEffect : ARuneEffect
             dyRune.gameObject.SetActive(false);
 
             dyRune.transform.forward = (targetTransform.position - spawnPos).normalized;
-            dyRune.gameObject.SetActive(true);
             dyRune.Init(DamageBase, 0, 3, spawnPos, targetTransform, _tid);
+
+            dyRune.gameObject.SetActive(true);
         }
     }
 
