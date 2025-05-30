@@ -111,7 +111,7 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
             case 2: return new BossSpecialAttack02State();
             case 3: return new BossSpecialAttack03State();
             case 4: return new BossSpecialAttack04State();
-            default: return new TraceState();
+            default: return new BossTraceState();
         }
     }
 }

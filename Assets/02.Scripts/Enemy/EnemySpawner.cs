@@ -13,12 +13,12 @@ public class EnemySpawner : MonoBehaviour
     public const int OriginEnemySpawnCount = 10;
     public int EliteEnemySpawnCount = 3;
     
-    public float DetectPlayerRange = 20f;
+    public float DetectPlayerRange = 40f;
 
 
     private int EnemySpawnCount;
     [SerializeField]
-    private float _spawnRadius = 10f;
+    private float _spawnRadius = 5f;
     [SerializeField]
     private float _eliteSpawnRate = 0.1f;
     private float _eliteSpawnRateIncrease = 0.1f;
@@ -37,14 +37,7 @@ public class EnemySpawner : MonoBehaviour
 
         // 방문한적이 없을 때
         if(!_isPlayerInRangeOnce)
-        {   /* 실제 사용
-            // 범위 내에 들어오면 활성화 해준다.
-            if(Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position) <= DetectPlayerRange)
-            {
-                _isPlayerInRangeOnce = true;
-                SummonEnemy();
-            }*/
-            // 테스트용
+        {   
             if(Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position) <= DetectPlayerRange)
             {
                 _isPlayerInRangeOnce = true;

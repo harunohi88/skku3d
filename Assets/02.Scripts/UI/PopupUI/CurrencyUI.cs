@@ -7,6 +7,7 @@ public class CurrencyUI : MonoBehaviour
 
     private void Start()
     {
+        UpdateCurrency(CurrencyManager.Instance.CurrentGold);
         CurrencyManager.Instance.OnGoldChanged += UpdateCurrency;
     }
 
