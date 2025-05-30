@@ -4,14 +4,18 @@ using System.Collections.Generic;
 public class Stat
 {
     public float TotalStat => _baseStat + _baseStat * _multiply + _add;
+    public bool CanLevelUp;
     
     private float _baseStat;
+    private float _increaseAmountPerLevel;
     private float _multiply;
     private float _add;
 
-    public Stat(float baseStat)
+    public Stat(float baseStat, float increaseAmountPerLevel, bool canLevelUp)
     {
         _baseStat = baseStat;
+        _increaseAmountPerLevel = increaseAmountPerLevel;
+        CanLevelUp = canLevelUp;
     }
 
     public void AddBuff(StatBuff buff)
@@ -36,5 +40,10 @@ public class Stat
         {
             _multiply -= buff.BuffValue;
         }
+    }
+
+    public void LevelUp()
+    {
+        _baseStat += _increaseAmountPerLevel;
     }
 }
