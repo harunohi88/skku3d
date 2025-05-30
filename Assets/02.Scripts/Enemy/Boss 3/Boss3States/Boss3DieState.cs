@@ -2,18 +2,16 @@ using UnityEngine;
 
 public class Boss3DieState : IState<AEnemy>
 {
-    void IState<AEnemy>.Enter(AEnemy enemy)
+    public void Enter(AEnemy enemy) 
     {
-        throw new System.NotImplementedException();
+        Debug.Log(this);
     }
 
-    void IState<AEnemy>.Exit(AEnemy enemy)
+    public void Update(AEnemy enemy)
     {
-        throw new System.NotImplementedException();
     }
 
-    void IState<AEnemy>.Update(AEnemy enemy)
+    public void Exit(AEnemy enemy)
     {
-        throw new System.NotImplementedException();
     }
 }

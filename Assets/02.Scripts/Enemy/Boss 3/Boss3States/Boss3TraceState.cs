@@ -1,19 +1,33 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Boss3TraceState : IState<AEnemy>
 {
-    void IState<AEnemy>.Enter(AEnemy enemy)
+    private float _time = 0f;
+    private bool _isIdle = false;
+    public void Enter(AEnemy enemy)
     {
-        throw new System.NotImplementedException();
+        Debug.Log(this);
+        //enemy.SetAnimationTrigger("Run");
+        enemy.EnemyRotation.IsFound = true;
+        enemy.Agent.SetDestination(PlayerManager.Instance.Player.transform.position);
     }
 
-    void IState<AEnemy>.Exit(AEnemy enemy)
+    
+    public void Update(AEnemy enemy)
     {
-        throw new System.NotImplementedException();
+        enemy.Agent.SetDestination(PlayerManager.Instance.Player.transform.position);
+        
+        _time += Time.deltaTime;
+        if (_time >= 3f)
+        {
+            IState<AEnemy> state = Boss3AIManager.Instance.DecideNextState();
+            if (state is Boss3TraceState) return;
+            else enemy.ChangeState(state);
+        }
     }
 
-    void IState<AEnemy>.Update(AEnemy enemy)
+    public void Exit(AEnemy enemy)
     {
-        throw new System.NotImplementedException();
     }
 }

@@ -2,18 +2,22 @@ using UnityEngine;
 
 public class Boss3IdleState : IState<AEnemy>
 {
-    void IState<AEnemy>.Enter(AEnemy enemy)
+    public void Enter(AEnemy enemy)
     {
-        throw new System.NotImplementedException();
-    }
-
-    void IState<AEnemy>.Exit(AEnemy enemy)
-    {
-        throw new System.NotImplementedException();
+        Debug.Log(this);
     }
 
     void IState<AEnemy>.Update(AEnemy enemy)
     {
-        throw new System.NotImplementedException();
+        if (Vector3.Distance(enemy.transform.position, PlayerManager.Instance.Player.transform.position) < enemy.TraceDistance)
+        {
+            enemy.ChangeState(new Boss3TraceState());
+            return;
+        }
+    }
+
+    
+    public void Exit(AEnemy enemy)
+    {
     }
 }

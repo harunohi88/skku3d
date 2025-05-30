@@ -119,6 +119,173 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &43791318 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1997296248483302, guid: 9984be23625843a48a44d88aae5669f2, type: 3}
+  m_PrefabInstance: {fileID: 101084252}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &43791321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43791318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea770e51e256fa14191cec626d358975, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHealth: 2000
+  Health: 100
+  Damage: 20
+  MoveSpeed: 8
+  Type: 2
+  TraceDistance: 30
+  AttackDistance: 10
+  AttackOutDistance: 20
+  AttackCooltime: 5
+  DamagedTime: 0
+  DeathTime: 5
+  ThisSpawner: {fileID: 0}
+  LayerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  Agent: {fileID: 0}
+  AttackPosition: {fileID: 0}
+  SkillObject: {fileID: 0}
+  EnemyRotation: {fileID: 0}
+  EnemyHitEffect: {fileID: 0}
+  ProjectileCount: 3
+  ProjectileAngleStep: 30
+  KnifePrefab: {fileID: 153030839874037875, guid: f1bc5e71a158fa34dbea99e32074ee47, type: 3}
+--- !u!114 &43791322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43791318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb56f30676be45341b63733d4c581cfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsFound: 0
+  RotationSpeed: 10
+--- !u!114 &43791323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43791318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71e8911f70608d428b55d0349491494, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BossEnemy: {fileID: 0}
+  _healthThreshold: 0.5
+  _baseAttackPatternList:
+  - CoolTime: 3
+    CastingTime: 0
+    LastFinishedTime: 0
+    Range: 0
+    Width: 0
+    Radius: 0
+    Angle: 0
+    Duration: 0
+    MaxCount: 0
+    Damage: 10
+    InnerRange: 0
+  _specialAttack1PatternList:
+  - CoolTime: 10
+    CastingTime: 2
+    LastFinishedTime: 0
+    Range: 10
+    Width: 0
+    Radius: 3
+    Angle: 360
+    Duration: 5
+    MaxCount: 20
+    Damage: 5
+    InnerRange: 0
+  _specialAttack2PatternList: []
+  _specialAttack3PatternList: []
+  _specialAttack4PatternList: []
+--- !u!54 &43791324
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43791318}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!195 &43791325
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43791318}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!136 &43791326
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43791318}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.99, z: 0}
 --- !u!1001 &101084252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -194,7 +361,25 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1997296248483302, guid: 9984be23625843a48a44d88aae5669f2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 43791323}
+    - targetCorrespondingSourceObject: {fileID: 1997296248483302, guid: 9984be23625843a48a44d88aae5669f2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 43791322}
+    - targetCorrespondingSourceObject: {fileID: 1997296248483302, guid: 9984be23625843a48a44d88aae5669f2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 43791321}
+    - targetCorrespondingSourceObject: {fileID: 1997296248483302, guid: 9984be23625843a48a44d88aae5669f2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 43791325}
+    - targetCorrespondingSourceObject: {fileID: 1997296248483302, guid: 9984be23625843a48a44d88aae5669f2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 43791324}
+    - targetCorrespondingSourceObject: {fileID: 1997296248483302, guid: 9984be23625843a48a44d88aae5669f2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 43791326}
   m_SourcePrefab: {fileID: 100100000, guid: 9984be23625843a48a44d88aae5669f2, type: 3}
 --- !u!1 &600370773
 GameObject:
