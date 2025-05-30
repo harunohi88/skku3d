@@ -7,6 +7,7 @@ public class PlayerAttack : MonoBehaviour
 {
     public GameObject Model;
     public List<string> AttackTriggerList;
+    public bool IsAttacking;
     public bool InputQueued;
     public SkillBaseSO BaseStat;
     public Dictionary<ESkillStat, Stat> AttackStatDictionary = new Dictionary<ESkillStat, Stat>();
@@ -37,13 +38,17 @@ public class PlayerAttack : MonoBehaviour
     public void Attack()
     {
         PlayerManager.Instance.PlayerState = EPlayerState.Attack;
+        IsAttacking = true;
+        _animator.SetLayerWeight(1, 1f);
         _animator.SetTrigger(AttackTriggerList[_currentAttackIndex]);
     }
 
     public void Cancel()
     {
         PlayerManager.Instance.PlayerState = EPlayerState.None;
+        _animator.SetLayerWeight(1, 0f);
         InputQueued = false;
+        IsAttacking = false;
         _currentAttackIndex = 0;
     }
     

@@ -14,10 +14,10 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
 
     private Dictionary<EPlayerAction, HashSet<EPlayerState>> _actionStateMap = new()
     {
-        { EPlayerAction.Attack, new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Attack } },
-        { EPlayerAction.Skill,  new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Attack, EPlayerState.Skill, EPlayerState.Targeting } },
-        { EPlayerAction.Roll,   new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Attack, EPlayerState.Skill, EPlayerState.Targeting } },
-        { EPlayerAction.Move,   new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Attack, EPlayerState.Hit, EPlayerState.Targeting } },
+        { EPlayerAction.Attack, new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Attack, EPlayerState.Move } },
+        { EPlayerAction.Skill,  new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Move, EPlayerState.Attack, EPlayerState.Skill, EPlayerState.Targeting } },
+        { EPlayerAction.Roll,   new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Move, EPlayerState.Attack, EPlayerState.Skill, EPlayerState.Targeting } },
+        { EPlayerAction.Move,   new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Move, EPlayerState.Attack, EPlayerState.Hit, EPlayerState.Targeting } },
     };
 
     private void Awake()
@@ -36,7 +36,7 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
 
     public void Move(Vector2 inputDirection)
     {
-        // if (!CanPerform(EPlayerAction.Move)) return;
+        if (!CanPerform(EPlayerAction.Move)) return;
         PlayerMove.Move(inputDirection);
     }
 
@@ -44,16 +44,21 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
     {
         if (!CanPerform(EPlayerAction.Roll)) return;
 
-        if (PlayerState == EPlayerState.Targeting || PlayerState == EPlayerState.Skill)
+        if (PlayerSkill.IsTargeting || PlayerSkill.CurrentSkill != null)
         {
             PlayerSkill.Cancel();
+        }
+        
+        if (PlayerAttack.IsAttacking)
+        {
+            PlayerAttack.Cancel();
         }
         PlayerMove.Roll(direction);
     }
 
     public void MouseInputLeft()
     {
-        if (PlayerState == EPlayerState.Targeting)
+        if (PlayerSkill.IsTargeting)
         {
             PlayerSkill.CurrentSkill.Execute();
         }
@@ -65,9 +70,14 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
 
     public void MouseInputRight()
     {
-        if (PlayerState == EPlayerState.Targeting)
+        if (PlayerSkill.IsTargeting)
         {
             PlayerSkill.Cancel();
+        }
+        else if (PlayerAttack.IsAttacking)
+        {
+            PlayerAttack.Cancel();
+            UseSkill(0);
         }
         else
         {
@@ -79,7 +89,7 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
     {
         if (!CanPerform(EPlayerAction.Attack)) return;
 
-        if (PlayerState == EPlayerState.Attack)
+        if (PlayerAttack.IsAttacking)
         {
             PlayerAttack.InputQueued = true;
             return;

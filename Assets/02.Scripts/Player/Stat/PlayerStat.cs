@@ -7,7 +7,6 @@ public class PlayerStat : MonoBehaviour
     [SerializeField] private float CooldownReduction;
     [SerializeField] private float CriticalHitChance;
     [SerializeField] private float CriticalHitDamage;
-    [SerializeField] private float ExperienceGain;
     [SerializeField] private float MaxHealth;
     [SerializeField] private float MaxStamina;
     [SerializeField] private float MoveSpeed;
@@ -23,7 +22,6 @@ public class PlayerStat : MonoBehaviour
             { EStatType.CooldownReduction, new Stat(CooldownReduction) },
             { EStatType.CriticalChance, new Stat(CriticalHitChance) },
             { EStatType.CriticalDamage, new Stat(CriticalHitDamage) },
-            { EStatType.ExperienceGain, new Stat(ExperienceGain) },
             { EStatType.MaxHealth, new Stat(MaxHealth) },
             { EStatType.MaxStamina, new Stat(MaxStamina) },
             { EStatType.MoveSpeed, new Stat(MoveSpeed) },

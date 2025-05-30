@@ -6,7 +6,6 @@ public enum EStatType
     CooldownReduction,
     CriticalChance,
     CriticalDamage,
-    ExperienceGain,
     MaxHealth,
     MaxStamina,
     MoveSpeed,
