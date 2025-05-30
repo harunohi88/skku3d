@@ -37,6 +37,7 @@ public class TwoCircleIndicator : MonoBehaviour
 
     private void Update()
     {
+        transform.position = _player.transform.position;
         RangeIndicator.transform.position = _player.transform.position;
         TargetIndicatorUpdate();
     }
