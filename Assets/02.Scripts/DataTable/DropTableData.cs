@@ -14,8 +14,11 @@ public class DropTableData
     ///<summary>적 타입</summary>
     public readonly EnemyType EnemyType;
 
-    ///<summary>코인</summary>
-    public readonly int Coin;
+    ///<summary>코인 최소값</summary>
+    public readonly int MinCoin;
+
+    ///<summary>코인 최대값</summary>
+    public readonly int MaxCoin;
 
     ///<summary>경험치</summary>
     public readonly int Exp;
@@ -29,6 +32,9 @@ public class DropTableData
     ///<summary>티어 3 룬 드랍 확률</summary>
     private readonly float Tier3DropRate;
 
+    ///<summary>룬 드랍 확률</summary>
+    public readonly float RuneDropRate;
+
     ///<summary>TierDropRate 리스트</summary>
     public readonly List<float> TierDropRateList = new List<float>();
     public DropTableData(BinaryReader reader)
@@ -36,11 +42,13 @@ public class DropTableData
         TID = reader.ReadInt32();
         Stage = reader.ReadInt32();
         EnemyType = (EnemyType)reader.ReadInt32();
-        Coin = reader.ReadInt32();
+        MinCoin = reader.ReadInt32();
+        MaxCoin = reader.ReadInt32();
         Exp = reader.ReadInt32();
         Tier1DropRate = reader.ReadSingle();
         Tier2DropRate = reader.ReadSingle();
         Tier3DropRate = reader.ReadSingle();
+        RuneDropRate = reader.ReadSingle();
 
         LinkTable();
     }

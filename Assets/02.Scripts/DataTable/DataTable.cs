@@ -87,6 +87,33 @@ public partial class DataTable
         }
     }
     #endregion
+    #region Currency
+    private ReadOnlyList<CurrencyData> CurrencyList = null;
+    private ReadOnlyDictionary<int, CurrencyData> CurrencyTable = null;
+
+    public ReadOnlyList<CurrencyData> GetCurrencyDataList()
+    {
+        return CurrencyList;
+    }
+
+    public CurrencyData GetCurrencyData(int key)
+    {
+        if (key == 0)
+        {
+            return null;
+        }
+
+        if (CurrencyTable.TryGetValue(key, out CurrencyData retVal) == true)
+        {
+            return retVal;
+        }
+        else
+        {
+            Debug.LogError($"Can not find UniqueID of CurrencyData: <{key}>");
+            return null;
+        }
+    }
+    #endregion
     #region ShopTable
     private ReadOnlyList<ShopTableData> ShopTableList = null;
     private ReadOnlyDictionary<int, ShopTableData> ShopTableTable = null;
@@ -222,33 +249,6 @@ public partial class DataTable
         }
     }
     #endregion
-    #region Currency
-    private ReadOnlyList<CurrencyData> CurrencyList = null;
-    private ReadOnlyDictionary<int, CurrencyData> CurrencyTable = null;
-
-    public ReadOnlyList<CurrencyData> GetCurrencyDataList()
-    {
-        return CurrencyList;
-    }
-
-    public CurrencyData GetCurrencyData(int key)
-    {
-        if (key == 0)
-        {
-            return null;
-        }
-
-        if (CurrencyTable.TryGetValue(key, out CurrencyData retVal) == true)
-        {
-            return retVal;
-        }
-        else
-        {
-            Debug.LogError($"Can not find UniqueID of CurrencyData: <{key}>");
-            return null;
-        }
-    }
-    #endregion
 
     public IEnumerator LoadRoutine()
     {
@@ -271,6 +271,12 @@ public partial class DataTable
         GetBytes_FromResources("DropTable", (bytes) =>
         {
             LoadDropTableData(bytes);
+            loadedCount++;
+        });
+        allCount++;
+        GetBytes_FromResources("Currency", (bytes) =>
+        {
+            LoadCurrencyData(bytes);
             loadedCount++;
         });
         allCount++;
@@ -303,12 +309,6 @@ public partial class DataTable
             LoadPlayerSkillUpgradeData(bytes);
             loadedCount++;
         });
-        allCount++;
-        GetBytes_FromResources("Currency", (bytes) =>
-        {
-            LoadCurrencyData(bytes);
-            loadedCount++;
-        });
 
         yield return new WaitUntil(() => allCount == loadedCount);
     }
@@ -321,6 +321,8 @@ public partial class DataTable
         LoadTimeData(timeBytes);
         byte[] dropTableBytes = GetBytes_ForEditor("DropTableData");
         LoadDropTableData(dropTableBytes);
+        byte[] currencyBytes = GetBytes_ForEditor("CurrencyData");
+        LoadCurrencyData(currencyBytes);
         byte[] shopTableBytes = GetBytes_ForEditor("ShopTableData");
         LoadShopTableData(shopTableBytes);
         byte[] playerExperienceBytes = GetBytes_ForEditor("PlayerExperienceData");
@@ -331,8 +333,6 @@ public partial class DataTable
         LoadPlayerSkillData(playerSkillBytes);
         byte[] playerSkillUpgradeBytes = GetBytes_ForEditor("PlayerSkillUpgradeData");
         LoadPlayerSkillUpgradeData(playerSkillUpgradeBytes);
-        byte[] currencyBytes = GetBytes_ForEditor("CurrencyData");
-        LoadCurrencyData(currencyBytes);
     }
 
     private void LoadRuneData(byte[] bytes)
@@ -426,6 +426,37 @@ public partial class DataTable
 
         DropTableList = new ReadOnlyList<DropTableData>(dropTableList);
         DropTableTable = new ReadOnlyDictionary<int, DropTableData>(dropTableTable);
+    }
+
+    private void LoadCurrencyData(byte[] bytes)
+    {
+        List<CurrencyData> currencyList = new List<CurrencyData>();
+        Dictionary<int, CurrencyData> currencyTable = new Dictionary<int, CurrencyData>();
+
+        Reader = new BinaryReader(new MemoryStream(bytes));
+
+        while (Reader.BaseStream.Position < bytes.Length)
+        {
+            CurrencyData data = new CurrencyData(Reader);
+            if (currencyTable.ContainsKey(data.TID) == true)
+            {
+                Debug.LogError("The duplicate TID: " + data.TID + " in Currency");
+                continue;
+            }
+            else if (data.TID == 0)
+            {
+                Debug.LogError("TID is 0 in Currency");
+                continue;
+            }
+
+            currencyList.Add(data);
+            currencyTable.Add(data.TID, data);
+        }
+
+        Reader.Close();
+
+        CurrencyList = new ReadOnlyList<CurrencyData>(currencyList);
+        CurrencyTable = new ReadOnlyDictionary<int, CurrencyData>(currencyTable);
     }
 
     private void LoadShopTableData(byte[] bytes)
@@ -581,37 +612,6 @@ public partial class DataTable
 
         PlayerSkillUpgradeList = new ReadOnlyList<PlayerSkillUpgradeData>(playerSkillUpgradeList);
         PlayerSkillUpgradeTable = new ReadOnlyDictionary<int, PlayerSkillUpgradeData>(playerSkillUpgradeTable);
-    }
-
-    private void LoadCurrencyData(byte[] bytes)
-    {
-        List<CurrencyData> currencyList = new List<CurrencyData>();
-        Dictionary<int, CurrencyData> currencyTable = new Dictionary<int, CurrencyData>();
-
-        Reader = new BinaryReader(new MemoryStream(bytes));
-
-        while (Reader.BaseStream.Position < bytes.Length)
-        {
-            CurrencyData data = new CurrencyData(Reader);
-            if (currencyTable.ContainsKey(data.TID) == true)
-            {
-                Debug.LogError("The duplicate TID: " + data.TID + " in Currency");
-                continue;
-            }
-            else if (data.TID == 0)
-            {
-                Debug.LogError("TID is 0 in Currency");
-                continue;
-            }
-
-            currencyList.Add(data);
-            currencyTable.Add(data.TID, data);
-        }
-
-        Reader.Close();
-
-        CurrencyList = new ReadOnlyList<CurrencyData>(currencyList);
-        CurrencyTable = new ReadOnlyDictionary<int, CurrencyData>(currencyTable);
     }
 
 }
