@@ -67,7 +67,7 @@ public class PlayerMove : MonoBehaviour
         if (move != Vector3.zero)
         {
             PlayerManager.PlayerState = EPlayerState.Move;
-            Model.transform.forward = move;
+            // Model.transform.forward = move;
         }
 
         Vector3 totalMove = move * _moveSpeed;

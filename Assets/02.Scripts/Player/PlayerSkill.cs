@@ -10,9 +10,12 @@ public class PlayerSkill : MonoBehaviour
     public ISkill CurrentSkill;
     public GameObject Model;
     public bool IsTargeting = false;
+    
+    private PlayerManager _playerManager;
 
     public void Start()
     {
+        _playerManager = PlayerManager.Instance;
         _skillList = GetComponents<ISkill>().ToList();
         foreach (ISkill skill in _skillList)
         {
@@ -30,12 +33,11 @@ public class PlayerSkill : MonoBehaviour
 
     public void UseSkill(int slot)
     {
-        Debug.Log("Use Skill");
-        Debug.Log(CurrentSkill);
         if (slot < 0 || slot >= _skillList.Count) return;
 
         if (!IsTargeting && CurrentSkill != null) return;
         
+        _playerManager.PlayerRotate.InstantLookAtMouse();
         _skillList[slot]?.Execute();
     }
 

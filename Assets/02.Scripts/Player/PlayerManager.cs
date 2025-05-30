@@ -8,6 +8,7 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
     [SerializeField] public Player Player;
     [SerializeField] public PlayerStat PlayerStat;
     [SerializeField] public PlayerMove PlayerMove;
+    [SerializeField] public PlayerRotate PlayerRotate;
     [SerializeField] public PlayerAttack PlayerAttack;
     [SerializeField] public PlayerSkill PlayerSkill;
     [SerializeField] public EPlayerState PlayerState;
@@ -18,12 +19,14 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
         { EPlayerAction.Skill,  new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Move, EPlayerState.Attack, EPlayerState.Skill, EPlayerState.Targeting } },
         { EPlayerAction.Roll,   new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Move, EPlayerState.Attack, EPlayerState.Skill, EPlayerState.Targeting } },
         { EPlayerAction.Move,   new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Move, EPlayerState.Attack, EPlayerState.Hit, EPlayerState.Targeting } },
+        { EPlayerAction.Rotate, new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Move, EPlayerState.Targeting } },
     };
 
     private void Awake()
     {
         PlayerStat = Player.gameObject.GetComponent<PlayerStat>();
         PlayerMove = Player.gameObject.GetComponent<PlayerMove>();
+        PlayerRotate = Player.gameObject.GetComponent<PlayerRotate>();
         PlayerAttack = Player.gameObject.GetComponent<PlayerAttack>();
         PlayerSkill = Player.gameObject.GetComponent<PlayerSkill>();
         PlayerState = EPlayerState.None;
@@ -38,6 +41,15 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
     {
         if (!CanPerform(EPlayerAction.Move)) return;
         PlayerMove.Move(inputDirection);
+    }
+    
+    public void Rotate(Vector2 inputDirection)
+    {
+        if (!CanPerform(EPlayerAction.Rotate)) return;
+
+        if (PlayerAttack.IsAttacking) return;
+
+        PlayerRotate.Rotate(inputDirection);
     }
 
     public void Roll(Vector2 direction)
