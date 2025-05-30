@@ -26,6 +26,9 @@ public class TimeData
     ///<summary>몹 데미지 배수</summary>
     public readonly float EnemyDamageMultiplier;
 
+    ///<summary>엘리트 스폰 확률</summary>
+    public readonly float EliteSpawnRate;
+
     public TimeData(BinaryReader reader)
     {
         TID = reader.ReadInt32();
@@ -36,5 +39,6 @@ public class TimeData
         EnemyCountMultiplier = reader.ReadSingle();
         EnemyHealthMultiplier = reader.ReadSingle();
         EnemyDamageMultiplier = reader.ReadSingle();
+        EliteSpawnRate = reader.ReadSingle();
     }
 }

@@ -60,6 +60,33 @@ public partial class DataTable
         }
     }
     #endregion
+    #region Stage
+    private ReadOnlyList<StageData> StageList = null;
+    private ReadOnlyDictionary<int, StageData> StageTable = null;
+
+    public ReadOnlyList<StageData> GetStageDataList()
+    {
+        return StageList;
+    }
+
+    public StageData GetStageData(int key)
+    {
+        if (key == 0)
+        {
+            return null;
+        }
+
+        if (StageTable.TryGetValue(key, out StageData retVal) == true)
+        {
+            return retVal;
+        }
+        else
+        {
+            Debug.LogError($"Can not find UniqueID of StageData: <{key}>");
+            return null;
+        }
+    }
+    #endregion
     #region DropTable
     private ReadOnlyList<DropTableData> DropTableList = null;
     private ReadOnlyDictionary<int, DropTableData> DropTableTable = null;
@@ -268,6 +295,12 @@ public partial class DataTable
             loadedCount++;
         });
         allCount++;
+        GetBytes_FromResources("Stage", (bytes) =>
+        {
+            LoadStageData(bytes);
+            loadedCount++;
+        });
+        allCount++;
         GetBytes_FromResources("DropTable", (bytes) =>
         {
             LoadDropTableData(bytes);
@@ -319,6 +352,8 @@ public partial class DataTable
         LoadRuneData(runeBytes);
         byte[] timeBytes = GetBytes_ForEditor("TimeData");
         LoadTimeData(timeBytes);
+        byte[] stageBytes = GetBytes_ForEditor("StageData");
+        LoadStageData(stageBytes);
         byte[] dropTableBytes = GetBytes_ForEditor("DropTableData");
         LoadDropTableData(dropTableBytes);
         byte[] currencyBytes = GetBytes_ForEditor("CurrencyData");
@@ -395,6 +430,37 @@ public partial class DataTable
 
         TimeList = new ReadOnlyList<TimeData>(timeList);
         TimeTable = new ReadOnlyDictionary<int, TimeData>(timeTable);
+    }
+
+    private void LoadStageData(byte[] bytes)
+    {
+        List<StageData> stageList = new List<StageData>();
+        Dictionary<int, StageData> stageTable = new Dictionary<int, StageData>();
+
+        Reader = new BinaryReader(new MemoryStream(bytes));
+
+        while (Reader.BaseStream.Position < bytes.Length)
+        {
+            StageData data = new StageData(Reader);
+            if (stageTable.ContainsKey(data.TID) == true)
+            {
+                Debug.LogError("The duplicate TID: " + data.TID + " in Stage");
+                continue;
+            }
+            else if (data.TID == 0)
+            {
+                Debug.LogError("TID is 0 in Stage");
+                continue;
+            }
+
+            stageList.Add(data);
+            stageTable.Add(data.TID, data);
+        }
+
+        Reader.Close();
+
+        StageList = new ReadOnlyList<StageData>(stageList);
+        StageTable = new ReadOnlyDictionary<int, StageData>(stageTable);
     }
 
     private void LoadDropTableData(byte[] bytes)

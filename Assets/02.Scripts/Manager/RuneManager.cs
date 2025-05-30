@@ -51,7 +51,7 @@ public class RuneManager : BehaviourSingleton<RuneManager>
         factory.Register("SlaughterRuneEffect", () => new SlaughterRuneEffect());
         factory.Register("ArrowRuneEffect", () => new ArrowRuneEffect());
         factory.Register("FlameRuneEffect", () => new FlameRuneEffect());
-
+        factory.Register("ExplosionRuneEffect", () => new ExplosionRuneEffect());
         factory.Register("FateRuneEffect", () => new FateRuneEffect());
         factory.Register("ElectricRuneEffect", () => new ElectricRuneEffect());
     }

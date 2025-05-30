@@ -1,4 +1,4 @@
-10000	AttackPower	100	5	TRUE	
+10000	AttackPower	1000	100	TRUE	
 10001	CooldownReduction	0	0	FALSE	
 10002	CriticalChance	0.2	0.02	TRUE	
 10003	CriticalDamage	1	0.05	TRUE	
