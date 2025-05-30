@@ -21,6 +21,11 @@ public class SkillUpgradeUI : MonoBehaviour
         skillUpgrade.OnSkillUpgrade += UpdateSkillLevelText;
         skillUpgrade.OnSkillUpgradeText += UpdateSkillCostText;
         skillUpgrade.OnSkillMaxLevel += SetInteractableButton;
+
+        for(int i=0; i<skillUpgrade.SkillUpgradeCostList.Count; i++)
+        {
+            UpdateSkillCostText(i, skillUpgrade.SkillUpgradeCostList[i]);
+        }
     }
 
     public void UpdateSkillLevelText(int skillNumber, int level)

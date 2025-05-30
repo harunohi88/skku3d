@@ -15,9 +15,11 @@ public class RuneShop : MonoBehaviour
 
     public int ItemCount = 6;
     [SerializeField]
-    private int _rerollCost = 100;
+    private int _rerollCost = 50;
+    private int _rerollCostIncrease = 200;
     
     public const int RUNE_MIN_TID = 10000;
+    public const int REROLL_TID = 10004;
     public const int RUNE_COUNT = 20;
 
     public Action<int, Sprite, int> OnRuneUpdated;
@@ -25,11 +27,16 @@ public class RuneShop : MonoBehaviour
     public Action<int> OnCreateRune;
     public Action<int> OnReroll;
 
+
     // TODO: 스테이지 바뀔때마다 조건을 바꿔서 다시 리롤을 해줘야 한다.
 
     private void Start()
     {
         CreateRuneList();
+
+        CurrencyData currencyData = DataTable.Instance.GetCurrencyData(REROLL_TID);
+        _rerollCost = currencyData.BaseAmount;
+        _rerollCostIncrease = currencyData.AddAmount;
     }
 
     /// <summary>
@@ -62,7 +69,7 @@ public class RuneShop : MonoBehaviour
         RuneList.Clear();
         _runeCostList.Clear();
 
-        _rerollCost *= 2;
+        _rerollCost += _rerollCostIncrease;
         CreateRuneList();
     }
 
@@ -77,16 +84,57 @@ public class RuneShop : MonoBehaviour
 
         for(int i=0; i< ItemCount; i++)
         {
-            // TODO: 일단 티어를 전부 1로 설정
-            // 나중에는 티어가 상황에 따라 바뀔 거 같음
-            // 가격도 전부 100으로 설정
-            int randomTID = UnityEngine.Random.Range(RUNE_MIN_TID, RUNE_MIN_TID + RUNE_COUNT);
+            // 테스트트
+            //int stage = GameManager.Instance.GetCurrentStage();
+            int stage = 3;
+            // 스테이지에 따른 상점 테이블 데이터 가져오기
+            ShopTableData shopTableData = DataTable.Instance.GetShopTableData(10000 + stage - 1);
+
+            // 상점에 나올 룬 랜덤 티어 결정
+            int tier = 1;
+            float tierRandomValue = UnityEngine.Random.value;
+            if(tierRandomValue < shopTableData.TierRateList[2])
+            {
+                tier = 3;
+            }
+            else if(tierRandomValue < shopTableData.TierRateList[1])
+            {
+                tier = 2;
+            }
+            else if(tierRandomValue < shopTableData.TierRateList[0])
+            {
+                tier = 1;
+            }
+
+            // 상점에 나올 룬 랜덤 TID 결정
+            int randomTID = UnityEngine.Random.Range(RUNE_MIN_TID, RUNE_MIN_TID + DataTable.Instance.GetRuneDataList().Count);
             Debug.Log($"룬 생성: {randomTID}");
-            // 룬 티어 랜덤으로 : 삭제예정
-            int randomTier = UnityEngine.Random.Range(1, 4);
-            Rune rune = new Rune(randomTID, randomTier);
+            Rune rune = new Rune(randomTID, tier);
             RuneList.Add(rune);
-            _runeCostList.Add(100);
+
+            // 티어에 따라 룬 가격 책정
+            int currencyDataTID = 10000;
+            switch(tier)
+            {
+                case 1:
+                {
+                    currencyDataTID += 1;
+                    break;          
+                }
+                case 2:
+                {
+                    currencyDataTID += 2;
+                    break;
+                }
+                case 3:
+                {
+                    currencyDataTID += 3;
+                    break;
+                }
+            }
+            CurrencyData currencyData = DataTable.Instance.GetCurrencyData(currencyDataTID);
+            
+            _runeCostList.Add(currencyData.BaseAmount);
             
             // 룬 리스트 만들고 UI 업데이트
             OnReroll?.Invoke(_rerollCost);

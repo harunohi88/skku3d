@@ -11,6 +11,7 @@ public class BasicAllInventory : BaseInventory
     [SerializeField] private BasicInventory _tier2Inventory;
     [SerializeField] private BasicInventory _tier3Inventory;
 
+
     public override bool AddItem(Rune rune, int quantity = 1)
     {
         // 동일한 룬의 기존 스택 찾기 (TID와 티어가 모두 같은 경우)
