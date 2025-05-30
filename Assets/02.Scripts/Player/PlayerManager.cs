@@ -58,11 +58,13 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
 
         if (PlayerSkill.IsTargeting || PlayerSkill.CurrentSkill != null)
         {
+            PlayerRotate.CancelRotation();
             PlayerSkill.Cancel();
         }
         
         if (PlayerAttack.IsAttacking)
         {
+            PlayerRotate.CancelRotation();
             PlayerAttack.Cancel();
         }
         PlayerMove.Roll(direction);
@@ -115,6 +117,7 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
 
         if (PlayerState == EPlayerState.Attack)
         {
+            PlayerRotate.CancelRotation();
             PlayerAttack.Cancel();
         }
         PlayerSkill.UseSkill(skillIndex); // PlayerSKill.Skill 내부에서 PlayerState 변경
