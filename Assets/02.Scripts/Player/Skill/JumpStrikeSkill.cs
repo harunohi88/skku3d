@@ -240,4 +240,12 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
     {
         IsAvailable = true;
     }
+
+    public void LevelUp()
+    {
+        foreach (KeyValuePair<ESkillStat, Stat> stat in SkillStatDictionary)
+        {
+            stat.Value.LevelUp();
+        }
+    }
 }

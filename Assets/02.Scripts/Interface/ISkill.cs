@@ -7,4 +7,5 @@ public interface ISkill
     public void OnSkillAnimationEnd();
     public void EquipRune(Rune rune);
     public void UnequipRune();
+    public void LevelUp();
 }

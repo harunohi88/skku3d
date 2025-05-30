@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RevelationBuffSkill : MonoBehaviour, ISkill
@@ -102,5 +103,13 @@ public class RevelationBuffSkill : MonoBehaviour, ISkill
     public void SetAvailable()
     {
         IsAvailable = true;
+    }
+
+    public void LevelUp()
+    {
+        //foreach (KeyValuePair<ESkillStat, Stat> stat in SkillStatDictionary)
+        //{
+        //    stat.LevelUp();
+        //}
     }
 }
