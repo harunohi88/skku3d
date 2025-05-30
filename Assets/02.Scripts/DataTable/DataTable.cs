@@ -6,33 +6,6 @@ using UnityEngine;
 
 public partial class DataTable
 {
-    #region Stat
-    private ReadOnlyList<StatData> StatList = null;
-    private ReadOnlyDictionary<int, StatData> StatTable = null;
-
-    public ReadOnlyList<StatData> GetStatDataList()
-    {
-        return StatList;
-    }
-
-    public StatData GetStatData(int key)
-    {
-        if (key == 0)
-        {
-            return null;
-        }
-
-        if (StatTable.TryGetValue(key, out StatData retVal) == true)
-        {
-            return retVal;
-        }
-        else
-        {
-            Debug.LogError($"Can not find UniqueID of StatData: <{key}>");
-            return null;
-        }
-    }
-    #endregion
     #region Rune
     private ReadOnlyList<RuneData> RuneList = null;
     private ReadOnlyDictionary<int, RuneData> RuneTable = null;
@@ -60,56 +33,245 @@ public partial class DataTable
         }
     }
     #endregion
-    #region FireLight
-    private ReadOnlyList<FireLightData> FireLightList = null;
-    private ReadOnlyDictionary<int, FireLightData> FireLightTable = null;
+    #region Time
+    private ReadOnlyList<TimeData> TimeList = null;
+    private ReadOnlyDictionary<int, TimeData> TimeTable = null;
 
-    public ReadOnlyList<FireLightData> GetFireLightDataList()
+    public ReadOnlyList<TimeData> GetTimeDataList()
     {
-        return FireLightList;
+        return TimeList;
     }
 
-    public FireLightData GetFireLightData(int key)
+    public TimeData GetTimeData(int key)
     {
         if (key == 0)
         {
             return null;
         }
 
-        if (FireLightTable.TryGetValue(key, out FireLightData retVal) == true)
+        if (TimeTable.TryGetValue(key, out TimeData retVal) == true)
         {
             return retVal;
         }
         else
         {
-            Debug.LogError($"Can not find UniqueID of FireLightData: <{key}>");
+            Debug.LogError($"Can not find UniqueID of TimeData: <{key}>");
             return null;
         }
     }
     #endregion
-    #region FireUnit
-    private ReadOnlyList<FireUnitData> FireUnitList = null;
-    private ReadOnlyDictionary<int, FireUnitData> FireUnitTable = null;
+    #region Stage
+    private ReadOnlyList<StageData> StageList = null;
+    private ReadOnlyDictionary<int, StageData> StageTable = null;
 
-    public ReadOnlyList<FireUnitData> GetFireUnitDataList()
+    public ReadOnlyList<StageData> GetStageDataList()
     {
-        return FireUnitList;
+        return StageList;
     }
 
-    public FireUnitData GetFireUnitData(int key)
+    public StageData GetStageData(int key)
     {
         if (key == 0)
         {
             return null;
         }
 
-        if (FireUnitTable.TryGetValue(key, out FireUnitData retVal) == true)
+        if (StageTable.TryGetValue(key, out StageData retVal) == true)
         {
             return retVal;
         }
         else
         {
-            Debug.LogError($"Can not find UniqueID of FireUnitData: <{key}>");
+            Debug.LogError($"Can not find UniqueID of StageData: <{key}>");
+            return null;
+        }
+    }
+    #endregion
+    #region DropTable
+    private ReadOnlyList<DropTableData> DropTableList = null;
+    private ReadOnlyDictionary<int, DropTableData> DropTableTable = null;
+
+    public ReadOnlyList<DropTableData> GetDropTableDataList()
+    {
+        return DropTableList;
+    }
+
+    public DropTableData GetDropTableData(int key)
+    {
+        if (key == 0)
+        {
+            return null;
+        }
+
+        if (DropTableTable.TryGetValue(key, out DropTableData retVal) == true)
+        {
+            return retVal;
+        }
+        else
+        {
+            Debug.LogError($"Can not find UniqueID of DropTableData: <{key}>");
+            return null;
+        }
+    }
+    #endregion
+    #region Currency
+    private ReadOnlyList<CurrencyData> CurrencyList = null;
+    private ReadOnlyDictionary<int, CurrencyData> CurrencyTable = null;
+
+    public ReadOnlyList<CurrencyData> GetCurrencyDataList()
+    {
+        return CurrencyList;
+    }
+
+    public CurrencyData GetCurrencyData(int key)
+    {
+        if (key == 0)
+        {
+            return null;
+        }
+
+        if (CurrencyTable.TryGetValue(key, out CurrencyData retVal) == true)
+        {
+            return retVal;
+        }
+        else
+        {
+            Debug.LogError($"Can not find UniqueID of CurrencyData: <{key}>");
+            return null;
+        }
+    }
+    #endregion
+    #region ShopTable
+    private ReadOnlyList<ShopTableData> ShopTableList = null;
+    private ReadOnlyDictionary<int, ShopTableData> ShopTableTable = null;
+
+    public ReadOnlyList<ShopTableData> GetShopTableDataList()
+    {
+        return ShopTableList;
+    }
+
+    public ShopTableData GetShopTableData(int key)
+    {
+        if (key == 0)
+        {
+            return null;
+        }
+
+        if (ShopTableTable.TryGetValue(key, out ShopTableData retVal) == true)
+        {
+            return retVal;
+        }
+        else
+        {
+            Debug.LogError($"Can not find UniqueID of ShopTableData: <{key}>");
+            return null;
+        }
+    }
+    #endregion
+    #region PlayerExperience
+    private ReadOnlyList<PlayerExperienceData> PlayerExperienceList = null;
+    private ReadOnlyDictionary<int, PlayerExperienceData> PlayerExperienceTable = null;
+
+    public ReadOnlyList<PlayerExperienceData> GetPlayerExperienceDataList()
+    {
+        return PlayerExperienceList;
+    }
+
+    public PlayerExperienceData GetPlayerExperienceData(int key)
+    {
+        if (key == 0)
+        {
+            return null;
+        }
+
+        if (PlayerExperienceTable.TryGetValue(key, out PlayerExperienceData retVal) == true)
+        {
+            return retVal;
+        }
+        else
+        {
+            Debug.LogError($"Can not find UniqueID of PlayerExperienceData: <{key}>");
+            return null;
+        }
+    }
+    #endregion
+    #region PlayerStat
+    private ReadOnlyList<PlayerStatData> PlayerStatList = null;
+    private ReadOnlyDictionary<int, PlayerStatData> PlayerStatTable = null;
+
+    public ReadOnlyList<PlayerStatData> GetPlayerStatDataList()
+    {
+        return PlayerStatList;
+    }
+
+    public PlayerStatData GetPlayerStatData(int key)
+    {
+        if (key == 0)
+        {
+            return null;
+        }
+
+        if (PlayerStatTable.TryGetValue(key, out PlayerStatData retVal) == true)
+        {
+            return retVal;
+        }
+        else
+        {
+            Debug.LogError($"Can not find UniqueID of PlayerStatData: <{key}>");
+            return null;
+        }
+    }
+    #endregion
+    #region PlayerSkill
+    private ReadOnlyList<PlayerSkillData> PlayerSkillList = null;
+    private ReadOnlyDictionary<int, PlayerSkillData> PlayerSkillTable = null;
+
+    public ReadOnlyList<PlayerSkillData> GetPlayerSkillDataList()
+    {
+        return PlayerSkillList;
+    }
+
+    public PlayerSkillData GetPlayerSkillData(int key)
+    {
+        if (key == 0)
+        {
+            return null;
+        }
+
+        if (PlayerSkillTable.TryGetValue(key, out PlayerSkillData retVal) == true)
+        {
+            return retVal;
+        }
+        else
+        {
+            Debug.LogError($"Can not find UniqueID of PlayerSkillData: <{key}>");
+            return null;
+        }
+    }
+    #endregion
+    #region PlayerSkillUpgrade
+    private ReadOnlyList<PlayerSkillUpgradeData> PlayerSkillUpgradeList = null;
+    private ReadOnlyDictionary<int, PlayerSkillUpgradeData> PlayerSkillUpgradeTable = null;
+
+    public ReadOnlyList<PlayerSkillUpgradeData> GetPlayerSkillUpgradeDataList()
+    {
+        return PlayerSkillUpgradeList;
+    }
+
+    public PlayerSkillUpgradeData GetPlayerSkillUpgradeData(int key)
+    {
+        if (key == 0)
+        {
+            return null;
+        }
+
+        if (PlayerSkillUpgradeTable.TryGetValue(key, out PlayerSkillUpgradeData retVal) == true)
+        {
+            return retVal;
+        }
+        else
+        {
+            Debug.LogError($"Can not find UniqueID of PlayerSkillUpgradeData: <{key}>");
             return null;
         }
     }
@@ -121,27 +283,63 @@ public partial class DataTable
         int loadedCount = 0;
 
         allCount++;
-        GetBytes_FromResources("Stat", (bytes) =>
-        {
-            LoadStatData(bytes);
-            loadedCount++;
-        });
-        allCount++;
         GetBytes_FromResources("Rune", (bytes) =>
         {
             LoadRuneData(bytes);
             loadedCount++;
         });
         allCount++;
-        GetBytes_FromResources("FireLight", (bytes) =>
+        GetBytes_FromResources("Time", (bytes) =>
         {
-            LoadFireLightData(bytes);
+            LoadTimeData(bytes);
             loadedCount++;
         });
         allCount++;
-        GetBytes_FromResources("FireUnit", (bytes) =>
+        GetBytes_FromResources("Stage", (bytes) =>
         {
-            LoadFireUnitData(bytes);
+            LoadStageData(bytes);
+            loadedCount++;
+        });
+        allCount++;
+        GetBytes_FromResources("DropTable", (bytes) =>
+        {
+            LoadDropTableData(bytes);
+            loadedCount++;
+        });
+        allCount++;
+        GetBytes_FromResources("Currency", (bytes) =>
+        {
+            LoadCurrencyData(bytes);
+            loadedCount++;
+        });
+        allCount++;
+        GetBytes_FromResources("ShopTable", (bytes) =>
+        {
+            LoadShopTableData(bytes);
+            loadedCount++;
+        });
+        allCount++;
+        GetBytes_FromResources("PlayerExperience", (bytes) =>
+        {
+            LoadPlayerExperienceData(bytes);
+            loadedCount++;
+        });
+        allCount++;
+        GetBytes_FromResources("PlayerStat", (bytes) =>
+        {
+            LoadPlayerStatData(bytes);
+            loadedCount++;
+        });
+        allCount++;
+        GetBytes_FromResources("PlayerSkill", (bytes) =>
+        {
+            LoadPlayerSkillData(bytes);
+            loadedCount++;
+        });
+        allCount++;
+        GetBytes_FromResources("PlayerSkillUpgrade", (bytes) =>
+        {
+            LoadPlayerSkillUpgradeData(bytes);
             loadedCount++;
         });
 
@@ -150,45 +348,26 @@ public partial class DataTable
 
     public void LoadForEditor()
     {
-        byte[] statBytes = GetBytes_ForEditor("StatData");
-        LoadStatData(statBytes);
         byte[] runeBytes = GetBytes_ForEditor("RuneData");
         LoadRuneData(runeBytes);
-        byte[] fireLightBytes = GetBytes_ForEditor("FireLightData");
-        LoadFireLightData(fireLightBytes);
-        byte[] fireUnitBytes = GetBytes_ForEditor("FireUnitData");
-        LoadFireUnitData(fireUnitBytes);
-    }
-
-    private void LoadStatData(byte[] bytes)
-    {
-        List<StatData> statList = new List<StatData>();
-        Dictionary<int, StatData> statTable = new Dictionary<int, StatData>();
-
-        Reader = new BinaryReader(new MemoryStream(bytes));
-
-        while (Reader.BaseStream.Position < bytes.Length)
-        {
-            StatData data = new StatData(Reader);
-            if (statTable.ContainsKey(data.TID) == true)
-            {
-                Debug.LogError("The duplicate TID: " + data.TID + " in Stat");
-                continue;
-            }
-            else if (data.TID == 0)
-            {
-                Debug.LogError("TID is 0 in Stat");
-                continue;
-            }
-
-            statList.Add(data);
-            statTable.Add(data.TID, data);
-        }
-
-        Reader.Close();
-
-        StatList = new ReadOnlyList<StatData>(statList);
-        StatTable = new ReadOnlyDictionary<int, StatData>(statTable);
+        byte[] timeBytes = GetBytes_ForEditor("TimeData");
+        LoadTimeData(timeBytes);
+        byte[] stageBytes = GetBytes_ForEditor("StageData");
+        LoadStageData(stageBytes);
+        byte[] dropTableBytes = GetBytes_ForEditor("DropTableData");
+        LoadDropTableData(dropTableBytes);
+        byte[] currencyBytes = GetBytes_ForEditor("CurrencyData");
+        LoadCurrencyData(currencyBytes);
+        byte[] shopTableBytes = GetBytes_ForEditor("ShopTableData");
+        LoadShopTableData(shopTableBytes);
+        byte[] playerExperienceBytes = GetBytes_ForEditor("PlayerExperienceData");
+        LoadPlayerExperienceData(playerExperienceBytes);
+        byte[] playerStatBytes = GetBytes_ForEditor("PlayerStatData");
+        LoadPlayerStatData(playerStatBytes);
+        byte[] playerSkillBytes = GetBytes_ForEditor("PlayerSkillData");
+        LoadPlayerSkillData(playerSkillBytes);
+        byte[] playerSkillUpgradeBytes = GetBytes_ForEditor("PlayerSkillUpgradeData");
+        LoadPlayerSkillUpgradeData(playerSkillUpgradeBytes);
     }
 
     private void LoadRuneData(byte[] bytes)
@@ -222,66 +401,283 @@ public partial class DataTable
         RuneTable = new ReadOnlyDictionary<int, RuneData>(runeTable);
     }
 
-    private void LoadFireLightData(byte[] bytes)
+    private void LoadTimeData(byte[] bytes)
     {
-        List<FireLightData> fireLightList = new List<FireLightData>();
-        Dictionary<int, FireLightData> fireLightTable = new Dictionary<int, FireLightData>();
+        List<TimeData> timeList = new List<TimeData>();
+        Dictionary<int, TimeData> timeTable = new Dictionary<int, TimeData>();
 
         Reader = new BinaryReader(new MemoryStream(bytes));
 
         while (Reader.BaseStream.Position < bytes.Length)
         {
-            FireLightData data = new FireLightData(Reader);
-            if (fireLightTable.ContainsKey(data.TID) == true)
+            TimeData data = new TimeData(Reader);
+            if (timeTable.ContainsKey(data.TID) == true)
             {
-                Debug.LogError("The duplicate TID: " + data.TID + " in FireLight");
+                Debug.LogError("The duplicate TID: " + data.TID + " in Time");
                 continue;
             }
             else if (data.TID == 0)
             {
-                Debug.LogError("TID is 0 in FireLight");
+                Debug.LogError("TID is 0 in Time");
                 continue;
             }
 
-            fireLightList.Add(data);
-            fireLightTable.Add(data.TID, data);
+            timeList.Add(data);
+            timeTable.Add(data.TID, data);
         }
 
         Reader.Close();
 
-        FireLightList = new ReadOnlyList<FireLightData>(fireLightList);
-        FireLightTable = new ReadOnlyDictionary<int, FireLightData>(fireLightTable);
+        TimeList = new ReadOnlyList<TimeData>(timeList);
+        TimeTable = new ReadOnlyDictionary<int, TimeData>(timeTable);
     }
 
-    private void LoadFireUnitData(byte[] bytes)
+    private void LoadStageData(byte[] bytes)
     {
-        List<FireUnitData> fireUnitList = new List<FireUnitData>();
-        Dictionary<int, FireUnitData> fireUnitTable = new Dictionary<int, FireUnitData>();
+        List<StageData> stageList = new List<StageData>();
+        Dictionary<int, StageData> stageTable = new Dictionary<int, StageData>();
 
         Reader = new BinaryReader(new MemoryStream(bytes));
 
         while (Reader.BaseStream.Position < bytes.Length)
         {
-            FireUnitData data = new FireUnitData(Reader);
-            if (fireUnitTable.ContainsKey(data.TID) == true)
+            StageData data = new StageData(Reader);
+            if (stageTable.ContainsKey(data.TID) == true)
             {
-                Debug.LogError("The duplicate TID: " + data.TID + " in FireUnit");
+                Debug.LogError("The duplicate TID: " + data.TID + " in Stage");
                 continue;
             }
             else if (data.TID == 0)
             {
-                Debug.LogError("TID is 0 in FireUnit");
+                Debug.LogError("TID is 0 in Stage");
                 continue;
             }
 
-            fireUnitList.Add(data);
-            fireUnitTable.Add(data.TID, data);
+            stageList.Add(data);
+            stageTable.Add(data.TID, data);
         }
 
         Reader.Close();
 
-        FireUnitList = new ReadOnlyList<FireUnitData>(fireUnitList);
-        FireUnitTable = new ReadOnlyDictionary<int, FireUnitData>(fireUnitTable);
+        StageList = new ReadOnlyList<StageData>(stageList);
+        StageTable = new ReadOnlyDictionary<int, StageData>(stageTable);
+    }
+
+    private void LoadDropTableData(byte[] bytes)
+    {
+        List<DropTableData> dropTableList = new List<DropTableData>();
+        Dictionary<int, DropTableData> dropTableTable = new Dictionary<int, DropTableData>();
+
+        Reader = new BinaryReader(new MemoryStream(bytes));
+
+        while (Reader.BaseStream.Position < bytes.Length)
+        {
+            DropTableData data = new DropTableData(Reader);
+            if (dropTableTable.ContainsKey(data.TID) == true)
+            {
+                Debug.LogError("The duplicate TID: " + data.TID + " in DropTable");
+                continue;
+            }
+            else if (data.TID == 0)
+            {
+                Debug.LogError("TID is 0 in DropTable");
+                continue;
+            }
+
+            dropTableList.Add(data);
+            dropTableTable.Add(data.TID, data);
+        }
+
+        Reader.Close();
+
+        DropTableList = new ReadOnlyList<DropTableData>(dropTableList);
+        DropTableTable = new ReadOnlyDictionary<int, DropTableData>(dropTableTable);
+    }
+
+    private void LoadCurrencyData(byte[] bytes)
+    {
+        List<CurrencyData> currencyList = new List<CurrencyData>();
+        Dictionary<int, CurrencyData> currencyTable = new Dictionary<int, CurrencyData>();
+
+        Reader = new BinaryReader(new MemoryStream(bytes));
+
+        while (Reader.BaseStream.Position < bytes.Length)
+        {
+            CurrencyData data = new CurrencyData(Reader);
+            if (currencyTable.ContainsKey(data.TID) == true)
+            {
+                Debug.LogError("The duplicate TID: " + data.TID + " in Currency");
+                continue;
+            }
+            else if (data.TID == 0)
+            {
+                Debug.LogError("TID is 0 in Currency");
+                continue;
+            }
+
+            currencyList.Add(data);
+            currencyTable.Add(data.TID, data);
+        }
+
+        Reader.Close();
+
+        CurrencyList = new ReadOnlyList<CurrencyData>(currencyList);
+        CurrencyTable = new ReadOnlyDictionary<int, CurrencyData>(currencyTable);
+    }
+
+    private void LoadShopTableData(byte[] bytes)
+    {
+        List<ShopTableData> shopTableList = new List<ShopTableData>();
+        Dictionary<int, ShopTableData> shopTableTable = new Dictionary<int, ShopTableData>();
+
+        Reader = new BinaryReader(new MemoryStream(bytes));
+
+        while (Reader.BaseStream.Position < bytes.Length)
+        {
+            ShopTableData data = new ShopTableData(Reader);
+            if (shopTableTable.ContainsKey(data.TID) == true)
+            {
+                Debug.LogError("The duplicate TID: " + data.TID + " in ShopTable");
+                continue;
+            }
+            else if (data.TID == 0)
+            {
+                Debug.LogError("TID is 0 in ShopTable");
+                continue;
+            }
+
+            shopTableList.Add(data);
+            shopTableTable.Add(data.TID, data);
+        }
+
+        Reader.Close();
+
+        ShopTableList = new ReadOnlyList<ShopTableData>(shopTableList);
+        ShopTableTable = new ReadOnlyDictionary<int, ShopTableData>(shopTableTable);
+    }
+
+    private void LoadPlayerExperienceData(byte[] bytes)
+    {
+        List<PlayerExperienceData> playerExperienceList = new List<PlayerExperienceData>();
+        Dictionary<int, PlayerExperienceData> playerExperienceTable = new Dictionary<int, PlayerExperienceData>();
+
+        Reader = new BinaryReader(new MemoryStream(bytes));
+
+        while (Reader.BaseStream.Position < bytes.Length)
+        {
+            PlayerExperienceData data = new PlayerExperienceData(Reader);
+            if (playerExperienceTable.ContainsKey(data.TID) == true)
+            {
+                Debug.LogError("The duplicate TID: " + data.TID + " in PlayerExperience");
+                continue;
+            }
+            else if (data.TID == 0)
+            {
+                Debug.LogError("TID is 0 in PlayerExperience");
+                continue;
+            }
+
+            playerExperienceList.Add(data);
+            playerExperienceTable.Add(data.TID, data);
+        }
+
+        Reader.Close();
+
+        PlayerExperienceList = new ReadOnlyList<PlayerExperienceData>(playerExperienceList);
+        PlayerExperienceTable = new ReadOnlyDictionary<int, PlayerExperienceData>(playerExperienceTable);
+    }
+
+    private void LoadPlayerStatData(byte[] bytes)
+    {
+        List<PlayerStatData> playerStatList = new List<PlayerStatData>();
+        Dictionary<int, PlayerStatData> playerStatTable = new Dictionary<int, PlayerStatData>();
+
+        Reader = new BinaryReader(new MemoryStream(bytes));
+
+        while (Reader.BaseStream.Position < bytes.Length)
+        {
+            PlayerStatData data = new PlayerStatData(Reader);
+            if (playerStatTable.ContainsKey(data.TID) == true)
+            {
+                Debug.LogError("The duplicate TID: " + data.TID + " in PlayerStat");
+                continue;
+            }
+            else if (data.TID == 0)
+            {
+                Debug.LogError("TID is 0 in PlayerStat");
+                continue;
+            }
+
+            playerStatList.Add(data);
+            playerStatTable.Add(data.TID, data);
+        }
+
+        Reader.Close();
+
+        PlayerStatList = new ReadOnlyList<PlayerStatData>(playerStatList);
+        PlayerStatTable = new ReadOnlyDictionary<int, PlayerStatData>(playerStatTable);
+    }
+
+    private void LoadPlayerSkillData(byte[] bytes)
+    {
+        List<PlayerSkillData> playerSkillList = new List<PlayerSkillData>();
+        Dictionary<int, PlayerSkillData> playerSkillTable = new Dictionary<int, PlayerSkillData>();
+
+        Reader = new BinaryReader(new MemoryStream(bytes));
+
+        while (Reader.BaseStream.Position < bytes.Length)
+        {
+            PlayerSkillData data = new PlayerSkillData(Reader);
+            if (playerSkillTable.ContainsKey(data.TID) == true)
+            {
+                Debug.LogError("The duplicate TID: " + data.TID + " in PlayerSkill");
+                continue;
+            }
+            else if (data.TID == 0)
+            {
+                Debug.LogError("TID is 0 in PlayerSkill");
+                continue;
+            }
+
+            playerSkillList.Add(data);
+            playerSkillTable.Add(data.TID, data);
+        }
+
+        Reader.Close();
+
+        PlayerSkillList = new ReadOnlyList<PlayerSkillData>(playerSkillList);
+        PlayerSkillTable = new ReadOnlyDictionary<int, PlayerSkillData>(playerSkillTable);
+    }
+
+    private void LoadPlayerSkillUpgradeData(byte[] bytes)
+    {
+        List<PlayerSkillUpgradeData> playerSkillUpgradeList = new List<PlayerSkillUpgradeData>();
+        Dictionary<int, PlayerSkillUpgradeData> playerSkillUpgradeTable = new Dictionary<int, PlayerSkillUpgradeData>();
+
+        Reader = new BinaryReader(new MemoryStream(bytes));
+
+        while (Reader.BaseStream.Position < bytes.Length)
+        {
+            PlayerSkillUpgradeData data = new PlayerSkillUpgradeData(Reader);
+            if (playerSkillUpgradeTable.ContainsKey(data.TID) == true)
+            {
+                Debug.LogError("The duplicate TID: " + data.TID + " in PlayerSkillUpgrade");
+                continue;
+            }
+            else if (data.TID == 0)
+            {
+                Debug.LogError("TID is 0 in PlayerSkillUpgrade");
+                continue;
+            }
+
+            playerSkillUpgradeList.Add(data);
+            playerSkillUpgradeTable.Add(data.TID, data);
+        }
+
+        Reader.Close();
+
+        PlayerSkillUpgradeList = new ReadOnlyList<PlayerSkillUpgradeData>(playerSkillUpgradeList);
+        PlayerSkillUpgradeTable = new ReadOnlyDictionary<int, PlayerSkillUpgradeData>(playerSkillUpgradeTable);
     }
 
 }

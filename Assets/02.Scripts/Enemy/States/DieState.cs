@@ -6,7 +6,9 @@ public class DieState : IState<AEnemy>
 
     public void Enter(AEnemy enemy)
     {
+        enemy.SetAnimationTrigger("Die");
         enemy.Agent.ResetPath();
+        enemy.EnemyRotation.IsFound = false;
         _time = 0;
     }
 
@@ -15,6 +17,22 @@ public class DieState : IState<AEnemy>
         _time += Time.deltaTime;
         if(_time >= enemy.DeathTime)
         {
+            enemy.ThisSpawner.ActivedEnemyCountDecrease();
+            enemy.GetComponent<Collider>().enabled = false;
+            switch (enemy.Type)
+            {
+                case EnemyType.Basic:
+                    BasicEnemyPool.Instance.Return(enemy);
+                    DropTable.Instance.Drop(enemy.Type, enemy.transform.position);
+                    break;
+                case EnemyType.Elite:
+                    EliteEnemyPool.Instance.Return(enemy);
+                    DropTable.Instance.Drop(enemy.Type, enemy.transform.position);
+                    break;
+            }
+            EnemyTracker.Unregister(enemy.transform);
+
+            //enemy.gameObject.SetActive(false);
             Debug.Log("사라짐");
         }
     }

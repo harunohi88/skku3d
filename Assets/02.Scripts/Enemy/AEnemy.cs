@@ -1,35 +1,66 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(EnemyRotation))]
 public abstract class AEnemy : MonoBehaviour, IDamageable
 {
-    public int MaxHealth;
-    public int Health;
-    public int Damage;
+    public float MaxHealth;
+    public float Health;
+    public float Damage;
+    public float MoveSpeed = 3.5f;
+
+    public EnemyType Type;
 
     public float TraceDistance;
     public float AttackDistance;
+    public float AttackOutDistance;
     public float AttackCooltime;
     public float DamagedTime;
     public float DeathTime;
 
+    public EnemySpawner ThisSpawner;
+
+    public LayerMask LayerMask;
+
     public NavMeshAgent Agent;
     protected CharacterController _characterController;
+    public Animator Animator => _animator;
     protected Animator _animator;
 
     protected StateMachine<AEnemy> _stateMachine;
     public IState<AEnemy> CurrentState => _stateMachine.CurrentState;
 
-    protected virtual void Start()
-    {
-        Init();
-    }
+    public GameObject AttackPosition;
+    public GameObject SkillObject;
 
-    protected virtual void Init()
+    public EnemyRotation EnemyRotation;
+    public EnemyHitEffect EnemyHitEffect;
+
+    public Action OnStatChanged;
+
+    protected virtual void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
         _characterController = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
+        EnemyRotation = GetComponent<EnemyRotation>();
+        EnemyHitEffect = GetComponentInChildren<EnemyHitEffect>();
+        Agent.speed = MoveSpeed;
+    }
+
+    public virtual void Init(EnemySpawner spawner)
+    {
+        ThisSpawner = spawner;
+        GetComponent<Collider>().enabled = true;
+        if (TimeManager.Instance.DifficultyMultiplier != null)
+        {
+            MaxHealth = (int)(MaxHealth * TimeManager.Instance.DifficultyMultiplier.EnemyHealthMultiplier);
+            Damage = (int)(Damage * TimeManager.Instance.DifficultyMultiplier.EnemyDamageMultiplier);
+        }
+
+        Health = MaxHealth;
+        OnStatChanged?.Invoke();
         _stateMachine = new StateMachine<AEnemy>(this);
     }
 
@@ -45,17 +76,34 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
 
     public virtual void TakeDamage(Damage damage)
     {
-        // 죽음 상태면 return
-        // if (_stateMachine.CurrentState is DieState) return;
+        if (_stateMachine.CurrentState is DieState) return;
         Health -= damage.Value;
-
+        OnStatChanged?.Invoke();
         // 맞았을때 이펙트
 
-        if(Health <= 0)
+        if (Health <= 0)
         {
-            // ChangeState(new DieState());
+            ChangeState(new DieState());
+            return;
         }
 
-        // ChangeState(new DamageState());
+        ChangeState(new DamagedState());
+    }
+
+    public abstract void Attack();
+
+    public virtual void OnAnimationEnd()
+    {
+        EnemyRotation.IsFound = true;
+    }
+
+    public void SetAnimationTrigger(string triggerName)
+    {
+        _animator.SetTrigger(triggerName);
+    }
+
+    public bool IsPlayingAnimation(string animationName)
+    {
+        return _animator.GetCurrentAnimatorStateInfo(0).IsName(animationName) && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f;
     }
 }

@@ -1,0 +1,9 @@
+10000	AttackPower	1000	100	TRUE	
+10001	CooldownReduction	0	0	FALSE	
+10002	CriticalChance	0.2	0.02	TRUE	
+10003	CriticalDamage	1	0.05	TRUE	
+10004	ExperienceGain	0	0	FALSE	
+10005	MaxHealth	500	10	TRUE	
+10006	MaxStamina	100	10	TRUE	
+10007	MoveSpeed	10	0	FALSE	
+10008	ProjectileCountGain	0	0	FALSE	

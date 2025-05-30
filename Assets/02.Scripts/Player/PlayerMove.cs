@@ -1,40 +1,59 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMove : MonoBehaviour
 {
-    [Header("Movement Speed")]
-    public float MoveSpeed;
+    public float Gravity = -9.81f;
 
-    [Header("Roll")]
-    public float RollSpeed;
     public float RollDuration;
+    public float RollAdditionalSpeed;
     private Vector3 _rollDirection;
 
     public GameObject Model;
+    public PlayerManager PlayerManager;
 
     private Camera _mainCamera;
     private CharacterController _characterController;
     private Animator _animator;
-    private bool _isRolling;
+    private float _verticalVelocity;
+    private bool _isGrounded;
+    private float _moveSpeed => PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MoveSpeed].TotalStat;
+    private float _rollSpeed => PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MoveSpeed].TotalStat + RollAdditionalSpeed;
 
     private void Awake()
     {
         _mainCamera = Camera.main;
         _characterController = GetComponent<CharacterController>();
         _animator = Model.GetComponent<Animator>();
-        _isRolling = false;
+    }
+
+    private void Start()
+    {
+        PlayerManager = PlayerManager.Instance;
     }
 
     public void Move(Vector2 inputDirection)
     {
-        if (_isRolling) return;
-
         _animator.SetFloat("Movement", inputDirection.magnitude);
 
+        _isGrounded = _characterController.isGrounded;
+
+        if (_isGrounded && _verticalVelocity < 0)
+        {
+            _verticalVelocity = -1f; // 살짝 붙여주는 느낌
+        }
+        else
+        {
+            _verticalVelocity += Gravity * Time.deltaTime;
+        }
+
         if (inputDirection.sqrMagnitude < 0.01f)
+        {
+            Vector3 fallOnly = new Vector3(0, _verticalVelocity, 0);
+            _characterController.Move(fallOnly * Time.deltaTime);
             return;
+        }
 
         Vector3 camForward = Camera.main.transform.forward;
         Vector3 camRight = Camera.main.transform.right;
@@ -47,17 +66,38 @@ public class PlayerMove : MonoBehaviour
 
         if (move != Vector3.zero)
         {
-            Model.transform.forward = move;
-            _characterController.Move(move * MoveSpeed * Time.deltaTime);
+            PlayerManager.PlayerState = EPlayerState.Move;
+            // Model.transform.forward = move;
         }
+
+        Vector3 totalMove = move * _moveSpeed;
+        totalMove.y = _verticalVelocity;
+
+        _characterController.Move(totalMove * Time.deltaTime);
     }
 
-    public void Roll()
+    public void Roll(Vector2 direction)
     {
-        if (_isRolling) return;
+        PlayerManager.PlayerState = EPlayerState.Roll;
 
-        _isRolling = true;
+        Vector3 camForward = Camera.main.transform.forward;
+        Vector3 camRight = Camera.main.transform.right;
+        camForward.y = 0f;
+        camRight.y = 0f;
+        camForward.Normalize();
+        camRight.Normalize();
+
+        _rollDirection = (camRight * direction.x + camForward * direction.y).normalized;
+        if (_rollDirection == Vector3.zero)
+        {
+            _rollDirection = Model.transform.forward;
+        }
+        else
+        {
+            Model.transform.forward = _rollDirection;
+        }
         _animator.SetTrigger("Roll");
+        _animator.SetBool("isRolling", true);
         StartCoroutine(RollCoroutine());
     }
 
@@ -67,11 +107,14 @@ public class PlayerMove : MonoBehaviour
 
         while (elapsedTime < RollDuration)
         {
-            _characterController.Move(Model.transform.forward * RollSpeed * Time.deltaTime);
+            _characterController.Move(_rollDirection * _rollSpeed * Time.deltaTime);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        _isRolling = false;
+        _rollDirection = Vector3.zero;
+        _animator.SetBool("isRolling", false);
+        PlayerManager.Instance.PlayerState = EPlayerState.None;
+        PlayerManager.PlayerAttack.Cancel();
     }
 }

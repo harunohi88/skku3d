@@ -4,7 +4,9 @@ public class TraceState : IState<AEnemy>
 {
     public void Enter(AEnemy enemy)
     {
-
+        Debug.Log(this);
+        enemy.SetAnimationTrigger("Run");
+        enemy.EnemyRotation.IsFound = true;
     }
 
     public void Update(AEnemy enemy)

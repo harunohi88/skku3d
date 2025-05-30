@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &974949817062995202
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3581199306078831541}
+  - component: {fileID: 2071478945702898000}
+  m_Layer: 0
+  m_Name: SoulProjectile
+  m_TagString: Missile
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3581199306078831541
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974949817062995202}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.313633, y: 5.892903, z: -13.319157}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2071478945702898000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974949817062995202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 343ac5d4db95ca547b1665a356254bdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImpactParticle: {fileID: 169216, guid: 737959db973360b43bdeb1a4874f1af8, type: 3}
+  ProjectileParticle: {fileID: 104164, guid: dfe2b7541a0ad87419765c034d4d5c60, type: 3}
+  MuzzleParticle: {fileID: 116730, guid: b32001db0c4fabf488a93bffcdb49e49, type: 3}
+  TrailParticleList: []
+  LayerMask:
+    serializedVersion: 2
+    m_Bits: 72
+  MoveSpeed: 5
+  Radius: 0.5
