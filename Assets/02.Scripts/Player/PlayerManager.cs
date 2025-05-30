@@ -19,7 +19,7 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
         { EPlayerAction.Skill,  new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Move, EPlayerState.Attack, EPlayerState.Skill, EPlayerState.Targeting } },
         { EPlayerAction.Roll,   new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Move, EPlayerState.Attack, EPlayerState.Skill, EPlayerState.Targeting } },
         { EPlayerAction.Move,   new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Move, EPlayerState.Attack, EPlayerState.Hit, EPlayerState.Targeting } },
-        { EPlayerAction.Rotate, new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Move, EPlayerState.Attack, EPlayerState.Targeting } },
+        { EPlayerAction.Rotate, new HashSet<EPlayerState> { EPlayerState.None, EPlayerState.Move, EPlayerState.Targeting } },
     };
 
     private void Awake()
@@ -46,7 +46,10 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
     public void Rotate(Vector2 inputDirection)
     {
         if (!CanPerform(EPlayerAction.Rotate)) return;
-        
+
+        if (PlayerAttack.IsAttacking) return;
+
+        PlayerRotate.Rotate(inputDirection);
     }
 
     public void Roll(Vector2 direction)

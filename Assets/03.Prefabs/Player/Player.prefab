@@ -97,6 +97,8 @@ GameObject:
   - component: {fileID: 5080930754168745374}
   - component: {fileID: 1851004923761008318}
   - component: {fileID: 1164153225896202679}
+  - component: {fileID: 7016786972171888912}
+  - component: {fileID: 2992448780061682628}
   - component: {fileID: 8951831587976518065}
   - component: {fileID: 3298729121351006734}
   - component: {fileID: 3934724508934725611}
@@ -154,9 +156,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Gravity: -9.81
-  RollDuration: 0.8
+  RollDuration: 0.7
+  RollAdditionalSpeed: 3
   Model: {fileID: 4918273216877875310}
   PlayerManager: {fileID: 0}
+--- !u!114 &7016786972171888912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853722264032340872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0995e581598844c438be497716da366a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Model: {fileID: 4918273216877875310}
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  LookAtMouseDuration: 2
+--- !u!114 &2992448780061682628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853722264032340872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0995e581598844c438be497716da366a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Model: {fileID: 4918273216877875310}
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  LookAtMouseDuration: 1
 --- !u!114 &8951831587976518065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,11 +206,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d07a4930d371444469a0529692d85ee3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackPower: 100
+  AttackPower: 60
   CooldownReduction: 0
   CriticalHitChance: 0.5
   CriticalHitDamage: 1.5
-  ExperienceGain: 1
   MaxHealth: 300
   MaxStamina: 100
   MoveSpeed: 10
@@ -195,6 +231,7 @@ MonoBehaviour:
   - Attack1
   - Attack2
   - Attack3
+  IsAttacking: 0
   InputQueued: 0
   BaseStat: {fileID: 11400000, guid: 0c2b5cd27d0a20946ab0b5bb59a70af2, type: 2}
 --- !u!114 &3934724508934725611

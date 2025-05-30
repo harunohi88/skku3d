@@ -20,6 +20,7 @@ public class InputManager : MonoBehaviour
     {
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
         _playerManager.Move(moveInput);
+        _playerManager.Rotate(moveInput);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {

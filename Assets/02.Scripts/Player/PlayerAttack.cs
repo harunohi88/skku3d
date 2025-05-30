@@ -40,6 +40,7 @@ public class PlayerAttack : MonoBehaviour
         PlayerManager.Instance.PlayerState = EPlayerState.Attack;
         IsAttacking = true;
         _animator.SetLayerWeight(1, 1f);
+        _playerManager.PlayerRotate.InstantLookAtMouse();
         _animator.SetTrigger(AttackTriggerList[_currentAttackIndex]);
     }
 
