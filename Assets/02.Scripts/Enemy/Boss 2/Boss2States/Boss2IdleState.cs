@@ -7,6 +7,7 @@ public class Boss2IdleState : IState<AEnemy>
 
     public void Enter(AEnemy enemy)
     {
+        enemy.Agent.speed = 3.5f;
         enemy.SetAnimationTrigger("Idle");
         enemy.Agent.isStopped = true; // 보스의 추적 멈춤
         Debug.Log(this); // 현재 State를 출력한다.
