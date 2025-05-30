@@ -1,0 +1,8 @@
+10000	Skill0	None	0	1	
+10001	Skill1	DamageMultiplier	0.1	1	
+10002	Skill1	CooldownReduction	0.5	5	
+20000	Skill2	DamageMultiplier	0.1	1	
+20001	Skill2	CooldownReduction	0.5	5	
+30000	Skill3	DamageMultiplier	0.2	1	
+30001	Skill3	CooldownReduction	1	5	
+40000	Roll	StaminaReduction	2	1	
