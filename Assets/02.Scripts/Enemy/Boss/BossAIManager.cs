@@ -87,6 +87,8 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
         if (patterns == null || patterns.Count == 0) return null;
 
         return patterns[Mathf.Clamp(subPatternIndex, 0, patterns.Count - 1)];
+
+
     }
 
     public void SetLastFinishedTime(int patternIndex, float time)

@@ -25,6 +25,7 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
 
     public NavMeshAgent Agent;
     protected CharacterController _characterController;
+    public Animator Animator => _animator;
     protected Animator _animator;
 
     protected StateMachine<AEnemy> _stateMachine;
@@ -103,6 +104,6 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
 
     public bool IsPlayingAnimation(string animationName)
     {
-        return _animator.GetCurrentAnimatorStateInfo(0).IsName(animationName) && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.2f && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f;
+        return _animator.GetCurrentAnimatorStateInfo(0).IsName(animationName) && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f;
     }
 }

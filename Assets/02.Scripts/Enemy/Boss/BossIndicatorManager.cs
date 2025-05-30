@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BossIndicatorManager : BehaviourSingleton<BossIndicatorManager>
@@ -19,7 +17,7 @@ public class BossIndicatorManager : BehaviourSingleton<BossIndicatorManager>
         indicator.CircularInit(width, height, direction, angleRange, innerRange, castingPercent, color, _indicatorPool);
         indicator.SetPosition(position);
 
-        if(immediateStart) indicator.Ready(castingTime);
+        if (immediateStart) indicator.Ready(castingTime);
 
         return indicator;
     }
