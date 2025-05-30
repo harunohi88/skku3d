@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
@@ -52,7 +53,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             _highlightObject.SetActive(true);
             if (_tooltip != null)
             {
-                _tooltip.Show($"Rune T{CurrentItem.Rune.TierValue}", CurrentItem.Rune.RuneDescription, transform as RectTransform);
+                _tooltip.Show($"Rune T{CurrentItem.Rune.CurrentTier}", CurrentItem.Rune.RuneDescription, transform as RectTransform);
             }
         }
     }
@@ -113,7 +114,11 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                         if (targetInventory != _inventory)
                         {
                             Debug.Log($"OnEndDrag - 서로 다른 인벤토리 간 이동");
-                            if (_inventory is BasicInventory basicInv && targetInventory is EquipInventory)
+                            if (_inventory is BasicAllInventory basicAllInv && targetInventory is EquipInventory)
+                            {
+                                basicAllInv.MoveItemToEquip(_slotIndex, targetSlot._slotIndex);
+                            }
+                            else if (_inventory is BasicInventory basicInv && targetInventory is EquipInventory)
                             {
                                 basicInv.MoveItemToEquip(_slotIndex, targetSlot._slotIndex);
                             }

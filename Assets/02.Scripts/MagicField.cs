@@ -11,7 +11,7 @@ public class MagicField : MonoBehaviour
     private Damage _damage;
     private bool _isReady;
 
-    void Start()
+    private void Awake()
     {
         _radius = GetComponent<SphereCollider>().radius;
         _isReady = false;
@@ -41,7 +41,11 @@ public class MagicField : MonoBehaviour
 
             for(int i = 0; i < colliders.Length; i++)
             {
-                colliders[i].GetComponent<AEnemy>()?.TakeDamage(_damage);
+                Damage newDamage = new Damage();
+                newDamage.Value = _damage.Value;
+                newDamage.From = _damage.From;
+                RuneManager.Instance.CheckCritical(ref newDamage);
+                colliders[i].GetComponent<AEnemy>()?.TakeDamage(newDamage);
             }
 
             _timeForTick = 0;

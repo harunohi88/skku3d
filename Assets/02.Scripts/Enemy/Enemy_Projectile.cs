@@ -27,7 +27,11 @@ public class Enemy_Projectile : AEnemy
 
             Vector3 dir = Quaternion.AngleAxis(angle, AttackPosition.transform.up) * AttackPosition.transform.forward;
 
-            GameObject projectile = Instantiate(SkillObject, AttackPosition.transform.position, Quaternion.identity);
+            Projectile projectile = Instantiate(SkillObject, AttackPosition.transform.position, Quaternion.identity).GetComponent<Projectile>();
+            Damage damage = new Damage();
+            damage.Value = Damage;
+            damage.From = this.gameObject;
+            projectile.Init(damage);
             projectile.transform.forward = dir;
         }
     }

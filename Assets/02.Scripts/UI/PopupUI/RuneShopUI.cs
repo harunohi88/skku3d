@@ -9,8 +9,6 @@ public class RuneShopUI : MonoBehaviour
     public List<TextMeshProUGUI> RuneCostTextList;
 
     public TextMeshProUGUI RerollCostText;
-    public TextMeshProUGUI GoldText;
-
     public List<Image> SoldoutImageList;    // 판매 완료 이미지리스트
     public List<Button> BuyButtonList;
 
@@ -23,11 +21,6 @@ public class RuneShopUI : MonoBehaviour
         RuneShop.OnItemSoldout += SetSoldout;
         RuneShop.OnCreateRune += UnSetSoldout;
         RuneShop.OnReroll += UpdateRerollCost;
-    }
-
-    private void Start()
-    {
-        CurrencyManager.Instance.OnGoldChanged += UpdateGoldText;
     }
 
     public void SetSoldout(int index)
@@ -44,18 +37,13 @@ public class RuneShopUI : MonoBehaviour
 
     public void UpdateRerollCost(int currentRerollCost)
     {
-        RerollCostText.text = $"{currentRerollCost}";
-    }
-
-    public void UpdateGoldText(int currentGold)
-    {
-        GoldText.text = $"{currentGold}";
+        RerollCostText.text = currentRerollCost.ToString("N0");
     }
 
     public void UpdateShopItem(int index, Sprite runeIcon, int runeCost)
     {
         RuneImageList[index].sprite = runeIcon;
-        RuneCostTextList[index].text = $"{runeCost}";
+        RuneCostTextList[index].text = runeCost.ToString("N0");
     }
 
 }

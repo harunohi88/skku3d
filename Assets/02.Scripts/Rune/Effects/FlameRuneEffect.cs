@@ -9,38 +9,40 @@ public class FlameRuneEffect : ARuneEffect
     public override void Initialize(RuneData data, int tier)
     {
         _tid = data.TID;
-        _damageMultiplier = (int)data.TierList[tier - 1];
+        _damageMultiplier = data.TierList[tier - 1];
     }
 
     public override void ApplyEffect(RuneExecuteContext context, ref Damage damage)
     {
-        //List<Collider> colliderList = Physics.OverlapSphere(context.Player.transform.position, 10f, LayerMask.GetMask("Enemy")).ToList();
-        //Damage DamageBase = new Damage();
-        //DamageBase.Value = damage.Value * 0.5f;
-        //DamageBase.From = damage.From;
+        List<Collider> colliderList = Physics.OverlapSphere(context.Player.transform.position, 12f, LayerMask.GetMask("Enemy")).ToList();
+        Damage DamageBase = new Damage();
+        DamageBase.Value = damage.Value *_damageMultiplier;
+        DamageBase.From = damage.From;
 
-        //if (colliderList.Count != 0)
-        //{
-        //    for (int i = 0; i <= PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.ProjectileCountGain].TotalStat; i++)
-        //    {
-        //        Damage newDamage = new Damage();
-        //        newDamage.Value = DamageBase.Value;
-        //        newDamage.From = DamageBase.From;
-        //        RuneManager.Instance.CheckCritical(ref newDamage);
+        if (colliderList.Count != 0)
+        {
 
-        //        int index = Random.Range(0, colliderList.Count);
-        //        Transform targetTransform = colliderList[index].transform;
+            int index = Random.Range(0, colliderList.Count);
+            Transform targetTransform = colliderList[index].transform;
+            Vector3 spawnPos = GetMeteorSpawnPosition(targetTransform, 10, 30);
+            Flame_DynamicRune dyRune = RuneManager.Instance.ProjectilePoolDic[_tid].Get() as Flame_DynamicRune;
+            dyRune.gameObject.SetActive(false);
 
-        //        Vector3 offset = Quaternion.Euler(0, (360f / _stabCount) * i, 0) * (-context.Player.transform.forward * 1.5f);
-        //        Vector3 spawnPos = context.Player.transform.position + offset + Vector3.up * 1f;
-        //        Knife_DynamicRune dyRune = RuneManager.Instance.ProjectilePoolDic[_tid].Get() as Knife_DynamicRune;
-        //        dyRune.gameObject.SetActive(false);
+            dyRune.transform.forward = (targetTransform.position - spawnPos).normalized;
+            dyRune.gameObject.SetActive(true);
+            dyRune.Init(DamageBase, 0, 3, spawnPos, targetTransform, _tid);
+        }
+    }
 
-        //        dyRune.Init(newDamage, 0, 10f, spawnPos, targetTransform, _tid);
-        //        dyRune.gameObject.SetActive(true);
+    private Vector3 GetMeteorSpawnPosition(Transform enemy, float radius = 4f, float angleDegree = 20f)
+    {
+        float theta = Mathf.Deg2Rad * angleDegree;
+        float phi = Random.Range(0, 360f) * Mathf.Deg2Rad;
 
-        //        dyRune.MaxStabCount = _stabCount;
-        //    }
-        //}
+        float x = radius * Mathf.Sin(theta) * Mathf.Cos(phi);
+        float y = radius * Mathf.Cos(theta);
+        float z = radius * Mathf.Sin(theta) * Mathf.Cos(phi);
+
+        return enemy.position + new Vector3(x, y, z);
     }
 }

@@ -30,11 +30,6 @@ public class ArrowRuneEffect : ARuneEffect
             int n = 4 + (int)PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.ProjectileCountGain].TotalStat;
             for (int i = 0; i <= n; i++)
             {
-                Damage newDamage = new Damage();
-                newDamage.Value = DamageBase.Value;
-                newDamage.From = DamageBase.From;
-                RuneManager.Instance.CheckCritical(ref newDamage);
-
                 int index = Random.Range(0, colliderList.Count);
                 Transform targetTransform = colliderList[index].transform;
 
@@ -43,8 +38,7 @@ public class ArrowRuneEffect : ARuneEffect
                 Arrow_DynamicRune dyRune = RuneManager.Instance.ProjectilePoolDic[_tid].Get() as Arrow_DynamicRune;
                 dyRune.gameObject.SetActive(false);
 
-                damage.Value *= _damageMultiplier;
-                dyRune.Init(newDamage, 0, 12f, spawnPos, targetTransform, _tid);
+                dyRune.Init(DamageBase, 0, 12f, spawnPos, targetTransform, _tid);
                 dyRune.gameObject.SetActive(true);
 
                 yield return new WaitForSeconds(0.1f);

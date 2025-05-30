@@ -41,7 +41,10 @@ public class Enemy_Missile : AEnemy
         for(int i = 0; i < missiles.Count; i++)
         {
             missiles[i].transform.parent = null;
-            missiles[i].Init();
+            Damage damage = new Damage();
+            damage.Value = Damage;
+            damage.From = this.gameObject;
+            missiles[i].Init(damage);
             yield return new WaitForSeconds(1f);
         }
     }

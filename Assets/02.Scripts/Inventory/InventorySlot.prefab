@@ -65,8 +65,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fea25d992a4c86948873aae285dde236, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 8928c97c1ba0841cc99bbe0aeeab7a82, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -246,7 +246,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 120, y: 120}
+  m_SizeDelta: {x: 110, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6761817828559733661
 CanvasRenderer:
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.4056604, g: 0.21863516, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -529,6 +529,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19a7b56562ffca84a82ae4d439656f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemSpriteList:
+  - {fileID: 21300000, guid: 8a7dd030a76a40548bf82d7e21e96c3c, type: 3}
+  - {fileID: 21300000, guid: 5e47fcfe2fe32b541b047dd5b92861ab, type: 3}
+  - {fileID: 21300000, guid: 45ade566542bd5c4f85c784557912320, type: 3}
+  - {fileID: 21300000, guid: 5ebf20e2ef450354c9edc8a8e0147598, type: 3}
+  - {fileID: 21300000, guid: d9ddb0ab15462c641a33fdacbdfa33b8, type: 3}
+  - {fileID: 21300000, guid: d138830ce8a13ea4c93341eeaaeb24bc, type: 3}
+  - {fileID: 21300000, guid: 953bd02ae7418394797c4476265113fc, type: 3}
+  - {fileID: 21300000, guid: f6d65bd0336cc3e48acf70da5b2c8099, type: 3}
+  - {fileID: 21300000, guid: 58203dd21d9f2be4985719d8a836348e, type: 3}
+  - {fileID: 21300000, guid: 40958325daff23a4195f9638a18ed402, type: 3}
+  - {fileID: 21300000, guid: 75945a4924e845c448ca1ea4c9c56a3b, type: 3}
+  - {fileID: 21300000, guid: 273610591c0a0b14897f3d8bc1ee74c9, type: 3}
+  - {fileID: 21300000, guid: 670393a225c965242889609133861294, type: 3}
+  - {fileID: 21300000, guid: 8d34a5b2d90189a478aaffbe72c01d36, type: 3}
+  - {fileID: 21300000, guid: 50851019a6702d34da659a1cca3b5727, type: 3}
+  - {fileID: 21300000, guid: 16cb85e331889044e9925017e28c76ab, type: 3}
+  - {fileID: 21300000, guid: 00b9390e2b36d724ea8e115258346b0e, type: 3}
+  - {fileID: 21300000, guid: 8f91de1c99459c74888d3c4b1a707848, type: 3}
+  - {fileID: 21300000, guid: 9dba5742bf554dc49ab587e070a30966, type: 3}
+  - {fileID: 21300000, guid: 1a8b44bc254b2f849bdb26325f19e8fc, type: 3}
+  - {fileID: 21300000, guid: 2f0a9b0bc8336c645895be6f9c8a3bab, type: 3}
+  - {fileID: 21300000, guid: ec8f0be45da16524fa7a535f9f78f9d4, type: 3}
   _itemImage: {fileID: 9201965334962171751}
   _quantityText: {fileID: 6818463095762740951}
   _highlightObject: {fileID: 7865567275170476471}
