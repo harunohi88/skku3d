@@ -124,9 +124,9 @@ public enum EStatType
     ///<summary>쿨타임 감소</summary>
     CooldownReduction = 1,
     ///<summary>치명타 확률</summary>
-    CriticalHitChance = 2,
+    CriticalChance = 2,
     ///<summary>치명타 피해</summary>
-    CriticalHitDamage = 3,
+    CriticalDamage = 3,
     ///<summary>경험치 획득량</summary>
     ExperienceGain = 4,
     ///<summary>최대 체력</summary>
