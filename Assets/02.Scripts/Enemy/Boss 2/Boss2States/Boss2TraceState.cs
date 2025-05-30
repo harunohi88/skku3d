@@ -8,13 +8,14 @@ public class Boss2TraceState : IState<AEnemy>
     {
         Debug.Log(this);
         enemy.SetAnimationTrigger("Trace");
+        enemy.Agent.isStopped = false;
+        enemy.Agent.ResetPath();
         enemy.EnemyRotation.IsFound = true;
-        enemy.Agent.SetDestination(PlayerManager.Instance.Player.transform.position);
+        //enemy.Agent.SetDestination(PlayerManager.Instance.Player.transform.position);
     }
     public void Update(AEnemy enemy)
     {
         enemy.Agent.SetDestination(PlayerManager.Instance.Player.transform.position);
-
         _time += Time.deltaTime;
         if (_time >= 3f)
         {

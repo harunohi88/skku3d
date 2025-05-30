@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class StateMachine<T>
 {
     private T _owner;
@@ -11,7 +9,7 @@ public class StateMachine<T>
 
     public void ChangeState(IState<T> newState)
     {
-        if(_currentState != null)
+        if (_currentState != null)
         {
             _currentState.Exit(_owner);
         }

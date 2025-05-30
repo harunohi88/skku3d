@@ -22,7 +22,7 @@ public class BossSpecialAttack02State : IState<AEnemy>
                 _patternData.Radius,
                 0,
                 _patternData.Angle,
-                0,
+                _patternData.InnerRange,
                 _patternData.CastingTime,
                 0
             );
