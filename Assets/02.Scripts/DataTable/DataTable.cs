@@ -60,6 +60,33 @@ public partial class DataTable
         }
     }
     #endregion
+    #region Stage
+    private ReadOnlyList<StageData> StageList = null;
+    private ReadOnlyDictionary<int, StageData> StageTable = null;
+
+    public ReadOnlyList<StageData> GetStageDataList()
+    {
+        return StageList;
+    }
+
+    public StageData GetStageData(int key)
+    {
+        if (key == 0)
+        {
+            return null;
+        }
+
+        if (StageTable.TryGetValue(key, out StageData retVal) == true)
+        {
+            return retVal;
+        }
+        else
+        {
+            Debug.LogError($"Can not find UniqueID of StageData: <{key}>");
+            return null;
+        }
+    }
+    #endregion
     #region DropTable
     private ReadOnlyList<DropTableData> DropTableList = null;
     private ReadOnlyDictionary<int, DropTableData> DropTableTable = null;
@@ -83,6 +110,33 @@ public partial class DataTable
         else
         {
             Debug.LogError($"Can not find UniqueID of DropTableData: <{key}>");
+            return null;
+        }
+    }
+    #endregion
+    #region Currency
+    private ReadOnlyList<CurrencyData> CurrencyList = null;
+    private ReadOnlyDictionary<int, CurrencyData> CurrencyTable = null;
+
+    public ReadOnlyList<CurrencyData> GetCurrencyDataList()
+    {
+        return CurrencyList;
+    }
+
+    public CurrencyData GetCurrencyData(int key)
+    {
+        if (key == 0)
+        {
+            return null;
+        }
+
+        if (CurrencyTable.TryGetValue(key, out CurrencyData retVal) == true)
+        {
+            return retVal;
+        }
+        else
+        {
+            Debug.LogError($"Can not find UniqueID of CurrencyData: <{key}>");
             return null;
         }
     }
@@ -222,33 +276,6 @@ public partial class DataTable
         }
     }
     #endregion
-    #region Currency
-    private ReadOnlyList<CurrencyData> CurrencyList = null;
-    private ReadOnlyDictionary<int, CurrencyData> CurrencyTable = null;
-
-    public ReadOnlyList<CurrencyData> GetCurrencyDataList()
-    {
-        return CurrencyList;
-    }
-
-    public CurrencyData GetCurrencyData(int key)
-    {
-        if (key == 0)
-        {
-            return null;
-        }
-
-        if (CurrencyTable.TryGetValue(key, out CurrencyData retVal) == true)
-        {
-            return retVal;
-        }
-        else
-        {
-            Debug.LogError($"Can not find UniqueID of CurrencyData: <{key}>");
-            return null;
-        }
-    }
-    #endregion
 
     public IEnumerator LoadRoutine()
     {
@@ -268,9 +295,21 @@ public partial class DataTable
             loadedCount++;
         });
         allCount++;
+        GetBytes_FromResources("Stage", (bytes) =>
+        {
+            LoadStageData(bytes);
+            loadedCount++;
+        });
+        allCount++;
         GetBytes_FromResources("DropTable", (bytes) =>
         {
             LoadDropTableData(bytes);
+            loadedCount++;
+        });
+        allCount++;
+        GetBytes_FromResources("Currency", (bytes) =>
+        {
+            LoadCurrencyData(bytes);
             loadedCount++;
         });
         allCount++;
@@ -303,12 +342,6 @@ public partial class DataTable
             LoadPlayerSkillUpgradeData(bytes);
             loadedCount++;
         });
-        allCount++;
-        GetBytes_FromResources("Currency", (bytes) =>
-        {
-            LoadCurrencyData(bytes);
-            loadedCount++;
-        });
 
         yield return new WaitUntil(() => allCount == loadedCount);
     }
@@ -319,8 +352,12 @@ public partial class DataTable
         LoadRuneData(runeBytes);
         byte[] timeBytes = GetBytes_ForEditor("TimeData");
         LoadTimeData(timeBytes);
+        byte[] stageBytes = GetBytes_ForEditor("StageData");
+        LoadStageData(stageBytes);
         byte[] dropTableBytes = GetBytes_ForEditor("DropTableData");
         LoadDropTableData(dropTableBytes);
+        byte[] currencyBytes = GetBytes_ForEditor("CurrencyData");
+        LoadCurrencyData(currencyBytes);
         byte[] shopTableBytes = GetBytes_ForEditor("ShopTableData");
         LoadShopTableData(shopTableBytes);
         byte[] playerExperienceBytes = GetBytes_ForEditor("PlayerExperienceData");
@@ -331,8 +368,6 @@ public partial class DataTable
         LoadPlayerSkillData(playerSkillBytes);
         byte[] playerSkillUpgradeBytes = GetBytes_ForEditor("PlayerSkillUpgradeData");
         LoadPlayerSkillUpgradeData(playerSkillUpgradeBytes);
-        byte[] currencyBytes = GetBytes_ForEditor("CurrencyData");
-        LoadCurrencyData(currencyBytes);
     }
 
     private void LoadRuneData(byte[] bytes)
@@ -397,6 +432,37 @@ public partial class DataTable
         TimeTable = new ReadOnlyDictionary<int, TimeData>(timeTable);
     }
 
+    private void LoadStageData(byte[] bytes)
+    {
+        List<StageData> stageList = new List<StageData>();
+        Dictionary<int, StageData> stageTable = new Dictionary<int, StageData>();
+
+        Reader = new BinaryReader(new MemoryStream(bytes));
+
+        while (Reader.BaseStream.Position < bytes.Length)
+        {
+            StageData data = new StageData(Reader);
+            if (stageTable.ContainsKey(data.TID) == true)
+            {
+                Debug.LogError("The duplicate TID: " + data.TID + " in Stage");
+                continue;
+            }
+            else if (data.TID == 0)
+            {
+                Debug.LogError("TID is 0 in Stage");
+                continue;
+            }
+
+            stageList.Add(data);
+            stageTable.Add(data.TID, data);
+        }
+
+        Reader.Close();
+
+        StageList = new ReadOnlyList<StageData>(stageList);
+        StageTable = new ReadOnlyDictionary<int, StageData>(stageTable);
+    }
+
     private void LoadDropTableData(byte[] bytes)
     {
         List<DropTableData> dropTableList = new List<DropTableData>();
@@ -426,6 +492,37 @@ public partial class DataTable
 
         DropTableList = new ReadOnlyList<DropTableData>(dropTableList);
         DropTableTable = new ReadOnlyDictionary<int, DropTableData>(dropTableTable);
+    }
+
+    private void LoadCurrencyData(byte[] bytes)
+    {
+        List<CurrencyData> currencyList = new List<CurrencyData>();
+        Dictionary<int, CurrencyData> currencyTable = new Dictionary<int, CurrencyData>();
+
+        Reader = new BinaryReader(new MemoryStream(bytes));
+
+        while (Reader.BaseStream.Position < bytes.Length)
+        {
+            CurrencyData data = new CurrencyData(Reader);
+            if (currencyTable.ContainsKey(data.TID) == true)
+            {
+                Debug.LogError("The duplicate TID: " + data.TID + " in Currency");
+                continue;
+            }
+            else if (data.TID == 0)
+            {
+                Debug.LogError("TID is 0 in Currency");
+                continue;
+            }
+
+            currencyList.Add(data);
+            currencyTable.Add(data.TID, data);
+        }
+
+        Reader.Close();
+
+        CurrencyList = new ReadOnlyList<CurrencyData>(currencyList);
+        CurrencyTable = new ReadOnlyDictionary<int, CurrencyData>(currencyTable);
     }
 
     private void LoadShopTableData(byte[] bytes)
@@ -581,37 +678,6 @@ public partial class DataTable
 
         PlayerSkillUpgradeList = new ReadOnlyList<PlayerSkillUpgradeData>(playerSkillUpgradeList);
         PlayerSkillUpgradeTable = new ReadOnlyDictionary<int, PlayerSkillUpgradeData>(playerSkillUpgradeTable);
-    }
-
-    private void LoadCurrencyData(byte[] bytes)
-    {
-        List<CurrencyData> currencyList = new List<CurrencyData>();
-        Dictionary<int, CurrencyData> currencyTable = new Dictionary<int, CurrencyData>();
-
-        Reader = new BinaryReader(new MemoryStream(bytes));
-
-        while (Reader.BaseStream.Position < bytes.Length)
-        {
-            CurrencyData data = new CurrencyData(Reader);
-            if (currencyTable.ContainsKey(data.TID) == true)
-            {
-                Debug.LogError("The duplicate TID: " + data.TID + " in Currency");
-                continue;
-            }
-            else if (data.TID == 0)
-            {
-                Debug.LogError("TID is 0 in Currency");
-                continue;
-            }
-
-            currencyList.Add(data);
-            currencyTable.Add(data.TID, data);
-        }
-
-        Reader.Close();
-
-        CurrencyList = new ReadOnlyList<CurrencyData>(currencyList);
-        CurrencyTable = new ReadOnlyDictionary<int, CurrencyData>(currencyTable);
     }
 
 }

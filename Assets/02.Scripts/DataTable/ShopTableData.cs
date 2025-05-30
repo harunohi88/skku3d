@@ -11,13 +11,32 @@ public class ShopTableData
     ///<summary>스테이지</summary>
     public readonly int Stage;
 
-    ///<summary>적 타입</summary>
-    public readonly EnemyType EnemyType;
+    ///<summary>티어 1 확률</summary>
+    private readonly float Tier1Rate;
 
+    ///<summary>티어 2 확률</summary>
+    private readonly float Tier2Rate;
+
+    ///<summary>티어 3 확률</summary>
+    private readonly float Tier3Rate;
+
+    ///<summary>TierRate 리스트</summary>
+    public readonly List<float> TierRateList = new List<float>();
     public ShopTableData(BinaryReader reader)
     {
         TID = reader.ReadInt32();
         Stage = reader.ReadInt32();
-        EnemyType = (EnemyType)reader.ReadInt32();
+        Tier1Rate = reader.ReadSingle();
+        Tier2Rate = reader.ReadSingle();
+        Tier3Rate = reader.ReadSingle();
+
+        LinkTable();
+    }
+
+    public void LinkTable()
+    {
+        TierRateList.Add(Tier1Rate);
+        TierRateList.Add(Tier2Rate);
+        TierRateList.Add(Tier3Rate);
     }
 }
