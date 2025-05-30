@@ -9,8 +9,6 @@ public class RuneManager : BehaviourSingleton<RuneManager>
 
     public Dictionary<int, ObjectPool<ADynamicRuneObject>> ProjectilePoolDic = new();
 
-    public GameObject ElectricEffectPrefab;
-
     private void Awake()
     {
         RegisterRuneTriggers();
