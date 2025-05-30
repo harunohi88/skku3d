@@ -30,7 +30,11 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
 
         foreach (SkillBaseStat baseStat in SkillBaseStat.SkillStatList)
         {
-            SkillStatDictionary[baseStat.StatType] = new Stat(baseStat.BaseValue);
+            SkillStatDictionary[baseStat.StatType] = new Stat(
+                baseStat.BaseValue,
+                baseStat.CanLevelUp,
+                baseStat.IncreasePerGap,
+                baseStat.IncreaseGap);
         }
     }
     
@@ -173,5 +177,13 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
     private void SetAvailable()
     {
         IsAvailable = true;
+    }
+
+    public void LevelUp()
+    {
+        foreach (KeyValuePair<ESkillStat, Stat> stat in SkillStatDictionary)
+        {
+            stat.Value.LevelUp();
+        }
     }
 }

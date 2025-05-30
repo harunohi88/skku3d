@@ -19,8 +19,8 @@ public class PlayerStat : MonoBehaviour
         {
             StatDictionary[statData.StatType] = new Stat(
                 statData.BaseAmount,
-                statData.IncreaseAmount,
-                statData.CanLevelUp);
+                statData.CanLevelUp,
+                statData.IncreaseAmount);
         }
     }
 }
