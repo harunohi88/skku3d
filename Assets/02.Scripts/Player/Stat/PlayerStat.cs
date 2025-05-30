@@ -3,29 +3,24 @@ using System.Collections.Generic;
 
 public class PlayerStat : MonoBehaviour
 {
-    [SerializeField] private float AttackPower;
-    [SerializeField] private float CooldownReduction;
-    [SerializeField] private float CriticalHitChance;
-    [SerializeField] private float CriticalHitDamage;
-    [SerializeField] private float MaxHealth;
-    [SerializeField] private float MaxStamina;
-    [SerializeField] private float MoveSpeed;
-    [SerializeField] private int ProjectileCountGain;
-    
     public Dictionary<EStatType, Stat> StatDictionary;
-
+    
     private void Awake()
     {
-        StatDictionary = new Dictionary<EStatType, Stat>()
+        StatDictionary = new Dictionary<EStatType, Stat>();
+        Global.Instance.OnDataLoaded += LoadData;
+    }
+
+    private void LoadData()
+    {
+        ReadOnlyList<PlayerStatData> data = DataTable.Instance.GetPlayerStatDataList();
+
+        foreach (PlayerStatData statData in data)
         {
-            { EStatType.AttackPower, new Stat(AttackPower) }, 
-            { EStatType.CooldownReduction, new Stat(CooldownReduction) },
-            { EStatType.CriticalChance, new Stat(CriticalHitChance) },
-            { EStatType.CriticalDamage, new Stat(CriticalHitDamage) },
-            { EStatType.MaxHealth, new Stat(MaxHealth) },
-            { EStatType.MaxStamina, new Stat(MaxStamina) },
-            { EStatType.MoveSpeed, new Stat(MoveSpeed) },
-            { EStatType.ProjectileCountGain, new Stat(ProjectileCountGain) }
-        };
+            StatDictionary[statData.StatType] = new Stat(
+                statData.BaseAmount,
+                statData.IncreaseAmount,
+                statData.CanLevelUp);
+        }
     }
 }
