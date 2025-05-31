@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 8951831587976518065}
   - component: {fileID: 3298729121351006734}
   - component: {fileID: 3934724508934725611}
+  - component: {fileID: 4719868810826540315}
   - component: {fileID: 1317212668334745917}
   - component: {fileID: 315133918655934278}
   - component: {fileID: 3544017723541115662}
@@ -177,6 +178,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   LookAtMouseDuration: 2
+  MouseLookSmoothSpeed: 10
+  MouseLookInstantSpeed: 20
+  InstantLookDuration: 0.1
 --- !u!114 &2992448780061682628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +198,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   LookAtMouseDuration: 1
+  MouseLookSmoothSpeed: 10
+  MouseLookInstantSpeed: 20
+  InstantLookDuration: 0.1
 --- !u!114 &8951831587976518065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,14 +213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d07a4930d371444469a0529692d85ee3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackPower: 60
-  CooldownReduction: 0
-  CriticalHitChance: 0.5
-  CriticalHitDamage: 1.5
-  MaxHealth: 300
-  MaxStamina: 100
-  MoveSpeed: 10
-  ProjectileCountGain: 0
 --- !u!114 &3298729121351006734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,6 +247,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Model: {fileID: 4918273216877875310}
   IsTargeting: 0
+--- !u!114 &4719868810826540315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853722264032340872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8f3c6d14c55b40428f51e09b74210db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1317212668334745917
 MonoBehaviour:
   m_ObjectHideFlags: 0

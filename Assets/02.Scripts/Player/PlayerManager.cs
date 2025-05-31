@@ -11,6 +11,7 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
     [SerializeField] public PlayerRotate PlayerRotate;
     [SerializeField] public PlayerAttack PlayerAttack;
     [SerializeField] public PlayerSkill PlayerSkill;
+    [SerializeField] public PlayerLevel PlayerLevel;
     [SerializeField] public EPlayerState PlayerState;
 
     private Dictionary<EPlayerAction, HashSet<EPlayerState>> _actionStateMap = new()
@@ -29,6 +30,8 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
         PlayerRotate = Player.gameObject.GetComponent<PlayerRotate>();
         PlayerAttack = Player.gameObject.GetComponent<PlayerAttack>();
         PlayerSkill = Player.gameObject.GetComponent<PlayerSkill>();
+        PlayerLevel = Player.gameObject.GetComponent<PlayerLevel>();
+        PlayerLevel = Player.gameObject.GetComponent<PlayerLevel>();
         PlayerState = EPlayerState.None;
     }
 
