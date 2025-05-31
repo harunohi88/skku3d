@@ -11,6 +11,7 @@ public class Rune
     public float TierValue;
     public string RuneDescription;
 
+    public string Name;
     public int CurrentTier;
     private RuneData _data;
     private List<ARuneTrigger> _triggerList;
@@ -27,6 +28,7 @@ public class Rune
     {
         LoadData();
 
+        Name = _data.RuneName;
         CurrentTier = tier;
         TierValue = _data.TierList[CurrentTier - 1];
         RuneDescription = _data.RuneDescription;

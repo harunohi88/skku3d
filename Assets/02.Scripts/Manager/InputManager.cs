@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private GameObject _upgradeAndShopPanel;
     [SerializeField] private GameObject _equipmentPanel;
     [SerializeField] private GameObject _popupBackgroundImage;
+    [SerializeField] private GameObject _mapPanel;
 
     private void Start()
     {
@@ -50,14 +51,18 @@ public class InputManager : MonoBehaviour
         // 룬 장착과 인벤토리 토글
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (_upgradeAndShopPanel.activeSelf && _inventoryPanel.activeSelf)
-            {
-                _upgradeAndShopPanel.SetActive(false);
-                _equipmentPanel.SetActive(true);
-            }
+                ToggleInventoryAndEquip();
+        }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            if(_mapPanel.activeSelf) _mapPanel.SetActive(false);
             else
             {
-                ToggleInventoryAndEquip();
+                _upgradeAndShopPanel.SetActive(false);
+                _equipmentPanel.SetActive(false);
+
+                _mapPanel.SetActive(true);
             }
         }
 
@@ -82,6 +87,8 @@ public class InputManager : MonoBehaviour
         _inventoryPanel.SetActive(nextState);
         _equipmentPanel.SetActive(nextState);
         _upgradeAndShopPanel.SetActive(false);
+
+        InventoryManager.Instance.ToolTip.Hide();
         UpdateBackgroundImage();
     }
 

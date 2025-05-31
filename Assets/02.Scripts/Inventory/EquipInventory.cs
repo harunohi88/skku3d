@@ -4,10 +4,14 @@ using UnityEngine;
 public class EquipInventory : BaseInventory
 {
     [SerializeField] private BasicAllInventory _basicAllInventory;
+
+    [SerializeField] private List<InventorySlot> HUDRuneList;
+
     protected override void Awake()
     {
         _autoCreateSlots = false; // 기본적으로 수동 슬롯 배치 사용
         base.Awake();
+        InitHUDRuneSlot();
     }
 
     public override bool AddItem(Rune rune, int quantity = 1)
@@ -63,6 +67,8 @@ public class EquipInventory : BaseInventory
             {
                 PlayerManager.Instance.PlayerSkill.AddRune(index - 3, _itemsList[index].Rune);
             }
+
+            HUDRuneList[index].UpdateSlot(_itemsList[index]);
         }
         else
         {
@@ -79,6 +85,8 @@ public class EquipInventory : BaseInventory
             {
                 PlayerManager.Instance.PlayerSkill.RemoveRune(index - 3);
             }
+
+            HUDRuneList[index].UpdateSlot(null);
         }
     }
 
@@ -133,5 +141,13 @@ public class EquipInventory : BaseInventory
             return null;
             
         return _itemsList[slotIndex]?.Rune;
+    }
+
+    public void InitHUDRuneSlot()
+    {
+        for(int i = 0; i < HUDRuneList.Count; i++)
+        {
+            HUDRuneList[i].SetColor(Color.black);
+        }
     }
 } 

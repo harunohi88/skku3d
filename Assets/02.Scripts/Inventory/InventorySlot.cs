@@ -18,14 +18,11 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private bool _isDragging;
     private Vector2 _dragOffset;
 
-    private Tooltip _tooltip;
-
-    public void Initialize(BaseInventory inv, int index, Tooltip tooltip)
+    public void Initialize(BaseInventory inv, int index)
     {
         _inventory = inv;
         _slotIndex = index;
         if(_highlightObject) _highlightObject.SetActive(false);
-        _tooltip = tooltip;
     }
 
     public void UpdateSlot(InventoryItem item)
@@ -34,7 +31,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         
         if (item != null && !item.IsEmpty())
         {
-            _itemImage.color = Color.white;
+            SetColor(Color.white);
             _itemImage.sprite = item.Rune.Sprite;
             _itemImage.enabled = true;
             if(_quantityText)
@@ -45,7 +42,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }
         else
         {
-            _itemImage.color = Color.black;
+            SetColor(Color.black);
             _itemImage.enabled = false;
             if(_quantityText) _quantityText.enabled = false;
         }
@@ -56,18 +53,28 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (CurrentItem != null && !CurrentItem.IsEmpty())
         {
             if(_highlightObject) _highlightObject?.SetActive(true);
-            if (_tooltip != null)
+            if (InventoryManager.Instance.ToolTip != null)
             {
-                _tooltip.Show($"Rune T{CurrentItem.Rune.CurrentTier}", CurrentItem.Rune.RuneDescription, transform as RectTransform);
+                InventoryManager.Instance.ToolTip.Show(CurrentItem.Rune.Name, CurrentItem.Rune.CurrentTier.ToString(), CurrentItem.Rune.RuneDescription, transform as RectTransform);
             }
         }
+    }
+
+    public void SetColor(Color color)
+    {
+        _itemImage.color = color;
+    }
+
+    public Sprite GetSprite()
+    {
+        return _itemImage.sprite;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         if (_highlightObject) _highlightObject?.SetActive(false);
-        if (_tooltip != null)
-            _tooltip.Hide();
+        if (InventoryManager.Instance.ToolTip != null)
+            InventoryManager.Instance.ToolTip.Hide();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
