@@ -95,17 +95,18 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     
     public void SpecialAttack_02()
     {
+        EnemyRotation.IsFound = false;
         var pattenData = Boss3AIManager.Instance.GetPatternData(2);
         if (pattenData != null)
         {
             Pattern02();
-            OnDrawGizmos();
         }
     }
 
     public void OnSpecialAttack02End()
     {
-        throw new System.NotImplementedException();
+        Boss3AIManager.Instance.SetLastFinishedTime(2, Time.time);
+        EnemyRotation.IsFound = true;
     }
 
     public void SpecialAttack_03()
@@ -250,6 +251,28 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
 
     private void CircleAttack()
     {
+        // 원형 인디케이터 생성
+        SkillIndicator indicator = BossIndicatorManager.Instance.SetCircularIndicator(
+            transform.position,
+            10f, // width (지름 = 반지름 * 2)
+            10f, // height (지름 = 반지름 * 2)
+            0f,  // direction
+            360f,  // angleRange
+            0f,  // innerRange
+            Pattern2CastingTime,
+            0f,  // castingPercent
+            Color.red,
+            true
+        );
+
+        // 인디케이터가 끝나면 공격 실행
+        StartCoroutine(ExecuteCircleAttackAfterDelay(Pattern2CastingTime));
+    }
+
+    private IEnumerator ExecuteCircleAttackAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        
         float radius = 5f;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
         foreach (var hitCollider in hitColliders)
@@ -268,6 +291,28 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
 
     private void DonutAttack()
     {
+        // 도넛형 인디케이터 생성
+        SkillIndicator indicator = BossIndicatorManager.Instance.SetCircularIndicator(
+            transform.position,
+            SphereOuterRadius * 2, // width (외부 지름)
+            SphereOuterRadius * 2, // height (외부 지름)
+            0f,  // direction
+            360f,  // angleRange
+            SphereInnerRadius / SphereOuterRadius, // innerRange (내부 원 비율)
+            Pattern2CastingTime,
+            0f,  // castingPercent
+            Color.yellow,
+            true
+        );
+
+        // 인디케이터가 끝나면 공격 실행
+        StartCoroutine(ExecuteDonutAttackAfterDelay(Pattern2CastingTime));
+    }
+
+    private IEnumerator ExecuteDonutAttackAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        
         float innerRadius = SphereInnerRadius;
         float outerRadius = SphereOuterRadius;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, outerRadius);
@@ -292,6 +337,36 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     private void VerticalRectAttack()
     {
         Vector3 startPos = transform.position + transform.right * (-(VerticalRectCount - 1) * (VerticalRectWidth + VerticalRectSpacing) / 2);
+
+        // 각 직사각형마다 인디케이터 생성
+        for (int i = 0; i < VerticalRectCount; i++)
+        {
+            Vector3 rectCenter = startPos + transform.right * (i * (VerticalRectWidth + VerticalRectSpacing));
+            rectCenter -= transform.forward * (VerticalRectHeight / 2);
+
+            SkillIndicator indicator = BossIndicatorManager.Instance.SetSquareIndicator(
+                rectCenter,
+                VerticalRectWidth,
+                VerticalRectHeight * 2,
+                0f,  // direction
+                0f,  // innerRange
+                Pattern2CastingTime,
+                0f,  // castingPercent
+                Color.blue,
+                true
+            );
+            
+            indicator.transform.rotation = Quaternion.Euler(90, 90, 0);
+        }
+
+        // 인디케이터가 끝나면 공격 실행
+        StartCoroutine(ExecuteVerticalRectAttackAfterDelay(Pattern2CastingTime, startPos));
+    }
+
+    private IEnumerator ExecuteVerticalRectAttackAfterDelay(float delay, Vector3 startPos)
+    {
+        yield return new WaitForSeconds(delay);
+        
         for (int i = 0; i < VerticalRectCount; i++)
         {
             Vector3 rectCenter = startPos + transform.right * (i * (VerticalRectWidth + VerticalRectSpacing));
@@ -316,6 +391,35 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     private void HorizontalRectAttack()
     {
         Vector3 startPos = transform.position + transform.forward * (-(VerticalRectCount - 1) * (VerticalRectWidth + VerticalRectSpacing) / 2);
+        
+        // 각 직사각형마다 인디케이터 생성
+        for (int i = 0; i < VerticalRectCount; i++)
+        {
+            Vector3 rectCenter = startPos + transform.forward * (i * (VerticalRectWidth + VerticalRectSpacing));
+            rectCenter += transform.right * (VerticalRectHeight / 2);
+            rectCenter += transform.forward * (VerticalRectWidth / 2);
+            
+            SkillIndicator indicator = BossIndicatorManager.Instance.SetSquareIndicator(
+                rectCenter,
+                VerticalRectWidth * 2,
+                VerticalRectHeight * 2,
+                90f,  // direction (90도 회전)
+                0f,   // innerRange
+                Pattern2CastingTime,
+                0f,   // castingPercent
+                Color.green,
+                true
+            );
+        }
+
+        // 인디케이터가 끝나면 공격 실행
+        StartCoroutine(ExecuteHorizontalRectAttackAfterDelay(Pattern2CastingTime, startPos));
+    }
+
+    private IEnumerator ExecuteHorizontalRectAttackAfterDelay(float delay, Vector3 startPos)
+    {
+        yield return new WaitForSeconds(delay);
+        
         for (int i = 0; i < VerticalRectCount; i++)
         {
             Vector3 rectCenter = startPos + transform.forward * (i * (VerticalRectWidth + VerticalRectSpacing));
@@ -347,8 +451,8 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
 
         // 도넛 공격 범위
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, 3f); // 내부 원
-        Gizmos.DrawWireSphere(transform.position, 7f); // 외부 원
+        Gizmos.DrawWireSphere(transform.position, SphereInnerRadius); // 내부 원
+        Gizmos.DrawWireSphere(transform.position, SphereOuterRadius); // 외부 원
 
         // 세로 직사각형 공격 범위
         Gizmos.color = Color.blue;

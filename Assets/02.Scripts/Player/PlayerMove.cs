@@ -20,6 +20,8 @@ public class PlayerMove : MonoBehaviour
     private bool _isGrounded;
     private float _moveSpeed => PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MoveSpeed].TotalStat;
     private float _rollSpeed => PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MoveSpeed].TotalStat + RollAdditionalSpeed;
+    private Vector3 _externalForce = Vector3.zero;
+    public Vector3 LastMoveDirection { get; private set; } = Vector3.zero;
 
     private void Awake()
     {
@@ -31,6 +33,16 @@ public class PlayerMove : MonoBehaviour
     private void Start()
     {
         PlayerManager = PlayerManager.Instance;
+    }
+
+    public void ApplyExternalForce(Vector3 force)
+    {
+        _externalForce = force;
+    }
+
+    public void ClearExternalForce()
+    {
+        _externalForce = Vector3.zero;
     }
 
     public void Move(Vector2 inputDirection)
@@ -49,8 +61,9 @@ public class PlayerMove : MonoBehaviour
         }
 
         if (inputDirection.sqrMagnitude < 0.01f)
-        {
-            Vector3 fallOnly = new Vector3(0, _verticalVelocity, 0);
+        {   
+            LastMoveDirection = Vector3.zero;
+            Vector3 fallOnly = new Vector3(0, _verticalVelocity, 0) + _externalForce;
             _characterController.Move(fallOnly * Time.deltaTime);
             return;
         }
@@ -63,6 +76,7 @@ public class PlayerMove : MonoBehaviour
         camRight.Normalize();
 
         Vector3 move = (camRight * inputDirection.x + camForward * inputDirection.y).normalized;
+        LastMoveDirection = move;
 
         if (move != Vector3.zero)
         {
@@ -72,6 +86,7 @@ public class PlayerMove : MonoBehaviour
 
         Vector3 totalMove = move * _moveSpeed;
         totalMove.y = _verticalVelocity;
+        totalMove += _externalForce;
 
         _characterController.Move(totalMove * Time.deltaTime);
     }
