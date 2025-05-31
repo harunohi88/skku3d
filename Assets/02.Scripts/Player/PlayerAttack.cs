@@ -32,6 +32,10 @@ public class AttackSkill : ISkill
     public void UnequipRune()
     {
     }
+
+    public void LevelUp()
+    {
+    }
 }
 
 public class PlayerAttack : MonoBehaviour
