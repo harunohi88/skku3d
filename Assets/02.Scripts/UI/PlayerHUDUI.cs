@@ -1,5 +1,9 @@
 using UnityEngine;
 using Microlight.MicroBar;
+using TMPro;
+using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Collections;
 
 public class PlayerHUDUI : MonoBehaviour
 {
@@ -7,9 +11,8 @@ public class PlayerHUDUI : MonoBehaviour
     public MicroBar StaminaBar;
     public MicroBar ExpBar;
 
-    public MicroBar Skill1CooldownBar;
-    public MicroBar Skill2CooldownBar;
-    public MicroBar Skill3CooldownBar;
+    public List<Image> CooldownImageList;
+    public List<TextMeshProUGUI> CooldownTextList;
 
     private void Start()
     {
@@ -17,6 +20,24 @@ public class PlayerHUDUI : MonoBehaviour
         StaminaBar.Initialize(PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxStamina].TotalStat);
         // 경험치 초기화
 
-        //Skill1CooldownBar.Initialize(PlayerManager.Instance.PlayerSkill)
+        UIEventManager.Instance.OnStatChanged += ChangeStat;
+    }
+
+    public void ChangeStat()
+    {
+        HealthBar.UpdateBar(PlayerManager.Instance.Player.Health);
+        // StaminaBar.UpdateBar
+    }
+
+    public void SKillCooldown()
+    {
+
+    }
+
+    public IEnumerator Cooldown_coroutine(int index)
+    {
+        float time = 0f;
+        float cooltime = PlayerManager.Instance
+
     }
 }

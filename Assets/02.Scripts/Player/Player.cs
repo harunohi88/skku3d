@@ -7,6 +7,8 @@ public class Player : MonoBehaviour, IDamageable
     public void TakeDamage(Damage damage)
     {
         Health -= damage.Value;
+        UIEventManager.Instance.OnStatChanged?.Invoke();
+
         if (Health <= 0)
         {
             Die();
@@ -18,6 +20,8 @@ public class Player : MonoBehaviour, IDamageable
         Health += amount;
         Debug.Log($"Heal {amount}");
         Health = Mathf.Min(Health, PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxHealth].TotalStat);
+
+        UIEventManager.Instance.OnStatChanged?.Invoke();
     }
 
     public void Die()

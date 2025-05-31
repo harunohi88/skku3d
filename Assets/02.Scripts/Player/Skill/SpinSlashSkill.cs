@@ -48,6 +48,8 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         Debug.Log("Spin Slash Activated");
         _animator.SetTrigger("Skill1");
         _playerManager.PlayerState = EPlayerState.Skill;
+
+        UIEventManager.Instance.OnSkillUse?.Invoke();
     }
 
     public RuneExecuteContext SetContext(Damage damage, AEnemy target)

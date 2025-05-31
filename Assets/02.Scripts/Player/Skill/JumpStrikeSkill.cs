@@ -52,6 +52,8 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
             _playerSkill.IsTargeting = true;
             IsTargeting = true;
             _indicator.gameObject.SetActive(true);
+
+            UIEventManager.Instance.OnSkillUse?.Invoke();
         }
         else
         {
