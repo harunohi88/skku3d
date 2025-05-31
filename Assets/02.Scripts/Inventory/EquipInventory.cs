@@ -48,7 +48,7 @@ public class EquipInventory : BaseInventory
     {
         base.UpdateSlot(index);
         // TODO: 룬이 장착되고 해제 될 때 마다 함수 호출예정----------------------------------------------------------
-        if(_itemsList[index] != null)
+        if (_itemsList[index] != null)
         {
             Debug.Log($"Equip Rune : {index} {_itemsList[index].Rune.TID}");
             if(index <= 1)
@@ -131,7 +131,7 @@ public class EquipInventory : BaseInventory
     {
         if (slotIndex < 0 || slotIndex >= _itemsList.Count)
             return null;
-            
+
         return _itemsList[slotIndex]?.Rune;
     }
 } 
