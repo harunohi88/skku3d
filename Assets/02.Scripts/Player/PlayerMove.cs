@@ -61,7 +61,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         if (inputDirection.sqrMagnitude < 0.01f)
-        {   
+        {
             LastMoveDirection = Vector3.zero;
             Vector3 fallOnly = new Vector3(0, _verticalVelocity, 0) + _externalForce;
             _characterController.Move(fallOnly * Time.deltaTime);

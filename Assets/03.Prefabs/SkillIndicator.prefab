@@ -71,3 +71,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CircularMaterial: {fileID: 2100000, guid: aeddca42a83e8564091139b6a9902fbb, type: 2}
   SquareMaterial: {fileID: 2100000, guid: bc54a6ec07589bc40a61db90befb8cb3, type: 2}
+  CircularMaterialPriority: {fileID: 2100000, guid: d4707cd0b8e9f744bbc48b639639069d, type: 2}

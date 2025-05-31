@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Rendering.Universal;
 using UnityEditor;
 
 [RequireComponent(typeof(Boss3AIManager))]
@@ -21,6 +22,20 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     public float SphereOuterRadius = 15f;
     public float SphereInnerRadius = 7f;
     public float Pattern2CastingTime = 1f; // 패턴 2의 캐스팅 시간
+
+    [Header("Pattern 3 (Black Hole)")]
+    public GameObject BlackHolePrefab;
+    public Vector3 BlackHoleSpawnCenter = Vector3.zero;
+    public float BlackHoleSpawnRadius = 10f;
+    public float BlackHoleIndicatorDuration = 1f;
+
+    [Header("Pattern 4 (Donut Attack)")]
+    public Vector3 AttackCircleCenter = Vector3.zero;
+    public float AttackCircleOuterRadius = 10f;
+    public float SafeCircleRadius = 3f;
+    public float AttackCircleIndicatorDuration = 1f;
+
+    private Vector3 _lastSafeCircleCenter;
 
     private void Start()
     {
@@ -111,17 +126,94 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
 
     public void SpecialAttack_03()
     {
-        throw new System.NotImplementedException();
+        // 블랙홀 소환 위치를 랜덤 원 안에서 결정
+        Vector2 randomCircle = Random.insideUnitCircle * BlackHoleSpawnRadius;
+        Vector3 spawnPos = BlackHoleSpawnCenter + new Vector3(randomCircle.x, 0, randomCircle.y);
+        StartCoroutine(ShowBlackHoleIndicatorAndSpawn(spawnPos));
+    }
+
+    private IEnumerator ShowBlackHoleIndicatorAndSpawn(Vector3 spawnPos)
+    {
+        // 인디케이터 생성 (원형)
+        float indicatorRadius = 3f; // 필요시 조절
+        SkillIndicator indicator = BossIndicatorManager.Instance.SetCircularIndicator(
+            spawnPos,
+            indicatorRadius * 2,
+            indicatorRadius * 2,
+            0f,
+            360f,
+            0f,
+            BlackHoleIndicatorDuration,
+            0f,
+            Color.black,
+            true
+        );
+        yield return new WaitForSeconds(BlackHoleIndicatorDuration);
+        Instantiate(BlackHolePrefab, spawnPos, Quaternion.identity);
     }
 
     public void OnSpecialAttack03End()
     {
-        throw new System.NotImplementedException();
+        Boss3AIManager.Instance.SetLastFinishedTime(3, Time.time);
     }
     
     public void SpecialAttack_04()
     {
-        throw new System.NotImplementedException();
+        // 안전지대(작은 원) 중심을 큰 원 범위 내 랜덤으로 결정
+        Vector2 randomCircle = Random.insideUnitCircle * (AttackCircleOuterRadius - SafeCircleRadius);
+        _lastSafeCircleCenter = AttackCircleCenter + new Vector3(randomCircle.x, 0, randomCircle.y);
+        StartCoroutine(ShowAttackAndSafeCircleIndicatorsAndAttack());
+    }
+
+    private IEnumerator ShowAttackAndSafeCircleIndicatorsAndAttack()
+    {
+        // 큰 원(공격 범위) 인디케이터
+        SkillIndicator attackIndicator = BossIndicatorManager.Instance.SetCircularIndicator(
+            AttackCircleCenter,
+            AttackCircleOuterRadius * 2,
+            AttackCircleOuterRadius * 2,
+            0f,
+            360f,
+            0f,
+            AttackCircleIndicatorDuration,
+            0f,
+            Color.red,
+            true
+        );
+        // 작은 원(안전지대) 인디케이터
+        SkillIndicator safeIndicator = BossIndicatorManager.Instance.SetCircularPriorityIndicator(
+            _lastSafeCircleCenter,
+            SafeCircleRadius * 2,
+            SafeCircleRadius * 2,
+            0f,
+            360f,
+            0f,
+            AttackCircleIndicatorDuration,
+            0f,
+            Color.blue,
+            true
+        );
+
+        yield return new WaitForSeconds(AttackCircleIndicatorDuration);
+        // 공격 실행: 안전지대(작은 원) 제외, 큰 원 범위 내 플레이어에게 데미지
+        Collider[] hitColliders = Physics.OverlapSphere(AttackCircleCenter, AttackCircleOuterRadius);
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.CompareTag("Player"))
+            {
+                float distToAttackCenter = Vector3.Distance(AttackCircleCenter, hitCollider.transform.position);
+                float distToSafeCenter = Vector3.Distance(_lastSafeCircleCenter, hitCollider.transform.position);
+                if (distToAttackCenter <= AttackCircleOuterRadius && distToSafeCenter > SafeCircleRadius)
+                {
+                    var damageable = hitCollider.GetComponent<IDamageable>();
+                    if (damageable != null)
+                    {
+                        Damage damage = new Damage { Value = Damage, From = gameObject };
+                        damageable.TakeDamage(damage);
+                    }
+                }
+            }
+        }
     }
 
     public void OnSpecialAttack04End()

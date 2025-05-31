@@ -8,6 +8,8 @@ public class BlackHole : MonoBehaviour
     public float MinSpeedMultiplier = 0.5f;
     public float MaxSpeedMultiplier = 2f;
 
+    public float BlackholeDuration = 10f;
+
     private Transform _playerTransform;
     private PlayerMove _playerMove;
 
