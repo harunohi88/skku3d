@@ -7,7 +7,7 @@ public class Boss3SpecialAttack03State : IState<AEnemy>
     public void Enter(AEnemy enemy)
     {
         Debug.Log(this);
-        // enemy.SetAnimationTrigger("SpecialAttack03_1");
+        enemy.SetAnimationTrigger("SpecialAttack03");
         if (enemy is ISpecialAttackable specialAttackable)
         {
             specialAttackable.SpecialAttack_03();

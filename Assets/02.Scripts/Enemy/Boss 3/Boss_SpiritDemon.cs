@@ -36,6 +36,8 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     public float AttackCircleIndicatorDuration = 1f;
 
     private Vector3 _lastSafeCircleCenter;
+    private Vector3 _pattern2StartPosition;
+    private Quaternion _pattern2StartRotation;
 
     private void Start()
     {
@@ -89,15 +91,21 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
         }
     }
 
+    public void OnBaseAttackEnd()
+    {
+        Boss3AIManager.Instance.SetLastFinishedTime(0, Time.time);
+        OnAnimationEnd();
+    }
+
     public void SpecialAttack_01()
     {
         var patternData = Boss3AIManager.Instance.GetPatternData(1);
         if (patternData != null)
         {
             KnifeInstantiate(
-                transform.position,
+                transform.position, // 나중에는 0이 될수도 있고, 지금은 보스 시전 위치
                 patternData.MaxCount,
-                patternData.Range,
+                patternData.InnerRange,
                 patternData.Range
             );
         }
@@ -263,7 +271,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
 
             // 2. 인디케이터 생성 (칼의 경로를 직사각형으로 표시)
             Vector3 dir = (centerPoint - spawnPoint).normalized;
-            float length =  20f;
+            float length =  60f;
             Vector3 indicatorCenter = spawnPoint;
             float width = 0.5f; // 칼의 폭(시각적 효과용)
             float height = length;
@@ -293,7 +301,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
             indicator.transform.rotation = rotation;
 
             // 3. 인디케이터가 끝날 때까지 대기
-            yield return new WaitForSeconds(indicatorTime);
+            //yield return new WaitForSeconds(indicatorTime);
 
             // 4. 칼 생성
             Projectile knife = Instantiate(KnifePrefab, spawnPoint, Quaternion.identity).GetComponent<Projectile>();
@@ -310,6 +318,9 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
 
     private void Pattern02()
     {
+        // 패턴 시작 시 보스의 위치와 회전 저장
+        _pattern2StartPosition = transform.position;
+        _pattern2StartRotation = transform.rotation;
         StartCoroutine(Pattern02Coroutine());
     }
 
@@ -428,31 +439,69 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
 
     private void VerticalRectAttack()
     {
-        Vector3 startPos = transform.position + transform.right * (-(VerticalRectCount - 1) * (VerticalRectWidth + VerticalRectSpacing) / 2);
+        // 보스의 로컬 좌표계 기준으로 시작 위치 계산
+        Vector3 localStartPos = _pattern2StartRotation * Vector3.right * (-(VerticalRectCount - 1) * (VerticalRectWidth + VerticalRectSpacing) / 2);
+        Vector3 startPos = _pattern2StartPosition + localStartPos;
 
         // 각 직사각형마다 인디케이터 생성
         for (int i = 0; i < VerticalRectCount; i++)
         {
-            Vector3 rectCenter = startPos + transform.right * (i * (VerticalRectWidth + VerticalRectSpacing));
-            rectCenter -= transform.forward * (VerticalRectHeight / 2);
+            // 로컬 좌표계 기준으로 직사각형 중심점 계산
+            Vector3 localOffset = _pattern2StartRotation * Vector3.right * (i * (VerticalRectWidth + VerticalRectSpacing));
+            Vector3 localForwardOffset = _pattern2StartRotation * Vector3.forward * (-VerticalRectHeight / 2);
+            Vector3 rectCenter = startPos + localOffset + localForwardOffset;
 
             SkillIndicator indicator = BossIndicatorManager.Instance.SetSquareIndicator(
                 rectCenter,
                 VerticalRectWidth,
                 VerticalRectHeight * 2,
-                0f,  // direction
-                0f,  // innerRange
+                0f,
+                0f,
                 Pattern2CastingTime,
-                0f,  // castingPercent
+                0f,
                 Color.blue,
                 true
             );
             
-            indicator.transform.rotation = Quaternion.Euler(90, 90, 0);
+            // 인디케이터의 회전을 보스의 회전을 기준으로 설정
+            indicator.transform.rotation = _pattern2StartRotation * Quaternion.Euler(90, 0, 0);
         }
 
-        // 인디케이터가 끝나면 공격 실행
         StartCoroutine(ExecuteVerticalRectAttackAfterDelay(Pattern2CastingTime, startPos));
+    }
+
+    private void HorizontalRectAttack()
+    {
+        // 보스의 로컬 좌표계 기준으로 시작 위치 계산
+        Vector3 localStartPos = _pattern2StartRotation * Vector3.forward * (-(VerticalRectCount - 1) * (VerticalRectWidth + VerticalRectSpacing) / 2);
+        Vector3 startPos = _pattern2StartPosition + localStartPos;
+        
+        // 각 직사각형마다 인디케이터 생성
+        for (int i = 0; i < VerticalRectCount; i++)
+        {
+            // 로컬 좌표계 기준으로 직사각형 중심점 계산
+            Vector3 localOffset = _pattern2StartRotation * Vector3.forward * (i * (VerticalRectWidth + VerticalRectSpacing));
+            Vector3 localRightOffset = _pattern2StartRotation * Vector3.right * (VerticalRectHeight / 2);
+            Vector3 localForwardOffset = _pattern2StartRotation * Vector3.forward * (VerticalRectWidth / 2);
+            Vector3 rectCenter = startPos + localOffset + localRightOffset + localForwardOffset;
+            
+            SkillIndicator indicator = BossIndicatorManager.Instance.SetSquareIndicator(
+                rectCenter,
+                VerticalRectWidth * 2,
+                VerticalRectHeight * 2,
+                90f,
+                0f,
+                Pattern2CastingTime,
+                0f,
+                Color.green,
+                true
+            );
+            
+            // 인디케이터의 회전을 보스의 회전을 기준으로 설정
+            indicator.transform.rotation = _pattern2StartRotation * Quaternion.Euler(90, -90, 0);
+        }
+
+        StartCoroutine(ExecuteHorizontalRectAttackAfterDelay(Pattern2CastingTime, startPos));
     }
 
     private IEnumerator ExecuteVerticalRectAttackAfterDelay(float delay, Vector3 startPos)
@@ -461,10 +510,12 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
         
         for (int i = 0; i < VerticalRectCount; i++)
         {
-            Vector3 rectCenter = startPos + transform.right * (i * (VerticalRectWidth + VerticalRectSpacing));
+            // 로컬 좌표계 기준으로 직사각형 중심점 계산
+            Vector3 localOffset = _pattern2StartRotation * Vector3.right * (i * (VerticalRectWidth + VerticalRectSpacing));
+            Vector3 rectCenter = startPos + localOffset;
             Vector3 halfExtents = new Vector3(VerticalRectWidth / 2, 1f, VerticalRectHeight / 2);
             
-            Collider[] hitColliders = Physics.OverlapBox(rectCenter, halfExtents, transform.rotation);
+            Collider[] hitColliders = Physics.OverlapBox(rectCenter, halfExtents, _pattern2StartRotation);
             foreach (var hitCollider in hitColliders)
             {
                 if (hitCollider.CompareTag("Player"))
@@ -480,44 +531,18 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
         }
     }
 
-    private void HorizontalRectAttack()
-    {
-        Vector3 startPos = transform.position + transform.forward * (-(VerticalRectCount - 1) * (VerticalRectWidth + VerticalRectSpacing) / 2);
-        
-        // 각 직사각형마다 인디케이터 생성
-        for (int i = 0; i < VerticalRectCount; i++)
-        {
-            Vector3 rectCenter = startPos + transform.forward * (i * (VerticalRectWidth + VerticalRectSpacing));
-            rectCenter += transform.right * (VerticalRectHeight / 2);
-            rectCenter += transform.forward * (VerticalRectWidth / 2);
-            
-            SkillIndicator indicator = BossIndicatorManager.Instance.SetSquareIndicator(
-                rectCenter,
-                VerticalRectWidth * 2,
-                VerticalRectHeight * 2,
-                90f,  // direction (90도 회전)
-                0f,   // innerRange
-                Pattern2CastingTime,
-                0f,   // castingPercent
-                Color.green,
-                true
-            );
-        }
-
-        // 인디케이터가 끝나면 공격 실행
-        StartCoroutine(ExecuteHorizontalRectAttackAfterDelay(Pattern2CastingTime, startPos));
-    }
-
     private IEnumerator ExecuteHorizontalRectAttackAfterDelay(float delay, Vector3 startPos)
     {
         yield return new WaitForSeconds(delay);
         
         for (int i = 0; i < VerticalRectCount; i++)
         {
-            Vector3 rectCenter = startPos + transform.forward * (i * (VerticalRectWidth + VerticalRectSpacing));
+            // 로컬 좌표계 기준으로 직사각형 중심점 계산
+            Vector3 localOffset = _pattern2StartRotation * Vector3.forward * (i * (VerticalRectWidth + VerticalRectSpacing));
+            Vector3 rectCenter = startPos + localOffset;
             Vector3 halfExtents = new Vector3(VerticalRectWidth / 2, 1f, VerticalRectHeight / 2);
             
-            Collider[] hitColliders = Physics.OverlapBox(rectCenter, halfExtents, transform.rotation * Quaternion.Euler(0, 90, 0));
+            Collider[] hitColliders = Physics.OverlapBox(rectCenter, halfExtents, _pattern2StartRotation * Quaternion.Euler(0, 90, 0));
             foreach (var hitCollider in hitColliders)
             {
                 if (hitCollider.CompareTag("Player"))
