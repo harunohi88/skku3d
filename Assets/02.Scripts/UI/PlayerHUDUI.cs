@@ -34,10 +34,9 @@ public class PlayerHUDUI : MonoBehaviour
 
     }
 
-    public IEnumerator Cooldown_coroutine(int index)
-    {
-        float time = 0f;
-        float cooltime = PlayerManager.Instance
-
-    }
+    //public IEnumerator Cooldown_coroutine(int index)
+    //{
+    //    float time = 0f;
+    //    yield return 
+    //}
 }
