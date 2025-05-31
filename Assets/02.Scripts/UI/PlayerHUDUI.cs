@@ -16,6 +16,11 @@ public class PlayerHUDUI : MonoBehaviour
 
     private void Start()
     {
+        Global.Instance.OnDataLoaded += Init;
+    }
+
+    public void Init()
+    {
         HealthBar.Initialize(PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxHealth].TotalStat);
         StaminaBar.Initialize(PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxStamina].TotalStat);
         // 경험치 초기화

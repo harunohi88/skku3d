@@ -13,7 +13,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField] private TextMeshProUGUI _tooltipDescriptionText;
 
     private BaseInventory _inventory;
-    private int _slotIndex;
+    public int SlotIndex;
     public InventoryItem CurrentItem;
     private bool _isDragging;
     private Vector2 _dragOffset;
@@ -23,7 +23,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void Initialize(BaseInventory inv, int index, Tooltip tooltip)
     {
         _inventory = inv;
-        _slotIndex = index;
+        SlotIndex = index;
         _highlightObject.SetActive(false);
         _tooltip = tooltip;
     }
@@ -36,13 +36,16 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         {
             _itemImage.sprite = item.Rune.Sprite;
             _itemImage.enabled = true;
-            _quantityText.text = item.Quantity > 1 ? item.Quantity.ToString() : "";
-            _quantityText.enabled = item.Quantity > 1;
+            if(_quantityText)
+            {
+                _quantityText.text = item.Quantity > 1 ? item.Quantity.ToString() : "";
+                _quantityText.enabled = item.Quantity > 1;
+            }
         }
         else
         {
             _itemImage.enabled = false;
-            _quantityText.enabled = false;
+            if(_quantityText) _quantityText.enabled = false;
         }
     }
 
@@ -50,7 +53,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (CurrentItem != null && !CurrentItem.IsEmpty())
         {
-            _highlightObject.SetActive(true);
+            if(_highlightObject) _highlightObject?.SetActive(true);
             if (_tooltip != null)
             {
                 _tooltip.Show($"Rune T{CurrentItem.Rune.CurrentTier}", CurrentItem.Rune.RuneDescription, transform as RectTransform);
@@ -60,7 +63,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        _highlightObject.SetActive(false);
+        if (_highlightObject) _highlightObject?.SetActive(false);
         if (_tooltip != null)
             _tooltip.Hide();
     }
@@ -116,21 +119,21 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                             Debug.Log($"OnEndDrag - 서로 다른 인벤토리 간 이동");
                             if (_inventory is BasicAllInventory basicAllInv && targetInventory is EquipInventory)
                             {
-                                basicAllInv.MoveItemToEquip(_slotIndex, targetSlot._slotIndex);
+                                basicAllInv.MoveItemToEquip(SlotIndex, targetSlot.SlotIndex);
                             }
                             else if (_inventory is BasicInventory basicInv && targetInventory is EquipInventory)
                             {
-                                basicInv.MoveItemToEquip(_slotIndex, targetSlot._slotIndex);
+                                basicInv.MoveItemToEquip(SlotIndex, targetSlot.SlotIndex);
                             }
                             else
                             {
-                                _inventory.MoveItem(_slotIndex, targetSlot._slotIndex);
+                                _inventory.MoveItem(SlotIndex, targetSlot.SlotIndex);
                             }
                         }
                         else
                         {
                             Debug.Log($"OnEndDrag - 같은 인벤토리 내 이동");
-                            _inventory.MoveItem(_slotIndex, targetSlot._slotIndex);
+                            _inventory.MoveItem(SlotIndex, targetSlot.SlotIndex);
                         }
                     }
                 }
@@ -142,7 +145,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (eventData.clickCount == 2 && CurrentItem != null && !CurrentItem.IsEmpty())
         {
-            _inventory.OnItemDoubleClick(_slotIndex);
+            _inventory.OnItemDoubleClick(SlotIndex);
         }
     }
 } 

@@ -4,8 +4,6 @@ using UnityEngine;
 public class EquipInventory : BaseInventory
 {
     [SerializeField] private BasicAllInventory _basicAllInventory;
-    public List<Sprite> RuneSpriteList;
-    private const int RUNE_SPRITE_START_INDEX = 10000;
     protected override void Awake()
     {
         _autoCreateSlots = false; // 기본적으로 수동 슬롯 배치 사용
@@ -20,7 +18,7 @@ public class EquipInventory : BaseInventory
             if (_itemsList[i] == null)
             {
                 _itemsList[i] = new InventoryItem(rune, 1); // 장비 인벤토리는 항상 수량 1
-                _itemsList[i].Rune.Sprite = RuneSpriteList[rune.TID - RUNE_SPRITE_START_INDEX];
+                _itemsList[i].Rune.Sprite = InventoryManager.Instance.GetSprite(rune.TID);
                 UpdateSlot(i);
                 return true;
             }
@@ -38,7 +36,7 @@ public class EquipInventory : BaseInventory
         if (_itemsList[slotIndex] == null)
         {
             _itemsList[slotIndex] = new InventoryItem(rune, 1); // 장비 인벤토리는 항상 수량 1
-            _itemsList[slotIndex].Rune.Sprite = RuneSpriteList[rune.TID - RUNE_SPRITE_START_INDEX];
+            _itemsList[slotIndex].Rune.Sprite = InventoryManager.Instance.GetSprite(rune.TID);
             UpdateSlot(slotIndex);
             return true;
         }
