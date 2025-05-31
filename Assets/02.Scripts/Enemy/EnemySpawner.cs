@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 // 플레이어와 일정 거리 가까워지면 스폰 - 풀링 하면 굳이? - 플레이어매니저가 플레이어 가지고 있어서 transform 받으면 됨
 // 죽었던 애들은 그대로 다시 스폰 - 일정시간 뒤에?
@@ -48,7 +49,9 @@ public class EnemySpawner : MonoBehaviour
                 enemy.Init(this);
                 EnemyTracker.Register(enemy.transform);
 
+                enemy.Agent.enabled = false;
                 ResetPosition(enemy.gameObject);
+                enemy.Agent.enabled = true;
             }
             else
             {
@@ -59,7 +62,9 @@ public class EnemySpawner : MonoBehaviour
                 enemy.Init(this);
                 EnemyTracker.Register(enemy.transform);
 
+                enemy.Agent.enabled = false;
                 ResetPosition(enemy.gameObject);
+                enemy.Agent.enabled = true;
             }
         }
         
@@ -76,8 +81,12 @@ public class EnemySpawner : MonoBehaviour
         rotRandOnSpherePos.x = 0;
         rotRandOnSpherePos.z = 0;
 
-        enemy.transform.position = posRandOnSpherePos;
-        enemy.transform.rotation = Quaternion.Euler(rotRandOnSpherePos);
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(posRandOnSpherePos, out hit, 10.0f, NavMesh.AllAreas))
+        {
+            enemy.transform.position = hit.position;
+            //enemy.transform.rotation = Quaternion.Euler(rotRandOnSpherePos);
+        }
     }
 
     public void EliteSpawnRateIncrease()

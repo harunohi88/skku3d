@@ -12,6 +12,7 @@ public class GameManager : BehaviourSingleton<GameManager>
     public float MoveDuration = 2f;
     public float FocusDistance = 22f;
     public GameObject startCanvas;
+    public CanvasGroup HUDCanvasGroup;
 
     public Transform PlayerCameraTransform;
 
@@ -32,8 +33,10 @@ public class GameManager : BehaviourSingleton<GameManager>
                      IsStart = true; 
                      startCanvas.SetActive(false);
                  });
+        HUDCanvasGroup.gameObject.SetActive(true);
+        DOTween.To(() => HUDCanvasGroup.alpha, x => HUDCanvasGroup.alpha = x, 1, MoveDuration);
 
-        if(PPVolume.profile.TryGet<DepthOfField>(out var dof))
+        if (PPVolume.profile.TryGet<DepthOfField>(out var dof))
         {
             dof.focusDistance.value = 10f;
             DOTween.To(() => dof.focusDistance.value, x => dof.focusDistance.value = x, 22f, MoveDuration);
