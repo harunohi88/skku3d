@@ -15,9 +15,13 @@ public class AudioManager : BehaviourSingleton<AudioManager>
     [SerializeField] private List<AudioClip> BGMList;
     [SerializeField] private List<AudioClip> PlayerAudioList;
     [SerializeField] private List<AudioClip> BasicEnemyAudioList;
+    [SerializeField] private List<AudioClip> EliteEnemyAudioList;
+    [SerializeField] private List<AudioClip> BossEnemyAudioList;
+    [SerializeField] private List<AudioClip> ActiveRuneAudioList;
+    [SerializeField] private List<AudioClip> UIAuioList;
 
     [Header("Audio Pool")]
-    public int PoolSize = 20;
+    public int PoolSize = 30;
     private ObjectPool<AudioSource> AudioPool;
     public AudioSource AudioSourceChildObject;
 
@@ -76,6 +80,16 @@ public class AudioManager : BehaviourSingleton<AudioManager>
 
         _mixer.SetFloat(exposedParam, to);
     }
+
+    public void PlayEnemyAudio(EnemyAudioType type)
+    {
+        AudioSource audioSource = AudioPool.Get();
+    }
+
+
+
+
+
 
     //public void PlayResourceAudio(ResourceType type, Vector3 position, bool isDone)
     //{
