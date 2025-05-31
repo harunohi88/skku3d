@@ -13,7 +13,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField] private TextMeshProUGUI _tooltipDescriptionText;
 
     private BaseInventory _inventory;
-    public int SlotIndex;
+    private int _slotIndex;
     public InventoryItem CurrentItem;
     private bool _isDragging;
     private Vector2 _dragOffset;
@@ -23,8 +23,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void Initialize(BaseInventory inv, int index, Tooltip tooltip)
     {
         _inventory = inv;
-        SlotIndex = index;
-        _highlightObject.SetActive(false);
+        _slotIndex = index;
+        if(_highlightObject) _highlightObject.SetActive(false);
         _tooltip = tooltip;
     }
 
@@ -34,6 +34,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         
         if (item != null && !item.IsEmpty())
         {
+            _itemImage.color = Color.white;
             _itemImage.sprite = item.Rune.Sprite;
             _itemImage.enabled = true;
             if(_quantityText)
@@ -44,6 +45,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }
         else
         {
+            _itemImage.color = Color.black;
             _itemImage.enabled = false;
             if(_quantityText) _quantityText.enabled = false;
         }
@@ -119,21 +121,21 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                             Debug.Log($"OnEndDrag - 서로 다른 인벤토리 간 이동");
                             if (_inventory is BasicAllInventory basicAllInv && targetInventory is EquipInventory)
                             {
-                                basicAllInv.MoveItemToEquip(SlotIndex, targetSlot.SlotIndex);
+                                basicAllInv.MoveItemToEquip(_slotIndex, targetSlot._slotIndex);
                             }
                             else if (_inventory is BasicInventory basicInv && targetInventory is EquipInventory)
                             {
-                                basicInv.MoveItemToEquip(SlotIndex, targetSlot.SlotIndex);
+                                basicInv.MoveItemToEquip(_slotIndex, targetSlot._slotIndex);
                             }
                             else
                             {
-                                _inventory.MoveItem(SlotIndex, targetSlot.SlotIndex);
+                                _inventory.MoveItem(_slotIndex, targetSlot._slotIndex);
                             }
                         }
                         else
                         {
                             Debug.Log($"OnEndDrag - 같은 인벤토리 내 이동");
-                            _inventory.MoveItem(SlotIndex, targetSlot.SlotIndex);
+                            _inventory.MoveItem(_slotIndex, targetSlot._slotIndex);
                         }
                     }
                 }
@@ -145,7 +147,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (eventData.clickCount == 2 && CurrentItem != null && !CurrentItem.IsEmpty())
         {
-            _inventory.OnItemDoubleClick(SlotIndex);
+            _inventory.OnItemDoubleClick(_slotIndex);
         }
     }
 } 

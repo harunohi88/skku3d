@@ -51,10 +51,34 @@ public class EquipInventory : BaseInventory
         if(_itemsList[index] != null)
         {
             Debug.Log($"Equip Rune : {index} {_itemsList[index].Rune.TID}");
+            if(index <= 1)
+            {
+                // 공용 룬 0, 1
+            }
+            else if(index == 2)
+            {
+                PlayerManager.Instance.PlayerAttack.EquipRune(_itemsList[index].Rune);
+            }
+            else
+            {
+                PlayerManager.Instance.PlayerSkill.AddRune(index - 3, _itemsList[index].Rune);
+            }
         }
         else
         {
             Debug.Log($"Unequip Rune : {index}");
+            if (index <= 1)
+            {
+                // 공용 룬 0, 1
+            }
+            else if (index == 2)
+            {
+                PlayerManager.Instance.PlayerAttack.UnequipRune();
+            }
+            else
+            {
+                PlayerManager.Instance.PlayerSkill.RemoveRune(index - 3);
+            }
         }
     }
 
