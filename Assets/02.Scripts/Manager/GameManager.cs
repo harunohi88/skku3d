@@ -1,10 +1,44 @@
+using System;
 using UnityEngine;
+using System.Collections;
+using DG.Tweening;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class GameManager : BehaviourSingleton<GameManager>
 {
     private int _currentStage = 1;
+    public bool IsStart = false;
+    public float MoveDuration = 2f;
+    public float FocusDistance = 22f;
+    public GameObject startCanvas;
+
+    public Transform PlayerCameraTransform;
+
+    public Volume PPVolume;
 
     public int GetCurrentStage() => _currentStage;
+
+    public void StartGame()
+    {
+        // 위치 이동
+        Camera.main.transform.DOMove(PlayerCameraTransform.position, MoveDuration)
+                 .SetEase(Ease.OutCubic);
+
+        // 회전 이동
+        Camera.main.transform.DORotateQuaternion(PlayerCameraTransform.rotation, MoveDuration)
+                 .SetEase(Ease.OutCubic).OnComplete(() =>
+                 {
+                     IsStart = true; 
+                     startCanvas.SetActive(false);
+                 });
+
+        if(PPVolume.profile.TryGet<DepthOfField>(out var dof))
+        {
+            dof.focusDistance.value = 10f;
+            DOTween.To(() => dof.focusDistance.value, x => dof.focusDistance.value = x, 22f, MoveDuration);
+        }
+    }
 
     public float GetEnemyBaseDamage(EnemyType type)
     {

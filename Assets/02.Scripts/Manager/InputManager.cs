@@ -19,6 +19,7 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.IsStart == false) return;
         HandleGameplayInput();
     }
 
