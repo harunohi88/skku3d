@@ -189,25 +189,21 @@ public enum EnemyAudioType
     Hit = 1,
     ///<summary>죽음</summary>
     Die = 2,
-}
-
-public enum BossAudioType
-{
     ///<summary>보스 1 기본공격</summary>
-    Boss1Attack = 0,
+    Boss1Attack = 3,
     ///<summary>보스1 스페셜 공격 1</summary>
-    Boss1Secial1 = 1,
+    Boss1Secial1 = 4,
     ///<summary>보스1 스페셜 공격 2</summary>
-    Boss1Secial2 = 2,
+    Boss1Secial2 = 5,
     ///<summary>보스1 스페셜 공격 3</summary>
-    Boss1Secial3 = 3,
+    Boss1Secial3 = 6,
     ///<summary>보스1 스페셜 공격 4</summary>
-    Boss1Secial4 = 4,
+    Boss1Secial4 = 7,
     ///<summary>보스 1 사망</summary>
-    Boss1Die = 5,
+    Boss1Die = 8,
 }
 
-public enum RuneAudioType
+public enum DynamicRuneAudioType
 {
     ///<summary>날라가는 소리 1</summary>
     Fly1 = 0,
