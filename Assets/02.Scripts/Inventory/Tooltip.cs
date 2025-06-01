@@ -5,15 +5,17 @@ using UnityEngine.UI;
 public class Tooltip : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _nameText;
+    [SerializeField] private TextMeshProUGUI _tierText;
     [SerializeField] private TextMeshProUGUI _descriptionText;
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private CanvasScaler _canvasScaler;
 
     public Vector3 Offset = new Vector3(0, 0, 0);
 
-    public void Show(string name, string description, RectTransform slotRect)
+    public void Show(string name, string tier, string description, RectTransform slotRect)
     {
         _nameText.text = name;
+        _tierText.text = $"티어 {tier}";
         _descriptionText.text = description;
         gameObject.SetActive(true);
         SetRectPosition(slotRect);

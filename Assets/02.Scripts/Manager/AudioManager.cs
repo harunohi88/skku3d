@@ -14,19 +14,34 @@ public class AudioManager : BehaviourSingleton<AudioManager>
     [Header("Audios")]
     [SerializeField] private List<AudioClip> BGMList;
     [SerializeField] private List<AudioClip> PlayerAudioList;
-    [SerializeField] private List<AudioClip> BasicEnemyAudioList;
+    [SerializeField] private List<AudioClip> EnemyAudioList;
+    [SerializeField] private List<AudioClip> DynamicRuneAudioList;
+    [SerializeField] private List<AudioClip> UIAudioList;
 
     [Header("Audio Pool")]
-    public int PoolSize = 20;
-    private ObjectPool<AudioSource> AudioPool;
-    public AudioSource AudioSourceChildObject;
+    public int PoolSize = 30;
+    public GameObject AudioSourceChildObject;
+    private List<AudioSource> audioSourceList = new List<AudioSource>();
 
     public AudioSource BGMAudioSource;
     private Coroutine fadeCoroutine;
 
     private void Awake()
     {
-        AudioPool = new ObjectPool<AudioSource>(AudioSourceChildObject, PoolSize, transform);
+        for (int i = 0; i < PoolSize; i++)
+        {
+            var source = Instantiate(AudioSourceChildObject, transform.position, Quaternion.identity, gameObject.transform).GetComponent<AudioSource>();
+            audioSourceList.Add(source);
+        }
+    }
+
+    private AudioSource GetAvailableAudioSource()
+    {
+        foreach (AudioSource source in audioSourceList)
+        {
+            if (!source.isPlaying) return source;
+        }
+        return null;
     }
 
     public void SetBGMVolume(float sliderValue)
@@ -77,23 +92,39 @@ public class AudioManager : BehaviourSingleton<AudioManager>
         _mixer.SetFloat(exposedParam, to);
     }
 
-    //public void PlayResourceAudio(ResourceType type, Vector3 position, bool isDone)
-    //{
-    //    AudioSource audioSource = GetAvailableAudioSource();
-    //    audioSource.outputAudioMixerGroup = _sfxMixerGroup;
-    //    audioSource.spatialBlend = 1;
-    //    audioSource.transform.position = position;
-    //    if (type == ResourceType.Tree)
-    //    {
-    //        if (isDone) audioSource.resource = TreeAudioList[1];
-    //        else audioSource.resource = TreeAudioList[0];
-    //    }
-    //    else if (type == ResourceType.Rock)
-    //    {
-    //        if (isDone) audioSource.resource = RockAudioList[1];
-    //        else audioSource.resource = RockAudioList[0];
-    //    }
-    //    audioSource.Play();
-    //}
+    public void PlayEnemyAudio(EnemyType enemyType, EnemyAudioType audioType)
+    {
+        AudioSource audioSource = GetAvailableAudioSource();
+        audioSource.outputAudioMixerGroup = _sfxMixerGroup;
 
+        audioSource.resource = EnemyAudioList[(int)audioType];
+        audioSource.Play();
+    }
+
+    public void PlayUIAudio(UIAudioType audioType)
+    {
+        AudioSource audioSource = GetAvailableAudioSource();
+        audioSource.outputAudioMixerGroup = _sfxMixerGroup;
+
+        audioSource.resource = UIAudioList[(int)audioType];
+        audioSource.Play();
+    }
+
+    public void PlayPlayerAudio(PlayerAudioType audioType)
+    {
+        AudioSource audioSource = GetAvailableAudioSource();
+        audioSource.outputAudioMixerGroup = _sfxMixerGroup;
+
+        audioSource.resource = PlayerAudioList[(int)audioType];
+        audioSource.Play();
+    }
+
+    public void PlayerDynamicRuneAudio(DynamicRuneAudioType audioType)
+    {
+        AudioSource audioSource = GetAvailableAudioSource();
+        audioSource.outputAudioMixerGroup = _sfxMixerGroup;
+
+        audioSource.resource = DynamicRuneAudioList[(int)audioType];
+        audioSource.Play();
+    }
 }

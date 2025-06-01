@@ -30,6 +30,7 @@ public class Boss2SpecialAttack02State : IState<AEnemy>
         {
             Debug.Log("진짜 무기 꺼짐");
             ferex.WeaponOriginal.SetActive(false);
+            ferex.WeaponCopied.transform.position = ferex.WeaponOriginal.transform.position;
             ferex.WeaponCopied.SetActive(true);
 
             var weapon = ferex.WeaponCopied.GetComponent<WeaponMove>();
@@ -41,7 +42,7 @@ public class Boss2SpecialAttack02State : IState<AEnemy>
         if (_patternData != null)
         {
             _indicator = BossIndicatorManager.Instance.SetCircularIndicator(
-                enemy.transform.position,
+                enemy.transform.forward,
                 _patternData.Radius,
                 _patternData.Radius,
                 0,
@@ -49,7 +50,7 @@ public class Boss2SpecialAttack02State : IState<AEnemy>
                 0.5f,
                 _patternData.CastingTime,
                 0,
-                Color.red
+                Color.yellow
                 );
         }
 
@@ -72,16 +73,14 @@ public class Boss2SpecialAttack02State : IState<AEnemy>
         {
             _currentPhase = 2;
             _time = 0f;
-
-            if (enemy is Boss_Ferex ferex)
-            {
-                var weapon = ferex.WeaponCopied.GetComponent<WeaponMove>();
-                weapon.Center = ferex.transform;
-                weapon.SetState(WeaponMove.WeaponState.Throw);
-            }
         }
         else if (_currentPhase == 2 && _time >= 1f)
         {
+            if (enemy is Boss_Ferex ferex)
+            {
+                var weapon = ferex.WeaponCopied.GetComponent<WeaponMove>();
+                weapon.SetState(WeaponMove.WeaponState.Throw);
+            }
             _currentPhase = 3;
         }
     }
