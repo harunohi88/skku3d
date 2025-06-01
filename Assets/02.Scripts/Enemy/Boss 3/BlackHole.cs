@@ -9,6 +9,9 @@ public class BlackHole : MonoBehaviour
     public float MaxSpeedMultiplier = 2f;
 
     public float BlackholeDuration = 10f;
+    public float DamageAmount = 10f;  // 블랙홀 데미지량
+
+    public GameObject BlackholeDestroyEffect;
 
     private Transform _playerTransform;
     private PlayerMove _playerMove;
@@ -67,8 +70,9 @@ public class BlackHole : MonoBehaviour
         _time += Time.deltaTime;
         if (_time >= BlackholeDuration)
         {
-            Destroy(gameObject);
+            Instantiate(BlackholeDestroyEffect, transform.position, Quaternion.identity);
             _playerMove.ClearExternalForce();
+            Destroy(gameObject);
         }
     }
 
@@ -76,5 +80,18 @@ public class BlackHole : MonoBehaviour
     {
         // PlayerMove의 LastMoveDirection을 사용
         return _playerMove.LastMoveDirection * PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MoveSpeed].TotalStat;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            var damageable = other.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                Damage damage = new Damage { Value = DamageAmount, From = gameObject };
+                damageable.TakeDamage(damage);
+            }
+        }
     }
 }
