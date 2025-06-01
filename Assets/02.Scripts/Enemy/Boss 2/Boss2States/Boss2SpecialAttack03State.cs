@@ -2,34 +2,55 @@ using UnityEngine;
 
 public class Boss2SpecialAttack03State : IState<AEnemy>
 {
-    private float _time = 0;
+    private float _time = 0f;
+    private int _currentPhase = 0;
+    private SkillIndicator _indicator;
+    private EnemyPatternData _patternData;
     public void Enter(AEnemy enemy)
     {
         Debug.Log(this);
+        _time = 0f;
+        _currentPhase = 0;
+
         enemy.Agent.ResetPath();
-        enemy.SetAnimationTrigger("SpecialAttack03");
-        enemy.Agent.speed = enemy.MoveSpeed + 1;
-        enemy.EnemyRotation.IsFound = false;
         enemy.Agent.isStopped = true;
+        enemy.EnemyRotation.IsFound = false;
+        enemy.SetAnimationTrigger("SpecialAttack03_Idle");
+
+        _patternData = Boss2AIManager.Instance.GetPatternData(3, 0);
+
+        if (_patternData != null)
+        {
+            _indicator = BossIndicatorManager.Instance.SetCircularIndicator(
+                enemy.transform.position,
+                _patternData.Radius,
+                _patternData.Radius,
+                0,
+                _patternData.Angle,
+                0.5f,
+                _patternData.CastingTime,
+                0,
+                Color.green
+                );
+        }
+        Quaternion _indicatorPos = Quaternion.Euler(90, 0, -enemy.transform.eulerAngles.y);
+        _indicator.transform.rotation = _indicatorPos;
     }
 
     public void Update(AEnemy enemy)
     {
         _time += Time.deltaTime;
-        if (_time >= 4f)
+        if (_currentPhase == 0 && _time >= _patternData.CastingTime)
         {
-            enemy.SetAnimationTrigger("SpecialAttack03_Idle");
+            _currentPhase = 1;
+            _time = 0;
+            enemy.SetAnimationTrigger("SpecialAttack03_Roaring");
         }
-        //if (!enemy.IsPlayingAnimation("SpecialAttack03"))
-        //{
-        //    Debug.Log("SpecialAttack03 애니메이션 끝 → 상태 전환");
-        //    enemy.ChangeState(new Boss2TraceState());
-        //}
     }
 
     public void Exit(AEnemy enemy)
     {
+        if (_indicator != null) GameObject.Destroy(_indicator.gameObject);
         enemy.Agent.isStopped = false;
-        enemy.Agent.speed = enemy.MoveSpeed;
     }
 }

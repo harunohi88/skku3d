@@ -312,17 +312,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4957487196113464, guid: fb3455787bbec434a9d65f0e6813b8f6, type: 3}
   m_PrefabInstance: {fileID: 950687285}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &44229675 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6861949354296350054, guid: 647bf7a21b838a147be83adbb9d77a71, type: 3}
-  m_PrefabInstance: {fileID: 1346901619}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aafde2e72b4bcd4480cf4290dd90833, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &44839479
 GameObject:
   m_ObjectHideFlags: 0
@@ -777,6 +766,7 @@ MonoBehaviour:
   Player: {fileID: 663641709}
   PlayerStat: {fileID: 0}
   PlayerMove: {fileID: 0}
+  PlayerRotate: {fileID: 0}
   PlayerAttack: {fileID: 0}
   PlayerSkill: {fileID: 0}
   PlayerState: 0
@@ -793,7 +783,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerManager: {fileID: 104703224}
-  _inventoryManager: {fileID: 44229675}
+  _inventoryPanel: {fileID: 0}
+  _upgradeAndShopPanel: {fileID: 0}
+  _equipmentPanel: {fileID: 0}
+  _popupBackgroundImage: {fileID: 0}
 --- !u!4 &104703226
 Transform:
   m_ObjectHideFlags: 0
@@ -12482,9 +12475,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 110766567960819210, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
-      propertyPath: m_IsActive
-      value: 0
+    - target: {fileID: 3424543258563720309, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
+      propertyPath: _boss2SpecialAttack3PatternList.Array.data[0].Angle
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424543258563720309, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
+      propertyPath: _boss2SpecialAttack3PatternList.Array.data[0].Radius
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424543258563720309, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
+      propertyPath: _boss2SpecialAttack3PatternList.Array.data[0].InnerRange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424543258563720309, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
+      propertyPath: _boss2SpecialAttack3PatternList.Array.data[0].CastingTime
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5505209942077620093, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
       propertyPath: m_Name
@@ -12534,14 +12539,6 @@ PrefabInstance:
       propertyPath: PoolParent
       value: 
       objectReference: {fileID: 528621582}
-    - target: {fileID: 8629005527192567073, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
-      propertyPath: spinSpeed
-      value: 1800
-      objectReference: {fileID: 0}
-    - target: {fileID: 8629005527192567073, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
-      propertyPath: RotationAngle
-      value: 230
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
