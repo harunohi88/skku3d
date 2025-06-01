@@ -231,22 +231,20 @@ public enum UIAudioType
     ButtonClick3 = 2,
     ///<summary>리롤</summary>
     ReRoll = 3,
-    ///<summary>경험치 1</summary>
-    Exp1 = 4,
-    ///<summary>경험치 2</summary>
-    Exp2 = 5,
-    ///<summary>경험치 3</summary>
-    Exp3 = 6,
-    ///<summary>경험치 4</summary>
-    Exp4 = 7,
     ///<summary>아이템 구매</summary>
-    ItemPurchase = 8,
+    ItemPurchase = 4,
     ///<summary>탭 오픈 / 닫기</summary>
-    Tab = 9,
+    Tab = 5,
     ///<summary>승리 (보스 격파)</summary>
-    Win = 10,
+    Win = 6,
     ///<summary>죽음</summary>
-    Death = 11,
+    Death = 7,
+    ///<summary>룬 들기</summary>
+    RuneUp = 8,
+    ///<summary>룬 내려놓기</summary>
+    RuneDown = 9,
+    ///<summary>실패</summary>
+    Fail = 10,
 }
 
 public enum PlayerAudioType
@@ -254,7 +252,13 @@ public enum PlayerAudioType
     ///<summary>코인 먹을때</summary>
     GetCoin = 0,
     ///<summary>경험치 먹을 때</summary>
-    GetExp = 1,
+    GetExp1 = 1,
+    ///<summary>경험치 2</summary>
+    GetExp2 = 2,
+    ///<summary>경험치 3</summary>
+    GetExp3 = 3,
+    ///<summary>경험치 4</summary>
+    GetExp4 = 4,
     ///<summary>룬 먹을 때</summary>
     GetRune = 2,
 }

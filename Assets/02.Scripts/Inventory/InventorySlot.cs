@@ -81,6 +81,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (CurrentItem != null && !CurrentItem.IsEmpty())
         {
+            AudioManager.Instance.PlayUIAudio(UIAudioType.RuneUp);
             _isDragging = true;
             _dragOffset = eventData.position - (Vector2)transform.position;
             _itemImage.transform.SetParent(transform.root);
@@ -125,6 +126,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                         // 대상이 다른 인벤토리에 있으면 소스 인벤토리의 MoveItem 사용
                         if (targetInventory != _inventory)
                         {
+                            AudioManager.Instance.PlayUIAudio(UIAudioType.RuneDown);
+
                             Debug.Log($"OnEndDrag - 서로 다른 인벤토리 간 이동");
                             if (_inventory is BasicAllInventory basicAllInv && targetInventory is EquipInventory)
                             {

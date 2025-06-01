@@ -52,12 +52,14 @@ public class InputManager : MonoBehaviour
         // 룬 장착과 인벤토리 토글
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-                ToggleInventoryAndEquip();
+            AudioManager.Instance.PlayUIAudio(UIAudioType.Tab);
+            ToggleInventoryAndEquip();
         }
 
         if (Input.GetKeyDown(KeyCode.M))
         {
-            if(_mapPanel.activeSelf) _mapPanel.SetActive(false);
+            AudioManager.Instance.PlayUIAudio(UIAudioType.Tab);
+            if (_mapPanel.activeSelf) _mapPanel.SetActive(false);
             else
             {
                 _upgradeAndShopPanel.SetActive(false);
