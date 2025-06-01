@@ -1,11 +1,7 @@
-﻿
-#pragma warning disable 0414 // private field assigned but not used.
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GAP_LaserSystem;
-
 public class CycleLasersScript : MonoBehaviour {
 
 	public GameObject playerFirePoint;

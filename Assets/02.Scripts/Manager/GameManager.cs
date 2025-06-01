@@ -20,6 +20,11 @@ public class GameManager : BehaviourSingleton<GameManager>
 
     public int GetCurrentStage() => _currentStage;
 
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     public void StartGame()
     {
         // 위치 이동

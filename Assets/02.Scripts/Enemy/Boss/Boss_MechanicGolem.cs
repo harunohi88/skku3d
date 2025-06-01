@@ -11,6 +11,8 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
     private ObjectPool<Lightning> _lightningPool;
     private int _baseAttackCount = 0;
     private int _attackCount = 0;
+    public LaserAttack LaserAttack;
+    public LaserScript Laser;
 
     protected void Start()
     {
@@ -88,24 +90,49 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
         if (_attackCount >= 2) _attackCount = 0;
         if (_attackCount == 0)
         {
-            WeaponCollider.enabled = true;
+            BossEffectManager.Instance.PlayBoss1Particle(2);
+
+            EnemyPatternData _patternData = BossAIManager.Instance.GetPatternData(2, 0);
+            Damage damage = new Damage();
+            damage.Value = _patternData.Damage;
+            damage.From = this.gameObject;
+
+            Collider[] colliders = Physics.OverlapSphere(transform.position, _patternData.Radius, LayerMask.GetMask("Player"));
+            if(colliders.Length > 0)
+            {
+                PlayerManager.Instance.Player.TakeDamage(damage);
+            }
+            
             EnemyRotation.IsFound = false;
         }
         else if (_attackCount == 1)
         {
             EnemyPatternData _patternData = BossAIManager.Instance.GetPatternData(2, 1);
-            List<Collider> colliderList = Physics.OverlapSphere(transform.position, _patternData.Range, LayerMask).ToList();
+            Damage damage = new Damage();
+            damage.Value = _patternData.Damage;
+            damage.From = this.gameObject;
 
-            GameObject playerObject = colliderList.Find(x => x.CompareTag("Player"))?.gameObject;
+            LaserAttack.Init();
 
-            if (playerObject)
-            {
-                Vector3 directionToTarget = playerObject.transform.position - transform.position;
-                if (Vector3.Dot(transform.forward, directionToTarget.normalized) > 0 && Mathf.Abs(Vector3.Dot(transform.right, directionToTarget)) <= _patternData.Width / 2)
-                {
-                    Debug.Log("Pattern 3 데미지 발생");
-                }
-            }
+            Laser.ShootLaser(_patternData.Duration - 0.3f);
+
+            LaserAttack.Damage = damage;
+            LaserAttack.GetComponent<Collider>().enabled = true;
+
+            LaserAttack.gameObject.SetActive(true);
+
+            //List<Collider> colliderList = Physics.OverlapSphere(transform.position, _patternData.Range, LayerMask).ToList();
+
+            //GameObject playerObject = colliderList.Find(x => x.CompareTag("Player"))?.gameObject;
+
+            //if (playerObject)
+            //{
+            //    Vector3 directionToTarget = playerObject.transform.position - transform.position;
+            //    if (Vector3.Dot(transform.forward, directionToTarget.normalized) > 0 && Mathf.Abs(Vector3.Dot(transform.right, directionToTarget)) <= _patternData.Width / 2)
+            //    {
+            //        Debug.Log("Pattern 3 데미지 발생");
+            //    }
+            //}
         }
     }
 
@@ -122,6 +149,8 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
         {
             EnemyRotation.IsFound = true;
             WeaponCollider.enabled = false;
+            LaserAttack.GetComponent<Collider>().enabled = false;
+            LaserAttack.gameObject.SetActive(false);
         }
     }
 
@@ -166,6 +195,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
             indicatorList[i].Ready(castingTime);
             yield return new WaitForSeconds(castingTime);
 
+            BossEffectManager.Instance.PlayBoss1Particle(i + 4);
             float radius = ((i + 1) / 3.0f) * patternData.Range / 2;
             List<Collider> colliderList = Physics.OverlapSphere(position, radius, LayerMask).ToList();
 
@@ -179,7 +209,10 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
                     float distance = Vector3.Distance(playerObject.transform.position, position);
                     if (distance > (i / (float)(i + 1)) * radius)
                     {
-                        Debug.Log("Pattern 3 데미지 발생");
+                        Damage damage = new Damage();
+                        damage.Value = patternData.Damage;
+                        damage.From = gameObject;
+                        PlayerManager.Instance.Player.TakeDamage(damage);
                     }
                 }
             }
@@ -189,12 +222,10 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
     public void OnSpecialAttack03End()
     {
         BossAIManager.Instance.SetLastFinishedTime(3, Time.time);
-        EnemyRotation.IsFound = true;
     }
 
     public void SpecialAttack_04()
     {
-        // 구현 예정
     }
 
     public void OnSpecialAttack04End()

@@ -16,21 +16,20 @@ public class BossSpecialAttack04State : IState<AEnemy>
         Debug.Log(this);
         enemy.SetAnimationTrigger("SpecialAttack04_Idle");
         if (_patternData == null) _patternData = BossAIManager.Instance.GetPatternData(4);
-        _indicator = BossIndicatorManager.Instance.SetCircularIndicator(enemy.transform.position, _patternData.Range, _patternData.Range, 0, _patternData.Angle, _patternData.InnerRange, _patternData.CastingTime, 0, Color.red);
+        _indicator = BossIndicatorManager.Instance.SetCircularIndicator(enemy.transform.position, _patternData.Radius * 2, _patternData.Radius * 2, 0, _patternData.Angle, _patternData.InnerRange, _patternData.CastingTime, 0, Color.red);
         _enemyOriginStoppingDistance = enemy.Agent.stoppingDistance;
         enemy.Agent.speed = enemy.MoveSpeed - 0.5f;
     }
 
     public void Update(AEnemy enemy)
     {
-        if (_indicator != null) _indicator.transform.position = enemy.transform.position;
-
         _time += Time.deltaTime;
         if (_currentOrder == 0)
         {
             if (_time >= _patternData.CastingTime)
             {
                 enemy.SetAnimationTrigger("SpecialAttack04");
+                BossEffectManager.Instance.PlayBoss1Particle(3);
                 _currentOrder++;
                 _time = 0;
 
@@ -53,13 +52,17 @@ public class BossSpecialAttack04State : IState<AEnemy>
 
                 if (distanceToPlayer >= _patternData.Radius * _patternData.InnerRange && distanceToPlayer <= _patternData.Radius)
                 {
-                    Debug.Log("Pattern 4 데미지 발생");
+                    Damage damage = new Damage();
+                    damage.Value = _patternData.Damage;
+                    damage.From = enemy.gameObject;
+                    PlayerManager.Instance.Player.TakeDamage(damage);
                 }
                 _tickTime = 0f;
             }
 
             if (_time >= _patternData.Duration)
             {
+                BossEffectManager.Instance.StopBoss1Particle(3);
                 enemy.ChangeState(new BossTraceState());
             }
         }

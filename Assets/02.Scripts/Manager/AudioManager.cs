@@ -33,6 +33,8 @@ public class AudioManager : BehaviourSingleton<AudioManager>
             var source = Instantiate(AudioSourceChildObject, transform.position, Quaternion.identity, gameObject.transform).GetComponent<AudioSource>();
             audioSourceList.Add(source);
         }
+
+        DontDestroyOnLoad(gameObject);
     }
 
     private AudioSource GetAvailableAudioSource()

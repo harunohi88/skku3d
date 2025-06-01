@@ -18,8 +18,8 @@ public class BossSpecialAttack02State : IState<AEnemy>
         {
             _indicator = BossIndicatorManager.Instance.SetCircularIndicator(
                 enemy.transform.position,
-                _patternData.Radius,
-                _patternData.Radius,
+                _patternData.Radius * 2,
+                _patternData.Radius * 2,
                 0,
                 _patternData.Angle,
                 _patternData.InnerRange,
@@ -69,9 +69,17 @@ public class BossSpecialAttack02State : IState<AEnemy>
             if (_time >= _patternData.CastingTime)
             {
                 _time = 0f;
-                enemy.SetAnimationTrigger("SpecialAttack02_2");
-                _currentOrder++;
                 enemy.EnemyRotation.IsFound = false;
+                (enemy as ISpecialAttackable).SpecialAttack_02();
+                _currentOrder++;
+            }
+        }
+        else
+        {
+            if(_time >= _patternData.Duration)
+            {
+                (enemy as ISpecialAttackable).OnSpecialAttack02End();
+                enemy.ChangeState(new BossTraceState());
             }
         }
     }
