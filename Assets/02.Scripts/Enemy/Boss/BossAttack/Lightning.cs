@@ -70,7 +70,10 @@ public class Lightning : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("데미지 줌");
+            Damage damage = new Damage();
+            damage.Value = BossAIManager.Instance.GetPatternData(3, 0).Damage;
+
+            PlayerManager.Instance.Player.TakeDamage(damage);
         }
     }
 }

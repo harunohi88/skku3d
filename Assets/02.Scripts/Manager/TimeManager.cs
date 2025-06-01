@@ -8,7 +8,7 @@ public class TimeManager : BehaviourSingleton<TimeManager>
     public EnemyDifficultyMultiplier DifficultyMultiplier;
 
     [SerializeField] private float _time;
-    private int _difficultyChangeTime;
+    private float _difficultyChangeTime = 300f;
     private int _currentTID;
 
     public Action OnDifficultyChanged;
@@ -19,6 +19,7 @@ public class TimeManager : BehaviourSingleton<TimeManager>
         _currentTID = 10000;
 
         Global.Instance.OnDataLoaded += LoadTimeData;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void LoadTimeData()

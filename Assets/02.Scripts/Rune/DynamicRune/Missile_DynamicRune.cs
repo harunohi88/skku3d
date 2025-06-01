@@ -97,8 +97,8 @@ public class Missile_DynamicRune : ADynamicRuneObject
     //    if (other.gameObject.GetInstanceID() == _targetTransform.gameObject.GetInstanceID())
     //    {
     //        Damage newDamage = new Damage();
-    //        newDamage.Value = _damage.Value;
-    //        newDamage.From = _damage.From;
+    //        newDamage.Value = Damage.Value;
+    //        newDamage.From = Damage.From;
     //        RuneManager.Instance.CheckCritical(ref newDamage);
 
     //        other.GetComponent<AEnemy>().TakeDamage(newDamage);

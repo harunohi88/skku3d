@@ -1,9 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using GAP_LaserSystem;
-
 public class SwitchLasersScript : MonoBehaviour {
 	
 	public Text effectName;
