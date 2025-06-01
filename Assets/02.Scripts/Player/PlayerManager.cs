@@ -118,7 +118,7 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
     {
         if (!CanPerform(EPlayerAction.Skill)) return;
 
-        if (PlayerState == EPlayerState.Attack)
+        if (PlayerAttack.IsAttacking)
         {
             PlayerRotate.CancelRotation();
             PlayerAttack.Cancel();
