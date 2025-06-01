@@ -16,6 +16,8 @@ public class InputManager : BehaviourSingleton<InputManager>
         _inventoryPanel.SetActive(false);
         _upgradeAndShopPanel.SetActive(false);
         _equipmentPanel.SetActive(false);
+
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Update()

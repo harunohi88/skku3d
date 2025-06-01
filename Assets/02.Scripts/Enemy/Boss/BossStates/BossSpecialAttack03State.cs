@@ -14,6 +14,7 @@ public class BossSpecialAttack03State : IState<AEnemy>
             specialAttackable.SpecialAttack_01();
         }
         _time = 0f;
+        _currentOrder = 0;
 
         _patternData = BossAIManager.Instance.GetPatternData(3, 0);
     }
@@ -27,28 +28,23 @@ public class BossSpecialAttack03State : IState<AEnemy>
         {
             if (_time >= _patternData.CastingTime)
             {
-                enemy.SetAnimationTrigger("SpecialAttack03_2_Idle");
-                enemy.EnemyRotation.IsFound = true;
                 _currentOrder++;
                 _time = 0f;
-
                 _patternData = BossAIManager.Instance.GetPatternData(3, 1);
             }
         }
         else if (_currentOrder == 1)
         {
-            if (_time >= _patternData.CastingTime / 3)
-            {
-                enemy.SetAnimationTrigger("SpecialAttack03_2");
-                enemy.EnemyRotation.IsFound = false;
-                _currentOrder++;
-                _time = 0f;
-            }
+            enemy.SetAnimationTrigger("SpecialAttack03_2");
+            enemy.EnemyRotation.IsFound = false;
+            _currentOrder++;
+            _time = 0f;
         }
         else if (_currentOrder == 2)
         {
-            if (_time >= _patternData.CastingTime + 1f)
+            if (_time >= _patternData.CastingTime + 2.5f)
             {
+                enemy.EnemyRotation.IsFound = true;
                 enemy.ChangeState(new BossTraceState());
             }
         }

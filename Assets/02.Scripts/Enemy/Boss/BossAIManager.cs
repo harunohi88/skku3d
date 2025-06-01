@@ -52,9 +52,7 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
         if (availablePatternList.Count > 0)
         {
             int selectedIndex = availablePatternList[Random.Range(0, availablePatternList.Count)];
-            //return GetAttackState(selectedIndex);
-            //테스트
-            return GetAttackState(2);
+            return GetAttackState(selectedIndex);
         }
 
         return new BossTraceState();

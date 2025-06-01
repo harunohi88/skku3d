@@ -9,4 +9,9 @@ public class BossEffectManager : BehaviourSingleton<BossEffectManager>
     {
         Boss1ParticleSystmList[index].Play();
     }
+
+    public void StopBoss1Particle(int index)
+    {
+        Boss1ParticleSystmList[index].Stop();
+    }
 }

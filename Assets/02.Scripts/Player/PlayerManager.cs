@@ -30,6 +30,8 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
         PlayerAttack = Player.gameObject.GetComponent<PlayerAttack>();
         PlayerSkill = Player.gameObject.GetComponent<PlayerSkill>();
         PlayerState = EPlayerState.None;
+
+        DontDestroyOnLoad(gameObject);
     }
 
     private bool CanPerform(EPlayerAction action)

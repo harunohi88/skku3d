@@ -6,7 +6,9 @@ public class WeaponCollider : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("보스 기본공격 - Player HIT");
+            Damage damage = new Damage();
+            damage.Value = BossAIManager.Instance.GetPatternData(0).Damage;
+            PlayerManager.Instance.Player.TakeDamage(damage);
         }
     }
 }
