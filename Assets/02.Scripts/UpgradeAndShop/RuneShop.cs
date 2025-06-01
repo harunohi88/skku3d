@@ -68,7 +68,7 @@ public class RuneShop : MonoBehaviour
             return;
         }
 
-        AudioManager.Instance.PlayUIAudio(UIAudioType.ItemPurchase);
+        AudioManager.Instance.PlayUIAudio(UIAudioType.ReRoll);
 
         RuneList.Clear();
         _runeCostList.Clear();
