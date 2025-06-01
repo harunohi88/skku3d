@@ -4019,7 +4019,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1983121493661014623}
         m_TargetAssemblyTypeName: SkillUpgrade, Assembly-CSharp
-        m_MethodName: SkillUpgrde
+        m_MethodName: SkillUpgrade
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8419,7 +8419,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1983121493661014623}
         m_TargetAssemblyTypeName: SkillUpgrade, Assembly-CSharp
-        m_MethodName: SkillUpgrde
+        m_MethodName: SkillUpgrade
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14113,7 +14113,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1983121493661014623}
         m_TargetAssemblyTypeName: SkillUpgrade, Assembly-CSharp
-        m_MethodName: SkillUpgrde
+        m_MethodName: SkillUpgrade
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16068,7 +16068,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1983121493661014623}
         m_TargetAssemblyTypeName: SkillUpgrade, Assembly-CSharp
-        m_MethodName: SkillUpgrde
+        m_MethodName: SkillUpgrade
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

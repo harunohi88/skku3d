@@ -3,13 +3,11 @@ using System.Collections.Generic;
 
 public class PlayerLevel : MonoBehaviour
 {
+    [SerializeField] private int _level;
     private int _displayLevel => _level + 1;
-
     private float _experienceBonus =>
         PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.ExperienceGain].TotalStat;
-    private int _level;
     private List<float> ExpTable = new List<float>();
-    
     private float _experience;
 
     private void Awake()
