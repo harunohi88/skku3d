@@ -204,16 +204,16 @@ MonoBehaviour:
     InnerRange: 0.4
   _boss2SpecialAttack3PatternList:
   - CoolTime: 10
-    CastingTime: 0
+    CastingTime: 5
     LastFinishedTime: 0
     Range: 0
     Width: 0
-    Radius: 0
-    Angle: 0
+    Radius: 35
+    Angle: 180
     Duration: 0
     MaxCount: 0
     Damage: 50
-    InnerRange: 0
+    InnerRange: 0.5
 --- !u!114 &2874391312754268159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -517,7 +517,6 @@ MonoBehaviour:
   CurrentState: 0
   floatAmplitude: 0.5
   floatFrequency: 1
-  Center: {fileID: 0}
   liftHeight: 3
   liftSpeed: 5
   spinSpeed: 1800

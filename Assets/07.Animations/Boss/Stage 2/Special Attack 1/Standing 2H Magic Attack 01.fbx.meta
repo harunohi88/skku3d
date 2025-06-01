@@ -34,7 +34,7 @@ ModelImporter:
       name: SpecialAttack02_Throw
       takeName: mixamo.com
       internalID: -203655887218126122
-      firstFrame: 10
+      firstFrame: 15
       lastFrame: 65
       wrapMode: 0
       orientationOffsetY: 0

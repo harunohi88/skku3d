@@ -42,7 +42,7 @@ public class Boss2SpecialAttack02State : IState<AEnemy>
         if (_patternData != null)
         {
             _indicator = BossIndicatorManager.Instance.SetCircularIndicator(
-                enemy.transform.forward,
+                enemy.transform.position,
                 _patternData.Radius,
                 _patternData.Radius,
                 0,
@@ -50,16 +50,19 @@ public class Boss2SpecialAttack02State : IState<AEnemy>
                 0.5f,
                 _patternData.CastingTime,
                 0,
-                Color.yellow
+                Color.blue
                 );
         }
 
     }
     public void Update(AEnemy enemy)
     {
+        Debug.Log($"[Update] currentPhase: {_currentPhase}, time: {_time}");
         _time += Time.deltaTime;
+        Debug.Log(_time);
         if (_currentPhase == 0 && _time >= _patternData.CastingTime)
         {
+            Debug.Log("Lift 전으로 들어옴");
             _currentPhase = 1;
             _time = 0f;
             enemy.SetAnimationTrigger("SpecialAttack02_Lift");
@@ -71,18 +74,25 @@ public class Boss2SpecialAttack02State : IState<AEnemy>
         }
         else if (_currentPhase == 1 && _time >= 2f)
         {
-            _currentPhase = 2;
             _time = 0f;
-        }
-        else if (_currentPhase == 2 && _time >= 1f)
-        {
+
+            Debug.Log("Throw 전으로 진입");
             if (enemy is Boss_Ferex ferex)
             {
                 var weapon = ferex.WeaponCopied.GetComponent<WeaponMove>();
                 weapon.SetState(WeaponMove.WeaponState.Throw);
             }
-            _currentPhase = 3;
         }
+        //else if (_currentPhase == 2)
+        //{
+        //    Debug.Log("Throw 전으로 진입");
+        //    if (enemy is Boss_Ferex ferex)
+        //    {
+        //        var weapon = ferex.WeaponCopied.GetComponent<WeaponMove>();
+        //        weapon.SetState(WeaponMove.WeaponState.Throw);
+        //    }
+        //    _currentPhase = 3;
+        //}
     }
 
     public void Exit(AEnemy enemy)

@@ -50,6 +50,8 @@ public class WeaponMove : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log($"[WeaponMove] CurrentState: {CurrentState}");
+
         switch (CurrentState)
         {
             case WeaponState.Idle:
@@ -61,6 +63,7 @@ public class WeaponMove : MonoBehaviour
                 break;
 
             case WeaponState.Throw:
+                Debug.Log("Throw 상태");
                 HandleAttack();
                 break;
         }
