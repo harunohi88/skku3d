@@ -520,5 +520,7 @@ MonoBehaviour:
   Center: {fileID: 0}
   liftHeight: 3
   liftSpeed: 5
-  spinSpeed: 360
+  spinSpeed: 1800
   tiltAngle: 45
+  ThrowHeight: 1.5
+  RotationAngle: 230
