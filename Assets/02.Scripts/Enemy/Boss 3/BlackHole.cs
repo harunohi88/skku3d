@@ -12,6 +12,7 @@ public class BlackHole : MonoBehaviour
 
     private Transform _playerTransform;
     private PlayerMove _playerMove;
+    private float _time = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -62,6 +63,13 @@ public class BlackHole : MonoBehaviour
         Vector3 force = toBlackHoleDir * pull * speedMultiplier;
         force.y = 0f; // Y축 영향 제거
         _playerMove.ApplyExternalForce(force);
+
+        _time += Time.deltaTime;
+        if (_time >= BlackholeDuration)
+        {
+            Destroy(gameObject);
+            _playerMove.ClearExternalForce();
+        }
     }
 
     private Vector3 GetPlayerVelocity()

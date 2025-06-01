@@ -226,7 +226,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
 
     public void OnSpecialAttack04End()
     {
-        throw new System.NotImplementedException();
+        Boss3AIManager.Instance.SetLastFinishedTime(4, Time.time);
     }
 
     public override void OnAnimationEnd()

@@ -12,16 +12,25 @@ public class Boss3SpecialAttack03State : IState<AEnemy>
         {
             specialAttackable.SpecialAttack_03();
         }
-
+        enemy.EnemyRotation.IsFound = false;
         _patternData = Boss3AIManager.Instance.GetPatternData(3, 0);
-    }
-
-    public void Exit(AEnemy enemy)
-    {
-        throw new System.NotImplementedException();
     }
 
     public void Update(AEnemy enemy)
     {
+        _time += Time.deltaTime;
+        if (_patternData != null && _time >= _patternData.CastingTime + 0.5f)
+        {
+            if (enemy is ISpecialAttackable specialAttackable)
+            {
+                specialAttackable.OnSpecialAttack03End();
+            }
+            enemy.ChangeState(new Boss3TraceState());
+        }
+    }
+
+    public void Exit(AEnemy enemy)
+    {
+        enemy.EnemyRotation.IsFound = false;
     }
 }
