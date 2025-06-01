@@ -1,13 +1,14 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class InputManager : MonoBehaviour
+public class InputManager : BehaviourSingleton<InputManager>
 {
-    [SerializeField] private PlayerManager _playerManager;
-    [SerializeField] private GameObject _inventoryPanel;
-    [SerializeField] private GameObject _upgradeAndShopPanel;
-    [SerializeField] private GameObject _equipmentPanel;
-    [SerializeField] private GameObject _popupBackgroundImage;
-    [SerializeField] private GameObject _mapPanel;
+    public PlayerManager _playerManager;
+    public GameObject _inventoryPanel;
+    public GameObject _upgradeAndShopPanel;
+    public GameObject _equipmentPanel;
+    public GameObject _popupBackgroundImage;
+    public GameObject _mapPanel;
 
     private void Start()
     {
@@ -34,19 +35,22 @@ public class InputManager : MonoBehaviour
             _playerManager.Roll(moveInput);
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if(EventSystem.current.IsPointerOverGameObject() == false)
         {
-            _playerManager.MouseInputLeft();
-        }
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                _playerManager.MouseInputLeft();
+            }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            _playerManager.MouseInputRight();
-        }
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                _playerManager.MouseInputRight();
+            }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            _playerManager.UseSkill(1);
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                _playerManager.UseSkill(1);
+            }
         }
 
         // 룬 장착과 인벤토리 토글
@@ -68,20 +72,6 @@ public class InputManager : MonoBehaviour
                 _mapPanel.SetActive(true);
             }
         }
-
-        // 업그레이드 상점과 인벤토리 토글
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            if (_equipmentPanel.activeSelf && _inventoryPanel.activeSelf)
-            {
-                _equipmentPanel.SetActive(false);
-                _upgradeAndShopPanel.SetActive(true);
-            }
-            else
-            {
-                ToggleUpgradeAndInventory();
-            }
-        }
     }
 
     private void ToggleInventoryAndEquip()
@@ -95,7 +85,7 @@ public class InputManager : MonoBehaviour
         UpdateBackgroundImage();
     }
 
-    private void ToggleUpgradeAndInventory()
+    public void ToggleUpgradeAndInventory()
     {
         bool nextState = !_upgradeAndShopPanel.activeSelf || !_inventoryPanel.activeSelf;
         _upgradeAndShopPanel.SetActive(nextState);
@@ -104,7 +94,7 @@ public class InputManager : MonoBehaviour
         UpdateBackgroundImage();
     }
 
-    private void UpdateBackgroundImage()
+    public void UpdateBackgroundImage()
     {
         bool anyPanelActive = _inventoryPanel.activeSelf || _equipmentPanel.activeSelf || _upgradeAndShopPanel.activeSelf;
         _popupBackgroundImage.SetActive(anyPanelActive);

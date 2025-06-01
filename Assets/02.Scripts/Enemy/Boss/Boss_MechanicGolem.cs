@@ -46,6 +46,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
 
     public override void Attack()
     {
+        BossEffectManager.Instance.PlayBoss1Particle(_baseAttackCount);
         WeaponCollider.enabled = true;
         EnemyRotation.IsFound = false;
         _attackCount = 0;
