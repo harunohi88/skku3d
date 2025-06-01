@@ -189,5 +189,77 @@ public enum EnemyAudioType
     Hit = 1,
     ///<summary>죽음</summary>
     Die = 2,
+    ///<summary>보스 1 기본공격</summary>
+    Boss1Attack = 3,
+    ///<summary>보스1 스페셜 공격 1</summary>
+    Boss1Secial1 = 4,
+    ///<summary>보스1 스페셜 공격 2</summary>
+    Boss1Secial2 = 5,
+    ///<summary>보스1 스페셜 공격 3</summary>
+    Boss1Secial3 = 6,
+    ///<summary>보스1 스페셜 공격 4</summary>
+    Boss1Secial4 = 7,
+    ///<summary>보스 1 사망</summary>
+    Boss1Die = 8,
+}
+
+public enum DynamicRuneAudioType
+{
+    ///<summary>날라가는 소리 1</summary>
+    Fly1 = 0,
+    ///<summary>날아가는 소리 2</summary>
+    Fly2 = 1,
+    ///<summary>화살 박히는 소리</summary>
+    ArrowHit = 2,
+    ///<summary>단검 때리는 소리</summary>
+    DaggerHit = 3,
+    ///<summary>폭발1</summary>
+    Explosion1 = 4,
+    ///<summary>폭발2</summary>
+    Explosion2 = 5,
+    ///<summary>화염 장판 소리</summary>
+    FireField = 6,
+}
+
+public enum UIAudioType
+{
+    ///<summary>버튼클릭1</summary>
+    ButtonClick1 = 0,
+    ///<summary>버튼 클릭2</summary>
+    ButtonClick2 = 1,
+    ///<summary>버튼 클릭3</summary>
+    ButtonClick3 = 2,
+    ///<summary>리롤</summary>
+    ReRoll = 3,
+    ///<summary>아이템 구매</summary>
+    ItemPurchase = 4,
+    ///<summary>탭 오픈 / 닫기</summary>
+    Tab = 5,
+    ///<summary>승리 (보스 격파)</summary>
+    Win = 6,
+    ///<summary>죽음</summary>
+    Death = 7,
+    ///<summary>룬 들기</summary>
+    RuneUp = 8,
+    ///<summary>룬 내려놓기</summary>
+    RuneDown = 9,
+    ///<summary>실패</summary>
+    Fail = 10,
+}
+
+public enum PlayerAudioType
+{
+    ///<summary>코인 먹을때</summary>
+    GetCoin = 0,
+    ///<summary>경험치 먹을 때</summary>
+    GetExp1 = 1,
+    ///<summary>경험치 2</summary>
+    GetExp2 = 2,
+    ///<summary>경험치 3</summary>
+    GetExp3 = 3,
+    ///<summary>경험치 4</summary>
+    GetExp4 = 4,
+    ///<summary>룬 먹을 때</summary>
+    GetRune = 2,
 }
 

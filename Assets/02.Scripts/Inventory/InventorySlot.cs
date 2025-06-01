@@ -18,14 +18,11 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private bool _isDragging;
     private Vector2 _dragOffset;
 
-    private Tooltip _tooltip;
-
-    public void Initialize(BaseInventory inv, int index, Tooltip tooltip)
+    public void Initialize(BaseInventory inv, int index)
     {
         _inventory = inv;
         _slotIndex = index;
-        _highlightObject.SetActive(false);
-        _tooltip = tooltip;
+        if(_highlightObject) _highlightObject.SetActive(false);
     }
 
     public void UpdateSlot(InventoryItem item)
@@ -34,15 +31,20 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         
         if (item != null && !item.IsEmpty())
         {
+            SetColor(Color.white);
             _itemImage.sprite = item.Rune.Sprite;
             _itemImage.enabled = true;
-            _quantityText.text = item.Quantity > 1 ? item.Quantity.ToString() : "";
-            _quantityText.enabled = item.Quantity > 1;
+            if(_quantityText)
+            {
+                _quantityText.text = item.Quantity > 1 ? item.Quantity.ToString() : "";
+                _quantityText.enabled = item.Quantity > 1;
+            }
         }
         else
         {
+            SetColor(Color.black);
             _itemImage.enabled = false;
-            _quantityText.enabled = false;
+            if(_quantityText) _quantityText.enabled = false;
         }
     }
 
@@ -50,25 +52,36 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (CurrentItem != null && !CurrentItem.IsEmpty())
         {
-            _highlightObject.SetActive(true);
-            if (_tooltip != null)
+            if(_highlightObject) _highlightObject?.SetActive(true);
+            if (InventoryManager.Instance.ToolTip != null)
             {
-                _tooltip.Show($"Rune T{CurrentItem.Rune.CurrentTier}", CurrentItem.Rune.RuneDescription, transform as RectTransform);
+                InventoryManager.Instance.ToolTip.Show(CurrentItem.Rune.Name, CurrentItem.Rune.CurrentTier.ToString(), CurrentItem.Rune.RuneDescription, transform as RectTransform);
             }
         }
     }
 
+    public void SetColor(Color color)
+    {
+        _itemImage.color = color;
+    }
+
+    public Sprite GetSprite()
+    {
+        return _itemImage.sprite;
+    }
+
     public void OnPointerExit(PointerEventData eventData)
     {
-        _highlightObject.SetActive(false);
-        if (_tooltip != null)
-            _tooltip.Hide();
+        if (_highlightObject) _highlightObject?.SetActive(false);
+        if (InventoryManager.Instance.ToolTip != null)
+            InventoryManager.Instance.ToolTip.Hide();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (CurrentItem != null && !CurrentItem.IsEmpty())
         {
+            AudioManager.Instance.PlayUIAudio(UIAudioType.RuneUp);
             _isDragging = true;
             _dragOffset = eventData.position - (Vector2)transform.position;
             _itemImage.transform.SetParent(transform.root);
@@ -113,6 +126,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                         // 대상이 다른 인벤토리에 있으면 소스 인벤토리의 MoveItem 사용
                         if (targetInventory != _inventory)
                         {
+                            AudioManager.Instance.PlayUIAudio(UIAudioType.RuneDown);
+
                             Debug.Log($"OnEndDrag - 서로 다른 인벤토리 간 이동");
                             if (_inventory is BasicAllInventory basicAllInv && targetInventory is EquipInventory)
                             {

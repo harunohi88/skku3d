@@ -7,11 +7,12 @@ public class CameraMove : MonoBehaviour
 
     private void Start()
     {
-        transform.rotation = Target.rotation;
     }
 
     private void Update()
     {
+        if (GameManager.Instance.IsStart == false) return;
+        transform.rotation = Target.rotation;
         this.transform.position = Target.position;
     }
 }

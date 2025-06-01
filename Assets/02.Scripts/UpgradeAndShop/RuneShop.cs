@@ -5,8 +5,6 @@ using UnityEngine;
 public class RuneShop : MonoBehaviour
 {
     [SerializeField] private BasicAllInventory _inventory;     // 인벤토리 참조
-    public List<Sprite> RuneSpriteList;
-    private const int RUNE_SPRITE_START_INDEX = 10000;
 
     public List<Rune> RuneList = new List<Rune>(6);         // 룬 리스트
 
@@ -46,6 +44,8 @@ public class RuneShop : MonoBehaviour
     {
         if(CurrencyManager.Instance.TrySpendGold(_runeCostList[index]))
         {
+            AudioManager.Instance.PlayUIAudio(UIAudioType.ItemPurchase);
+
             // TODO: 룬을 인벤토리에 추가
             Debug.Log($"룬 구매: {RuneList[index]} 가격: {_runeCostList[index]}");
             _inventory.AddItem(RuneList[index]);
@@ -62,10 +62,14 @@ public class RuneShop : MonoBehaviour
     {
         if(!CurrencyManager.Instance.TrySpendGold(_rerollCost))
         {
+            AudioManager.Instance.PlayUIAudio(UIAudioType.Fail);
+
             Debug.Log("골드가 부족합니다.");
             return;
         }
-        
+
+        AudioManager.Instance.PlayUIAudio(UIAudioType.ReRoll);
+
         RuneList.Clear();
         _runeCostList.Clear();
 
@@ -138,7 +142,7 @@ public class RuneShop : MonoBehaviour
             
             // 룬 리스트 만들고 UI 업데이트
             OnReroll?.Invoke(_rerollCost);
-            OnRuneUpdated?.Invoke(i, RuneSpriteList[randomTID - RUNE_SPRITE_START_INDEX], _runeCostList[i]);
+            OnRuneUpdated?.Invoke(i, InventoryManager.Instance.GetSprite(randomTID), _runeCostList[i]);
             OnCreateRune?.Invoke(i);
         }
     }

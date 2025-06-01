@@ -19,4 +19,3 @@
 10018	폭렬의 룬	Dynamic	이 스킬을 시전하면 맞은 적들이 추가로 폭발하여 주변 적에게 데미지의 N배의  피해를 추가로 입힙니다.	OnSkillUseTrigger, OnAfterAttactTrigger	ExplosionRuneEffect	None	0.1	0.2	0.5	0	0	0	4	0	0	
 10019	운명의 룬	Dynamic	이 스킬을 시전하면 미사일을 2번 발사하여 데미지의 N배의 피해를 입힙니다.	OnSkillUseTrigger, OnOncePerAttackTrigger	FateRuneEffect	None	3	4	6	0	0	0	0	0	0.3	
 10020	전류의 룬	Dynamic	이 스킬을 시전하면 연쇄 번개를 발사하여 20m 안에 있는 최대 N마리의 목표에 데미지의 30%의 피해를 입히고, 2초간 속도를 감소시킵니다.	OnSkillUseTrigger, OnOncePerAttackTrigger	ElectricRuneEffect	None	2	3	5	0	0	0	0	80	0.25	
-10021	테스트 룬	Static	스킬 사용시 이동속도가 N% 증가합니다.	OnSkillUseTrigger, OnOncePerAttackTrigger	MoveSpeedBuffEffect	None	2	2	2	3	0	0	0	0	0	

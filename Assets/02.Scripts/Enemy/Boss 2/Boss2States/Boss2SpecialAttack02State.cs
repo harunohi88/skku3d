@@ -30,6 +30,7 @@ public class Boss2SpecialAttack02State : IState<AEnemy>
         {
             Debug.Log("진짜 무기 꺼짐");
             ferex.WeaponOriginal.SetActive(false);
+            ferex.WeaponCopied.transform.position = ferex.WeaponOriginal.transform.position;
             ferex.WeaponCopied.SetActive(true);
 
             var weapon = ferex.WeaponCopied.GetComponent<WeaponMove>();
@@ -49,16 +50,19 @@ public class Boss2SpecialAttack02State : IState<AEnemy>
                 0.5f,
                 _patternData.CastingTime,
                 0,
-                Color.red
+                Color.blue
                 );
         }
 
     }
     public void Update(AEnemy enemy)
     {
+        Debug.Log($"[Update] currentPhase: {_currentPhase}, time: {_time}");
         _time += Time.deltaTime;
+        Debug.Log(_time);
         if (_currentPhase == 0 && _time >= _patternData.CastingTime)
         {
+            Debug.Log("Lift 전으로 들어옴");
             _currentPhase = 1;
             _time = 0f;
             enemy.SetAnimationTrigger("SpecialAttack02_Lift");
@@ -70,20 +74,25 @@ public class Boss2SpecialAttack02State : IState<AEnemy>
         }
         else if (_currentPhase == 1 && _time >= 2f)
         {
-            _currentPhase = 2;
             _time = 0f;
 
+            Debug.Log("Throw 전으로 진입");
             if (enemy is Boss_Ferex ferex)
             {
                 var weapon = ferex.WeaponCopied.GetComponent<WeaponMove>();
-                weapon.Center = ferex.transform;
                 weapon.SetState(WeaponMove.WeaponState.Throw);
             }
         }
-        else if (_currentPhase == 2 && _time >= 1f)
-        {
-            _currentPhase = 3;
-        }
+        //else if (_currentPhase == 2)
+        //{
+        //    Debug.Log("Throw 전으로 진입");
+        //    if (enemy is Boss_Ferex ferex)
+        //    {
+        //        var weapon = ferex.WeaponCopied.GetComponent<WeaponMove>();
+        //        weapon.SetState(WeaponMove.WeaponState.Throw);
+        //    }
+        //    _currentPhase = 3;
+        //}
     }
 
     public void Exit(AEnemy enemy)

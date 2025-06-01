@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class BasicAllInventory : BaseInventory
 {
-    public List<Sprite> RuneSpriteList;
-    private const int RUNE_SPRITE_START_INDEX = 10000;
     [SerializeField] private EquipInventory _equipInventory;
     [SerializeField] private BasicInventory _tier1Inventory;
     [SerializeField] private BasicInventory _tier2Inventory;
@@ -36,7 +34,7 @@ public class BasicAllInventory : BaseInventory
             {
                 _itemsList[i] = new InventoryItem(rune, quantity);
                 // 룬 스프라이트 적용
-                _itemsList[i].Rune.Sprite = RuneSpriteList[rune.TID - RUNE_SPRITE_START_INDEX];
+                _itemsList[i].Rune.Sprite = InventoryManager.Instance.GetSprite(rune.TID);
 
                 UpdateSlot(i);
                 // 해당 티어의 인벤토리에도 추가

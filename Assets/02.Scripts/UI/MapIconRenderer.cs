@@ -11,6 +11,11 @@ public class MapIconRenderer : MonoBehaviour
 
     private readonly Dictionary<Transform, RectTransform> _enemyIcons = new();
 
+    private void Start()
+    {
+        Player = PlayerManager.Instance.Player.transform;
+    }
+
     void Update()
     {
         UpdateIcon(Player, PlayerIcon);

@@ -4,12 +4,14 @@ using UnityEngine;
 public class EquipInventory : BaseInventory
 {
     [SerializeField] private BasicAllInventory _basicAllInventory;
-    public List<Sprite> RuneSpriteList;
-    private const int RUNE_SPRITE_START_INDEX = 10000;
+
+    [SerializeField] private List<InventorySlot> HUDRuneList;
+
     protected override void Awake()
     {
         _autoCreateSlots = false; // 기본적으로 수동 슬롯 배치 사용
         base.Awake();
+        InitHUDRuneSlot();
     }
 
     public override bool AddItem(Rune rune, int quantity = 1)
@@ -20,7 +22,7 @@ public class EquipInventory : BaseInventory
             if (_itemsList[i] == null)
             {
                 _itemsList[i] = new InventoryItem(rune, 1); // 장비 인벤토리는 항상 수량 1
-                _itemsList[i].Rune.Sprite = RuneSpriteList[rune.TID - RUNE_SPRITE_START_INDEX];
+                _itemsList[i].Rune.Sprite = InventoryManager.Instance.GetSprite(rune.TID);
                 UpdateSlot(i);
                 return true;
             }
@@ -38,7 +40,7 @@ public class EquipInventory : BaseInventory
         if (_itemsList[slotIndex] == null)
         {
             _itemsList[slotIndex] = new InventoryItem(rune, 1); // 장비 인벤토리는 항상 수량 1
-            _itemsList[slotIndex].Rune.Sprite = RuneSpriteList[rune.TID - RUNE_SPRITE_START_INDEX];
+            _itemsList[slotIndex].Rune.Sprite = InventoryManager.Instance.GetSprite(rune.TID);
             UpdateSlot(slotIndex);
             return true;
         }
@@ -53,10 +55,38 @@ public class EquipInventory : BaseInventory
         if (_itemsList[index] != null)
         {
             Debug.Log($"Equip Rune : {index} {_itemsList[index].Rune.TID}");
+            if(index <= 1)
+            {
+                // 공용 룬 0, 1
+            }
+            else if(index == 2)
+            {
+                PlayerManager.Instance.PlayerAttack.EquipRune(_itemsList[index].Rune);
+            }
+            else
+            {
+                PlayerManager.Instance.PlayerSkill.AddRune(index - 3, _itemsList[index].Rune);
+            }
+
+            HUDRuneList[index].UpdateSlot(_itemsList[index]);
         }
         else
         {
             Debug.Log($"Unequip Rune : {index}");
+            if (index <= 1)
+            {
+                // 공용 룬 0, 1
+            }
+            else if (index == 2)
+            {
+                PlayerManager.Instance.PlayerAttack.UnequipRune();
+            }
+            else
+            {
+                PlayerManager.Instance.PlayerSkill.RemoveRune(index - 3);
+            }
+
+            HUDRuneList[index].UpdateSlot(null);
         }
     }
 
@@ -111,5 +141,13 @@ public class EquipInventory : BaseInventory
             return null;
 
         return _itemsList[slotIndex]?.Rune;
+    }
+
+    public void InitHUDRuneSlot()
+    {
+        for(int i = 0; i < HUDRuneList.Count; i++)
+        {
+            HUDRuneList[i].SetColor(Color.black);
+        }
     }
 } 

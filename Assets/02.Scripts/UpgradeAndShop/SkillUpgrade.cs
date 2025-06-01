@@ -58,6 +58,8 @@ public class SkillUpgrade : MonoBehaviour
             SkillLevelList[skillNumber]++;
             SkillUpgradeCostList[skillNumber] += _skillUpgradeIncrease;
 
+            //스킬 렙업
+
             // 스킬 레벨이 최대 레벨이면
             if(SkillLevelList[skillNumber] >= MaxSkillLevel)
             {

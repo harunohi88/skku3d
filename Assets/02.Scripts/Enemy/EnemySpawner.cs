@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 // 플레이어와 일정 거리 가까워지면 스폰 - 풀링 하면 굳이? - 플레이어매니저가 플레이어 가지고 있어서 transform 받으면 됨
 // 죽었던 애들은 그대로 다시 스폰 - 일정시간 뒤에?
@@ -27,35 +28,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private int _activedEnemy;
 
-    private void Update()
-    {
-        // 테스트용
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            ActivedEnemyCountDecrease();
-        }
-
-        // 방문한적이 없을 때
-        if(!_isPlayerInRangeOnce)
-        {   
-            if(Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position) <= DetectPlayerRange)
-            {
-                _isPlayerInRangeOnce = true;
-                SummonEnemy();
-            }
-        }
-        else
-        {
-            ResetPlayerInRangeOnce();
-        }
-    }
-
     private void ResetPlayerInRangeOnce()
     {
-        if(_activedEnemy <= 0)
-        {
-            _isPlayerInRangeOnce = false;
-        }
+        _isPlayerInRangeOnce = false;
     }
 
     private void SummonEnemy()
@@ -68,18 +43,28 @@ public class EnemySpawner : MonoBehaviour
             if(Random.Range(0f, 1f) < _eliteSpawnRate)
             {
                 var enemy = EliteEnemyPool.Instance.Get();
+
+                enemy.MaxHealth = GameManager.Instance.GetEnemyBaseHealth(enemy.Type);
+                enemy.Damage = GameManager.Instance.GetEnemyBaseDamage(enemy.Type);
                 enemy.Init(this);
                 EnemyTracker.Register(enemy.transform);
 
+                enemy.Agent.enabled = false;
                 ResetPosition(enemy.gameObject);
+                enemy.Agent.enabled = true;
             }
             else
             {
                 var enemy = BasicEnemyPool.Instance.Get();
+
+                enemy.MaxHealth = GameManager.Instance.GetEnemyBaseHealth(enemy.Type);
+                enemy.Damage = GameManager.Instance.GetEnemyBaseDamage(enemy.Type);
                 enemy.Init(this);
                 EnemyTracker.Register(enemy.transform);
 
+                enemy.Agent.enabled = false;
                 ResetPosition(enemy.gameObject);
+                enemy.Agent.enabled = true;
             }
         }
         
@@ -96,8 +81,12 @@ public class EnemySpawner : MonoBehaviour
         rotRandOnSpherePos.x = 0;
         rotRandOnSpherePos.z = 0;
 
-        enemy.transform.position = posRandOnSpherePos;
-        enemy.transform.rotation = Quaternion.Euler(rotRandOnSpherePos);
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(posRandOnSpherePos, out hit, 10.0f, NavMesh.AllAreas))
+        {
+            enemy.transform.position = hit.position;
+            //enemy.transform.rotation = Quaternion.Euler(rotRandOnSpherePos);
+        }
     }
 
     public void EliteSpawnRateIncrease()
@@ -109,21 +98,19 @@ public class EnemySpawner : MonoBehaviour
     public void ActivedEnemyCountDecrease()
     {
         _activedEnemy--;
+
+        if(_activedEnemy <= 0) ResetPlayerInRangeOnce();
     }
 
-
-    /*
-    private int GetActiveEnemyCount()
+    private void OnTriggerEnter(Collider other)
     {
-        int count = 0;
-        foreach (var enemy in BasicEnemyList)
+        if (other.CompareTag("Player"))
         {
-            if (enemy.gameObject.activeSelf)
+            if (!_isPlayerInRangeOnce)
             {
-                count++;
+                _isPlayerInRangeOnce = true;
+                SummonEnemy();
             }
         }
-        return count;
     }
-    */
 }

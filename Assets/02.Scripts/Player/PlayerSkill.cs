@@ -46,6 +46,11 @@ public class PlayerSkill : MonoBehaviour
         _skillList[slot].EquipRune(rune);
     }
 
+    public void RemoveRune(int slot)
+    {
+        _skillList[slot].UnequipRune();
+    }
+
     public void Cancel()
     {
         CurrentSkill?.Cancel();

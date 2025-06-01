@@ -108,6 +108,19 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
         Debug.Log("특수공격3 진입");
         WeaponCollider.enabled = true;
         EnemyRotation.IsFound = false;
+
+        EnemyPatternData _patternData = Boss2AIManager.Instance.GetPatternData(3, 1);
+        List<Collider> colliderList = Physics.OverlapSphere(transform.position, _patternData.Range, LayerMask).ToList();
+        GameObject playerObject = colliderList.Find(x => x.CompareTag("Player"))?.gameObject;
+
+        if (playerObject)
+        {
+            Vector3 directionToTarget = playerObject.transform.position - transform.position;
+            if (Vector3.Dot(transform.position, directionToTarget.normalized) > 0 && Mathf.Abs(Vector3.Dot(transform.right, directionToTarget)) <= _patternData.Width / 2)
+            {
+                Debug.Log("특수공격 3 데미지 발생");
+            }
+        }
     }
 
     public void OnBoss2SpecialAttack03End()

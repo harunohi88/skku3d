@@ -15,7 +15,7 @@ public class Boss2AIManager : BehaviourSingleton<Boss2AIManager>
     [SerializeField] private List<EnemyPatternData> _boss2SpecialAttack1PatternList;
 
     [Header("특수 공격 2 패턴")]
-    [SerializeField] private List<EnemyPatternData> _boss2SpecialAttack2PatternList;
+    public List<EnemyPatternData> _boss2SpecialAttack2PatternList;
 
     [Header("특수 공격 3 패턴")]
     [SerializeField] private List<EnemyPatternData> _boss2SpecialAttack3PatternList;

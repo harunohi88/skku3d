@@ -1,12 +1,14 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class InputManager : MonoBehaviour
+public class InputManager : BehaviourSingleton<InputManager>
 {
-    [SerializeField] private PlayerManager _playerManager;
-    [SerializeField] private GameObject _inventoryPanel;
-    [SerializeField] private GameObject _upgradeAndShopPanel;
-    [SerializeField] private GameObject _equipmentPanel;
-    [SerializeField] private GameObject _popupBackgroundImage;
+    public PlayerManager _playerManager;
+    public GameObject _inventoryPanel;
+    public GameObject _upgradeAndShopPanel;
+    public GameObject _equipmentPanel;
+    public GameObject _popupBackgroundImage;
+    public GameObject _mapPanel;
 
     private void Start()
     {
@@ -18,6 +20,7 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.IsStart == false) return;
         HandleGameplayInput();
     }
 
@@ -32,46 +35,41 @@ public class InputManager : MonoBehaviour
             _playerManager.Roll(moveInput);
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if(EventSystem.current.IsPointerOverGameObject() == false)
         {
-            _playerManager.MouseInputLeft();
-        }
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                _playerManager.MouseInputLeft();
+            }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            _playerManager.MouseInputRight();
-        }
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                _playerManager.MouseInputRight();
+            }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            _playerManager.UseSkill(1);
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                _playerManager.UseSkill(1);
+            }
         }
 
         // 룬 장착과 인벤토리 토글
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (_upgradeAndShopPanel.activeSelf && _inventoryPanel.activeSelf)
-            {
-                _upgradeAndShopPanel.SetActive(false);
-                _equipmentPanel.SetActive(true);
-            }
-            else
-            {
-                ToggleInventoryAndEquip();
-            }
+            AudioManager.Instance.PlayUIAudio(UIAudioType.Tab);
+            ToggleInventoryAndEquip();
         }
 
-        // 업그레이드 상점과 인벤토리 토글
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.M))
         {
-            if (_equipmentPanel.activeSelf && _inventoryPanel.activeSelf)
-            {
-                _equipmentPanel.SetActive(false);
-                _upgradeAndShopPanel.SetActive(true);
-            }
+            AudioManager.Instance.PlayUIAudio(UIAudioType.Tab);
+            if (_mapPanel.activeSelf) _mapPanel.SetActive(false);
             else
             {
-                ToggleUpgradeAndInventory();
+                _upgradeAndShopPanel.SetActive(false);
+                _equipmentPanel.SetActive(false);
+
+                _mapPanel.SetActive(true);
             }
         }
     }
@@ -82,10 +80,12 @@ public class InputManager : MonoBehaviour
         _inventoryPanel.SetActive(nextState);
         _equipmentPanel.SetActive(nextState);
         _upgradeAndShopPanel.SetActive(false);
+
+        InventoryManager.Instance.ToolTip.Hide();
         UpdateBackgroundImage();
     }
 
-    private void ToggleUpgradeAndInventory()
+    public void ToggleUpgradeAndInventory()
     {
         bool nextState = !_upgradeAndShopPanel.activeSelf || !_inventoryPanel.activeSelf;
         _upgradeAndShopPanel.SetActive(nextState);
@@ -94,7 +94,7 @@ public class InputManager : MonoBehaviour
         UpdateBackgroundImage();
     }
 
-    private void UpdateBackgroundImage()
+    public void UpdateBackgroundImage()
     {
         bool anyPanelActive = _inventoryPanel.activeSelf || _equipmentPanel.activeSelf || _upgradeAndShopPanel.activeSelf;
         _popupBackgroundImage.SetActive(anyPanelActive);
