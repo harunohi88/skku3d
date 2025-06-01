@@ -17,6 +17,12 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public InventoryItem CurrentItem;
     private bool _isDragging;
     private Vector2 _dragOffset;
+    private Canvas _parentCanvas;
+
+    private void Awake()
+    {
+        _parentCanvas = GetComponentInParent<Canvas>();
+    }
 
     public void Initialize(BaseInventory inv, int index)
     {
@@ -84,7 +90,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             AudioManager.Instance.PlayUIAudio(UIAudioType.RuneUp);
             _isDragging = true;
             _dragOffset = eventData.position - (Vector2)transform.position;
-            _itemImage.transform.SetParent(transform.root);
+            if (_parentCanvas != null)
+                _itemImage.transform.SetParent(_parentCanvas.transform, true);
             _itemImage.raycastTarget = false;
         }
     }
@@ -93,7 +100,18 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (_isDragging)
         {
-            _itemImage.transform.position = eventData.position - _dragOffset;
+            if (_parentCanvas != null)
+            {
+                Vector2 localPoint;
+                RectTransform canvasRect = _parentCanvas.transform as RectTransform;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    canvasRect, eventData.position, _parentCanvas.worldCamera, out localPoint);
+                (_itemImage.transform as RectTransform).localPosition = localPoint;
+            }
+            else
+            {
+                _itemImage.transform.position = eventData.position - _dragOffset;
+            }
         }
     }
 
@@ -103,7 +121,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         {
             _isDragging = false;
             _itemImage.transform.SetParent(transform);
-            _itemImage.transform.localPosition = Vector3.zero;
+            (_itemImage.transform as RectTransform).anchoredPosition = Vector2.zero;
             _itemImage.raycastTarget = true;
 
             GameObject hitObject = eventData.pointerCurrentRaycast.gameObject;

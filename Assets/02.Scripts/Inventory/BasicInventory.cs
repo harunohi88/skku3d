@@ -6,6 +6,13 @@ public class BasicInventory : BaseInventory
 {
     [SerializeField] private EquipInventory _equipInventory;
     [SerializeField] private BasicAllInventory _basicAllInventory;
+    [SerializeField] private int _tier;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        InventoryManager2.Instance.RegisterInventory(this, _tier);
+    }
 
     public override bool AddItem(Rune rune, int quantity = 1)
     {
@@ -118,7 +125,7 @@ public class BasicInventory : BaseInventory
     public override bool MoveItem(int fromSlot, int toSlot)
     {
         Debug.Log($"BasicInventory.MoveItem - From Slot: {fromSlot}, To Slot: {toSlot}");
-        
+        if (fromSlot == toSlot) return false;
         if (fromSlot < 0 || fromSlot >= _itemsList.Count || toSlot < 0 || toSlot >= _itemsList.Count)
         {
             Debug.Log($"BasicInventory.MoveItem - 잘못된 슬롯 인덱스");
