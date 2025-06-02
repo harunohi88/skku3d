@@ -8,6 +8,7 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
     public Rune Rune;
     public string SkillName = "SpinSlash";
     public int SkillIndex = 1;
+    public int Level = 1;
 
     public SkillBaseSO SkillBaseStat;
     public Dictionary<ESkillStat, Stat> SkillStatDictionary = new Dictionary<ESkillStat, Stat>();
@@ -37,6 +38,11 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
                 baseStat.IncreasePerGap,
                 baseStat.IncreaseGap);
         }
+
+        UIEventManager.Instance.OnSkillDescriptionChanged?.Invoke(
+            SkillIndex,
+            Level,
+            SkillStatDictionary[ESkillStat.SkillMultiplier].TotalStat);
     }
     
     public void Execute()
@@ -197,9 +203,14 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
 
     public void LevelUp()
     {
+        ++Level;
         foreach (KeyValuePair<ESkillStat, Stat> stat in SkillStatDictionary)
         {
             stat.Value.LevelUp();
         }
+        UIEventManager.Instance.OnSkillDescriptionChanged?.Invoke(
+            SkillIndex,
+            Level,
+            SkillStatDictionary[ESkillStat.SkillMultiplier].TotalStat);
     }
 }

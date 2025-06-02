@@ -6,6 +6,8 @@ public class EquipInventory : BaseInventory
     [SerializeField] private BasicAllInventory _basicAllInventory;
 
     [SerializeField] private List<InventorySlot> HUDRuneList;
+    
+    public List<SkillDescription> SkillDescriptionList;
 
     protected override void Awake()
     {
@@ -13,6 +15,16 @@ public class EquipInventory : BaseInventory
         base.Awake();
         InventoryManager2.Instance.RegisterInventory(this);
         InitHUDRuneSlot();
+    }
+
+    private void Start()
+    {
+        UIEventManager.Instance.OnSkillDescriptionChanged += RefreshDescription;
+    }
+
+    private void RefreshDescription(int index, int level, float multiplier)
+    {
+        SkillDescriptionList[index].SetSkillDescription(level, multiplier);
     }
 
     public override bool AddItem(Rune rune, int quantity = 1)
