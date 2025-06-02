@@ -59,8 +59,6 @@ public class PlayerLevel : MonoBehaviour
             // Level Up Effect Execute once
             // UI에 레벨 표시
             
-            StatSnapshot snapshot = PlayerManager.Instance.PlayerStat.CreateSnapshot();
-            
             _eventManager.OnLevelUp?.Invoke(ExpTable[Level]);
             _eventManager.OnExpGain?.Invoke(_experience);
             _eventManager.OnUpgradePointChange?.Invoke(_statUpgradePoints);

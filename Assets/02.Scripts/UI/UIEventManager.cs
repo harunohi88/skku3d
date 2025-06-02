@@ -11,4 +11,5 @@ public class UIEventManager : BehaviourSingleton<UIEventManager>
     public Action<int> OnSKillLevelUp;
     public Action<EStatType> OnStatUpgrade;
     public Action<int> OnUpgradePointChange;
+    public Action<StatSnapshot> OnDisplayStatChanged;
 }

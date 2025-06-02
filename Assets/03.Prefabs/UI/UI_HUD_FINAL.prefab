@@ -2092,6 +2092,7 @@ GameObject:
   - component: {fileID: 8924045105335811082}
   - component: {fileID: 8431002663712022606}
   - component: {fileID: 7608625231143849857}
+  - component: {fileID: 3003912616556651562}
   m_Layer: 5
   m_Name: UI_HUD_FINAL
   m_TagString: Untagged
@@ -2186,6 +2187,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &3003912616556651562
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4140231601190995482}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4191285049136071086
 GameObject:
   m_ObjectHideFlags: 0
@@ -5210,6 +5223,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9119286279804956349}
     - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: simpleBar._adaptiveColor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: simpleBar._barPrimaryColor.b
       value: 0
       objectReference: {fileID: 0}
@@ -6271,10 +6288,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: simpleBar._barPrimaryColor.g
-      value: 0.9960785
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: simpleBar._barPrimaryColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: simpleBar._barAdaptiveColor.g
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8615194741368719036, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
