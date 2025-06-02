@@ -20,7 +20,10 @@ public class Enemy_Melee : AEnemy
         {
             if(Vector3.Dot(transform.forward, directionToPlayer) > 0)
             {
-                Debug.Log("데미지를 줍니다");
+                Damage damage = new Damage();
+                damage.Value = Damage;
+                damage.From = gameObject;
+                PlayerManager.Instance.Player.TakeDamage(damage);
             }
         }
     }
