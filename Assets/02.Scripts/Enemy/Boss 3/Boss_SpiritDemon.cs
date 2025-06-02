@@ -361,8 +361,8 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
         // 원형 인디케이터 생성
         SkillIndicator indicator = BossIndicatorManager.Instance.SetCircularIndicator(
             transform.position,
-            10f, // width (지름 = 반지름 * 2)
-            10f, // height (지름 = 반지름 * 2)
+            20f, // width (지름 = 반지름 * 2)
+            20f, // height (지름 = 반지름 * 2)
             0f,  // direction
             360f,  // angleRange
             0f,  // innerRange
