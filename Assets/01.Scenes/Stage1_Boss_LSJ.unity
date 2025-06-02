@@ -12991,11 +12991,11 @@ GameObject:
   - component: {fileID: 949061370}
   m_Layer: 5
   m_Name: UI_Map (1)
-  m_TagString: Untagged
+  m_TagString: MapPanel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &949061370
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -20,6 +20,7 @@ public class StatLevelUpUI : MonoBehaviour
 
     private void PointRefresh(int statUpgradePoints)
     {
+        UpgradeButtonPanel.SetActive(true);
         // 포인트 표시하는 TextMesh 값 변경
         if (statUpgradePoints <= 0)
         {

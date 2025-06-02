@@ -79,6 +79,7 @@ public class InputManager : BehaviourSingleton<InputManager>
         // 룬 장착과 인벤토리 토글
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+            if (_inventoryPanel == null) return;
             AudioManager.Instance.PlayUIAudio(UIAudioType.Tab);
             ToggleInventoryAndEquip();
         }

@@ -54,7 +54,7 @@ public class Flame_DynamicRune : ADynamicRuneObject
                 newDamage.Value = _damage.Value;
                 newDamage.From = _damage.From;
                 RuneManager.Instance.CheckCritical(ref newDamage);
-                colliders[i].GetComponent<AEnemy>().TakeDamage(newDamage);
+                colliders[i].GetComponent<AEnemy>()?.TakeDamage(newDamage);
             }
   
             MagicField floor = Instantiate(FloorObject, targetPosition, Quaternion.identity).GetComponent<MagicField>();

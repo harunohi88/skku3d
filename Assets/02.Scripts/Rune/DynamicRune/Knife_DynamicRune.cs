@@ -82,7 +82,7 @@ public class Knife_DynamicRune : ADynamicRuneObject
             newDamage.From = _damage.From;
             RuneManager.Instance.CheckCritical(ref newDamage);
 
-            other.GetComponent<AEnemy>().TakeDamage(newDamage);
+            other.GetComponent<AEnemy>()?.TakeDamage(newDamage);
             StabCount++;
 
             if(StabCount >= MaxStabCount)
