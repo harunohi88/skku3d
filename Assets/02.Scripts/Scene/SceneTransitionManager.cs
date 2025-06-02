@@ -13,9 +13,9 @@ public class SceneTransitionManager : MonoBehaviour
     public void LoadScene(string sceneName)
     {
         // 씬 전환 전에 인벤토리 데이터 저장
-        if (InventoryManager2.Instance != null)
+        if (InventoryManager.Instance != null)
         {
-            InventoryManager2.Instance.StoreInventoryData();
+            InventoryManager.Instance.StoreInventoryData();
         }
 
         // 씬 로드

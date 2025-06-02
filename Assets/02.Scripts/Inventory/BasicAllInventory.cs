@@ -12,7 +12,7 @@ public class BasicAllInventory : BaseInventory
     protected override void Awake()
     {
         base.Awake();
-        InventoryManager2.Instance.RegisterInventory(this);
+        InventoryManager.Instance.RegisterInventory(this);
     }
 
     public override bool AddItem(Rune rune, int quantity = 1)

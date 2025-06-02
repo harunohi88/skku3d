@@ -5964,7 +5964,6 @@ GameObject:
   - component: {fileID: 5621910233158109999}
   - component: {fileID: 2198786675426249438}
   - component: {fileID: 8166845928456651797}
-  - component: {fileID: 6953222090807274405}
   m_Layer: 5
   m_Name: RuneSlot (1)
   m_TagString: Untagged
@@ -6032,23 +6031,6 @@ MonoBehaviour:
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!114 &8166845928456651797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3135736743718208462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19a7b56562ffca84a82ae4d439656f55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _itemImage: {fileID: 6094741757555057380}
-  _quantityText: {fileID: 0}
-  _highlightObject: {fileID: 0}
-  _tooltipNameText: {fileID: 0}
-  _tooltipDescriptionText: {fileID: 0}
---- !u!114 &6953222090807274405
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8245,7 +8227,6 @@ GameObject:
   - component: {fileID: 3490433108160958485}
   - component: {fileID: 3444450597416577954}
   - component: {fileID: 8573336309079183967}
-  - component: {fileID: 6681403899698776590}
   m_Layer: 5
   m_Name: RuneSlot
   m_TagString: Untagged
@@ -8313,23 +8294,6 @@ MonoBehaviour:
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!114 &8573336309079183967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3840704588962431714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19a7b56562ffca84a82ae4d439656f55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _itemImage: {fileID: 4079710098853576150}
-  _quantityText: {fileID: 0}
-  _highlightObject: {fileID: 0}
-  _tooltipNameText: {fileID: 0}
-  _tooltipDescriptionText: {fileID: 0}
---- !u!114 &6681403899698776590
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14596,8 +14560,8 @@ MonoBehaviour:
   _slotsParent: {fileID: 2182907332985462960}
   _autoCreateSlots: 0
   ManualSlotsList:
-  - {fileID: 6681403899698776590}
-  - {fileID: 6953222090807274405}
+  - {fileID: 8573336309079183967}
+  - {fileID: 8166845928456651797}
   - {fileID: 8119239083008954505}
   - {fileID: 627618698681838464}
   - {fileID: 3535570864854251695}

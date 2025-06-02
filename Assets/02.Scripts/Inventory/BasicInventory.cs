@@ -11,7 +11,7 @@ public class BasicInventory : BaseInventory
     protected override void Awake()
     {
         base.Awake();
-        InventoryManager2.Instance.RegisterInventory(this, _tier);
+        InventoryManager.Instance.RegisterInventory(this, _tier);
     }
 
     public override bool AddItem(Rune rune, int quantity = 1)

@@ -13,6 +13,7 @@ public class GameManager : BehaviourSingleton<GameManager>
     public float FocusDistance = 22f;
     public GameObject startCanvas;
     public CanvasGroup HUDCanvasGroup;
+    private int _PortalTriggerCount = 0;
 
     public Volume PPVolume;
 
@@ -56,5 +57,15 @@ public class GameManager : BehaviourSingleton<GameManager>
         }
 
         return -1;
+    }
+
+    public void GoToNextStage()
+    {
+        _PortalTriggerCount++;
+        if (_PortalTriggerCount == 2)
+        {
+            _currentStage++;
+            _PortalTriggerCount = 0;
+        }
     }
 }
