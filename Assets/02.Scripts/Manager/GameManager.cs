@@ -14,8 +14,6 @@ public class GameManager : BehaviourSingleton<GameManager>
     public GameObject startCanvas;
     public CanvasGroup HUDCanvasGroup;
 
-    public Transform PlayerCameraTransform;
-
     public Volume PPVolume;
 
     public int GetCurrentStage() => _currentStage;
@@ -27,25 +25,7 @@ public class GameManager : BehaviourSingleton<GameManager>
 
     public void StartGame()
     {
-        // 위치 이동
-        Camera.main.transform.DOMove(PlayerCameraTransform.position, MoveDuration)
-                 .SetEase(Ease.OutCubic);
 
-        // 회전 이동
-        Camera.main.transform.DORotateQuaternion(PlayerCameraTransform.rotation, MoveDuration)
-                 .SetEase(Ease.OutCubic).OnComplete(() =>
-                 {
-                     IsStart = true; 
-                     startCanvas.SetActive(false);
-                 });
-        HUDCanvasGroup.gameObject.SetActive(true);
-        DOTween.To(() => HUDCanvasGroup.alpha, x => HUDCanvasGroup.alpha = x, 1, MoveDuration);
-
-        if (PPVolume.profile.TryGet<DepthOfField>(out var dof))
-        {
-            dof.focusDistance.value = 10f;
-            DOTween.To(() => dof.focusDistance.value, x => dof.focusDistance.value = x, 22f, MoveDuration);
-        }
     }
 
     public float GetEnemyBaseDamage(EnemyType type)
