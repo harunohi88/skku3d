@@ -13,7 +13,7 @@ public class EquipInventory : BaseInventory
     {
         _autoCreateSlots = false; // 기본적으로 수동 슬롯 배치 사용
         base.Awake();
-        InventoryManager2.Instance.RegisterInventory(this);
+        InventoryManager.Instance.RegisterInventory(this);
         InitHUDRuneSlot();
     }
 
