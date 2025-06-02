@@ -708,6 +708,8 @@ MonoBehaviour:
   HealthBar: {fileID: 6122772751848164304}
   StaminaBar: {fileID: 1496704028729082444}
   ExpBar: {fileID: 2242889397082769048}
+  LevelText: {fileID: 4451208344881822343}
+  ExpText: {fileID: 8318989945343718267}
   CooldownImageList:
   - {fileID: 8794106555571689945}
   - {fileID: 2882360264105971660}
@@ -1219,7 +1221,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &763014617595100503
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3716,7 +3718,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7037440830868747653
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5952,6 +5954,10 @@ PrefabInstance:
       propertyPath: simpleBar._uiPrimaryBar
       value: 
       objectReference: {fileID: 4517989540237731617}
+    - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: simpleBar._adaptiveColor
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: simpleBar._barPrimaryColor.b
       value: 1

@@ -62,6 +62,7 @@ public class PlayerLevel : MonoBehaviour
             StatSnapshot snapshot = PlayerManager.Instance.PlayerStat.CreateSnapshot();
             
             _eventManager.OnLevelUp?.Invoke(ExpTable[Level]);
+            _eventManager.OnExpGain?.Invoke(_experience);
             _eventManager.OnUpgradePointChange?.Invoke(_statUpgradePoints);
             Debug.Log($"Level Up: {_displayLevel}");
         }

@@ -7,8 +7,10 @@ public class Player : MonoBehaviour, IDamageable
     public float Stamina;
     public float StaminaGain;
     public float StaminaRegenDelay;
+    public float UIUpdateInterval = 0.1f;
     
     private float _staminaRegenTimer;
+    private float _uiUpdateTimer;
 
     private void Awake()
     {
@@ -38,6 +40,12 @@ public class Player : MonoBehaviour, IDamageable
     {
         Stamina += StaminaGain * Time.deltaTime;
         Stamina = Mathf.Min(Stamina, PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxStamina].TotalStat);
+        _uiUpdateTimer -= Time.deltaTime;
+        if (_uiUpdateTimer <= 0f)
+        {
+            UIEventManager.Instance.OnStatChanged?.Invoke();
+            _uiUpdateTimer = UIUpdateInterval;
+        }
     }
 
     public bool TryUseStamina(float amount)
@@ -48,6 +56,7 @@ public class Player : MonoBehaviour, IDamageable
         }
         Stamina -= amount;
         _staminaRegenTimer = StaminaRegenDelay;
+        UIEventManager.Instance.OnStatChanged?.Invoke();
         return true;
     }
     
