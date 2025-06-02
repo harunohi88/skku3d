@@ -22,6 +22,8 @@ public class Player : MonoBehaviour, IDamageable
     {
         Health = PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxHealth].TotalStat;
         Stamina = PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxStamina].TotalStat;
+        UIEventManager.Instance.OnStatChanged?.Invoke();
+        UIEventManager.Instance.OnCurrentHealthChanged?.Invoke(Health);
     }
 
     private void Update()
@@ -64,6 +66,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         Health -= damage.Value;
         UIEventManager.Instance.OnStatChanged?.Invoke();
+        UIEventManager.Instance.OnCurrentHealthChanged?.Invoke(Health);
 
         if (Health <= 0)
         {
@@ -78,6 +81,7 @@ public class Player : MonoBehaviour, IDamageable
         Health = Mathf.Min(Health, PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxHealth].TotalStat);
 
         UIEventManager.Instance.OnStatChanged?.Invoke();
+        UIEventManager.Instance.OnCurrentHealthChanged?.Invoke(Health);
     }
 
     public void Die()

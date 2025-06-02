@@ -3,72 +3,55 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 
+[System.Serializable]
+public class StatText
+{
+    public EStatType StatType;
+    public TextMeshProUGUI Text;
+}
+
 public class StatUI : MonoBehaviour
 {
-    // 0 : health, 1 : stamina, ~~ 아래 함수 순서
-    public List<TextMeshProUGUI> StatTextList;
-    public TextMeshProUGUI LevelText;
-    public TextMeshProUGUI ExpText;
-    public List<TextMeshProUGUI> SkillLevelTextList;
+    [SerializeField] private List<StatText> StatTextList;
+    [SerializeField] private TextMeshProUGUI CurrentHealthText;
 
+    private Dictionary<EStatType, TextMeshProUGUI> _textDictionary;
+    
     private void Start()
     {
-        UIEventManager.Instance.OnStatChanged += HealthChange;
-        UIEventManager.Instance.OnStatChanged += StaminaChange;
-        UIEventManager.Instance.OnStatChanged += ExpChange;
-        UIEventManager.Instance.OnStatChanged += DamageChange;
-        UIEventManager.Instance.OnStatChanged += MoveSpeedChange;
-        UIEventManager.Instance.OnStatChanged += CriticalChanceChange;
-        UIEventManager.Instance.OnStatChanged += CriticalDamageChange;
-        UIEventManager.Instance.OnStatChanged += LevelChange;
-
-        UIEventManager.Instance.OnStatChanged += SkillLevel;
-    }
-
-    public void HealthChange()
-    {
-        // "현재 체력 / 최대 체력
-    }
-
-    public void StaminaChange()
-    {
-
-    }
-
-    public void DamageChange()
-    {
-
-    }
-
-    public void MoveSpeedChange()
-    {
-
-    }
-
-    public void CriticalChanceChange()
-    {
-
-    }
-
-    public void CriticalDamageChange()
-    {
-
-    }
-    public void ExpChange()
-    {
-        ExpText.text = "현재 경험치 / 현재레벨 최대 경험치";
-    }
-
-    public void LevelChange()
-    {
-        // LevelText.text = 플레이어 레벨 가져오기
-    }
-
-    public void SkillLevel()
-    {
-        for(int i = 0; i < SkillLevelTextList.Count; i++)
+        _textDictionary = new Dictionary<EStatType, TextMeshProUGUI>();
+        foreach (StatText statText in StatTextList)
         {
-            //SkillLevelTextList[i].text = $"Lv. {스킬레벨}";
+            _textDictionary[statText.StatType] = statText.Text;
+        }
+
+        UIEventManager.Instance.OnDisplayStatChanged += RefreshStatTexts;
+        UIEventManager.Instance.OnCurrentHealthChanged += RefreshCurrentHealthText;
+    }
+
+    private void RefreshCurrentHealthText(float currentHealth)
+    {
+        if (CurrentHealthText != null)
+        {
+            CurrentHealthText.text = $"{currentHealth:F0}";
+        }
+    }
+
+    private void RefreshStatTexts(StatSnapshot statSnapshot)
+    {
+        foreach (KeyValuePair<EStatType, float> stat in statSnapshot.TotalStats)
+        {
+            if (_textDictionary.TryGetValue(stat.Key, out TextMeshProUGUI text))
+            {
+                if (stat.Key == EStatType.CriticalChance || stat.Key == EStatType.CriticalDamage)
+                {
+                    text.text = $"{stat.Value * 100:F0}%";
+                }
+                else
+                {
+                    text.text = $"{stat.Value:F0}";
+                }
+            }
         }
     }
 }

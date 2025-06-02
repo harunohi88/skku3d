@@ -31,18 +31,19 @@ public class PlayerStat : MonoBehaviour
                 statData.IncreaseAmount);
         }
         OnDictionaryLoaded?.Invoke();
+        UIEventManager.Instance.OnDisplayStatChanged?.Invoke(new StatSnapshot());
     }
     
-    public StatSnapshot CreateSnapshot()
-    {
-        return new StatSnapshot
-        {
-            TotalStats = PlayerManager.Instance.PlayerStat.StatDictionary.ToDictionary(
-                pair => pair.Key,
-                pair => pair.Value.TotalStat
-            )
-        };
-    }
+    // public StatSnapshot CreateSnapshot()
+    // {
+    //     return new StatSnapshot
+    //     {
+    //         TotalStats = PlayerManager.Instance.PlayerStat.StatDictionary.ToDictionary(
+    //             pair => pair.Key,
+    //             pair => pair.Value.TotalStat
+    //         )
+    //     };
+    // }
 
     public void StatUpgrade(EStatType statType)
     {

@@ -58,12 +58,6 @@ public class BasicInventory : BaseInventory
                     SortInventory();
                 }
                 UpdateSlot(i);
-
-                // BasicAllInventory에도 수량 감소 반영
-                if (_basicAllInventory != null)
-                {
-                    _basicAllInventory.ReduceItemQuantity(tid, _itemsList[i]?.Rune.CurrentTier ?? 0, quantity);
-                }
                 return true;
             }
         }

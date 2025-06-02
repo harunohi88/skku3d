@@ -56,7 +56,7 @@ public class PlayerHUDUI : MonoBehaviour
         // RefreshExpText();
     }
     
-    public void NewMaxExp(float maxExp)
+    public void NewMaxExp(int level, float maxExp)
     {
         ExpBar.SetNewMaxHP(maxExp);
         
