@@ -27,8 +27,6 @@ public class EnemyFloatingTextManager : BehaviourSingleton<EnemyFloatingTextMana
         if (isCritical) floatingText.Value = $"{damage.ToString("0")}!";
         else floatingText.Value = damage.ToString("0");
 
-
-
         _myPlayer.PlayFeedbacks(position);
     }
 }

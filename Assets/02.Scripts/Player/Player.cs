@@ -12,7 +12,7 @@ public class Player : MonoBehaviour, IDamageable
     private float _staminaRegenTimer;
     private float _uiUpdateTimer;
 
-    private void Awake()
+    private void Start()
     {
         PlayerManager.Instance.PlayerStat.OnDictionaryLoaded += Init;
         _staminaRegenTimer = StaminaRegenDelay; // 초기화 전에 회복하면 안돼서 넣은 임시방편

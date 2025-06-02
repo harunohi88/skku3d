@@ -42,7 +42,9 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
         Health -= damage.Value;
         BossUIManager.Instance.UPdateHealth(Health); ///// HealthBar 추가한 코드
 
-        // 맞았을때 이펙트
+        EnemyFloatingTextManager.Instance.TriggerFeedback(damage.Value, transform.position + Vector3.up * 2f, damage.IsCritical);
+
+        EnemyHitEffect.PlayHitEffect(DamagedTime);
 
         if (Health <= 0)
         {
