@@ -33,12 +33,12 @@ public class InputManager : BehaviourSingleton<InputManager>
             _equipmentPanel = GameObject.FindGameObjectWithTag("EquipmentPanel");
             _equipmentPanel?.SetActive(false);
 
-            _mapPanel = GameObject.FindGameObjectWithTag("MapPanel");
-            _mapPanel?.SetActive(false);
-
             _popupBackgroundImage = GameObject.FindGameObjectWithTag("PopUpBG");
             _popupBackgroundImage?.SetActive(false);
         }
+
+        _mapPanel = GameObject.FindGameObjectWithTag("MapPanel");
+        _mapPanel?.SetActive(false);
     }
 
     private void Update()
@@ -79,6 +79,7 @@ public class InputManager : BehaviourSingleton<InputManager>
         // 룬 장착과 인벤토리 토글
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+            if (_inventoryPanel == null) return;
             AudioManager.Instance.PlayUIAudio(UIAudioType.Tab);
             ToggleInventoryAndEquip();
         }

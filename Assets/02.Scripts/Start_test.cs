@@ -25,5 +25,9 @@ public class Start_test : MonoBehaviour
         {
             SceneManager.LoadScene(4);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            SceneManager.LoadScene(5);
+        }
     }
 }

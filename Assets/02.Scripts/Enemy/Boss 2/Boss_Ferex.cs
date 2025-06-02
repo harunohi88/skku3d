@@ -56,6 +56,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 
     public override void Attack()
     {
+        BossEffectManager.Instance.PlayBoss1Particle(0);
         Debug.Log("기본 공격 진입");
         WeaponCollider.enabled = true;
         EnemyRotation.IsFound = false;
@@ -76,6 +77,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 
     public void Boss2SpecialAttack_01()
     {
+        BossEffectManager.Instance.PlayBoss1Particle(1);
         Debug.Log("특수공격1 진입");
         WeaponCollider.enabled = true;
         EnemyRotation.IsFound = false;
@@ -91,6 +93,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 
     public void Boss2SpecialAttack_02()
     {
+        BossEffectManager.Instance.PlayBoss1Particle(2);
         Debug.Log("특수공격2 진입");
         WeaponCollider.enabled = true;
         EnemyRotation.IsFound = false;
@@ -129,6 +132,9 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 
     public void Boss2SpecialAttack_03()
     {
+        BossEffectManager.Instance.PlayBoss1Particle(3);
+        BossEffectManager.Instance.PlayBoss1Particle(4);
+        BossEffectManager.Instance.PlayBoss1Particle(5);
         Debug.Log("특수공격3 진입");
         WeaponCollider.enabled = true;
         EnemyRotation.IsFound = false;

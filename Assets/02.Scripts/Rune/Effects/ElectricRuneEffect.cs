@@ -50,7 +50,7 @@ public class ElectricRuneEffect : ARuneEffect
                 newDamage.From = DamageBase.From;
                 RuneManager.Instance.CheckCritical(ref newDamage);
 
-                randomList[i].GetComponent<AEnemy>().TakeDamage(newDamage);
+                randomList[i].GetComponent<AEnemy>()?.TakeDamage(newDamage);
             }
         }
     }

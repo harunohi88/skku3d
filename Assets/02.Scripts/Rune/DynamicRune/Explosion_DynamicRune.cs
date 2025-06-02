@@ -19,7 +19,7 @@ public class Explosion_DynamicRune : ADynamicRuneObject
             newDamage.From = _damage.From;
             RuneManager.Instance.CheckCritical(ref newDamage);
 
-            colliders[i].GetComponent<AEnemy>().TakeDamage(newDamage);
+            colliders[i].GetComponent<AEnemy>()?.TakeDamage(newDamage);
         }
     }
 

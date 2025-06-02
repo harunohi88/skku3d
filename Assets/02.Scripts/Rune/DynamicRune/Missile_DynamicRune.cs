@@ -74,7 +74,7 @@ public class Missile_DynamicRune : ADynamicRuneObject
                     newDamage.Value = _damage.Value;
                     newDamage.From = _damage.From;
                     RuneManager.Instance.CheckCritical(ref newDamage);
-                    colliders[i].GetComponent<AEnemy>().TakeDamage(newDamage);
+                    colliders[i].GetComponent<AEnemy>()?.TakeDamage(newDamage);
                 }
 
                 RuneManager.Instance.ProjectilePoolDic[TID].Return(this);
