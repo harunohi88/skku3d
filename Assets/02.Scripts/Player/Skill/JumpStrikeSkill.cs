@@ -6,6 +6,7 @@ using UnityEngine;
 public class JumpStrikeSkill : MonoBehaviour, ISkill
 {
     public Rune Rune;
+    public int Level = 1;
     public int SkillIndex = 2;
     public GameObject IndicatorPrefab;
     public SkillBaseSO SkillBaseStat;
@@ -42,6 +43,11 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
             SkillStatDictionary[ESkillStat.SkillRange].TotalStat,
             SkillStatDictionary[ESkillStat.TargetRange].TotalStat);
         _indicator.gameObject.SetActive(false);
+        
+        UIEventManager.Instance.OnSkillDescriptionChanged?.Invoke(
+            SkillIndex,
+            Level,
+            SkillStatDictionary[ESkillStat.SkillMultiplier].TotalStat);
     }
     
     public void Execute()
@@ -255,9 +261,14 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
 
     public void LevelUp()
     {
+        ++Level;
         foreach (KeyValuePair<ESkillStat, Stat> stat in SkillStatDictionary)
         {
             stat.Value.LevelUp();
         }
+        UIEventManager.Instance.OnSkillDescriptionChanged?.Invoke(
+            SkillIndex,
+            Level,
+            SkillStatDictionary[ESkillStat.SkillMultiplier].TotalStat);
     }
 }

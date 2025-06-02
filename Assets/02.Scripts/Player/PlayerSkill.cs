@@ -13,11 +13,11 @@ public class PlayerSkill : MonoBehaviour
     
     private PlayerManager _playerManager;
 
-    public void Start()
+    private void Start()
     {
         _playerManager = PlayerManager.Instance;
-        _skillList = GetComponents<ISkill>().ToList();
         UIEventManager.Instance.OnSKillLevelUp += SkillLevelUp;
+        _skillList = GetComponents<ISkill>().ToList();
         foreach (ISkill skill in _skillList)
         {
             skill.Initialize();
