@@ -107,7 +107,7 @@ public class InventoryManager2 : MonoBehaviour
         {
             if (kvp.Value != null)
             {
-                _equipInventory.AddItemToSlot(kvp.Value.Rune, kvp.Key, kvp.Value.Quantity);
+                _equipInventory.AddItemToSlot(kvp.Value.Rune, kvp.Key, kvp.Value.Quantity, true);
             }
         }
     }
