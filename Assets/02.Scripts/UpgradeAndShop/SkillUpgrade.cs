@@ -68,6 +68,7 @@ public class SkillUpgrade : MonoBehaviour
 
             // 스킬 레벨 텍스트 업데이트
             OnSkillUpgrade?.Invoke(skillNumber, SkillLevelList[skillNumber]);
+            UIEventManager.Instance.OnSKillLevelUp?.Invoke(skillNumber);
             // 스킬 레벨 업그레이드 코스트 텍스트 업데이트
             OnSkillUpgradeText?.Invoke(skillNumber, SkillUpgradeCostList[skillNumber]);
         }

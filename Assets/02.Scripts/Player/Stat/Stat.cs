@@ -39,6 +39,7 @@ public class Stat
         if (Level % _increaseGap == 0)
         {
             _baseStat += _increasePerGap;
+            Debug.Log($"New Base Stat: {_baseStat}");
         }
     }
 

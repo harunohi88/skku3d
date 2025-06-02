@@ -108,12 +108,10 @@ public class Item : MonoBehaviour
         switch (Type)
         {
             case EItemType.Rune:
-                PlayerManager.Instance.PlayerSkill.AddRune(0, Rune);
-                // 테스트 추가
                 BasicAllInventory.AddItem(Rune);
                 break;
             case EItemType.Exp:
-                // TODO: 플레이어 경험치 증가가 필요함
+                PlayerManager.Instance.PlayerLevel.GainExperience((float)Amount);
                 break;
             case EItemType.Coin:
                 // TODO: 골드 증가

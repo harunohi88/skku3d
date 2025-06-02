@@ -44,6 +44,12 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         {
             return;
         }
+
+        if (!_playerManager.Player.TryUseStamina(SkillStatDictionary[ESkillStat.SkillCost].TotalStat))
+        {
+            return;
+        }
+        
         PlayerManager.Instance.PlayerSkill.CurrentSkill = this;
         Debug.Log("Spin Slash Activated");
         _animator.SetTrigger("Skill1");
