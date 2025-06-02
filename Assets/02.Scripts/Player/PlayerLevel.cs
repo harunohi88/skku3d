@@ -4,13 +4,16 @@ using System.Linq;
 
 public class PlayerLevel : MonoBehaviour
 {
-    [SerializeField] private int _level;
+    public int Level;
+    public List<float> ExpTable = new List<float>();
+    
     [SerializeField] private int _pointsGainPerLevel = 2;
+    
     private UIEventManager _eventManager;
-    private int _displayLevel => _level + 1;
+    private int _displayLevel => Level + 1;
     private float _experienceBonus =>
         PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.ExperienceGain].TotalStat;
-    private List<float> ExpTable = new List<float>();
+    public float Experience => _experience;
     private float _experience;
     [SerializeField] private int _statUpgradePoints = 0;
 
@@ -39,24 +42,26 @@ public class PlayerLevel : MonoBehaviour
         Debug.Log($"Gain Experience: {experience}");
         
         _experience += (1f + _experienceBonus) * experience;
+        _eventManager.OnExpGain?.Invoke(_experience);
         CheckLevelUp();
     }
 
     private void CheckLevelUp()
     {
-        if (_experience >= ExpTable[_level])
+        if (_experience >= ExpTable[Level])
         {
-            while (_experience >= ExpTable[_level])
+            while (_experience >= ExpTable[Level])
             {
-                _experience -= ExpTable[_level];
-                ++_level;
+                _experience -= ExpTable[Level];
+                ++Level;
                 _statUpgradePoints += _pointsGainPerLevel;
             }
             // Level Up Effect Execute once
             // UI에 레벨 표시
+            
             StatSnapshot snapshot = PlayerManager.Instance.PlayerStat.CreateSnapshot();
             
-            _eventManager.OnLevelUp?.Invoke();
+            _eventManager.OnLevelUp?.Invoke(ExpTable[Level]);
             _eventManager.OnUpgradePointChange?.Invoke(_statUpgradePoints);
             Debug.Log($"Level Up: {_displayLevel}");
         }

@@ -29,7 +29,7 @@ public class StatLevelUpUI : MonoBehaviour
         }
     }
 
-    private void OnLevelUp()
+    private void OnLevelUp(float level)
     {
         // 레벨 표시하는 TextMesh 값 변경
         UpgradeButtonPanel.SetActive(true);

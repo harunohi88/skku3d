@@ -718,6 +718,7 @@ MonoBehaviour:
   - {fileID: 635828736864675980}
   - {fileID: 7442280244547207382}
   - {fileID: 8844568791545273284}
+  IsCooldownList: 
 --- !u!1 &1723391357086371886
 GameObject:
   m_ObjectHideFlags: 0
@@ -6209,10 +6210,10 @@ PrefabInstance:
     - target: {fileID: 6770988671081973103, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b6deefff1be973442be3f0650ffd1b39, type: 3}
+      objectReference: {fileID: 21300000, guid: ad8f21f9f1d8f7f40b2934672f19a91e, type: 3}
     - target: {fileID: 6770988671081973103, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: m_Color.b
-      value: 0.2028302
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6770988671081973103, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: m_Color.g
@@ -6220,7 +6221,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6770988671081973103, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: m_Color.r
-      value: 0.25583994
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6770988671081973103, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6770988671081973103, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: m_FillAmount
@@ -6239,6 +6244,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: simpleBar._useGhostBar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: simpleBar._uiBackground
       value: 
       objectReference: {fileID: 2246777526511575078}
@@ -6246,12 +6255,32 @@ PrefabInstance:
       propertyPath: simpleBar._uiPrimaryBar
       value: 
       objectReference: {fileID: 3843290028224291829}
+    - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: simpleBar._adaptiveColor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: simpleBar._barPrimaryColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: simpleBar._barPrimaryColor.g
+      value: 0.9960785
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: simpleBar._barPrimaryColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8615194741368719036, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 3826c489d0997dd44be8cc49b5290351, type: 3}
     - target: {fileID: 8615194741368719036, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8615194741368719036, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8838100020320827818, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}

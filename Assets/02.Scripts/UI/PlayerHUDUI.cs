@@ -21,12 +21,16 @@ public class PlayerHUDUI : MonoBehaviour
 
         UIEventManager.Instance.OnStatChanged += ChangeStat;
         UIEventManager.Instance.OnSkillUse += SKillCooldown;
+        UIEventManager.Instance.OnExpGain += RefreshExpBar;
+        UIEventManager.Instance.OnLevelUp += NewMaxExp;
     }
 
     public void Init()
     {
         HealthBar.Initialize(PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxHealth].TotalStat);
         StaminaBar.Initialize(PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxStamina].TotalStat);
+        ExpBar.Initialize(PlayerManager.Instance.PlayerLevel.ExpTable[PlayerManager.Instance.PlayerLevel.Level]);
+        ExpBar.UpdateBar(PlayerManager.Instance.PlayerLevel.Experience);
         // 경험치 초기화
         // ExpBar.Initialize(PlayerManager.Instance.경험치.TotalStat);
 
@@ -42,6 +46,16 @@ public class PlayerHUDUI : MonoBehaviour
         //StaminaBar.UpdateBar(PlayerManager.현재 스태미나, false);
         // 경험치 부분
         //ExpBar.UpdateBar(PlayerManager.Instance.현재 경험치);
+    }
+
+    public void RefreshExpBar(float currentExp)
+    {
+        ExpBar.UpdateBar(currentExp);
+    }
+    
+    public void NewMaxExp(float maxExp)
+    {
+        ExpBar.SetNewMaxHP(maxExp);
     }
 
     public void SKillCooldown()
