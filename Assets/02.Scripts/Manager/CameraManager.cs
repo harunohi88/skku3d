@@ -6,6 +6,11 @@ public class CameraManager : BehaviourSingleton<CameraManager>
     private Vector3 _originalPosition;
     private Vector3 _shakePosition;
 
+    public void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+    
     public void Shake(float duration, float magnitude)
     {
         _originalPosition = Camera.main.transform.position;

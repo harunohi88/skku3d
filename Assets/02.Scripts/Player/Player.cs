@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IDamageable
+public class Player : BehaviourSingleton<Player>, IDamageable
 {
     public float Health;
     public float Stamina;
@@ -11,6 +11,11 @@ public class Player : MonoBehaviour, IDamageable
     
     private float _staminaRegenTimer;
     private float _uiUpdateTimer;
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void Start()
     {

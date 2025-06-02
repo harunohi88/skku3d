@@ -27556,6 +27556,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 853722264032340872, guid: 021f71c240802344cacba7cc11975370, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1851004923761008318, guid: 021f71c240802344cacba7cc11975370, type: 3}
       propertyPath: Stamina
       value: 100
@@ -28094,7 +28098,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1777585559
 MonoBehaviour:
   m_ObjectHideFlags: 0
