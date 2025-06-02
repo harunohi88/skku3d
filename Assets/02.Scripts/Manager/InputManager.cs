@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class InputManager : BehaviourSingleton<InputManager>
 {
@@ -13,17 +14,34 @@ public class InputManager : BehaviourSingleton<InputManager>
     private void Start()
     {
         _playerManager = PlayerManager.Instance;
-        _inventoryPanel.SetActive(false);
-        _upgradeAndShopPanel.SetActive(false);
-        _equipmentPanel.SetActive(false);
 
         DontDestroyOnLoad(gameObject);
+
+        SceneManager.sceneLoaded += InitScene;
+    }
+
+    private void InitScene(Scene scene, LoadSceneMode mode)
+    {
+        _inventoryPanel = GameObject.FindGameObjectWithTag("InventoryPanel");
+        _inventoryPanel?.SetActive(false);
+
+        _upgradeAndShopPanel = GameObject.FindGameObjectWithTag("UpgradeAndShopPanel");
+        _upgradeAndShopPanel?.SetActive(false);
+
+        _equipmentPanel = GameObject.FindGameObjectWithTag("EquipmentPanel");
+        _equipmentPanel?.SetActive(false);
+
+        _mapPanel = GameObject.FindGameObjectWithTag("MapPanel");
+        _mapPanel?.SetActive(false);
+
+        _popupBackgroundImage = GameObject.FindGameObjectWithTag("PopUpBG");
+        _popupBackgroundImage?.SetActive(false);
     }
 
     private void Update()
     {
         if (GameManager.Instance.IsStart == false) return;
-        HandleGameplayInput();
+        if(_playerManager.Player) HandleGameplayInput();
     }
 
     private void HandleGameplayInput()
@@ -64,6 +82,7 @@ public class InputManager : BehaviourSingleton<InputManager>
 
         if (Input.GetKeyDown(KeyCode.M))
         {
+            if (_mapPanel == null) return;
             AudioManager.Instance.PlayUIAudio(UIAudioType.Tab);
             if (_mapPanel.activeSelf) _mapPanel.SetActive(false);
             else

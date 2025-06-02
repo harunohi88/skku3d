@@ -8,6 +8,12 @@ TagManager:
   - Missile
   - Pool
   - BasicInventory
+  - PlayerSpawnPoint
+  - InventoryPanel
+  - EquipmentPanel
+  - MapPanel
+  - PopUpBG
+  - UpgradeAndShopPanel
   layers:
   - Default
   - TransparentFX

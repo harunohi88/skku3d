@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : BehaviourSingleton<PlayerManager>
 {
@@ -25,16 +26,36 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
 
     private void Awake()
     {
-        PlayerStat = Player.gameObject.GetComponent<PlayerStat>();
-        PlayerMove = Player.gameObject.GetComponent<PlayerMove>();
-        PlayerRotate = Player.gameObject.GetComponent<PlayerRotate>();
-        PlayerAttack = Player.gameObject.GetComponent<PlayerAttack>();
-        PlayerSkill = Player.gameObject.GetComponent<PlayerSkill>();
-        PlayerLevel = Player.gameObject.GetComponent<PlayerLevel>();
-        PlayerLevel = Player.gameObject.GetComponent<PlayerLevel>();
-        PlayerState = EPlayerState.None;
-
         DontDestroyOnLoad(gameObject);
+
+        SceneManager.sceneLoaded += InitPlayer;
+    }
+
+    private void InitPlayer(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.buildIndex < 1) return;
+        if (Player == null)
+        {
+            
+            Player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
+            if (Player == null) return;
+
+            PlayerStat = Player.gameObject.GetComponent<PlayerStat>();
+            PlayerMove = Player.gameObject.GetComponent<PlayerMove>();
+            PlayerRotate = Player.gameObject.GetComponent<PlayerRotate>();
+            PlayerAttack = Player.gameObject.GetComponent<PlayerAttack>();
+            PlayerSkill = Player.gameObject.GetComponent<PlayerSkill>();
+            PlayerLevel = Player.gameObject.GetComponent<PlayerLevel>();
+            PlayerLevel = Player.gameObject.GetComponent<PlayerLevel>();
+            PlayerState = EPlayerState.None;
+        }
+
+        GameObject spawnpoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
+        if(spawnpoint != null)
+        {
+            Player.transform.position = spawnpoint.transform.position;
+            Player.transform.rotation = spawnpoint.transform.rotation;
+        }
     }
 
     private bool CanPerform(EPlayerAction action)

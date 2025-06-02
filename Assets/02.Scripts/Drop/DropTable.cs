@@ -36,14 +36,7 @@ public class DropTable : BehaviourSingleton<DropTable>
 
     public void Drop(EnemyType enemyType, Vector3 position)
     {
-        // TODO : 몬스터 타입에 따라
-        // 몬스터 타입에 따라 경험치(는 그냥주고), 룬은 확률, 골드도 확률로 생성
-        // 그 죽은 위치에 경험치, 룬, 골드 스폰 그냥 인스턴스화
-        // 나머지 DropRandomRune 등등 private 은닉
-
-        //테스트트
-        int stage = 2;
-        //int stage = GameManager.Instance.GetCurrentStage();
+       int stage = GameManager.Instance.GetCurrentStage();
         int tid = 10000;
         switch(stage)
         {

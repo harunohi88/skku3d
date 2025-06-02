@@ -4,6 +4,7 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 public class GameManager : BehaviourSingleton<GameManager>
 {
@@ -25,7 +26,7 @@ public class GameManager : BehaviourSingleton<GameManager>
 
     public void StartGame()
     {
-
+        SceneManager.LoadScene(1);
     }
 
     public float GetEnemyBaseDamage(EnemyType type)

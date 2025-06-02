@@ -31,15 +31,13 @@ public class Item : MonoBehaviour
     public List<GameObject> SparkleEffectList;
     private int _tier = 1;
 
-    private Transform _player;
+    private Transform _player => PlayerManager.Instance.Player.transform;
 
     public BasicAllInventory BasicAllInventory;
 
     private void Start()
     {
         BasicAllInventory = GameObject.FindAnyObjectByType<BasicAllInventory>();
-
-        _player = PlayerManager.Instance.Player.transform;
 
         BounceEffect();
     }
