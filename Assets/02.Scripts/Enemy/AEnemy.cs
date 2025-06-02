@@ -36,7 +36,6 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
 
     public EnemyRotation EnemyRotation;
     public EnemyHitEffect EnemyHitEffect;
-    public EnemyFloatingText EnemyDamageText;
 
     public Action OnStatChanged;
 
@@ -47,7 +46,6 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
         _animator = GetComponent<Animator>();
         EnemyRotation = GetComponent<EnemyRotation>();
         EnemyHitEffect = GetComponentInChildren<EnemyHitEffect>();
-        EnemyDamageText = GetComponentInChildren<EnemyFloatingText>();
         Agent.speed = MoveSpeed;
     }
 
@@ -81,7 +79,7 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
         if (_stateMachine.CurrentState is DieState) return;
         Health -= damage.Value;
 
-        EnemyDamageText.TriggerFeedback(damage.Value, damage.IsCritical);
+        EnemyFloatingTextManager.Instance.TriggerFeedback(damage.Value, transform.position, damage.IsCritical);
 
         OnStatChanged?.Invoke();
         // 맞았을때 이펙트
