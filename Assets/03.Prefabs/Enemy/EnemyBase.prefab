@@ -500,7 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsFound: 0
-  RotationSpeed: 10
+  RotationSpeed: 4
 --- !u!1 &3008991255711167985
 GameObject:
   m_ObjectHideFlags: 0

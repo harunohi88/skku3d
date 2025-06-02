@@ -708,6 +708,8 @@ MonoBehaviour:
   HealthBar: {fileID: 6122772751848164304}
   StaminaBar: {fileID: 1496704028729082444}
   ExpBar: {fileID: 2242889397082769048}
+  LevelText: {fileID: 4451208344881822343}
+  ExpText: {fileID: 8318989945343718267}
   CooldownImageList:
   - {fileID: 8794106555571689945}
   - {fileID: 2882360264105971660}
@@ -718,6 +720,7 @@ MonoBehaviour:
   - {fileID: 635828736864675980}
   - {fileID: 7442280244547207382}
   - {fileID: 8844568791545273284}
+  IsCooldownList: 
 --- !u!1 &1723391357086371886
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,7 +1221,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &763014617595100503
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2089,6 +2092,7 @@ GameObject:
   - component: {fileID: 8924045105335811082}
   - component: {fileID: 8431002663712022606}
   - component: {fileID: 7608625231143849857}
+  - component: {fileID: 3003912616556651562}
   m_Layer: 5
   m_Name: UI_HUD_FINAL
   m_TagString: Untagged
@@ -2183,6 +2187,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &3003912616556651562
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4140231601190995482}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4191285049136071086
 GameObject:
   m_ObjectHideFlags: 0
@@ -3715,7 +3731,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7037440830868747653
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5207,6 +5223,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9119286279804956349}
     - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: simpleBar._adaptiveColor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: simpleBar._barPrimaryColor.b
       value: 0
       objectReference: {fileID: 0}
@@ -5952,6 +5972,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4517989540237731617}
     - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: simpleBar._adaptiveColor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: simpleBar._barPrimaryColor.b
       value: 1
       objectReference: {fileID: 0}
@@ -6209,10 +6233,10 @@ PrefabInstance:
     - target: {fileID: 6770988671081973103, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b6deefff1be973442be3f0650ffd1b39, type: 3}
+      objectReference: {fileID: 21300000, guid: ad8f21f9f1d8f7f40b2934672f19a91e, type: 3}
     - target: {fileID: 6770988671081973103, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: m_Color.b
-      value: 0.2028302
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6770988671081973103, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: m_Color.g
@@ -6220,7 +6244,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6770988671081973103, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: m_Color.r
-      value: 0.25583994
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6770988671081973103, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6770988671081973103, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: m_FillAmount
@@ -6239,6 +6267,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: simpleBar._useGhostBar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: simpleBar._uiBackground
       value: 
       objectReference: {fileID: 2246777526511575078}
@@ -6246,12 +6278,36 @@ PrefabInstance:
       propertyPath: simpleBar._uiPrimaryBar
       value: 
       objectReference: {fileID: 3843290028224291829}
+    - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: simpleBar._adaptiveColor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: simpleBar._barPrimaryColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: simpleBar._barPrimaryColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: simpleBar._barPrimaryColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611201056070623234, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: simpleBar._barAdaptiveColor.g
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8615194741368719036, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 3826c489d0997dd44be8cc49b5290351, type: 3}
     - target: {fileID: 8615194741368719036, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
       propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8615194741368719036, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8838100020320827818, guid: 3183a97a071ce704c90adabcfa829f05, type: 3}

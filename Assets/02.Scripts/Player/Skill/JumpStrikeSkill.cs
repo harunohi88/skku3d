@@ -57,6 +57,10 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
         }
         else
         {
+            if (_playerManager.Player.TryUseStamina(SkillStatDictionary[ESkillStat.SkillCost].TotalStat) == false)
+            {
+                return;
+            }
             _indicator.gameObject.SetActive(false);
             _playerSkill.IsTargeting = false;
             PlayerManager.Instance.PlayerState = EPlayerState.Skill;

@@ -10,7 +10,10 @@ public class PlayerHUDUI : MonoBehaviour
     public MicroBar HealthBar;
     public MicroBar StaminaBar;
     public MicroBar ExpBar;
-
+    
+    public TextMeshProUGUI LevelText;
+    public TextMeshProUGUI ExpText;
+    
     public List<Image> CooldownImageList;
     public List<TextMeshProUGUI> CooldownTextList;
     public List<bool> IsCooldownList = new List<bool>(4);
@@ -21,14 +24,17 @@ public class PlayerHUDUI : MonoBehaviour
 
         UIEventManager.Instance.OnStatChanged += ChangeStat;
         UIEventManager.Instance.OnSkillUse += SKillCooldown;
+        UIEventManager.Instance.OnExpGain += RefreshExpBar;
+        UIEventManager.Instance.OnLevelUp += NewMaxExp;
     }
 
     public void Init()
     {
         HealthBar.Initialize(PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxHealth].TotalStat);
         StaminaBar.Initialize(PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxStamina].TotalStat);
-        // 경험치 초기화
-        // ExpBar.Initialize(PlayerManager.Instance.경험치.TotalStat);
+        ExpBar.Initialize(PlayerManager.Instance.PlayerLevel.ExpTable[PlayerManager.Instance.PlayerLevel.Level]);
+        ExpBar.UpdateBar(PlayerManager.Instance.PlayerLevel.Experience);
+        RefreshExpText();
 
         UIEventManager.Instance.OnStatChanged += ChangeStat;
     }
@@ -39,9 +45,27 @@ public class PlayerHUDUI : MonoBehaviour
     {
         HealthBar.UpdateBar(PlayerManager.Instance.Player.Health, false);
         // 스태미나 부분
-        //StaminaBar.UpdateBar(PlayerManager.현재 스태미나, false);
+        StaminaBar.UpdateBar(PlayerManager.Instance.Player.Stamina, false);
         // 경험치 부분
         //ExpBar.UpdateBar(PlayerManager.Instance.현재 경험치);
+    }
+
+    public void RefreshExpBar(float currentExp)
+    {
+        ExpBar.UpdateBar(currentExp);
+        // RefreshExpText();
+    }
+    
+    public void NewMaxExp(float maxExp)
+    {
+        ExpBar.SetNewMaxHP(maxExp);
+        
+    }
+    
+    private void RefreshExpText()
+    {
+        int percentage = Mathf.FloorToInt(100 * ExpBar.CurrentValue / ExpBar.MaxValue);
+        ExpText.SetText($"{percentage}%");
     }
 
     public void SKillCooldown()
