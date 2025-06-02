@@ -7,6 +7,7 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
 {
     public Rune Rune;
     public string SkillName = "SpinSlash";
+    public int SkillIndex = 1;
 
     public SkillBaseSO SkillBaseStat;
     public Dictionary<ESkillStat, Stat> SkillStatDictionary = new Dictionary<ESkillStat, Stat>();
@@ -50,12 +51,16 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
             return;
         }
         
+        _cooldownManager.StartCooldown(
+            SkillIndex,
+            SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat,
+            SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat,
+            SetAvailable);
         PlayerManager.Instance.PlayerSkill.CurrentSkill = this;
-        Debug.Log("Spin Slash Activated");
         _animator.SetTrigger("Skill1");
         _playerManager.PlayerState = EPlayerState.Skill;
 
-        UIEventManager.Instance.OnSkillUse?.Invoke();
+        // UIEventManager.Instance.OnSkillUse?.Invoke();
     }
 
     public RuneExecuteContext SetContext(Damage damage, AEnemy target)
@@ -152,7 +157,6 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
     {
         _playerManager.PlayerState = EPlayerState.None;
         IsAvailable = false;
-        _cooldownManager.StartCooldown(SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat, SetAvailable);
         _playerManager.PlayerSkill.CurrentSkill = null;
     }
 
@@ -178,7 +182,11 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
     public void Cancel()
     {
         _playerManager.PlayerState = EPlayerState.None;
-        _cooldownManager.StartCooldown(SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat, SetAvailable);
+        _cooldownManager.StartCooldown(
+            SkillIndex,
+            SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat,
+            SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat,
+            SetAvailable);
         _playerManager.PlayerSkill.CurrentSkill = null;
     }
 
