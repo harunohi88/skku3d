@@ -61,7 +61,7 @@ public class Arrow_DynamicRune : ADynamicRuneObject
             newDamage.From = _damage.From;
             RuneManager.Instance.CheckCritical(ref newDamage);
 
-            other.GetComponent<AEnemy>().TakeDamage(newDamage);
+            other.GetComponent<AEnemy>()?.TakeDamage(newDamage);
 
             Ray ray = new Ray(transform.position - transform.forward * 0.5f, transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hitInfo, 2f, LayerMask.GetMask("Enemy")))
