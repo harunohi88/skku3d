@@ -1,4 +1,3 @@
-using GAP_LaserSystem;
 using UnityEngine;
 
 public class Boss2SpecialAttack02State : IState<AEnemy>
