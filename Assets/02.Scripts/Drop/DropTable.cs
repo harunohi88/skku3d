@@ -1,5 +1,6 @@
 using Unity.Profiling;
 using UnityEngine;
+using DG.Tweening;
 
 public class DropTable : BehaviourSingleton<DropTable>
 {
@@ -25,13 +26,9 @@ public class DropTable : BehaviourSingleton<DropTable>
     public GameObject CoinPrefab;
     public GameObject ExpPrefab;
 
-    public void Update()
+    private void Awake()
     {
-        // 테스트용
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            Drop(EnemyType.Elite, new Vector3(-335f, 0.72f, 448f));
-        }
+        DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
     }
 
     public void Drop(EnemyType enemyType, Vector3 position)
@@ -138,7 +135,6 @@ public class DropTable : BehaviourSingleton<DropTable>
             // 코인 값 초기화
             item.Init(1, amount, null, EItemType.Coin);
         }
-        Debug.Log($"Dropped Gold {amount}");
     }
 
     private void DropExp(Vector3 position, int amount)

@@ -41,11 +41,10 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
 
         if (Health <= 0)
         {
+            BossAIManager.Instance.PortalToNextStage.SetActive(true);
             ChangeState(new BossDieState());
             return;
         }
-
-
     }
 
     public override void Attack()

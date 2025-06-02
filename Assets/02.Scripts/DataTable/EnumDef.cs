@@ -260,6 +260,6 @@ public enum PlayerAudioType
     ///<summary>경험치 4</summary>
     GetExp4 = 4,
     ///<summary>룬 먹을 때</summary>
-    GetRune = 2,
+    GetRune = 5,
 }
 

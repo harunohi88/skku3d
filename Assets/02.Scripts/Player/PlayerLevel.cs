@@ -41,8 +41,6 @@ public class PlayerLevel : MonoBehaviour
     
     public void GainExperience(float experience)
     {
-        Debug.Log($"Gain Experience: {experience}");
-        
         _experience += (1f + _experienceBonus) * experience;
         _eventManager.OnExpGain?.Invoke(_experience);
         CheckLevelUp();

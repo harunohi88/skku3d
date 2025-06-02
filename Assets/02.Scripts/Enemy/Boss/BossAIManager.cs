@@ -22,16 +22,7 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
     [Header("Special Attack 4 Patterns")]
     [SerializeField] private List<EnemyPatternData> _specialAttack4PatternList;
 
-    //public float Pattern1Radius;
-    //public float Pattern1Range;
-    //public float Pattern1LightningLastTime;
-
-    //public float Patter2FirstCastingtime;
-    //public float Pattern2Radius;
-    //public float Pattern2Range;
-
-    //public float Pattern3Range;
-    //public float Pattern3Angle;
+    public GameObject PortalToNextStage;
 
     private void Start()
     {
