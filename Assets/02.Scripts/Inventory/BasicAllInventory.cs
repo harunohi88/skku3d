@@ -127,20 +127,22 @@ public class BasicAllInventory : BaseInventory
         if (_itemsList[fromSlot] != null && _itemsList[fromSlot].Quantity > 0)
         {
             Debug.Log($"BasicAllInventory.MoveItemToEquip - 장비 인벤토리로 아이템 이동 시도");
-            if (_equipInventory.AddItemToSlot(_itemsList[fromSlot].Rune, toSlot, 1))
+            Rune rune = _itemsList[fromSlot].Rune;
+            if (_equipInventory.AddItemToSlot(rune, toSlot, 1))
             {
                 Debug.Log($"BasicAllInventory.MoveItemToEquip - 장비 인벤토리에 성공적으로 추가됨");
-                _itemsList[fromSlot].RemoveQuantity(1);
+                ReduceTierInventoryQuantity(rune, 1);
                 
-                // 해당 티어의 인벤토리에서도 수량 감소
-                ReduceTierInventoryQuantity(_itemsList[fromSlot].Rune, 1);
-                
-                if (_itemsList[fromSlot].Quantity <= 0)
+                // 수량이 0이 되면 슬롯 정리
+                if (_itemsList[fromSlot] != null && _itemsList[fromSlot].Quantity <= 0)
                 {
                     _itemsList[fromSlot] = null;
                     SortInventory();
                 }
-                UpdateSlot(fromSlot);
+                else
+                {
+                    UpdateSlot(fromSlot);
+                }
                 return true;
             }
             Debug.Log($"BasicAllInventory.MoveItemToEquip - 장비 인벤토리에 추가 실패");
