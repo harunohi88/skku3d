@@ -17,8 +17,8 @@ public class WeaponMove : MonoBehaviour
 
     // Idle 상태: 붕붕 떠오르는 움직임
     [Header("Idle Movement")]
-    public float floatAmplitude = 0.5f;
-    public float floatFrequency = 1f;
+    public float floatAmplitude = 5f;
+    public float floatFrequency = 5f;
 
     private Vector3 _originPos;
     private Vector3 _startPos;
@@ -26,7 +26,7 @@ public class WeaponMove : MonoBehaviour
 
     // Lift 상태: 위로 빠르게 상승
     [Header("Lift Movement")]
-    public float liftHeight = 3f;
+    public float liftHeight = 5f;
     public float liftSpeed = 5f;
     private bool _isLifting = false;
 
@@ -34,7 +34,7 @@ public class WeaponMove : MonoBehaviour
     [Header("Attack Movement")]
     public float spinSpeed = 360f;
     public float tiltAngle = 45f;
-    public float ThrowHeight = 1.5f;
+    public float ThrowHeight = 1f;
     private float _deltaTime = 0f;
 
     public float RotationAngle = 90f;
@@ -48,10 +48,8 @@ public class WeaponMove : MonoBehaviour
         _isLifting = false;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        Debug.Log($"[WeaponMove] CurrentState: {CurrentState}");
-
         switch (CurrentState)
         {
             case WeaponState.Idle:
@@ -97,11 +95,11 @@ public class WeaponMove : MonoBehaviour
         float radius = ((boss2SpecialAttack2.Radius * boss2SpecialAttack2.InnerRange) + boss2SpecialAttack2.Radius) / 4f;
         _deltaTime += Time.deltaTime;
         //transform.Rotate(0, 0, _deltaTime * 90);
-        transform.rotation = Quaternion.Euler(90f, 0f, _deltaTime * 1800f);
+        transform.rotation = Quaternion.Euler(90f, 0f, _deltaTime * 3600f);
         transform.position = new Vector3(
-            transform.parent.position.x + radius * Mathf.Cos(_deltaTime * Mathf.Deg2Rad * 360f),
+            transform.parent.position.x + radius * Mathf.Cos(_deltaTime * Mathf.Deg2Rad * 720f),
             transform.parent.position.y + ThrowHeight,
-            transform.parent.position.z + radius * Mathf.Sin(_deltaTime * Mathf.Deg2Rad * 360f));
+            transform.parent.position.z + radius * Mathf.Sin(_deltaTime * Mathf.Deg2Rad * 720f));
     }
 
     public void SetState(WeaponState newState)
