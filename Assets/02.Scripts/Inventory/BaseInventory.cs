@@ -66,6 +66,7 @@ public abstract class BaseInventory : MonoBehaviour
 
     public virtual bool MoveItem(int fromSlot, int toSlot)
     {
+        if (fromSlot == toSlot) return false;
         if (fromSlot < 0 || fromSlot >= _itemsList.Count || toSlot < 0 || toSlot >= _itemsList.Count)
             return false;
 
@@ -110,5 +111,10 @@ public abstract class BaseInventory : MonoBehaviour
             }
         }
         return runeList;
+    }
+
+    public List<InventoryItem> GetItemList()
+    {
+        return new List<InventoryItem>(_itemsList);
     }
 } 

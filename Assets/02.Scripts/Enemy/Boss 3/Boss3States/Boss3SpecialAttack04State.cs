@@ -1,19 +1,52 @@
+using MoreMountains.Feedbacks;
 using UnityEngine;
 
 public class Boss3SpecialAttack04State : IState<AEnemy>
 {
-    void IState<AEnemy>.Enter(AEnemy enemy)
+    private EnemyPatternData _patternData;
+    private float _time = 0f;
+    private bool _wasAgentStopped;
+    public void Enter(AEnemy enemy)
     {
-        throw new System.NotImplementedException();
+        Debug.Log(this);
+        enemy.SetAnimationTrigger("SpecialAttack04");
+        _patternData = Boss3AIManager.Instance.GetPatternData(4);
+
+        enemy.EnemyRotation.IsFound = false;
+        enemy.Agent.isStopped = true;
+
+        _wasAgentStopped = false;
     }
 
-    void IState<AEnemy>.Exit(AEnemy enemy)
+    public void Update(AEnemy enemy)
     {
-        throw new System.NotImplementedException();
+        _time += Time.deltaTime;
+        if (!_wasAgentStopped)
+        {
+            if (_patternData != null && _time >= 1f)
+            {
+                if (enemy is ISpecialAttackable specialAttackable)
+                {
+                    specialAttackable.SpecialAttack_04();
+                }
+                _wasAgentStopped = true;
+            }
+            
+        }
+
+        if (_patternData != null && _time >= _patternData.CastingTime)
+        {
+            if (enemy is ISpecialAttackable specialAttackable)
+            {
+                specialAttackable.OnSpecialAttack04End();
+            }
+            enemy.ChangeState(new Boss3TraceState());
+        }
     }
 
-    void IState<AEnemy>.Update(AEnemy enemy)
+    public void Exit(AEnemy enemy)
     {
-        throw new System.NotImplementedException();
+        enemy.Agent.isStopped = false;
+        enemy.EnemyRotation.IsFound = true;
     }
 }

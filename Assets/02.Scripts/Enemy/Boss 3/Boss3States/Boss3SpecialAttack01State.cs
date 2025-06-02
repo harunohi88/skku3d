@@ -12,7 +12,7 @@ public class Boss3SpecialAttack01State : IState<AEnemy>
         {
             specialAttackable.SpecialAttack_01();
         }
-
+        enemy.EnemyRotation.IsFound = false;
         _patternData = Boss3AIManager.Instance.GetPatternData(1);
     }
 
@@ -33,5 +33,6 @@ public class Boss3SpecialAttack01State : IState<AEnemy>
 
     public void Exit(AEnemy enemy)
     {
+        enemy.EnemyRotation.IsFound = true;
     }
 }
