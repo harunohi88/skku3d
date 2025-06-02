@@ -1,3 +1,4 @@
+using GAP_LaserSystem;
 using UnityEngine;
 
 public class Boss2SpecialAttack02State : IState<AEnemy>
@@ -32,6 +33,7 @@ public class Boss2SpecialAttack02State : IState<AEnemy>
             ferex.WeaponOriginal.SetActive(false);
             ferex.WeaponCopied.transform.position = ferex.WeaponOriginal.transform.position;
             ferex.WeaponCopied.SetActive(true);
+            ferex.WeaponCopied.GetComponentInChildren<LaserScript>()?.ShootLaser(999f);
 
             var weapon = ferex.WeaponCopied.GetComponent<WeaponMove>();
             weapon.SetState(WeaponMove.WeaponState.Idle);
@@ -57,12 +59,9 @@ public class Boss2SpecialAttack02State : IState<AEnemy>
     }
     public void Update(AEnemy enemy)
     {
-        Debug.Log($"[Update] currentPhase: {_currentPhase}, time: {_time}");
         _time += Time.deltaTime;
-        Debug.Log(_time);
         if (_currentPhase == 0 && _time >= _patternData.CastingTime)
         {
-            Debug.Log("Lift 전으로 들어옴");
             _currentPhase = 1;
             _time = 0f;
             enemy.SetAnimationTrigger("SpecialAttack02_Lift");
@@ -76,23 +75,12 @@ public class Boss2SpecialAttack02State : IState<AEnemy>
         {
             _time = 0f;
 
-            Debug.Log("Throw 전으로 진입");
             if (enemy is Boss_Ferex ferex)
             {
                 var weapon = ferex.WeaponCopied.GetComponent<WeaponMove>();
                 weapon.SetState(WeaponMove.WeaponState.Throw);
             }
         }
-        //else if (_currentPhase == 2)
-        //{
-        //    Debug.Log("Throw 전으로 진입");
-        //    if (enemy is Boss_Ferex ferex)
-        //    {
-        //        var weapon = ferex.WeaponCopied.GetComponent<WeaponMove>();
-        //        weapon.SetState(WeaponMove.WeaponState.Throw);
-        //    }
-        //    _currentPhase = 3;
-        //}
     }
 
     public void Exit(AEnemy enemy)
@@ -103,6 +91,7 @@ public class Boss2SpecialAttack02State : IState<AEnemy>
             Debug.Log("진짜 무기 켜짐");
             ferex.WeaponCopied.SetActive(false);
             ferex.WeaponOriginal.SetActive(true);
+            ferex.WeaponOriginal.GetComponentInChildren<LaserScript>()?.ShootLaser(999f);
         }
         enemy.Agent.isStopped = false;
     }

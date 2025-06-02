@@ -27,11 +27,12 @@ public class Boss2SpecialAttack03State : IState<AEnemy>
                 _patternData.Radius,
                 0,
                 _patternData.Angle,
-                0.5f,
+                0,
                 _patternData.CastingTime,
                 0,
                 Color.green
                 );
+            (enemy as Boss_Ferex)?.SetIndicatorPosition(_indicator.transform.position);
         }
         Quaternion _indicatorPos = Quaternion.Euler(90, 0, -enemy.transform.eulerAngles.y);
         _indicator.transform.rotation = _indicatorPos;
