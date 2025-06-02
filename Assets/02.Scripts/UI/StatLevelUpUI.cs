@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class StatLevelUpUI : MonoBehaviour
 {
     public GameObject UpgradeButtonPanel;
-    public TextMeshProUGUI LevelUpPointText;
 
     public void UpgradeMaxHealth() => StatUpgrade(EStatType.MaxHealth);
     public void UpgradeStamina() => StatUpgrade(EStatType.MaxStamina);
@@ -16,7 +15,6 @@ public class StatLevelUpUI : MonoBehaviour
 
     private void Start()
     {
-        UIEventManager.Instance.OnLevelUp += OnLevelUp;
         UIEventManager.Instance.OnUpgradePointChange += PointRefresh;
     }
 
@@ -27,12 +25,6 @@ public class StatLevelUpUI : MonoBehaviour
         {
             UpgradeButtonPanel.SetActive(false);
         }
-    }
-
-    private void OnLevelUp(float level)
-    {
-        // 레벨 표시하는 TextMesh 값 변경
-        UpgradeButtonPanel.SetActive(true);
     }
 
     public void StatUpgrade(EStatType statType)
