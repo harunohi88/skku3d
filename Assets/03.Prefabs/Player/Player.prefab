@@ -144,6 +144,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 100
+  Stamina: 0
+  StaminaGain: 10
+  StaminaRegenDelay: 1
+  UIUpdateInterval: 0.1
 --- !u!114 &1164153225896202679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,10 +161,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Gravity: -9.81
+  RollStaminaUse: 20
   RollDuration: 0.7
   RollAdditionalSpeed: 3
   Model: {fileID: 4918273216877875310}
-  PlayerManager: {fileID: 0}
 --- !u!114 &7016786972171888912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +263,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8f3c6d14c55b40428f51e09b74210db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Level: 0
+  ExpTable: []
+  _pointsGainPerLevel: 2
+  _statUpgradePoints: 0
 --- !u!114 &1317212668334745917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,6 +280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SkillName: SpinSlash
+  SkillIndex: 1
   SkillBaseStat: {fileID: 11400000, guid: 35ff15a201dd90e459cfe90ca631cc31, type: 2}
   IsAvailable: 1
 --- !u!114 &315133918655934278
@@ -286,6 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2258efb7a5767f4eb271b1423abbb3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SkillIndex: 2
   IndicatorPrefab: {fileID: 2139657755918875766}
   SkillBaseStat: {fileID: 11400000, guid: e2999ab62f2891343a6da020303b5f99, type: 2}
   IsTargeting: 0

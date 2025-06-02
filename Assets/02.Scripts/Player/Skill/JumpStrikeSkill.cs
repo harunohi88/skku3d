@@ -6,6 +6,7 @@ using UnityEngine;
 public class JumpStrikeSkill : MonoBehaviour, ISkill
 {
     public Rune Rune;
+    public int SkillIndex = 2;
     public GameObject IndicatorPrefab;
     public SkillBaseSO SkillBaseStat;
     public Dictionary<ESkillStat, Stat> SkillStatDictionary = new Dictionary<ESkillStat, Stat>();
@@ -47,13 +48,14 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
     {
         if (!IsTargeting)
         {
+            if (!IsAvailable) return;
             PlayerManager.Instance.PlayerState = EPlayerState.Targeting;
             _playerSkill.CurrentSkill = this;
             _playerSkill.IsTargeting = true;
             IsTargeting = true;
             _indicator.gameObject.SetActive(true);
 
-            UIEventManager.Instance.OnSkillUse?.Invoke();
+            // UIEventManager.Instance.OnSkillUse?.Invoke();
         }
         else
         {
@@ -61,6 +63,12 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
             {
                 return;
             }
+
+            _cooldownManager.StartCooldown(
+                SkillIndex,
+                SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat,
+                SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat,
+                SetAvailable);
             _indicator.gameObject.SetActive(false);
             _playerSkill.IsTargeting = false;
             PlayerManager.Instance.PlayerState = EPlayerState.Skill;
@@ -196,9 +204,7 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
         Debug.Log("Jump Strike End");
         PlayerManager.Instance.PlayerState = EPlayerState.None;
         _playerSkill.CurrentSkill = null;
-        _cooldownManager.StartCooldown(
-            SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat,
-            SetAvailable); // 쿨다운 등록 스킬 시전시점으로 변경해야됨
+
     }
     
     public void EquipRune(Rune rune)

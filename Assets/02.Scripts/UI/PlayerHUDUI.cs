@@ -23,7 +23,7 @@ public class PlayerHUDUI : MonoBehaviour
         Global.Instance.OnDataLoaded += Init;
 
         UIEventManager.Instance.OnStatChanged += ChangeStat;
-        UIEventManager.Instance.OnSkillUse += SKillCooldown;
+        UIEventManager.Instance.OnCooldown += SKillCooldown;
         UIEventManager.Instance.OnExpGain += RefreshExpBar;
         UIEventManager.Instance.OnLevelUp += NewMaxExp;
     }
@@ -68,17 +68,20 @@ public class PlayerHUDUI : MonoBehaviour
         ExpText.SetText($"{percentage}%");
     }
 
-    public void SKillCooldown()
+    public void SKillCooldown(int slot, float cooldownTime, float maxCooldownTime)
     {
-        // 인덱스 가져오기 or currentSkill 들고와서 자신의 index 확인
-        // UIEventManager에서 OnSkillUse 액션을 <int>형으로 받고 현재 스킬 인덱스 매개변수로 가져오고 싶은데
-        // 아까 스킬 2개에 이미 OnSkillUse 심어놔서 일단 안바꿨습니다. 편한 방식으로 수정해주세요
-
-        //if (IsCooldownList[index])
-        //{
-        //    StartCoroutine(Cooldown_coroution(index));
-        //}
-       
+        if (maxCooldownTime == 0)
+        {
+            CooldownImageList[slot].fillAmount = 0;
+            return;
+        }
+        CooldownTextList[slot].gameObject.SetActive(true);
+        CooldownImageList[slot].fillAmount = cooldownTime / maxCooldownTime;
+        CooldownTextList[slot].text = cooldownTime.ToString("0.0");
+        if (cooldownTime <= 0.1f)
+        {
+            CooldownTextList[slot].gameObject.SetActive(false);
+        }
     }
 
     public IEnumerator Cooldown_coroution(int index)

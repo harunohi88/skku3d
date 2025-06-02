@@ -4,26 +4,33 @@ using System;
 
 public class CooldownManager : BehaviourSingleton<CooldownManager>
 {
-    private List<CooldownEntry> _activeCooldownList = new List<CooldownEntry>();
+    public List<CooldownEntry> ActiveCooldownList = new List<CooldownEntry>();
 
     private void Update()
     {
-        for (int i = _activeCooldownList.Count - 1; i >= 0; i--)
+        for (int i = ActiveCooldownList.Count - 1; i >= 0; i--)
         {
-            CooldownEntry cooldownEntry = _activeCooldownList[i];
+            CooldownEntry cooldownEntry = ActiveCooldownList[i];
             cooldownEntry.CooldownTime -= Time.deltaTime;
+            UIEventManager.Instance.OnCooldown?.Invoke(
+                cooldownEntry.SkillIndex,
+                cooldownEntry.CooldownTime,
+                cooldownEntry.MaxCooldownTime
+                );
             if (cooldownEntry.CooldownTime <= 0f)
             {
                 cooldownEntry.OnCooltimeEnd?.Invoke();
-                _activeCooldownList.RemoveAt(i);
+                ActiveCooldownList.RemoveAt(i);
             }
         }
     }
 
-    public void StartCooldown(float duration, Action onCooldownEnd)
+    public void StartCooldown(int index, float maxDuration, float duration, Action onCooldownEnd)
     {
-        _activeCooldownList.Add(new CooldownEntry
+        ActiveCooldownList.Add(new CooldownEntry
         {
+            SkillIndex = index,
+            MaxCooldownTime = maxDuration,
             CooldownTime = duration,
             OnCooltimeEnd = onCooldownEnd
         });   

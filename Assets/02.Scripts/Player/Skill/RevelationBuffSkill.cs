@@ -62,7 +62,7 @@ public class RevelationBuffSkill : MonoBehaviour, ISkill
 
         PlayerManager.Instance.PlayerState = EPlayerState.None;
         //쿨다운 매니저에 등록
-        _cooldownManager.StartCooldown(_cooldownTime, SetAvailable);
+        // _cooldownManager.StartCooldown(_cooldownTime, SetAvailable);
     }
 
     // 이벤트 시스템에서 호출할 메서드
