@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,6 +6,7 @@ using System.Linq;
 public class PlayerStat : MonoBehaviour
 {
     public Dictionary<EStatType, Stat> StatDictionary;
+    public Action OnDictionaryLoaded;
     
     private void Awake()
     {
@@ -28,6 +30,7 @@ public class PlayerStat : MonoBehaviour
                 statData.CanLevelUp,
                 statData.IncreaseAmount);
         }
+        OnDictionaryLoaded?.Invoke();
     }
     
     public StatSnapshot CreateSnapshot()
