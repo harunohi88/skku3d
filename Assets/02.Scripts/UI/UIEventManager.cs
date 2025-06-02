@@ -5,7 +5,7 @@ using UnityEngine;
 public class UIEventManager : BehaviourSingleton<UIEventManager>
 {
     public Action OnStatChanged;
-    public Action OnSkillUse;
+    public Action<int, float, float> OnCooldown;
     public Action<int, float> OnLevelUp;
     public Action<float> OnExpGain;
     public Action<int> OnSKillLevelUp;
