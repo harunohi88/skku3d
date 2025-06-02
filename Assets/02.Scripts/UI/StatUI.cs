@@ -13,6 +13,7 @@ public class StatText
 public class StatUI : MonoBehaviour
 {
     [SerializeField] private List<StatText> StatTextList;
+    [SerializeField] private TextMeshProUGUI CurrentHealthText;
 
     private Dictionary<EStatType, TextMeshProUGUI> _textDictionary;
     
@@ -25,6 +26,15 @@ public class StatUI : MonoBehaviour
         }
 
         UIEventManager.Instance.OnDisplayStatChanged += RefreshStatTexts;
+        UIEventManager.Instance.OnCurrentHealthChanged += RefreshCurrentHealthText;
+    }
+
+    private void RefreshCurrentHealthText(float currentHealth)
+    {
+        if (CurrentHealthText != null)
+        {
+            CurrentHealthText.text = $"{currentHealth:F0}";
+        }
     }
 
     private void RefreshStatTexts(StatSnapshot statSnapshot)
@@ -33,7 +43,14 @@ public class StatUI : MonoBehaviour
         {
             if (_textDictionary.TryGetValue(stat.Key, out TextMeshProUGUI text))
             {
-                text.text = $"{stat.Value:F0}";
+                if (stat.Key == EStatType.CriticalChance || stat.Key == EStatType.CriticalDamage)
+                {
+                    text.text = $"{stat.Value * 100:F0}%";
+                }
+                else
+                {
+                    text.text = $"{stat.Value:F0}";
+                }
             }
         }
     }

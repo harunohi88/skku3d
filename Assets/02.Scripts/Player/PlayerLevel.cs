@@ -35,6 +35,8 @@ public class PlayerLevel : MonoBehaviour
         {
             ExpTable.Add(experienceData.ExpToNextLevel);
         }
+        UIEventManager.Instance.OnExpGain?.Invoke(_experience);
+        UIEventManager.Instance.OnLevelUp?.Invoke(_displayLevel, ExpTable[Level]);
     }
     
     public void GainExperience(float experience)
@@ -59,7 +61,7 @@ public class PlayerLevel : MonoBehaviour
             // Level Up Effect Execute once
             // UI에 레벨 표시
             
-            _eventManager.OnLevelUp?.Invoke(ExpTable[Level]);
+            _eventManager.OnLevelUp?.Invoke(_displayLevel, ExpTable[Level]);
             _eventManager.OnExpGain?.Invoke(_experience);
             _eventManager.OnUpgradePointChange?.Invoke(_statUpgradePoints);
             Debug.Log($"Level Up: {_displayLevel}");
