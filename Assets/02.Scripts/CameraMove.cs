@@ -12,7 +12,11 @@ public class CameraMove : MonoBehaviour
     private void Update()
     {
         if (GameManager.Instance.IsStart == false) return;
-        transform.rotation = Target.rotation;
-        this.transform.position = Target.position;
+
+        if(CameraManager.Instance.IsShaking == false)
+        {
+            transform.rotation = Target.rotation;
+            this.transform.position = Target.position;
+        }
     }
 }

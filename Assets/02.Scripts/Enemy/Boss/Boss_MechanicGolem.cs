@@ -32,6 +32,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
     public override void TakeDamage(Damage damage)
     {
         if (_stateMachine.CurrentState is BossDieState) return;
+
         Health -= damage.Value;
         BossUIManager.Instance.UPdateHealth(Health); ///// HealthBar 추가한 코드
 
@@ -46,8 +47,14 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
         }
     }
 
+    public void OnWalk()
+    {
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss1Walk);
+    }
+
     public override void Attack()
     {
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss1Attack);
         float disTanceToPlayer = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
         Vector3 directionToPlayer = (PlayerManager.Instance.Player.transform.position - transform.position).normalized;
         Vector3 targetPosition = PlayerManager.Instance.Player.transform.position - directionToPlayer * (AttackDistance / 2f);
@@ -106,6 +113,8 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
             Damage damage = new Damage();
             damage.Value = _patternData.Damage;
             damage.From = this.gameObject;
+
+            AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss1Sp2_1);
 
             Collider[] colliders = Physics.OverlapSphere(transform.position, _patternData.Radius, LayerMask.GetMask("Player"));
             if(colliders.Length > 0)
@@ -204,6 +213,8 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
             indicatorList[i].Ready(castingTime);
             yield return new WaitForSeconds(castingTime);
 
+            CameraManager.Instance.CameraShake(0.3f, 0.4f + 0.08f * i);
+            AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss1Sp3_2);
             BossEffectManager.Instance.PlayBoss1Particle(i + 4);
             float radius = ((i + 1) / 3.0f) * patternData.Range / 2;
             List<Collider> colliderList = Physics.OverlapSphere(position, radius, LayerMask).ToList();

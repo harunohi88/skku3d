@@ -29,6 +29,7 @@ public class BossSpecialAttack03State : IState<AEnemy>
             {
                 enemy.Agent.ResetPath();
                 enemy.SetAnimationTrigger("SpecialAttack03_1");
+                AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss1Sp3_1);
                 (enemy as ISpecialAttackable).SpecialAttack_01();
                 _isStart = true;
             }
@@ -43,6 +44,7 @@ public class BossSpecialAttack03State : IState<AEnemy>
             {
                 if (_time >= _patternData.CastingTime)
                 {
+                    CameraManager.Instance.CameraShake(0.3f, 0.4f);
                     _currentOrder++;
                     _time = 0f;
                     _patternData = BossAIManager.Instance.GetPatternData(3, 1);

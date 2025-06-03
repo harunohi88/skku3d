@@ -6,12 +6,8 @@ public class Explosion_DynamicRune : ADynamicRuneObject
     public override void Init(Damage damage, float radius, float moveSpeed, Vector3 startPosition, Transform targetTransform, int TID)
     {
         base.Init(damage, radius, moveSpeed, startPosition, targetTransform, TID);
-    }
-
-    private void Start()
-    {
         Collider[] colliders = Physics.OverlapSphere(transform.position, _radius, LayerMask.GetMask("Enemy"));
-        for(int i = 0; i < colliders.Length; i++)
+        for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].gameObject.GetInstanceID() == _targetTransform.gameObject.GetInstanceID()) continue;
             Damage newDamage = new Damage();

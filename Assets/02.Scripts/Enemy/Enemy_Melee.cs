@@ -10,8 +10,6 @@ public class Enemy_Melee : AEnemy
 
     public override void Attack()
     {
-        // 스킬 이펙트
-
         EnemyRotation.IsFound = false;
         Vector3 directionToPlayer = PlayerManager.Instance.Player.transform.position - transform.position;
         directionToPlayer = directionToPlayer.normalized;
@@ -26,5 +24,11 @@ public class Enemy_Melee : AEnemy
                 PlayerManager.Instance.Player.TakeDamage(damage);
             }
         }
+    }
+
+    public override void OnAnimationEnd()
+    {
+        EnemyRotation.IsFound = true;
+        ChangeState(new TraceState());
     }
 }
