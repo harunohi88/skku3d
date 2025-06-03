@@ -8,7 +8,9 @@ public class Boss3DieState : IState<AEnemy>
         Debug.Log(this);
         enemy.SetAnimationTrigger("Die");
         enemy.Agent.ResetPath();
+        enemy.EnemyRotation.IsFound = false;
         Boss3AIManager.Instance.PortalToNextStage.SetActive(true);
+        
 
         DropTable.Instance.Drop(enemy.Type, enemy.transform.position, 3);
         int n = Random.Range(2, 5);
@@ -30,5 +32,6 @@ public class Boss3DieState : IState<AEnemy>
 
     public void Exit(AEnemy enemy)
     {
+        enemy.EnemyRotation.IsFound = true;
     }
 }
