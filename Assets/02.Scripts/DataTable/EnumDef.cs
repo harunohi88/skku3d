@@ -253,6 +253,22 @@ public enum EnemyAudioType
     Boss1Walk = 12,
     ///<summary>보스1 사망</summary>
     Boss1Die = 13,
+    ///<summary>보스 2 기본공격</summary>
+    Boss2Attack = 14,
+    ///<summary>보스 2 스페셜 공격 1</summary>
+    Boss2Sp1 = 15,
+    ///<summary>보스 2 스페셜 공격 2 Idle</summary>
+    Boss2Sp2Idle = 16,
+    ///<summary>보스 2 스페셜 공격 2</summary>
+    Boss2Sp2 = 17,
+    ///<summary>보스2 스페셜 공격 3 Idle</summary>
+    Boss2Sp3Idle = 18,
+    ///<summary>보스 2 스페셜 공격 3</summary>
+    Boss2Sp3 = 19,
+    ///<summary>보스 2 추적</summary>
+    Boss2Trace = 20,
+    ///<summary>보스 2 사망</summary>
+    Boss2Die = 21,
 }
 
 public enum DynamicRuneAudioType
