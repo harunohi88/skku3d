@@ -26,6 +26,8 @@ public class ElectricRuneEffect : ARuneEffect
 
         if (colliderList.Count != 0)
         {
+            AudioManager.Instance.PlayDynamicRuneAudio(DynamicRuneAudioType.Lightning);
+
             List<Transform> randomList = colliderList
                                         .OrderBy(x => Random.value)
                                         .Take(Mathf.Min(_enemyCount, colliderList.Count))

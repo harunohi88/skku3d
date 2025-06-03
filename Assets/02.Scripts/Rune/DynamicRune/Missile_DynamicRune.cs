@@ -49,6 +49,7 @@ public class Missile_DynamicRune : ADynamicRuneObject
                 _elapsed = 0f;
                 Booster.Play();
                 _startPosition = transform.position;
+                AudioManager.Instance.PlayDynamicRuneAudio(DynamicRuneAudioType.Fly4);
             }
         }
         else
@@ -77,6 +78,7 @@ public class Missile_DynamicRune : ADynamicRuneObject
                     colliders[i].GetComponent<AEnemy>()?.TakeDamage(newDamage);
                 }
 
+                AudioManager.Instance.PlayDynamicRuneAudio(DynamicRuneAudioType.Explosion2);
                 RuneManager.Instance.ProjectilePoolDic[TID].Return(this);
             }
         }

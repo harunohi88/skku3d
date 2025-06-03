@@ -1041,6 +1041,7 @@ GameObject:
   - component: {fileID: 656109247}
   - component: {fileID: 656109246}
   - component: {fileID: 656109245}
+  - component: {fileID: 656109255}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1211,6 +1212,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &656109255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656109244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e5d6699194d77845968a4f1e7163cbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &690769494
 GameObject:
   m_ObjectHideFlags: 0
@@ -1877,7 +1890,18 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3d982faf7a131664ca63bc658d80194f, type: 3}
   - {fileID: 8300000, guid: 825b0745ea864fa498902acbc5d4de29, type: 3}
   EnemyAudioList: []
-  DynamicRuneAudioList: []
+  DynamicRuneAudioList:
+  - {fileID: 8300000, guid: 5fbb03dab0da9ae42883650aeb226bd6, type: 3}
+  - {fileID: 8300000, guid: bedd6a8307f67454c8526c9664b80dbd, type: 3}
+  - {fileID: 8300000, guid: 00c4963feb5aea14baee608a7c01f023, type: 3}
+  - {fileID: 8300000, guid: 29ac7bfcbb0ed724c98fb6861f79df10, type: 3}
+  - {fileID: 8300000, guid: b1aa26574114bfb4c998c6a16a0eb048, type: 3}
+  - {fileID: 8300000, guid: c78dedc7899c0ea43a317d1967715faf, type: 3}
+  - {fileID: 8300000, guid: 53cb44daa5efa714c90a354f2bba6f2c, type: 3}
+  - {fileID: 8300000, guid: 9e279994023092445817b355e018df41, type: 3}
+  - {fileID: 8300000, guid: 7ac31dd0976d4d54d88e0bbff659e7ea, type: 3}
+  - {fileID: 8300000, guid: 769fdf4a6eb3fc047aa8c2d6ed2e1964, type: 3}
+  - {fileID: 8300000, guid: 72ef5607e7c8d6b4c89ff612d323d9d8, type: 3}
   UIAudioList:
   - {fileID: 8300000, guid: c1525b69c2145684186357700bda5848, type: 3}
   - {fileID: 8300000, guid: c28410a3a4bb3984fa1c64d005f8a7c3, type: 3}

@@ -21,6 +21,7 @@ public class FlameRuneEffect : ARuneEffect
 
         if (colliderList.Count != 0)
         {
+            AudioManager.Instance.PlayDynamicRuneAudio(DynamicRuneAudioType.FireBall);
 
             int index = Random.Range(0, colliderList.Count);
             Transform targetTransform = colliderList[index].transform;

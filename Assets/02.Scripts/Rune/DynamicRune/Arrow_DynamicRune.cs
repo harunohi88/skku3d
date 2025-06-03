@@ -14,6 +14,8 @@ public class Arrow_DynamicRune : ADynamicRuneObject
         _elapsedPhaseTime = 0f;
         SmokeTrail.SetActive(false);
         _isTrailOn = false;
+
+        AudioManager.Instance.PlayDynamicRuneAudio(DynamicRuneAudioType.Fly1);
     }
 
     public override void Update()
@@ -56,6 +58,8 @@ public class Arrow_DynamicRune : ADynamicRuneObject
     {
         if (other.gameObject.GetInstanceID() == _targetTransform.gameObject.GetInstanceID())
         {
+            AudioManager.Instance.PlayDynamicRuneAudio(DynamicRuneAudioType.ArrowHit);
+         
             Damage newDamage = new Damage();
             newDamage.Value = _damage.Value;
             newDamage.From = _damage.From;

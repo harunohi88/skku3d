@@ -7,6 +7,7 @@ public class BossDieState : IState<AEnemy>
     {
         enemy.SetAnimationTrigger("Die");
         enemy.Agent.ResetPath();
+        enemy.EnemyRotation.IsFound = false;
         BossAIManager.Instance.PortalToNextStage.SetActive(true);
 
         DropTable.Instance.Drop(enemy.Type, enemy.transform.position, 3);

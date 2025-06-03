@@ -45,6 +45,7 @@ public class Flame_DynamicRune : ADynamicRuneObject
 
         if (Vector3.Distance(targetPosition, transform.position) <= 0.4f)
         {
+            AudioManager.Instance.PlayDynamicRuneAudio(DynamicRuneAudioType.FireField);
             Instantiate(HitObject, transform.position, Quaternion.identity);
 
             Collider[] colliders = Physics.OverlapSphere(transform.position, Radius, LayerMask.GetMask("Enemy"));

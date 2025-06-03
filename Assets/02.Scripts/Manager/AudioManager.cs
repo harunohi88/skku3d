@@ -121,7 +121,7 @@ public class AudioManager : BehaviourSingleton<AudioManager>
         audioSource.Play();
     }
 
-    public void PlayerDynamicRuneAudio(DynamicRuneAudioType audioType)
+    public void PlayDynamicRuneAudio(DynamicRuneAudioType audioType)
     {
         AudioSource audioSource = GetAvailableAudioSource();
         audioSource.outputAudioMixerGroup = _sfxMixerGroup;
