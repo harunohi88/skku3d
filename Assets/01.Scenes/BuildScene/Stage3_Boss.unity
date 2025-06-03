@@ -10982,8 +10982,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 493289888}
-  - component: {fileID: 493289887}
-  - component: {fileID: 493289889}
   m_Layer: 0
   m_Name: Pool
   m_TagString: Pool
@@ -10991,21 +10989,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &493289887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 493289886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 925703e6aa972534882b878fe04d7024, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnemyPrefabList:
-  - {fileID: 881811158787742452, guid: f9c640ade5cb77f46bc60b20b2e8d822, type: 3}
-  PoolSize: 20
 --- !u!4 &493289888
 Transform:
   m_ObjectHideFlags: 0
@@ -11021,21 +11004,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &493289889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 493289886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 700538b62ecd3b141b3a535b3f788c74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnemyPrefabs:
-  - {fileID: 5930976118771097857, guid: 05eda08927a64d840909d8c8ec209b7a, type: 3}
-  PoolSize: 20
 --- !u!4 &493500750 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4057359497517872, guid: 14eab3179517a954c87faf31cd4331f8, type: 3}
@@ -39126,6 +39094,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38c307d022182ea4eb58ab3ca752758c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsShaking: 0
 --- !u!114 &1777585565
 MonoBehaviour:
   m_ObjectHideFlags: 0
