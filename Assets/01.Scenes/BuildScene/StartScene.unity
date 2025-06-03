@@ -1042,7 +1042,6 @@ GameObject:
   - component: {fileID: 656109247}
   - component: {fileID: 656109246}
   - component: {fileID: 656109245}
-  - component: {fileID: 656109255}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1198,6 +1197,7 @@ MonoBehaviour:
   _equipmentPanel: {fileID: 0}
   _popupBackgroundImage: {fileID: 0}
   _mapPanel: {fileID: 0}
+  TurnOff: 0
 --- !u!4 &656109254
 Transform:
   m_ObjectHideFlags: 0

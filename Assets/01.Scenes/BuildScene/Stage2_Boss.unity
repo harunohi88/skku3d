@@ -4118,6 +4118,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossPortal
       objectReference: {fileID: 0}
+    - target: {fileID: 3026751811080756255, guid: c52c3f84006ee0d44add1e32bc0d16a8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8264305499616494073, guid: c52c3f84006ee0d44add1e32bc0d16a8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -102.56259
@@ -26425,6 +26429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38c307d022182ea4eb58ab3ca752758c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsShaking: 0
 --- !u!43 &1796364941
 Mesh:
   m_ObjectHideFlags: 0
