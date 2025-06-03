@@ -18,7 +18,7 @@ public class BossSpecialAttack04State : IState<AEnemy>
         if (_patternData == null) _patternData = BossAIManager.Instance.GetPatternData(4);
         _indicator = BossIndicatorManager.Instance.SetCircularIndicator(enemy.transform.position, _patternData.Radius * 2, _patternData.Radius * 2, 0, _patternData.Angle, _patternData.InnerRange, _patternData.CastingTime, 0, Color.red);
         _enemyOriginStoppingDistance = enemy.Agent.stoppingDistance;
-        enemy.Agent.speed = enemy.MoveSpeed - 0.5f;
+        enemy.Agent.speed = 10f;
     }
 
     public void Update(AEnemy enemy)

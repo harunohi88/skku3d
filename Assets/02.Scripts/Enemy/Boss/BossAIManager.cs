@@ -43,10 +43,11 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
         if (availablePatternList.Count > 0)
         {
             int selectedIndex = availablePatternList[Random.Range(0, availablePatternList.Count)];
+
             return GetAttackState(selectedIndex);
         }
 
-        return new BossTraceState();
+        return new BossIdleState();
     }
 
     private bool IsPatternAvailable(int patternIndex)
@@ -102,7 +103,7 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
             case 2: return new BossSpecialAttack02State();
             case 3: return new BossSpecialAttack03State();
             case 4: return new BossSpecialAttack04State();
-            default: return new BossTraceState();
+            default: return new BossIdleState();
         }
     }
 }
