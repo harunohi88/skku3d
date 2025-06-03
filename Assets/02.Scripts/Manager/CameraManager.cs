@@ -4,7 +4,7 @@ using System.Collections;
 public class CameraManager : BehaviourSingleton<CameraManager>
 {
     private Vector3 _originalPosition;
-    private Vector3 _shakePosition;
+    public Vector3 ShakePosition;
 
     public bool IsShaking = false;
 
@@ -29,20 +29,18 @@ public class CameraManager : BehaviourSingleton<CameraManager>
 
         float elapsed = 0.0f;
 
-        Vector3 originalPosition = transform.localPosition;
-
         while (elapsed < duration)
         {
             float x = Random.Range(-1f, 1f) * magnitude;
             float y = Random.Range(-1f, 1f) * magnitude;
 
-            transform.localPosition = originalPosition + new Vector3(x, y, 0);
+            ShakePosition = (transform.right * x) + (transform.up * y);
 
             elapsed += Time.unscaledDeltaTime;
             yield return null;
         }
 
-        transform.localPosition = originalPosition;
+        ShakePosition = Vector3.one;
 
         IsShaking = false;
     }

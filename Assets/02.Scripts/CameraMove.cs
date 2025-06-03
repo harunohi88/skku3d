@@ -1,4 +1,4 @@
-
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class CameraMove : MonoBehaviour
@@ -7,16 +7,22 @@ public class CameraMove : MonoBehaviour
 
     private void Start()
     {
+        SceneManager.sceneLoaded += LoadCameraPositionOnScene;
+    }
+
+    public void LoadCameraPositionOnScene(Scene scene, LoadSceneMode mode)
+    {
+        Target = GameObject.FindGameObjectWithTag("CameraPosition")?.transform;
     }
 
     private void Update()
     {
-        if (GameManager.Instance.IsStart == false) return;
-
-        if(CameraManager.Instance.IsShaking == false)
+        if (Target != null)
         {
+            if (GameManager.Instance.IsStart == false) return;
+
             transform.rotation = Target.rotation;
-            this.transform.position = Target.position;
+            this.transform.position = Target.position + CameraManager.Instance.ShakePosition;
         }
     }
 }
