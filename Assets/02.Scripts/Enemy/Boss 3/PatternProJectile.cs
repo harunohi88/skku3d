@@ -1,3 +1,5 @@
+using MoreMountains.Feedbacks;
+using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -21,10 +23,6 @@ public class PatternProJectile : MonoBehaviour
 
     private Damage _damage;
 
-    public Boss_SpiritDemon Boss;
-    public float ProjectileDamage = 100;
-
-
     private void Start()
     {
         _sphereCollider = GetComponent<SphereCollider>();
@@ -39,10 +37,6 @@ public class PatternProJectile : MonoBehaviour
         }
 
         _direction = transform.forward;
-        _damage = new Damage();
-        _damage.Value = ProjectileDamage;
-        _damage.From = Boss.gameObject;
-        Init(_damage);
     }
 
     public void Init(Damage damage)
@@ -65,10 +59,6 @@ public class PatternProJectile : MonoBehaviour
             transform.position = hit.point;
 
             ImpactParticle = Instantiate(ImpactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, hit.normal));
-            if (hit.transform.CompareTag("Player"))
-            {
-                PlayerManager.Instance.Player.TakeDamage(_damage);
-            }
 
             foreach (GameObject trail in TrailParticleList)
             {
@@ -132,5 +122,3 @@ public class PatternProJectile : MonoBehaviour
         }
     }
 }
-
-

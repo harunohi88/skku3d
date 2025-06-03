@@ -13,6 +13,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     [Header("Pattern 1")]
     public GameObject KnifePrefab;
     public float KnifeSpawnInterval = 0.1f;
+    public Vector3 KnifeSpawnYOffset = new Vector3(0, 0.5f, 0);
 
     [Header("Pattern 2")]
     public int VerticalRectCount = 4; // 세로 직사각형 개수
@@ -30,6 +31,10 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     public float BlackHoleIndicatorDuration = 1f;
 
     [Header("Pattern 4 (Donut Attack)")]
+    public GameObject Pattern4Prefab;
+    public GameObject SafeZonePrefab;
+    public Vector3 Pattern4SpawnYPosition = new Vector3(0, 15f, 0);
+    public float SafeZoneDuration = 8f;
     public Vector3 AttackCircleCenter = Vector3.zero;
     public float AttackCircleOuterRadius = 10f;
     public float SafeCircleRadius = 3f;
@@ -205,9 +210,18 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
             Color.blue,
             true
         );
+        // 안전지대 오브젝트 생성
+        GameObject safeZone = Instantiate(SafeZonePrefab, _lastSafeCircleCenter, Quaternion.identity);
+        Destroy(safeZone, SafeZoneDuration);
 
-        yield return new WaitForSeconds(AttackCircleIndicatorDuration);
+        yield return new WaitForSeconds(AttackCircleIndicatorDuration - 1f);
         // 공격 실행: 안전지대(작은 원) 제외, 큰 원 범위 내 플레이어에게 데미지
+
+        
+
+        // 공격 오브젝트 생성
+        GameObject attackObject = Instantiate(Pattern4Prefab, AttackCircleCenter + Pattern4SpawnYPosition, Quaternion.identity);
+
         Collider[] hitColliders = Physics.OverlapSphere(AttackCircleCenter, AttackCircleOuterRadius);
         foreach (var hitCollider in hitColliders)
         {
@@ -254,6 +268,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     private IEnumerator KnifeInstantiateCoroutine(Vector3 center, int count, float innerRadius, float outerRadius)
     {
         int placed = 0;
+        center += KnifeSpawnYOffset;
         var patterData = Boss3AIManager.Instance.GetPatternData(1);
         float spawnInterval = KnifeSpawnInterval; // 각 칼 사이의 소환 간격 (초)
         float indicatorTime = 0.5f; // 인디케이터가 보여질 시간
@@ -379,6 +394,8 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     private IEnumerator ExecuteCircleAttackAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+
+        BossEffectManager.Instance.PlayBoss1Particle(2);
         
         float radius = 5f;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
@@ -419,6 +436,8 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     private IEnumerator ExecuteDonutAttackAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+
+        BossEffectManager.Instance.PlayBoss1Particle(3);
         
         float innerRadius = SphereInnerRadius;
         float outerRadius = SphereOuterRadius;
@@ -512,13 +531,15 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     {
         yield return new WaitForSeconds(delay);
         
+        BossEffectManager.Instance.PlayBoss1Particle(0);
+        
         for (int i = 0; i < VerticalRectCount; i++)
         {
             // 로컬 좌표계 기준으로 직사각형 중심점 계산
             Vector3 localOffset = _pattern2StartRotation * Vector3.right * (i * (VerticalRectWidth + VerticalRectSpacing));
             Vector3 rectCenter = startPos + localOffset;
             Vector3 halfExtents = new Vector3(VerticalRectWidth / 2, 1f, VerticalRectHeight / 2);
-            
+
             Collider[] hitColliders = Physics.OverlapBox(rectCenter, halfExtents, _pattern2StartRotation);
             foreach (var hitCollider in hitColliders)
             {
@@ -538,6 +559,8 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     private IEnumerator ExecuteHorizontalRectAttackAfterDelay(float delay, Vector3 startPos)
     {
         yield return new WaitForSeconds(delay);
+
+        BossEffectManager.Instance.PlayBoss1Particle(1);
         
         for (int i = 0; i < VerticalRectCount; i++)
         {
@@ -545,7 +568,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
             Vector3 localOffset = _pattern2StartRotation * Vector3.forward * (i * (VerticalRectWidth + VerticalRectSpacing));
             Vector3 rectCenter = startPos + localOffset;
             Vector3 halfExtents = new Vector3(VerticalRectWidth / 2, 1f, VerticalRectHeight / 2);
-            
+
             Collider[] hitColliders = Physics.OverlapBox(rectCenter, halfExtents, _pattern2StartRotation * Quaternion.Euler(0, 90, 0));
             foreach (var hitCollider in hitColliders)
             {

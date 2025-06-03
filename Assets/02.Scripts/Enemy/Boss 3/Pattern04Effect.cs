@@ -12,6 +12,7 @@ public class Pattern04Effect : MonoBehaviour
     {
         // 모든 자식에서 Projectile 컴포넌트 찾기
         _projectileList = new List<Projectile>(GetComponentsInChildren<Projectile>());
+        _boss = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Boss_SpiritDemon>();
 
         // 각 Projectile에 Init 호출
         foreach (var proj in _projectileList)
