@@ -39,7 +39,7 @@ public class Knife_DynamicRune : ADynamicRuneObject
 
     public override void Update()
     {
-        Vector3 targetPosition = new Vector3(_targetTransform.position.x, 2f, _targetTransform.position.z);
+        Vector3 targetPosition = new Vector3(_targetTransform.position.x, _targetTransform.position.y + 1.5f, _targetTransform.position.z);
         transform.Rotate(RotationSpeed * Time.deltaTime);
 
         if (_isStabbing == false)

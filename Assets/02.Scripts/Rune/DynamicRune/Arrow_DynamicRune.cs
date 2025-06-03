@@ -34,7 +34,7 @@ public class Arrow_DynamicRune : ADynamicRuneObject
             }
         }
 
-        Vector3 targetPosition = new Vector3(_targetTransform.position.x, 1f, _targetTransform.position.z);
+        Vector3 targetPosition = new Vector3(_targetTransform.position.x, _targetTransform.position.y + 0.5f, _targetTransform.position.z);
 
         Vector3 currentPos = GetQuadraticBezierPoint(_time, _startPosition, _controlPoint, targetPosition);
         transform.position = currentPos;
