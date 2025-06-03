@@ -4853,6 +4853,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1195413267036414, guid: 4bb11c51e2a790241a4a4d63267c78f8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1369138054474810, guid: 4bb11c51e2a790241a4a4d63267c78f8, type: 3}
       propertyPath: m_Name
       value: LaserBeam02 Variant
@@ -4974,6 +4978,18 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 199730811130031178, guid: 4bb11c51e2a790241a4a4d63267c78f8, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 199740962831195588, guid: 4bb11c51e2a790241a4a4d63267c78f8, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 199785809841958052, guid: 4bb11c51e2a790241a4a4d63267c78f8, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7640833938877215049, guid: 4bb11c51e2a790241a4a4d63267c78f8, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}

@@ -61,7 +61,6 @@ public class WeaponMove : MonoBehaviour
                 break;
 
             case WeaponState.Throw:
-                Debug.Log("Throw 상태");
                 HandleAttack();
                 break;
         }
@@ -90,16 +89,15 @@ public class WeaponMove : MonoBehaviour
 
     private void HandleAttack()
     {
-        Debug.Log("봉아 돌아라 돌아라");
         EnemyPatternData boss2SpecialAttack2 = GetComponentInParent<Boss2AIManager>()._boss2SpecialAttack2PatternList[0];
         float radius = ((boss2SpecialAttack2.Radius * boss2SpecialAttack2.InnerRange) + boss2SpecialAttack2.Radius) / 4f;
         _deltaTime += Time.deltaTime;
         //transform.Rotate(0, 0, _deltaTime * 90);
-        transform.rotation = Quaternion.Euler(90f, 0f, _deltaTime * 3600f);
+        transform.rotation = Quaternion.Euler(90f, 0f, -_deltaTime * 1800f);
         transform.position = new Vector3(
-            transform.parent.position.x + radius * Mathf.Cos(_deltaTime * Mathf.Deg2Rad * 720f),
+            transform.parent.position.x + radius * Mathf.Cos(-_deltaTime * Mathf.Deg2Rad * 360f),
             transform.parent.position.y + ThrowHeight,
-            transform.parent.position.z + radius * Mathf.Sin(_deltaTime * Mathf.Deg2Rad * 720f));
+            transform.parent.position.z + radius * Mathf.Sin(-_deltaTime * Mathf.Deg2Rad * 360f));
     }
 
     public void SetState(WeaponState newState)
