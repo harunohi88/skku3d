@@ -14,9 +14,6 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     public GameObject WeaponCopied;
     private int _baseAttackCount = 0;
 
-    public GameObject FireEffectPrefab;
-    private GameObject _fireEffectInstance;
-
     public Vector3 LastIndicatorPosition { get; private set; }
 
     protected void Start()
@@ -100,15 +97,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
         EnemyRotation.IsFound = false;
 
         EnemyPatternData _patternData = Boss2AIManager.Instance.GetPatternData(2, 1);
-        //if (_patternData != null)
-        //{
-        //    ClusterInstantiate(
-        //        transform.position,
-        //        _patternData.MaxCount,
-        //        _patternData.Range,
-        //        _patternData.Range
-        //    );
-        //}
+
         List<Collider> colliderList = Physics.OverlapSphere(transform.position, _patternData.Range, LayerMask).ToList();
         GameObject playerObject = colliderList.Find(x => x.CompareTag("Player"))?.gameObject;
 
@@ -134,31 +123,37 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 
     public void Boss2SpecialAttack_03()
     {
-        Debug.Log("특수공격3 이펙트 나오는 중");
         BossEffectManager.Instance.PlayBoss1Particle(4);
         BossEffectManager.Instance.PlayBoss1Particle(5);
         BossEffectManager.Instance.PlayBoss1Particle(6);
         BossEffectManager.Instance.PlayBoss1Particle(7);
         BossEffectManager.Instance.PlayBoss1Particle(8);
+        BossEffectManager.Instance.PlayBoss1Particle(9);
+        BossEffectManager.Instance.PlayBoss1Particle(10);
         Debug.Log("특수공격3 진입");
         WeaponCollider.enabled = true;
         EnemyRotation.IsFound = false;
 
-        if (FireEffectPrefab != null)
-        {
-            _fireEffectInstance = GameObject.Instantiate(FireEffectPrefab, LastIndicatorPosition, Quaternion.identity);
-        }
-
         EnemyPatternData _patternData = Boss2AIManager.Instance.GetPatternData(3, 1);
-        List<Collider> colliderList = Physics.OverlapSphere(transform.position, _patternData.Range, LayerMask).ToList();
-        GameObject playerObject = colliderList.Find(x => x.CompareTag("Player"))?.gameObject;
-
-        if (playerObject)
+        Damage damage = new Damage
         {
-            Vector3 directionToTarget = playerObject.transform.position - transform.position;
-            if (Vector3.Dot(transform.forward, directionToTarget.normalized) > 0 && Mathf.Abs(Vector3.Dot(transform.right, directionToTarget)) <= _patternData.Width / 2)
+            Value = _patternData.Damage,
+            From = this.gameObject
+        };
+
+        List<Collider> colliderList = Physics.OverlapSphere(transform.position, _patternData.Range, LayerMask).ToList();
+
+        foreach (var col in colliderList)
+        {
+            if (col.CompareTag("Player"))
             {
-                Debug.Log("특수공격 3 데미지 발생");
+                Vector3 dirToTarget = (col.transform.position - transform.position).normalized;
+                float angleToTarget = Vector3.Angle(transform.forward, dirToTarget);
+
+                if (angleToTarget <= _patternData.Angle * 0.5f)
+                {
+                    PlayerManager.Instance.Player.TakeDamage(damage);
+                }
             }
         }
     }
@@ -167,12 +162,6 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     {
         Debug.Log("특수공격3 해제");
         WeaponCollider.enabled = false;
-
-        if (_fireEffectInstance != null)
-        {
-            Destroy(_fireEffectInstance);
-            _fireEffectInstance = null;
-        }
 
         Boss2AIManager.Instance.SetLastFinishedTime(3, Time.time); // 쿨타임 관리
         OnAnimationEnd();
@@ -183,29 +172,6 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
         base.OnAnimationEnd();
         ChangeState(new Boss2TraceState());
     }
-
-    //private void ClusterInstantiate(Vector3 center, int count, float radiusX, float radiusY)
-    //{
-    //    int placed = 0;
-    //    var patternData = BossAIManager.Instance.GetPatternData(2);
-
-    //    while (placed < count)
-    //    {
-    //        float angle = Random.Range(0f, Mathf.PI * 2);
-    //        float radius = Mathf.Sqrt(Random.Range(0, 1f));
-
-    //        float x = Mathf.Cos(angle) * radius * radiusX;
-    //        float y = Mathf.Sin(angle) * radius * radiusY;
-
-    //        Vector3 spawnPoint = center + new Vector3(x, center.y, y);
-    //        Lightning lightning = _lightningPool.Get();
-    //        lightning.transform.position = spawnPoint;
-    //        lightning.Init(patternData.CastingTime, patternData.Radius, patternData.Duration);
-    //        if (lightning.thisPool == null) lightning.thisPool = _lightningPool;
-
-    //        placed++;
-    //    }
-    //}
 
     public void NavMeshAgentOff()
     {
