@@ -6,6 +6,7 @@ public class TraceState : IState<AEnemy>
     {
         enemy.SetAnimationTrigger("Run");
         enemy.EnemyRotation.IsFound = true;
+        enemy.Agent.SetDestination(PlayerManager.Instance.Player.transform.position);
     }
 
     public void Update(AEnemy enemy)
@@ -17,7 +18,6 @@ public class TraceState : IState<AEnemy>
             enemy.ChangeState(new AttackState());
             return;
         }
-
         enemy.Agent.SetDestination(PlayerManager.Instance.Player.transform.position);
     }
 

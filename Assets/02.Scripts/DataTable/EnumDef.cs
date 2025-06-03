@@ -1,12 +1,4 @@
 // 툴에서 자동으로 생성하는 소스 파일입니다. 수정하지 마세요!
-public enum RuneType
-{
-    ///<summary>정적</summary>
-    Static = 0,
-    ///<summary>동적</summary>
-    Dynamic = 1,
-}
-
 public enum EffectTimingType
 {
     ///<summary>공격 전</summary>
@@ -117,6 +109,14 @@ public enum StatModifierType
     CriticalDamageModifier = 5,
     ///<summary>스킬 범위 증가</summary>
     RangeModifier = 6,
+}
+
+public enum RuneType
+{
+    ///<summary>정적</summary>
+    Static = 0,
+    ///<summary>동적</summary>
+    Dynamic = 1,
 }
 
 public enum RuneTriggerType
@@ -233,16 +233,26 @@ public enum EnemyAudioType
     Die = 2,
     ///<summary>보스 1 기본공격</summary>
     Boss1Attack = 3,
-    ///<summary>보스1 스페셜 공격 1</summary>
-    Boss1Secial1 = 4,
-    ///<summary>보스1 스페셜 공격 2</summary>
-    Boss1Secial2 = 5,
-    ///<summary>보스1 스페셜 공격 3</summary>
-    Boss1Secial3 = 6,
-    ///<summary>보스1 스페셜 공격 4</summary>
-    Boss1Secial4 = 7,
-    ///<summary>보스 1 사망</summary>
-    Boss1Die = 8,
+    ///<summary>보스 1 스페셜 공격 기본</summary>
+    Boss1SpIdle = 4,
+    ///<summary>스페셜 공격 1</summary>
+    Boss1Sp1 = 5,
+    ///<summary>스페셜 공격 2_1</summary>
+    Boss1Sp2_1 = 6,
+    ///<summary>스페셜 공격 2_2</summary>
+    Boss1Sp2_2 = 7,
+    ///<summary>스페셜 공격 3_1</summary>
+    Boss1Sp3_1 = 8,
+    ///<summary>스페셜 공격3_2</summary>
+    Boss1Sp3_2 = 9,
+    ///<summary>스페셜 공격4_1</summary>
+    Boss1Sp4_1 = 10,
+    ///<summary>스페셜 공격4_2</summary>
+    Boss1Sp4_2 = 11,
+    ///<summary>보스1 걷기</summary>
+    Boss1Walk = 12,
+    ///<summary>보스1 사망</summary>
+    Boss1Die = 13,
 }
 
 public enum DynamicRuneAudioType

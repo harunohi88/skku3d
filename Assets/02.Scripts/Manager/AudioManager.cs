@@ -46,6 +46,12 @@ public class AudioManager : BehaviourSingleton<AudioManager>
         return null;
     }
 
+    public bool CheckCurrentBGM(int index)
+    {
+        if (BGMAudioSource.resource == BGMList[index]) return true;
+        return false;
+    }
+
     public void SetBGMVolume(float sliderValue)
     {
         float volume = Mathf.Log10(sliderValue <= 0.001f ? 0.001f : sliderValue) * 20;
@@ -94,13 +100,26 @@ public class AudioManager : BehaviourSingleton<AudioManager>
         _mixer.SetFloat(exposedParam, to);
     }
 
-    public void PlayEnemyAudio(EnemyType enemyType, EnemyAudioType audioType)
+    public void PlayEnemyAudio(EnemyType enemyType, EnemyAudioType audioType, bool isLoop = false)
     {
         AudioSource audioSource = GetAvailableAudioSource();
         audioSource.outputAudioMixerGroup = _sfxMixerGroup;
+        audioSource.loop = isLoop;
 
         audioSource.resource = EnemyAudioList[(int)audioType];
         audioSource.Play();
+    }
+
+    public void StopEnemyAudio(EnemyAudioType audioType)
+    {
+        foreach (AudioSource source in audioSourceList)
+        {
+            if (source.resource == EnemyAudioList[(int)audioType] && source.isPlaying)
+            {
+                source.Stop();
+                source.loop = false;
+            }
+        }
     }
 
     public void PlayUIAudio(UIAudioType audioType)

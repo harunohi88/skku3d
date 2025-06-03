@@ -17,6 +17,8 @@ public class LaserAttack : MonoBehaviour
         _duration = duration;
         _durationTimer = 0f;
         _time = 0f;
+
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss1Sp2_2, true);
     }
 
     private void Update()
