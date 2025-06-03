@@ -16,6 +16,7 @@ public class Boss2SpecialAttack03State : IState<AEnemy>
         enemy.Agent.isStopped = true;
         enemy.EnemyRotation.IsFound = false;
         enemy.SetAnimationTrigger("SpecialAttack03_Idle");
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Sp3Idle);
 
         _patternData = Boss2AIManager.Instance.GetPatternData(3, 0);
 
