@@ -17,6 +17,9 @@ public class RuneData
     ///<summary>룬 설명</summary>
     public readonly string RuneDescription;
 
+    ///<summary>룬 장착 효과</summary>
+    public readonly string RuneEquipType;
+
     ///<summary>룬 발동 타입</summary>
     public readonly string RuneTriggerType;
 
@@ -63,6 +66,8 @@ public class RuneData
         RuneType = (RuneType)reader.ReadInt32();
         int runedescription = reader.ReadInt32();
         RuneDescription = Encoding.UTF8.GetString(reader.ReadBytes(runedescription));
+        int runeequiptype = reader.ReadInt32();
+        RuneEquipType = Encoding.UTF8.GetString(reader.ReadBytes(runeequiptype));
         int runetriggertype = reader.ReadInt32();
         RuneTriggerType = Encoding.UTF8.GetString(reader.ReadBytes(runetriggertype));
         int runeeffecttype = reader.ReadInt32();

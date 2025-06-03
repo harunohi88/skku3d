@@ -224,15 +224,15 @@ public class PlayerAttack : MonoBehaviour
             UnequipRune();
         }
 
-        // 룬 효과 적용하는 로직 (스탯에 영향을 주는 경우)
         Rune = rune;
+        Rune.EquipRune();
     }
 
     public void UnequipRune()
     {
         if (Rune == null) return;
 
-        // 룬 효과 제거하는 로직 (스탯에 영향을 주는 경우)
+        Rune.UnequipRune();
         Rune = null;
     }
 }

@@ -2,6 +2,7 @@ using Mono.Cecil.Cil;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 public class SpinSlashSkill : MonoBehaviour, ISkill
 {
@@ -172,16 +173,16 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         {
             UnequipRune();
         }
-
-        // 룬 효과 적용하는 로직 (스탯에 영향을 주는 경우)
+        
         Rune = rune;
+        Rune.EquipRune(SkillIndex);
     }
 
     public void UnequipRune()
     {
         if (Rune == null) return;
 
-        // 룬 효과 제거하는 로직 (스탯에 영향을 주는 경우)
+        Rune.UnequipRune(SkillIndex);
         Rune = null;
     }
 
