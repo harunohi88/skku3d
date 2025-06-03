@@ -1197,6 +1197,7 @@ MonoBehaviour:
   _equipmentPanel: {fileID: 0}
   _popupBackgroundImage: {fileID: 0}
   _mapPanel: {fileID: 0}
+  TurnOff: 0
 --- !u!4 &656109254
 Transform:
   m_ObjectHideFlags: 0
