@@ -42,7 +42,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 
         EnemyFloatingTextManager.Instance.TriggerFeedback(damage.Value, transform.position + Vector3.up * 2f, damage.IsCritical);
 
-        EnemyHitEffect.PlayHitEffect(DamagedTime);
+        //EnemyHitEffect.PlayHitEffect(DamagedTime);
 
         if (Health <= 0)
         {
