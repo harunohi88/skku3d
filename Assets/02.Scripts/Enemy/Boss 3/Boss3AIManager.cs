@@ -22,6 +22,8 @@ public class Boss3AIManager : BehaviourSingleton<Boss3AIManager>
     [Header("Special Attack 4 Patterns")]
     [SerializeField] private List<EnemyPatternData> _specialAttack4PatternList;
 
+    public GameObject PortalToNextStage;
+
     private void Start()
     {
         BossEnemy = GetComponent<AEnemy>();

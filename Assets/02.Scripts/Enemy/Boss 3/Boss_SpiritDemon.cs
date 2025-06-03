@@ -53,14 +53,14 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     {
         base.Init(spawner);
         _stateMachine.ChangeState(new Boss3IdleState());
-        // BossUIManager.Instance.SetBossUI();  ///// HealthBar 추가한 코드
+        BossUIManager.Instance.SetBossUI("Tenebrix", MaxHealth);  ///// HealthBar 추가한 코드
     }
 
     public override void TakeDamage(Damage damage)
     {
         if (_stateMachine.CurrentState is Boss3DieState) return;
         Health -= damage.Value;
-        //  BossUIManager.Instance.UpdateHealth(Health);    ///// HealthBar 추가한 코드
+        BossUIManager.Instance.UPdateHealth(Health);    ///// HealthBar 추가한 코드
 
         EnemyFloatingTextManager.Instance.TriggerFeedback(damage.Value, transform.position + Vector3.up * 2f, damage.IsCritical);
 
