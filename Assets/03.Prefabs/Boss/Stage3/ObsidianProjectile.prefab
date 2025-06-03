@@ -51,5 +51,5 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 72
-  MoveSpeed: 15
+  MoveSpeed: 20
   Radius: 0.5
