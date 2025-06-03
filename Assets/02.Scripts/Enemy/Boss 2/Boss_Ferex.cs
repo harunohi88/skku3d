@@ -7,6 +7,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 {
     // 속성 정의
     public Collider WeaponCollider;
+    public Collider WeaponColliderCopied;
     // - 원본 무기
     public GameObject WeaponOriginal;
     // - 복제된 무기
@@ -94,8 +95,10 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     public void Boss2SpecialAttack_02()
     {
         BossEffectManager.Instance.PlayBoss1Particle(2);
+        BossEffectManager.Instance.PlayBoss1Particle(3);
         Debug.Log("특수공격2 진입");
         WeaponCollider.enabled = true;
+        WeaponColliderCopied.enabled = true;
         EnemyRotation.IsFound = false;
 
         EnemyPatternData _patternData = Boss2AIManager.Instance.GetPatternData(2, 1);
@@ -126,15 +129,19 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     {
         Debug.Log("특수공격2 해제");
         WeaponCollider.enabled = false;
+        WeaponColliderCopied.enabled = false;
         Boss2AIManager.Instance.SetLastFinishedTime(2, Time.time); // 쿨타임 관리
         OnAnimationEnd();
     }
 
     public void Boss2SpecialAttack_03()
     {
-        BossEffectManager.Instance.PlayBoss1Particle(3);
+        Debug.Log("특수공격3 이펙트 나오는 중");
         BossEffectManager.Instance.PlayBoss1Particle(4);
         BossEffectManager.Instance.PlayBoss1Particle(5);
+        BossEffectManager.Instance.PlayBoss1Particle(6);
+        BossEffectManager.Instance.PlayBoss1Particle(7);
+        BossEffectManager.Instance.PlayBoss1Particle(8);
         Debug.Log("특수공격3 진입");
         WeaponCollider.enabled = true;
         EnemyRotation.IsFound = false;
@@ -151,7 +158,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
         if (playerObject)
         {
             Vector3 directionToTarget = playerObject.transform.position - transform.position;
-            if (Vector3.Dot(transform.position, directionToTarget.normalized) > 0 && Mathf.Abs(Vector3.Dot(transform.right, directionToTarget)) <= _patternData.Width / 2)
+            if (Vector3.Dot(transform.forward, directionToTarget.normalized) > 0 && Mathf.Abs(Vector3.Dot(transform.right, directionToTarget)) <= _patternData.Width / 2)
             {
                 Debug.Log("특수공격 3 데미지 발생");
             }

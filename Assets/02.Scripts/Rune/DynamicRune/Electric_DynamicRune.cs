@@ -31,7 +31,7 @@ public class Electric_DynamicRune : ADynamicRuneObject
 
         for(int i = 0; i < targetTransformList.Count; i++)
         {
-            Vector3 position = new Vector3(_targetTransformList[i].transform.position.x, 0.3f, _targetTransformList[i].transform.position.z);
+            Vector3 position = new Vector3(_targetTransformList[i].transform.position.x, _targetTransformList[i].transform.position.y + 0.5f, _targetTransformList[i].transform.position.z);
             GameObject electric = GameObject.Instantiate(HitObject, position, Quaternion.identity);
         }
     }

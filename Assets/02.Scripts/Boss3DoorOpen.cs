@@ -4,7 +4,7 @@ public class Boss3DoorOpen : MonoBehaviour
 {
     public Transform[] Doors;
     public float openSpeed = 2.5f;
-    public float openDistance = 2f;
+    public float openDistance = 4f;
 
     private bool isOpening = false;
     private float moved = 0f;

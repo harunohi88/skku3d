@@ -736,7 +736,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 100
+  far clip plane: 300
   field of view: 40
   orthographic: 0
   orthographic size: 5
@@ -1209,8 +1209,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1315186384}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &656109255
@@ -1865,7 +1864,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 223863526}
-  m_Father: {fileID: 656109254}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1315186385
 MonoBehaviour:
@@ -1889,7 +1888,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 42da66b0a1bcc014e937351546e94d4e, type: 3}
   - {fileID: 8300000, guid: e8ca957c3585a3243839052eecbcf4e9, type: 3}
   - {fileID: 8300000, guid: 3d982faf7a131664ca63bc658d80194f, type: 3}
-  - {fileID: 8300000, guid: 275e92afd2adabf4f9ff8c64be8cf504, type: 3}
+  - {fileID: 8300000, guid: 825b0745ea864fa498902acbc5d4de29, type: 3}
   EnemyAudioList: []
   DynamicRuneAudioList: []
   UIAudioList:
@@ -2457,3 +2456,4 @@ SceneRoots:
   - {fileID: 1693500607}
   - {fileID: 656109254}
   - {fileID: 420072627}
+  - {fileID: 1315186384}
