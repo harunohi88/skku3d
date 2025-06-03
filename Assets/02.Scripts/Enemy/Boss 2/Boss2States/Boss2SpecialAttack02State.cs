@@ -51,7 +51,7 @@ public class Boss2SpecialAttack02State : IState<AEnemy>
                 0.5f,
                 _patternData.CastingTime,
                 0,
-                Color.blue
+                Color.red
                 );
         }
 

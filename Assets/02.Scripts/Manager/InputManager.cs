@@ -11,6 +11,8 @@ public class InputManager : BehaviourSingleton<InputManager>
     public GameObject _popupBackgroundImage;
     public GameObject _mapPanel;
 
+    public bool TurnOff;
+
     private void Start()
     {
         _playerManager = PlayerManager.Instance;
@@ -49,6 +51,7 @@ public class InputManager : BehaviourSingleton<InputManager>
 
     private void HandleGameplayInput()
     {
+        if (TurnOff) return;
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
         _playerManager.Move(moveInput);
         _playerManager.Rotate(moveInput);
@@ -58,7 +61,7 @@ public class InputManager : BehaviourSingleton<InputManager>
             _playerManager.Roll(moveInput);
         }
 
-        if(EventSystem.current.IsPointerOverGameObject() == false)
+        if (EventSystem.current.IsPointerOverGameObject() == false)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
