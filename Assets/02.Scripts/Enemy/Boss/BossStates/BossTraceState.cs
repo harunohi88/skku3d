@@ -15,7 +15,10 @@ public class BossTraceState : IState<AEnemy>
 
     public void Update(AEnemy enemy)
     {
-        enemy.Agent.SetDestination(PlayerManager.Instance.Player.transform.position);
+        if(enemy.Agent.remainingDistance < enemy.Agent.stoppingDistance)
+        {
+            enemy.ChangeState(new BossIdleState());
+        }
 
         _time += Time.deltaTime;
         if (_time >= 3f)

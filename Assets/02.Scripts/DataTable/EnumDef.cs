@@ -59,6 +59,48 @@ public enum RuneEffectType
     ElectricRuneEffect = 18,
 }
 
+public enum RuneEquipType
+{
+    ///<summary>없음</summary>
+    None = 0,
+    ///<summary>체력 회복</summary>
+    RecoverEffect = 1,
+    ///<summary>이동 속도 증가</summary>
+    MoveSpeedBuffEffect = 2,
+    ///<summary>피해 증가</summary>
+    DamageBuffEffect = 3,
+    ///<summary>치명타 확률 증가</summary>
+    CriticalChanceBuffEffect = 4,
+    ///<summary>치명타 피해 증가</summary>
+    CriticalDamageBuffEffect = 5,
+    ///<summary>최대 체력 증가</summary>
+    HealthIncreaseEffect = 6,
+    ///<summary>스킬 범위 증가</summary>
+    RangeBuffEffect = 7,
+    ///<summary>쿨타임 감소</summary>
+    CooldownReductionEffect = 8,
+    ///<summary>투사체 수 증가</summary>
+    ProjectileCountEffect = 9,
+    ///<summary>흡혈 (피해량 비례 회복)</summary>
+    VampiricEffect = 10,
+    ///<summary>체력 기반 피해 증가</summary>
+    HPScalingDamageEffect = 11,
+    ///<summary>난도질의 룬 (동적 룬)</summary>
+    SlaughterRuneEffect = 12,
+    ///<summary>난사의 룬 (동적 룬)</summary>
+    ArrowRuneEffect = 13,
+    ///<summary>불꽃의 룬 (동적 룬)</summary>
+    FlameRuneEffect = 14,
+    ///<summary>폭렬의 룬 (동적 룬)</summary>
+    ExplosionRuneEffect = 15,
+    ///<summary>부활의 룬 (동적 룬)</summary>
+    RevivalRuneEffect = 16,
+    ///<summary>운명의 룬 (동적 룬)</summary>
+    FateRuneEffect = 17,
+    ///<summary>전류의 룬 (동적 룬)</summary>
+    ElectricRuneEffect = 18,
+}
+
 public enum StatModifierType
 {
     ///<summary>없음</summary>
@@ -260,6 +302,6 @@ public enum PlayerAudioType
     ///<summary>경험치 4</summary>
     GetExp4 = 4,
     ///<summary>룬 먹을 때</summary>
-    GetRune = 2,
+    GetRune = 5,
 }
 

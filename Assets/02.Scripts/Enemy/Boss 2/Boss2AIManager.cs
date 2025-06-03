@@ -30,7 +30,7 @@ public class Boss2AIManager : BehaviourSingleton<Boss2AIManager>
         float hpRatio = Boss2Enemy.Health / Boss2Enemy.MaxHealth;
 
         List<int> usablePatternList = (hpRatio > _healthThreshold)
-            ? new List<int> { 3 } // 체력비율이 0.5보다 높으면 패턴 0~2만 사용
+            ? new List<int> { 0, 1, 3 } // 체력비율이 0.5보다 높으면 패턴 0~2만 사용
             : new List<int> { 0, 1, 2, 3 }; // 체력 비율이 0.5보다 낮으면 패턴 0~3까지 사용
         List<int> availablePatternList = usablePatternList // 쿨타임이 지난 패턴만 선택 가능 대상이다.
             .Where(index => IsPatternAvailable(index))

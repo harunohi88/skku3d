@@ -24291,7 +24291,11 @@ MonoBehaviour:
   Type: 0
   Amount: 0
   IsCollected: 0
-  SparkleEffectList: []
+  SparkleEffectList:
+  - {fileID: 523123068882880955}
+  - {fileID: 334635144258890094}
+  - {fileID: 3610847093400957034}
+  BasicAllInventory: {fileID: 0}
 --- !u!1 &7027897074664540296
 GameObject:
   m_ObjectHideFlags: 0

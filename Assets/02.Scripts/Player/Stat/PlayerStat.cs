@@ -5,12 +5,11 @@ using System.Linq;
 
 public class PlayerStat : MonoBehaviour
 {
-    public Dictionary<EStatType, Stat> StatDictionary;
+    public Dictionary<EStatType, Stat> StatDictionary = new Dictionary<EStatType, Stat>();
     public Action OnDictionaryLoaded;
     
     private void Awake()
     {
-        StatDictionary = new Dictionary<EStatType, Stat>();
         Global.Instance.OnDataLoaded += LoadData;
     }
 
@@ -25,6 +24,7 @@ public class PlayerStat : MonoBehaviour
 
         foreach (PlayerStatData statData in data)
         {
+            Debug.Log(statData.StatType);
             StatDictionary[statData.StatType] = new Stat(
                 statData.BaseAmount,
                 statData.CanLevelUp,

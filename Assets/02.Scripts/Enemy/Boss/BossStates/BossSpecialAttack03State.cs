@@ -5,47 +5,63 @@ public class BossSpecialAttack03State : IState<AEnemy>
     private float _time = 0f;
     private int _currentOrder = 0;
     private EnemyPatternData _patternData;
+    private bool _isStart = false;
     public void Enter(AEnemy enemy)
     {
         Debug.Log(this);
-        enemy.SetAnimationTrigger("SpecialAttack03_1");
-        if (enemy is ISpecialAttackable specialAttackable)
-        {
-            specialAttackable.SpecialAttack_01();
-        }
         _time = 0f;
         _currentOrder = 0;
 
         _patternData = BossAIManager.Instance.GetPatternData(3, 0);
+
+
+        enemy.SetAnimationTrigger("Run");
+        enemy.Agent.SetDestination(PlayerManager.Instance.Player.transform.position);
     }
 
     public void Update(AEnemy enemy)
     {
-        _time += Time.deltaTime;
-        if (_patternData == null) return;
-
-        if (_currentOrder == 0)
+        if (_isStart == false)
         {
-            if (_time >= _patternData.CastingTime)
+            enemy.Agent.SetDestination(PlayerManager.Instance.Player.transform.position);
+
+            if (enemy.Agent.remainingDistance < enemy.AttackDistance)
             {
-                _currentOrder++;
-                _time = 0f;
-                _patternData = BossAIManager.Instance.GetPatternData(3, 1);
+                enemy.Agent.ResetPath();
+                enemy.SetAnimationTrigger("SpecialAttack03_1");
+                (enemy as ISpecialAttackable).SpecialAttack_01();
+                _isStart = true;
             }
         }
-        else if (_currentOrder == 1)
+        else
         {
-            enemy.SetAnimationTrigger("SpecialAttack03_2");
-            enemy.EnemyRotation.IsFound = false;
-            _currentOrder++;
-            _time = 0f;
-        }
-        else if (_currentOrder == 2)
-        {
-            if (_time >= _patternData.CastingTime + 2.5f)
+
+            _time += Time.deltaTime;
+            if (_patternData == null) return;
+
+            if (_currentOrder == 0)
             {
-                enemy.EnemyRotation.IsFound = true;
-                enemy.ChangeState(new BossTraceState());
+                if (_time >= _patternData.CastingTime)
+                {
+                    _currentOrder++;
+                    _time = 0f;
+                    _patternData = BossAIManager.Instance.GetPatternData(3, 1);
+                }
+            }
+            else if (_currentOrder == 1)
+            {
+                enemy.SetAnimationTrigger("SpecialAttack03_2");
+                enemy.EnemyRotation.IsFound = false;
+                _currentOrder++;
+                _time = 0f;
+            }
+            else if (_currentOrder == 2)
+            {
+                if (_time >= _patternData.CastingTime + 2.5f)
+                {
+                    enemy.EnemyRotation.IsFound = true;
+                    enemy.ChangeState(new BossIdleState());
+                }
             }
         }
     }

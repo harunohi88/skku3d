@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using DG.Tweening;
 
 [RequireComponent(typeof(BossAIManager))]
 public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
@@ -18,7 +19,6 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
     {
         _lightningPool = new ObjectPool<Lightning>(LightningPrefab, 20, GameObject.FindGameObjectWithTag("Pool").transform);
 
-        Debug.Log("임시 코드");
         Init(null);
     }
 
@@ -44,15 +44,22 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
             ChangeState(new BossDieState());
             return;
         }
-
-
     }
 
     public override void Attack()
     {
+        float disTanceToPlayer = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
+        Vector3 directionToPlayer = (PlayerManager.Instance.Player.transform.position - transform.position).normalized;
+        Vector3 targetPosition = PlayerManager.Instance.Player.transform.position - directionToPlayer * (AttackDistance / 2f);
+
+        if (disTanceToPlayer <= AttackDistance / 2f) targetPosition = transform.position;
+
+        Agent.enabled = false;
+        transform.DOMove(targetPosition, 0.1f).SetEase(Ease.InQuad);
+
         BossEffectManager.Instance.PlayBoss1Particle(_baseAttackCount);
         WeaponCollider.enabled = true;
-        EnemyRotation.IsFound = false;
+        EnemyRotation.IsFound = true;
         _attackCount = 0;
     }
 
@@ -63,6 +70,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
         if (_baseAttackCount >= 2)
         {
             _baseAttackCount = 0;
+            Agent.enabled = true;
             BossAIManager.Instance.SetLastFinishedTime(0, Time.time);
             OnAnimationEnd();
         }
@@ -114,7 +122,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
             damage.Value = _patternData.Damage;
             damage.From = this.gameObject;
 
-            LaserAttack.Init();
+            LaserAttack.Init(_patternData.Duration - 0.3f);
 
             Laser.ShootLaser(_patternData.Duration - 0.3f);
 
@@ -151,7 +159,6 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
         {
             EnemyRotation.IsFound = true;
             WeaponCollider.enabled = false;
-            LaserAttack.GetComponent<Collider>().enabled = false;
             LaserAttack.gameObject.SetActive(false);
         }
     }
@@ -238,7 +245,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
     public override void OnAnimationEnd()
     {
         base.OnAnimationEnd();
-        ChangeState(new BossTraceState());
+        ChangeState(new BossIdleState());
     }
 
     private void ClusterInstantiate(Vector3 center, int count, float radiusX, float radiusY)

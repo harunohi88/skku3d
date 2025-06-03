@@ -36,7 +36,6 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
         if (scene.buildIndex < 1) return;
         if (Player == null)
         {
-            
             Player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
             if (Player == null) return;
 
