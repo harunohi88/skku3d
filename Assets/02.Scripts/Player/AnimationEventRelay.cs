@@ -35,4 +35,9 @@ public class AnimationEventRelay : MonoBehaviour
     {
         _playerSkill.CurrentSkill?.OnSkillAnimationEnd();
     }
+
+    public void PlayParticle(int index)
+    {
+        PlayerEffects.Instance.PlayParticle(index);
+    }
 }
