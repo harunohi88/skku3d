@@ -9,7 +9,7 @@ public class PortalTrigger : MonoBehaviour
         {
             if(SceneManager.GetActiveScene().buildIndex == SceneManager.GetSceneByName("Stage3_Boss").buildIndex)
             {
-                SceneManager.LoadScene(SceneManager.GetSceneByName("SUCCESS Scene").buildIndex);
+                SceneManager.LoadScene(11);
                 return;
 
             }
