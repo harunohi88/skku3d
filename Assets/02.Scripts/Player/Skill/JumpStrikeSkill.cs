@@ -7,7 +7,7 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
 {
     public Rune Rune;
     public int Level = 1;
-    public int SkillIndex = 2;
+    public int SkillIndex = 1;
     public GameObject IndicatorPrefab;
     public SkillBaseSO SkillBaseStat;
     public Dictionary<ESkillStat, Stat> SkillStatDictionary = new Dictionary<ESkillStat, Stat>();

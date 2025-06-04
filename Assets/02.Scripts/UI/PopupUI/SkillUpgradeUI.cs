@@ -11,17 +11,17 @@ public class SkillUpgradeUI : MonoBehaviour
     public List<TextMeshProUGUI> SkillCostTextList;
     public List<TextMeshProUGUI> SkillLevelTextList;
     public List<SkillDescription> SkillDescriptionList;
-    public TextMeshProUGUI Skill1DescriptionText;
-    public TextMeshProUGUI Skill2DescriptionText;
-    public TextMeshProUGUI Skill3DescriptionText;
-    public TextMeshProUGUI Skill4DescriptionText;
 
-    private void Start()
+    private void Awake()
+    {
+        UIEventManager.Instance.OnSkillDescriptionChanged += RefreshDescription;
+    }
+
+private void Start()
     {
         // SkillUpgrade.OnSkillUpgrade += UpdateSkillLevelText;
         SkillUpgrade.OnSkillUpgradeText += UpdateSkillCostText;
         SkillUpgrade.OnSkillMaxLevel += SetInteractableButton;
-        UIEventManager.Instance.OnSkillDescriptionChanged += RefreshDescription;
 
         for(int i=0; i<SkillUpgrade.SkillUpgradeCostList.Count; i++)
         {
@@ -46,6 +46,7 @@ public class SkillUpgradeUI : MonoBehaviour
 
     private void RefreshDescription(int index, int level, float multiplier)
     {
+        Debug.Log(index);
         SkillDescriptionList[index].SetSkillDescription(level, multiplier);
     }
     

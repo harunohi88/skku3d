@@ -15116,7 +15116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SkillName: SpinSlash
-  SkillIndex: 1
+  SkillIndex: 0
   Level: 1
   SkillBaseStat: {fileID: 11400000, guid: 35ff15a201dd90e459cfe90ca631cc31, type: 2}
   IsAvailable: 1
@@ -15133,7 +15133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Level: 1
-  SkillIndex: 2
+  SkillIndex: 1
   IndicatorPrefab: {fileID: 2139657755918875766}
   SkillBaseStat: {fileID: 11400000, guid: e2999ab62f2891343a6da020303b5f99, type: 2}
   IsTargeting: 0
