@@ -58,7 +58,7 @@ public class Boss3SpecialAttack04State : IState<AEnemy>
                 {
                     specialAttackable.OnSpecialAttack04End();
                 }
-                enemy.ChangeState(new Boss3TraceState());
+                enemy.ChangeState(new Boss3IdleState());
             }
         }  
     }

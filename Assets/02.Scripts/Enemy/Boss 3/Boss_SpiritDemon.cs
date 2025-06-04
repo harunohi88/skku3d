@@ -82,8 +82,14 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
        Debug.Log($"{gameObject.name} {damage.Value} 데미지 입음");
     }
 
+    public void OnWalk()
+    {
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Walk);
+    }
+
     public override void Attack()
     {
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Attack);
         EnemyRotation.IsFound = false;
 
         int middleIndex = ProjectileCount / 2;
@@ -174,6 +180,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
         );
         yield return new WaitForSeconds(BlackHoleIndicatorDuration);
         Instantiate(BlackHolePrefab, spawnPos, Quaternion.identity);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp3);
     }
 
     public void OnSpecialAttack03End()
@@ -219,6 +226,10 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
         );
         // 안전지대 오브젝트 생성
         GameObject safeZone = Instantiate(SafeZonePrefab, _lastSafeCircleCenter, Quaternion.identity);
+        // 패턴 4 사운드 재생, 카메라 흔들림림
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4);
+        CameraManager.Instance.CameraShake(0.3f, 5f);
+
         Destroy(safeZone, SafeZoneDuration);
 
         yield return new WaitForSeconds(AttackCircleIndicatorDuration - 1f);
@@ -247,6 +258,30 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
                 }
             }
         }
+        
+        yield return new WaitForSeconds(1f);
+
+        CameraManager.Instance.CameraShake(0.1f, 1f);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4_2);
+        yield return new WaitForSeconds(0.2f);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4_2);
+        yield return new WaitForSeconds(0.1f);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4_2);
+        yield return new WaitForSeconds(0.1f);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4_2);
+        yield return new WaitForSeconds(0.2f);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4_2);
+        CameraManager.Instance.CameraShake(0.1f, 1f);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4_2);
+        yield return new WaitForSeconds(0.2f);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4_2);
+        yield return new WaitForSeconds(0.1f);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4_2);
+        yield return new WaitForSeconds(0.1f);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4_2);
+        yield return new WaitForSeconds(0.2f);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4_2);
+    
     }
 
     public void OnSpecialAttack04End()
@@ -341,7 +376,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
             damage.From = this.gameObject;
             knife.Init(damage);
             knife.transform.forward = centerPoint - spawnPoint;
-
+            AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp1);
             placed++;
             yield return new WaitForSeconds(spawnInterval);
         }
@@ -406,7 +441,8 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     private IEnumerator ExecuteCircleAttackAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp2);
+        CameraManager.Instance.CameraShake(1f, 0.2f);
         BossEffectManager.Instance.PlayBoss1Particle(2);
         
         float radius = 5f;
@@ -448,7 +484,8 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     private IEnumerator ExecuteDonutAttackAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp2);
+        CameraManager.Instance.CameraShake(1f, 0.2f);
         BossEffectManager.Instance.PlayBoss1Particle(3);
         
         float innerRadius = SphereInnerRadius;
@@ -542,7 +579,8 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     private IEnumerator ExecuteVerticalRectAttackAfterDelay(float delay, Vector3 startPos)
     {
         yield return new WaitForSeconds(delay);
-        
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp2);
+        CameraManager.Instance.CameraShake(1f, 0.2f);        
         BossEffectManager.Instance.PlayBoss1Particle(0);
         
         for (int i = 0; i < VerticalRectCount; i++)
@@ -571,7 +609,8 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     private IEnumerator ExecuteHorizontalRectAttackAfterDelay(float delay, Vector3 startPos)
     {
         yield return new WaitForSeconds(delay);
-
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp2);
+        CameraManager.Instance.CameraShake(1f, 0.2f);
         BossEffectManager.Instance.PlayBoss1Particle(1);
         
         for (int i = 0; i < VerticalRectCount; i++)
