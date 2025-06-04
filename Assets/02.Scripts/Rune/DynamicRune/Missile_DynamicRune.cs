@@ -30,6 +30,12 @@ public class Missile_DynamicRune : ADynamicRuneObject
     {
         _elapsed += Time.deltaTime;
 
+        if (_targetTransform == null)
+        {
+            RuneManager.Instance.ProjectilePoolDic[TID].Return(this);
+            return;
+        }
+
         if (!_isHoming)
         {
             _dirTimer += Time.deltaTime;

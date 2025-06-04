@@ -52,8 +52,11 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
         GameObject spawnpoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
         if(spawnpoint != null)
         {
+            CharacterController controller =  Player.GetComponent<CharacterController>();
+            controller.enabled = false;
             Player.transform.position = spawnpoint.transform.position;
             Player.transform.rotation = spawnpoint.transform.rotation;
+            controller.enabled = true;
         }
     }
 

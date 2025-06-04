@@ -79,9 +79,16 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
         if (_stateMachine.CurrentState is DieState) return;
         Health -= damage.Value;
 
-        EnemyFloatingTextManager.Instance.TriggerFeedback(damage.Value, transform.position, damage.IsCritical);
+        if(Type == EnemyType.Basic)
+        {
+            EnemyFloatingTextManager.Instance.TriggerFeedback(damage.Value, transform.position + Vector3.up * 2f, damage.IsCritical);
+        }
+        else if(Type == EnemyType.Elite)
+        {
+            EnemyFloatingTextManager.Instance.TriggerFeedback(damage.Value, transform.position + Vector3.up * 3f, damage.IsCritical);
+        }
 
-        OnStatChanged?.Invoke();
+            OnStatChanged?.Invoke();
         // 맞았을때 이펙트
 
         if (Health <= 0)

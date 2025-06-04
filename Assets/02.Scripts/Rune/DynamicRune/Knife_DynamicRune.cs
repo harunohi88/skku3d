@@ -39,6 +39,12 @@ public class Knife_DynamicRune : ADynamicRuneObject
 
     public override void Update()
     {
+        if (_targetTransform == null)
+        {
+            RuneManager.Instance.ProjectilePoolDic[TID].Return(this);
+            return;
+        }
+
         Vector3 targetPosition = new Vector3(_targetTransform.position.x, _targetTransform.position.y + 1.5f, _targetTransform.position.z);
         transform.Rotate(RotationSpeed * Time.deltaTime);
 
