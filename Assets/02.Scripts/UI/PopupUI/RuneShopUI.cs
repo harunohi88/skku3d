@@ -14,7 +14,6 @@ public class RuneShopUI : MonoBehaviour
     public List<Button> BuyButtonList;
 
     public RuneShop RuneShop;
-    [SerializeField] private Tooltip _tooltip;  // 툴팁 참조
 
     private void Awake()
     {
@@ -51,13 +50,13 @@ public class RuneShopUI : MonoBehaviour
         if (RuneShop.RuneList.Count > index)
         {
             Rune rune = RuneShop.RuneList[index];
-            _tooltip.Show(rune.Name, rune.CurrentTier.ToString(), rune.RuneDescription, BuyButtonList[index].GetComponent<RectTransform>());
+            InventoryManager.Instance.ToolTip.Show(rune.Name, rune.CurrentTier.ToString(), rune.RuneDescription, BuyButtonList[index].GetComponent<RectTransform>());
         }
     }
 
     private void OnPointerExit()
     {
-        _tooltip.Hide();
+        InventoryManager.Instance.ToolTip.Hide();
     }
 
     public void SetSoldout(int index)
