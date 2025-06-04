@@ -262,7 +262,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     public override void OnAnimationEnd()
     {
         base.OnAnimationEnd();
-        ChangeState(new Boss3TraceState());
+        ChangeState(new Boss3IdleState());
     }
 
     /// <summary>
