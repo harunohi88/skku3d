@@ -94,7 +94,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 20201, guid: 0000000000000000f000000000000000, type: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 88c6713c09efc44489fe886105420927, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1196,6 +1196,7 @@ MonoBehaviour:
   _equipmentPanel: {fileID: 0}
   _popupBackgroundImage: {fileID: 0}
   _mapPanel: {fileID: 0}
+  TurnOff: 0
 --- !u!4 &656109254
 Transform:
   m_ObjectHideFlags: 0
