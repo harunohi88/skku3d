@@ -8,7 +8,7 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
 {
     public Rune Rune;
     public string SkillName = "SpinSlash";
-    public int SkillIndex = 1;
+    public int SkillIndex = 0;
     public int Level = 1;
 
     public SkillBaseSO SkillBaseStat;
