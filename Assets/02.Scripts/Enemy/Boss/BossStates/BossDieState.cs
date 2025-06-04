@@ -5,8 +5,15 @@ public class BossDieState : IState<AEnemy>
     private float _time = 0f;
     public void Enter(AEnemy enemy)
     {
+        AudioManager.Instance.StopEnemyAudio(EnemyAudioType.Boss1Sp2_2);
+        AudioManager.Instance.StopEnemyAudio(EnemyAudioType.Boss1Sp4_2);
+
         enemy.SetAnimationTrigger("Die");
+
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss1Die);
+
         enemy.Agent.ResetPath();
+        enemy.EnemyRotation.IsFound = false;
         BossAIManager.Instance.PortalToNextStage.SetActive(true);
 
         DropTable.Instance.Drop(enemy.Type, enemy.transform.position, 3);

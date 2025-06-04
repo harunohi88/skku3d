@@ -49,6 +49,7 @@ public class Missile_DynamicRune : ADynamicRuneObject
                 _elapsed = 0f;
                 Booster.Play();
                 _startPosition = transform.position;
+                AudioManager.Instance.PlayDynamicRuneAudio(DynamicRuneAudioType.Fly4);
             }
         }
         else
@@ -63,7 +64,7 @@ public class Missile_DynamicRune : ADynamicRuneObject
 
             if(t >= 0.95f)
             {
-                Vector3 position = new Vector3(_targetTransform.position.x, 0.3f, _targetTransform.position.z);
+                Vector3 position = new Vector3(_targetTransform.position.x, _targetTransform.position.y + 0.3f, _targetTransform.position.z);
                 Instantiate(BoomPrefab, position, Quaternion.identity);
 
                 Debug.Log("반지름 매직넘버");
@@ -77,6 +78,7 @@ public class Missile_DynamicRune : ADynamicRuneObject
                     colliders[i].GetComponent<AEnemy>()?.TakeDamage(newDamage);
                 }
 
+                AudioManager.Instance.PlayDynamicRuneAudio(DynamicRuneAudioType.Explosion2);
                 RuneManager.Instance.ProjectilePoolDic[TID].Return(this);
             }
         }

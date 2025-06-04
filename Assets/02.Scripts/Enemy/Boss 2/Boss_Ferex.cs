@@ -42,7 +42,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 
         EnemyFloatingTextManager.Instance.TriggerFeedback(damage.Value, transform.position + Vector3.up * 2f, damage.IsCritical);
 
-        EnemyHitEffect.PlayHitEffect(DamagedTime);
+        //EnemyHitEffect.PlayHitEffect(DamagedTime);
 
         if (Health <= 0)
         {
@@ -55,6 +55,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     public override void Attack()
     {
         BossEffectManager.Instance.PlayBoss1Particle(0);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Attack);
         Debug.Log("기본 공격 진입");
         WeaponCollider.enabled = true;
         EnemyRotation.IsFound = false;

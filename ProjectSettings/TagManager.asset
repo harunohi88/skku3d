@@ -14,6 +14,7 @@ TagManager:
   - MapPanel
   - PopUpBG
   - UpgradeAndShopPanel
+  - CameraPosition
   layers:
   - Default
   - TransparentFX

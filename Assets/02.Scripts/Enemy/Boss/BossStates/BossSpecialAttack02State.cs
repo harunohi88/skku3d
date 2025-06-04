@@ -92,6 +92,7 @@ public class BossSpecialAttack02State : IState<AEnemy>
             {
                 if (_time >= _patternData.Duration)
                 {
+                    AudioManager.Instance.StopEnemyAudio(EnemyAudioType.Boss1Sp2_2);
                     (enemy as ISpecialAttackable).OnSpecialAttack02End();
                     enemy.ChangeState(new BossIdleState());
                 }
