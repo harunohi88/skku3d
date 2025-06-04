@@ -59,6 +59,7 @@ public class PlayerLevel : MonoBehaviour
             // Level Up Effect Execute once
             // UI에 레벨 표시
             
+            PlayerManager.Instance.Player.Heal(PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxHealth].TotalStat);
             _eventManager.OnLevelUp?.Invoke(_displayLevel, ExpTable[Level]);
             _eventManager.OnExpGain?.Invoke(_experience);
             _eventManager.OnUpgradePointChange?.Invoke(_statUpgradePoints);

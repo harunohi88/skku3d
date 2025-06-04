@@ -365,5 +365,17 @@ public enum PlayerAudioType
     Attack2 = 7,
     ///<summary>3타</summary>
     Attack3 = 8,
+    ///<summary>스킬1</summary>
+    Skill1 = 9,
+    ///<summary>스킬2</summary>
+    Skill2 = 10,
+    ///<summary>구르기시작</summary>
+    RollJump = 11,
+    ///<summary>구르기착지</summary>
+    RollLanding = 12,
+    ///<summary>공격목소리1</summary>
+    VoiceAttack1 = 13,
+    ///<summary>공격목소리2</summary>
+    VoiceAttack2 = 14,
 }
 

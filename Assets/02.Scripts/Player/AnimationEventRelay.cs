@@ -40,4 +40,9 @@ public class AnimationEventRelay : MonoBehaviour
     {
         PlayerEffects.Instance.PlayParticle(index);
     }
+
+    public void PlayPlayerAudio(PlayerAudioType audioType)
+    {
+        AudioManager.Instance.PlayPlayerAudio(audioType);
+    }
 }
