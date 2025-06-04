@@ -84,6 +84,7 @@ public class PlayerAttack : MonoBehaviour
         IsAttacking = true;
         _animator.SetLayerWeight(1, 1f);
         _playerManager.PlayerRotate.InstantLookAtMouse();
+        PlayerEffects.Instance.PlayParticle(_currentAttackIndex);
         _animator.SetTrigger(AttackTriggerList[_currentAttackIndex]);
     }
 
