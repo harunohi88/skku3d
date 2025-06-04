@@ -5,12 +5,12 @@ using TMPro;
 
 public class SkillUpgradeUI : MonoBehaviour
 {
-    public SkillUpgrade skillUpgrade;
+    public SkillUpgrade SkillUpgrade;
 
-    public List<Button> skillButtonList;
-    public List<TextMeshProUGUI> skillCostTextList;
-    public List<TextMeshProUGUI> skillLevelTextList;
-    
+    public List<Button> SkillButtonList;
+    public List<TextMeshProUGUI> SkillCostTextList;
+    public List<TextMeshProUGUI> SkillLevelTextList;
+    public List<SkillDescription> SkillDescriptionList;
     public TextMeshProUGUI Skill1DescriptionText;
     public TextMeshProUGUI Skill2DescriptionText;
     public TextMeshProUGUI Skill3DescriptionText;
@@ -18,30 +18,35 @@ public class SkillUpgradeUI : MonoBehaviour
 
     private void Start()
     {
-        skillUpgrade.OnSkillUpgrade += UpdateSkillLevelText;
-        skillUpgrade.OnSkillUpgradeText += UpdateSkillCostText;
-        skillUpgrade.OnSkillMaxLevel += SetInteractableButton;
+        // SkillUpgrade.OnSkillUpgrade += UpdateSkillLevelText;
+        SkillUpgrade.OnSkillUpgradeText += UpdateSkillCostText;
+        SkillUpgrade.OnSkillMaxLevel += SetInteractableButton;
+        UIEventManager.Instance.OnSkillDescriptionChanged += RefreshDescription;
 
-        for(int i=0; i<skillUpgrade.SkillUpgradeCostList.Count; i++)
+        for(int i=0; i<SkillUpgrade.SkillUpgradeCostList.Count; i++)
         {
-            UpdateSkillCostText(i, skillUpgrade.SkillUpgradeCostList[i]);
+            UpdateSkillCostText(i, SkillUpgrade.SkillUpgradeCostList[i]);
         }
     }
 
     public void UpdateSkillLevelText(int skillNumber, int level)
     {
-        skillLevelTextList[skillNumber].text = $"Lv.{level}";
+        SkillLevelTextList[skillNumber].text = $"Lv.{level}";
     }
 
     public void UpdateSkillCostText(int skillNumber, int upgradeCost)
     {
-        skillCostTextList[skillNumber].text = $"{upgradeCost}";
+        SkillCostTextList[skillNumber].text = $"{upgradeCost}";
     }
 
     public void SetInteractableButton(int skillNumber, bool isInteractable)
     {
-        skillButtonList[skillNumber].interactable = isInteractable;
+        SkillButtonList[skillNumber].interactable = isInteractable;
     }
 
+    private void RefreshDescription(int index, int level, float multiplier)
+    {
+        SkillDescriptionList[index].SetSkillDescription(level, multiplier);
+    }
     
 }

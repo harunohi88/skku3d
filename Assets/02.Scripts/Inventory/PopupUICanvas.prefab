@@ -842,22 +842,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87e20412c7f9e0c43872cf7487955190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillUpgrade: {fileID: 1983121493661014623}
-  skillButtonList:
-  - {fileID: 7069741018272817341}
-  - {fileID: 7778670747120792941}
-  - {fileID: 4783023872821206900}
-  - {fileID: 6713054181221172992}
-  skillCostTextList:
-  - {fileID: 6671098539433933159}
-  - {fileID: 6669614925144793824}
-  - {fileID: 8028608844973827113}
-  - {fileID: 8545932198830006068}
-  skillLevelTextList:
-  - {fileID: 8453098166677410742}
-  - {fileID: 8261395006721643542}
-  - {fileID: 7027382356155880295}
-  - {fileID: 1621869509832135467}
+  SkillUpgrade: {fileID: 0}
+  SkillButtonList: []
+  SkillCostTextList: []
+  SkillLevelTextList: []
+  SkillDescriptionList:
+  - {fileID: 3490518821625336962}
+  - {fileID: 1778509763904711283}
+  - {fileID: 0}
+  - {fileID: 0}
   Skill1DescriptionText: {fileID: 0}
   Skill2DescriptionText: {fileID: 0}
   Skill3DescriptionText: {fileID: 0}
@@ -2402,6 +2395,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8550904402863505759}
+  - component: {fileID: 3490518821625336962}
   - component: {fileID: 424965309744657292}
   - component: {fileID: 4101452731147251196}
   m_Layer: 5
@@ -2435,6 +2429,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3490518821625336962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963534771133992126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6caeb49effcedec499a79bbc4e27727d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Description: " \uC8FC\uBCC0 \uC801\uC744 \uBCA0\uC5B4 \uACF5\uACA9\uB825\uC758
+    {N}% \uD53C\uD574\uB97C \uC785\uD799\uB2C8\uB2E4"
+  SkillLevelText: {fileID: 8261395006721643542}
+  SkillDescriptionText: {fileID: 7576043727325176429}
 --- !u!222 &424965309744657292
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5317,7 +5327,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000005376095}
+  m_AnchoredPosition: {x: 0, y: -0.00000408731}
   m_SizeDelta: {x: 0, y: 2339.2}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &2509643695426908627
@@ -6129,7 +6139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2573145594289774975
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6149,10 +6159,10 @@ RectTransform:
   - {fileID: 5164695264246688361}
   m_Father: {fileID: 7604839259840194336}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 375, y: -91.8975}
+  m_SizeDelta: {x: 750, y: 183.795}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1102405970202048297
 CanvasRenderer:
@@ -9061,7 +9071,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000005376095}
+  m_AnchoredPosition: {x: 0, y: -0.00000408731}
   m_SizeDelta: {x: 0, y: 2339.2}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &4058108888281518074
@@ -14187,7 +14197,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000005376095}
+  m_AnchoredPosition: {x: 0, y: -0.00000408731}
   m_SizeDelta: {x: 0, y: 2339.2}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &6058534599191675144
@@ -15205,6 +15215,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6015767909115439637}
+  - component: {fileID: 1778509763904711283}
   - component: {fileID: 3975072611147770001}
   - component: {fileID: 3350100318084603941}
   m_Layer: 5
@@ -15238,6 +15249,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1778509763904711283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6432988027842291553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6caeb49effcedec499a79bbc4e27727d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Description: "\uC9C0\uC815\uD55C \uC704\uCE58\uB85C \uC774\uB3D9\uD558\uACE0 \uC8FC\uBCC0\uC5D0
+    {N}%\uC758 \uD53C\uD574\uB97C \uC785\uD799\uB2C8\uB2E4."
+  SkillLevelText: {fileID: 7027382356155880295}
+  SkillDescriptionText: {fileID: 6713281564413185178}
 --- !u!222 &3975072611147770001
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21202,7 +21229,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000005376095}
+  m_AnchoredPosition: {x: 0, y: -0.00000408731}
   m_SizeDelta: {x: 0, y: 2339.2}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &8626888356032253452
@@ -23101,8 +23128,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Description: 
-  SkillIndex: 0
-  SkillMultiplier: 0
   SkillLevelText: {fileID: 909472270879700353}
   SkillDescriptionText: {fileID: 3395434182163627514}
 --- !u!114 &3395434182163627514 stripped
@@ -23293,8 +23318,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Description: " \uC8FC\uBCC0 \uC801\uC744 \uBCA0\uC5B4 \uACF5\uACA9\uB825\uC758
     {N}% \uD53C\uD574\uB97C \uC785\uD799\uB2C8\uB2E4"
-  SkillIndex: 0
-  SkillMultiplier: 0
   SkillLevelText: {fileID: 191837923194047706}
   SkillDescriptionText: {fileID: 2389602443691345057}
 --- !u!1001 &2489202218667548430
@@ -23452,8 +23475,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Description: "\uC9C0\uC815\uD55C \uC704\uCE58\uB85C \uC774\uB3D9\uD558\uACE0 \uC8FC\uBCC0\uC5D0
     {N}%\uC758 \uD53C\uD574\uB97C \uC785\uD799\uB2C8\uB2E4."
-  SkillIndex: 0
-  SkillMultiplier: 0
   SkillLevelText: {fileID: 4255033628849299445}
   SkillDescriptionText: {fileID: 1769056874401470350}
 --- !u!114 &3535570864854251695 stripped
@@ -23628,8 +23649,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Description: 
-  SkillIndex: 0
-  SkillMultiplier: 0
   SkillLevelText: {fileID: 8840953779958020051}
   SkillDescriptionText: {fileID: 6427052074051420072}
 --- !u!114 &8119239083008954505 stripped

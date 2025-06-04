@@ -14962,7 +14962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 100
-  Stamina: 0
+  Stamina: 100
   StaminaGain: 10
   StaminaRegenDelay: 1
   UIUpdateInterval: 0.1
@@ -29875,7 +29875,7 @@ GameObject:
   - component: {fileID: 2944423398497845111}
   m_Layer: 3
   m_Name: CameraPosition
-  m_TagString: Untagged
+  m_TagString: CameraPosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
