@@ -8,6 +8,7 @@ public class Boss2BaseAttackState : IState<AEnemy>
 
         //enemy.Agent.enabled = false;
         enemy.SetAnimationTrigger("BaseAttack");
+        //AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Attack);
         enemy.EnemyRotation.IsFound = false;
         enemy.Agent.isStopped = true;
         enemy.Agent.ResetPath();
@@ -17,6 +18,7 @@ public class Boss2BaseAttackState : IState<AEnemy>
     }
     public void Update(AEnemy enemy)
     {
+        //AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Attack);
         //if (!enemy.IsPlayingAnimation("BaseAttack"))
         //{
         //    Debug.Log("BaseAttack 애니메이션 끝 → 상태 전환");
