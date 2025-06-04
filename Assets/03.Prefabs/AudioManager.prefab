@@ -73,6 +73,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e8ca957c3585a3243839052eecbcf4e9, type: 3}
   - {fileID: 8300000, guid: 3d982faf7a131664ca63bc658d80194f, type: 3}
   - {fileID: 8300000, guid: 825b0745ea864fa498902acbc5d4de29, type: 3}
+  - {fileID: 8300000, guid: debb4042c7f7ae647a9f9f8df3cd6101, type: 3}
+  - {fileID: 8300000, guid: 7465b7ad37ecd8449bcfdba1fdbe4a90, type: 3}
+  - {fileID: 8300000, guid: 9e6a80b713d28c147a5e2a30e6114471, type: 3}
   EnemyAudioList:
   - {fileID: 8300000, guid: 7e0ebfb02d26fcb4fb7598ed7e56497b, type: 3}
   - {fileID: 8300000, guid: e91c19fc72a824945a2468246e52908a, type: 3}

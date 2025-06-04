@@ -359,5 +359,11 @@ public enum PlayerAudioType
     GetExp4 = 4,
     ///<summary>룬 먹을 때</summary>
     GetRune = 5,
+    ///<summary>1타</summary>
+    Attack1 = 6,
+    ///<summary>2타</summary>
+    Attack2 = 7,
+    ///<summary>3타</summary>
+    Attack3 = 8,
 }
 
