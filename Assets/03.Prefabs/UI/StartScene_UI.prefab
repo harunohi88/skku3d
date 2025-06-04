@@ -2552,6 +2552,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2571435562416581209, guid: 67976997fb82bc540b3f432e7dccbeb0, type: 3}
+      propertyPath: SFXSlider
+      value: 
+      objectReference: {fileID: 7648307775847322030}
     - target: {fileID: 3723222597879061509, guid: 67976997fb82bc540b3f432e7dccbeb0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -2718,6 +2722,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1363092962576678842, guid: 67976997fb82bc540b3f432e7dccbeb0, type: 3}
   m_PrefabInstance: {fileID: 615269348735165756}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7648307775847322030 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7110584922128479378, guid: 67976997fb82bc540b3f432e7dccbeb0, type: 3}
+  m_PrefabInstance: {fileID: 615269348735165756}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &7969480323044323070 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7354563009560054722, guid: 67976997fb82bc540b3f432e7dccbeb0, type: 3}
