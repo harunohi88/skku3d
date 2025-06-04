@@ -40,9 +40,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
         Health -= damage.Value;
         BossUIManager.Instance.UPdateHealth(Health); ///// HealthBar 추가한 코드
 
-        EnemyFloatingTextManager.Instance.TriggerFeedback(damage.Value, transform.position + Vector3.up * 2f, damage.IsCritical);
-
-        //EnemyHitEffect.PlayHitEffect(DamagedTime);
+        // 맞았을때 이펙트
 
         if (Health <= 0)
         {
@@ -54,8 +52,8 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 
     public override void Attack()
     {
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Attack);
         BossEffectManager.Instance.PlayBoss1Particle(0);
-        //AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Attack);
         Debug.Log("기본 공격 진입");
         WeaponCollider.enabled = true;
         EnemyRotation.IsFound = false;
@@ -76,7 +74,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 
     public void Boss2SpecialAttack_01()
     {
-        //AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Sp1);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Sp1);
         BossEffectManager.Instance.PlayBoss1Particle(1);
         Debug.Log("특수공격1 진입");
         WeaponCollider.enabled = true;
@@ -93,7 +91,6 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 
     public void Boss2SpecialAttack_02()
     {
-        //AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Sp2);
         BossEffectManager.Instance.PlayBoss1Particle(2);
         BossEffectManager.Instance.PlayBoss1Particle(3);
         Debug.Log("특수공격2 진입");
@@ -128,7 +125,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 
     public void Boss2SpecialAttack_03()
     {
-        //AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Sp3);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Sp3);
         BossEffectManager.Instance.PlayBoss1Particle(4);
         BossEffectManager.Instance.PlayBoss1Particle(5);
         BossEffectManager.Instance.PlayBoss1Particle(6);

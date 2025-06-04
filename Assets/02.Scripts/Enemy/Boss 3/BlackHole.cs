@@ -72,6 +72,7 @@ public class BlackHole : MonoBehaviour
         {
             Instantiate(BlackholeDestroyEffect, transform.position, Quaternion.identity);
             _playerMove.ClearExternalForce();
+            AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp3_1);
             Destroy(gameObject);
         }
     }

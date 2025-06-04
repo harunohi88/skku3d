@@ -25,7 +25,7 @@ public class Boss2SpecialAttack02State : IState<AEnemy>
         enemy.Agent.isStopped = true;
         enemy.EnemyRotation.IsFound = false;
         enemy.SetAnimationTrigger("SpecialAttack02_Idle");
-        //AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Sp2Idle);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Sp2Idle);
 
         if (enemy is Boss_Ferex ferex)
         {

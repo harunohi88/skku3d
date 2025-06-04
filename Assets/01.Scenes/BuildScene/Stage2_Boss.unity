@@ -16928,6 +16928,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 7668208749328365470, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
+      propertyPath: m_StoppingDistance
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8060269603251532552, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
       propertyPath: m_Layer
       value: 7
