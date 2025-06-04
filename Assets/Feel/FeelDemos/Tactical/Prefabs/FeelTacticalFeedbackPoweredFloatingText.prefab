@@ -1294,7 +1294,7 @@ MonoBehaviour:
         DebugActive: 0
         AnimateRotationTarget: {fileID: 8162714004562258125}
         Mode: 0
-        RotationSpace: 0
+        RotationSpace: 1
         AnimateRotationDuration: 0.2
         RemapCurveZero: -180
         RemapCurveOne: 0

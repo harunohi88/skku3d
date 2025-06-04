@@ -16905,8 +16905,12 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7152332898033377711, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
+      propertyPath: Health
+      value: 20000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152332898033377711, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
       propertyPath: MaxHealth
-      value: 1000
+      value: 20000
       objectReference: {fileID: 0}
     - target: {fileID: 7223540610929635128, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
       propertyPath: m_Layer
@@ -26429,6 +26433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38c307d022182ea4eb58ab3ca752758c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShakePosition: {x: 0, y: 0, z: 0}
   IsShaking: 0
 --- !u!43 &1796364941
 Mesh:
@@ -27481,6 +27486,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2601627834472509436, guid: 03bc10f1cf6c56645978872d8115511a, type: 3}
+      propertyPath: SpawnOffsetMax.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2601627834472509436, guid: 03bc10f1cf6c56645978872d8115511a, type: 3}
+      propertyPath: SpawnOffsetMin.y
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3906071456711112969, guid: 03bc10f1cf6c56645978872d8115511a, type: 3}
       propertyPath: m_Name
       value: EnemyDamageFloater
