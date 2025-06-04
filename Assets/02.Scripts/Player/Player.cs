@@ -79,6 +79,8 @@ public class Player : BehaviourSingleton<Player>, IDamageable
         UIEventManager.Instance.OnStatChanged?.Invoke();
         UIEventManager.Instance.OnCurrentHealthChanged?.Invoke(Health);
 
+        HUDUI.Instance.ShowDamageVignette();
+
         if (Health <= 0)
         {
             Die();

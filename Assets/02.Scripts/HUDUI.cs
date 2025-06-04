@@ -1,12 +1,17 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using UnityEngine.UI;
 using TMPro;
 
-public class HUDUI : MonoBehaviour
+public class HUDUI : BehaviourSingleton<HUDUI>
 {
     public TextMeshProUGUI stageText;
     public GameObject BossHealthBar;
+    public Image HitImage;
+
+    public float HitDuration = 0.4f;
 
     private void Awake()
     {
@@ -51,5 +56,37 @@ public class HUDUI : MonoBehaviour
         {
             BossHealthBar.SetActive(false);
         }
+    }
+
+    public void ShowDamageVignette()
+    {
+        StopAllCoroutines();
+        StartCoroutine(VignetteFadeCoroutine());
+    }
+
+    private IEnumerator VignetteFadeCoroutine()
+    {
+        // Fade In
+        float elapsed = 0f;
+        Color color = HitImage.color;
+        while (elapsed < HitDuration / 2f)
+        {
+            float alpha = Mathf.Lerp(0, 1f, elapsed / (HitDuration / 2f));
+            HitImage.color = new Color(color.r, color.g, color.b, alpha);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        HitImage.color = new Color(color.r, color.g, color.b, 1f);
+
+        // Fade Out
+        elapsed = 0f;
+        while (elapsed < HitDuration)
+        {
+            float alpha = Mathf.Lerp(1f, 0, elapsed / HitDuration);
+            HitImage.color = new Color(color.r, color.g, color.b, alpha);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        HitImage.color = new Color(color.r, color.g, color.b, 0);
     }
 }
