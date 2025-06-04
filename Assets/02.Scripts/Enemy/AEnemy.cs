@@ -37,6 +37,8 @@ public abstract class AEnemy : MonoBehaviour, IDamageable
     public EnemyRotation EnemyRotation;
     public EnemyHitEffect EnemyHitEffect;
 
+    public Vector3 DropPosition;
+
     public Action OnStatChanged;
 
     protected virtual void Awake()

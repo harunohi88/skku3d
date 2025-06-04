@@ -49,7 +49,7 @@ public class Rune
             ARuneEquip equip = RuneEquipFactory.Instance.CreateRuneEquip(equipName);
             if (equip != null)
             {
-                equip.Initialize(_data, CurrentTier);
+                equip.Initialize(_data, CurrentTier - 1);
                 _equipList.Add(equip);
             }
         }
