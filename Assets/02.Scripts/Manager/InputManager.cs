@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,35 +17,44 @@ public class InputManager : BehaviourSingleton<InputManager>
 
     public bool TurnOff;
 
+    private void Awake()
+    {
+        Debug.Log("델리게이트에 초기화 메서드 등록");
+        SceneManager.sceneLoaded += InitScene;
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("델리게이트에서 초기화 메서드 제거");
+        SceneManager.sceneLoaded -= InitScene;
+    }
+
     private void Start()
     {
         _playerManager = PlayerManager.Instance;
-
-        DontDestroyOnLoad(gameObject);
-
-        SceneManager.sceneLoaded += InitScene;
     }
 
     private void InitScene(Scene scene, LoadSceneMode mode)
     {
         if (_inventoryPanel == null)
         {
+            Debug.Log($"{scene.buildIndex} Scene 패널 인스턴스 찾기 실행");
             _inventoryPanel = GameObject.FindGameObjectWithTag("InventoryPanel");
             _inventoryPanel?.SetActive(false);
-
+        
             _upgradeAndShopPanel = GameObject.FindGameObjectWithTag("UpgradeAndShopPanel");
             _upgradeAndShopPanel?.SetActive(false);
-
+        
             _equipmentPanel = GameObject.FindGameObjectWithTag("EquipmentPanel");
             _equipmentPanel?.SetActive(false);
-
+        
             _popupBackgroundImage = GameObject.FindGameObjectWithTag("PopUpBG");
             _popupBackgroundImage?.SetActive(false);
-
+        
             _optionPanel = GameObject.FindGameObjectWithTag("OptionPanel");
             _optionPanel?.SetActive(false);
         }
-
+        
         _mapPanel = GameObject.FindGameObjectWithTag("MapPanel");
         _mapPanel?.SetActive(false);
     }

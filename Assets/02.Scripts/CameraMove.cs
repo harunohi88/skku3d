@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
@@ -5,9 +6,14 @@ public class CameraMove : MonoBehaviour
 {
     public Transform Target;
 
-    private void Start()
+    private void Awake()
     {
         SceneManager.sceneLoaded += LoadCameraPositionOnScene;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= LoadCameraPositionOnScene;
     }
 
     public void LoadCameraPositionOnScene(Scene scene, LoadSceneMode mode)

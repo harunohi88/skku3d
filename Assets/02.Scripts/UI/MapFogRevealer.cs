@@ -17,12 +17,12 @@ public class MapFogRevealer : MonoBehaviour
         Global.Instance.MapMax = _mapMax;
         Global.Instance.MapMin = _mapMin;
         ClearFogMask();
-        Player = PlayerManager.Instance.Player.transform;
+        Player = PlayerManager.Instance.Player?.transform;
     }
 
     void Update()
     {
-
+        if (Player == null) return;
         Vector3 pos = Player.position;
 
         float u = Mathf.InverseLerp(_mapMin.x, _mapMax.x, pos.x);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -29,6 +30,11 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
         DontDestroyOnLoad(gameObject);
 
         SceneManager.sceneLoaded += InitPlayer;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= InitPlayer;
     }
 
     private void InitPlayer(Scene scene, LoadSceneMode mode)

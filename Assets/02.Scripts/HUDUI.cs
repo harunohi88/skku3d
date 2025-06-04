@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -7,12 +8,21 @@ public class HUDUI : MonoBehaviour
     public TextMeshProUGUI stageText;
     public GameObject BossHealthBar;
 
+    private void Awake()
+    {
+        SceneManager.sceneLoaded += RefreshStageText;
+        SceneManager.sceneLoaded += CheckBossHPShow;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= RefreshStageText;
+        SceneManager.sceneLoaded -= CheckBossHPShow;
+    }
+
     void Start()
     {
         DontDestroyOnLoad(gameObject);
-
-        SceneManager.sceneLoaded += RefreshStageText;
-        SceneManager.sceneLoaded += CheckBossHPShow;
     }
 
     public void RefreshStageText(Scene scene, LoadSceneMode mode)

@@ -20,10 +20,15 @@ public class GameManager : BehaviourSingleton<GameManager>
 
     public int GetCurrentStage() => _currentStage;
 
-    private void Start()
+    private void Awake()
     {
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += PlayBGMWhenStart;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= PlayBGMWhenStart;
     }
 
     public void StartGame()
