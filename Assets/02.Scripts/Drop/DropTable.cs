@@ -70,10 +70,10 @@ public class DropTable : BehaviourSingleton<DropTable>
         Tier3DropRate = dropTableData.TierDropRateList[2];
 
 
-        if (Random.value < RuneDropRate)
-        {
+        //if (Random.value < RuneDropRate)
+        //{
             DropRandomRune(position, enemyType);
-        }
+        //}
 
         // 골드 드랍
         GoldAmount = Random.Range(dropTableData.MinCoin, dropTableData.MaxCoin + 1);
