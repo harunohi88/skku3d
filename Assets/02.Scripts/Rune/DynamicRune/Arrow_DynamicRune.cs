@@ -20,6 +20,11 @@ public class Arrow_DynamicRune : ADynamicRuneObject
 
     public override void Update()
     {
+        if (_targetTransform == null)
+        {
+            RuneManager.Instance.ProjectilePoolDic[TID].Return(this);
+            return;
+        }
         float moveStep = _moveSpeed * Time.deltaTime;
         float timeStep = moveStep / _bezierLength;
         _time += timeStep;
