@@ -108,7 +108,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d3b3a34c5c7af974487f0f26c72b9e29, type: 3}
   - {fileID: 8300000, guid: 5834c041d54bf544a9072d03b3b0674b, type: 3}
   - {fileID: 8300000, guid: b4ce975868fff68458a47704dd4a8cdf, type: 3}
-  - {fileID: 8300000, guid: 3c6f68d2ae8311b4999548f731fd875f, type: 3}
+  - {fileID: 8300000, guid: c7eaf4c4ea898114b88b24954d18ea67, type: 3}
   - {fileID: 8300000, guid: f6cfdfcc31168cb4f96a80fd60b829a5, type: 3}
   DynamicRuneAudioList:
   - {fileID: 8300000, guid: 5fbb03dab0da9ae42883650aeb226bd6, type: 3}

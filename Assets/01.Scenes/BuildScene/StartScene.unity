@@ -840,6 +840,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: StartScene_UI
       objectReference: {fileID: 0}
+    - target: {fileID: 2154976762620123162, guid: 903d47a1b04d15945a1a618a64219510, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2154976762620123162, guid: 903d47a1b04d15945a1a618a64219510, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2154976762620123162, guid: 903d47a1b04d15945a1a618a64219510, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2154976762620123162, guid: 903d47a1b04d15945a1a618a64219510, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2467461294915305144, guid: 903d47a1b04d15945a1a618a64219510, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -920,6 +936,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3273313469967804909, guid: 903d47a1b04d15945a1a618a64219510, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3273313469967804909, guid: 903d47a1b04d15945a1a618a64219510, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3273313469967804909, guid: 903d47a1b04d15945a1a618a64219510, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3273313469967804909, guid: 903d47a1b04d15945a1a618a64219510, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450373174277648833, guid: 903d47a1b04d15945a1a618a64219510, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450373174277648833, guid: 903d47a1b04d15945a1a618a64219510, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450373174277648833, guid: 903d47a1b04d15945a1a618a64219510, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450373174277648833, guid: 903d47a1b04d15945a1a618a64219510, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5759540471882366311, guid: 903d47a1b04d15945a1a618a64219510, type: 3}
       propertyPath: m_Camera
       value: 
@@ -981,6 +1029,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6547590696944713247, guid: 788640508e0953c45b07c4959473406c, type: 3}
+      propertyPath: 'EnemyAudioList.Array.data[31]'
+      value: 
+      objectReference: {fileID: 8300000, guid: c7eaf4c4ea898114b88b24954d18ea67, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
