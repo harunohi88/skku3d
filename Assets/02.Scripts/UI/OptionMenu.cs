@@ -88,15 +88,13 @@ public class OptionMenu : MonoBehaviour
         Debug.Log($"Fullscreen mode changed - Current: {Screen.fullScreen}");
     }
 
-    public void OnBGMSliderValueChanged(float value)
+    public void OnBGMSliderValueChanged()
     {
-        AudioManager.Instance.SetBGMVolume(value);
-        Debug.Log($"BGMSlider Value Changed: {value}");
+        AudioManager.Instance.SetBGMVolume(BGMSlider.value);
     }
 
-    public void OnSFXSliderValueChanged(float value)
+    public void OnSFXSliderValueChanged()
     {
-        AudioManager.Instance.SetSFXVolume(value);
-        Debug.Log($"SFXSlider Value Changed: {value}");
+        AudioManager.Instance.SetSFXVolume(SFXSlider.value);
     }
 }

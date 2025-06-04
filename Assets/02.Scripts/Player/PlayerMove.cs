@@ -48,8 +48,6 @@ public class PlayerMove : MonoBehaviour
 
     public void Move(Vector2 inputDirection)
     {
-        _animator.SetFloat("Movement", inputDirection.magnitude);
-
         _isGrounded = _characterController.isGrounded;
 
         if (_isGrounded && _verticalVelocity < 0)
@@ -64,6 +62,8 @@ public class PlayerMove : MonoBehaviour
         if (inputDirection.sqrMagnitude < 0.01f)
         {
             LastMoveDirection = Vector3.zero;
+            _animator.SetFloat("MoveX", 0f);
+            _animator.SetFloat("MoveY", 0f);
             Vector3 fallOnly = new Vector3(0, _verticalVelocity, 0) + _externalForce;
             _characterController.Move(fallOnly * Time.deltaTime);
             return;
@@ -78,6 +78,10 @@ public class PlayerMove : MonoBehaviour
 
         Vector3 move = (camRight * inputDirection.x + camForward * inputDirection.y).normalized;
         LastMoveDirection = move;
+        
+        Vector3 localMove = Model.transform.InverseTransformDirection(move).normalized;
+        _animator.SetFloat("MoveX", localMove.x); // 좌/우
+        _animator.SetFloat("MoveY", localMove.z); // 앞/뒤
 
         if (move != Vector3.zero)
         {

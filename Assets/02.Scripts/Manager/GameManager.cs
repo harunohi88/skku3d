@@ -31,8 +31,15 @@ public class GameManager : BehaviourSingleton<GameManager>
         SceneManager.LoadScene(1);
     }
 
+    public void GoToMainScene()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void PlayBGMWhenStart(Scene scene, LoadSceneMode mode)
     {
+        if (SceneManager.GetActiveScene().buildIndex == 0) return;
+        
         if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex - 1) == SceneManager.GetSceneByName("Stage1_Boss")
             || SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex - 1) == SceneManager.GetSceneByName("Stage2_Boss")
             || SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex - 1) == SceneManager.GetSceneByName("Stage3_Boss"))

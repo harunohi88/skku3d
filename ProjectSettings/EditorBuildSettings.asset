@@ -38,6 +38,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01.Scenes/BuildScene/Stage3_Boss.unity
     guid: d2c64c21cc04b754d8e732d7726270c5
+  - enabled: 1
+    path: Assets/01.Scenes/BuildScene/SUCCESS Scene.unity
+    guid: 93ad5c52885515a46a65d6df4261bcfe
+  - enabled: 1
+    path: Assets/01.Scenes/BuildScene/DEFEAT Scene.unity
+    guid: e7a2f3c96575d7a4e8ce91ce90df8ca7
+  - enabled: 1
+    path: Assets/01.Scenes/BuildScene/EmptyScene.unity
+    guid: 6d78aaa89b5b37142a3136ec0351c7b2
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

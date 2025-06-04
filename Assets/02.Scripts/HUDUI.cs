@@ -26,7 +26,20 @@ public class HUDUI : MonoBehaviour
 
     public void CheckBossHPShow(Scene scene, LoadSceneMode mode)
     {
-        if (scene.buildIndex == 2 || scene.buildIndex >= 4) BossHealthBar.SetActive(true);
-        else BossHealthBar.SetActive(false);
+        if (BossHealthBar == null) return;
+        
+        if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) ==
+            SceneManager.GetSceneByName("Stage1_Boss")
+            || SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) ==
+            SceneManager.GetSceneByName("Stage2_Boss")
+            || SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) ==
+            SceneManager.GetSceneByName("Stage3_Boss"))
+        {
+            BossHealthBar.SetActive(true);
+        }
+        else
+        {
+            BossHealthBar.SetActive(false);
+        }
     }
 }
