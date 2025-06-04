@@ -91,7 +91,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
             return;
         }
 
-       Debug.Log($"{gameObject.name} {damage.Value} 데미지 입음");
+        Debug.Log($"{gameObject.name} {damage.Value} 데미지 입음");
     }
 
     public void OnWalk()

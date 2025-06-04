@@ -14,6 +14,7 @@ public class ResetManager : MonoBehaviour
     public void OnClickRestart()
     {
         Debug.Log("OnClickRestart called");
+        Time.timeScale = 1f;
         StartCoroutine(ResetRoutine());
     }
 

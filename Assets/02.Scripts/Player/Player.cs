@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -101,6 +102,16 @@ public class Player : BehaviourSingleton<Player>, IDamageable
         InputManager.Instance.TurnOff = true;
         GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position = transform.position;
         Animator.SetTrigger("Death");
+        float deathTime = Animator.GetCurrentAnimatorStateInfo(0).length;
+
+        StartCoroutine(DieCoroutine(deathTime));
+    }
+
+    private IEnumerator DieCoroutine(float deathTime)
+    {
+        yield return new WaitForSeconds(deathTime + 1f);
+
+        Time.timeScale = 0.3f;
         SceneManager.LoadScene("DEFEAT Scene", LoadSceneMode.Additive);
     }
 
