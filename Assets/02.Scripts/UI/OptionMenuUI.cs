@@ -2,8 +2,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class GameStartUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class OptionMenuUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    public GameObject OptionMenu;
+
     public RectTransform thisTransform;
     public Image Image;
     public float Duration = 0.2f;
@@ -12,6 +14,18 @@ public class GameStartUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         //thisTransform = GetComponent<RectTransform>();
         //Image = GetComponent<Image>();
+    }
+
+    private void Start()
+    {
+        OptionMenu.SetActive(false);
+    }
+    private void Update()
+    {
+        if (OptionMenu.activeSelf && Input.GetKeyDown(KeyCode.Escape))
+        {
+            OptionMenu.SetActive(false);
+        }
     }
 
     public void OnPointerEnter(PointerEventData data)
@@ -27,9 +41,13 @@ public class GameStartUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         //Image.DOColor(color, Duration);
         //thisTransform.DOScale(1.0f, Duration).OnComplete(() => thisTransform.localScale = Vector3.one);
     }
-
-    public void OnPointerClick(PointerEventData data)
+    public void OnPointerClick(PointerEventData eventData)
     {
-        GameManager.Instance.StartGame();
+        //OnButtonClick();
+    }
+
+    public void OnButtonClick()
+    {
+        OptionMenu.SetActive(true);
     }
 }
