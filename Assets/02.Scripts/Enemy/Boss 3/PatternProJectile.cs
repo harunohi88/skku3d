@@ -2,6 +2,7 @@ using MoreMountains.Feedbacks;
 using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
+using Pool;
 
 public class PatternProJectile : MonoBehaviour
 {
@@ -22,21 +23,63 @@ public class PatternProJectile : MonoBehaviour
     private bool _isReady = false;
 
     private Damage _damage;
+    private GameObject _currentProjectileParticle;
+    private GameObject _currentMuzzleParticle;
+    private List<GameObject> _currentTrailParticles = new List<GameObject>();
 
     private void Start()
     {
         _sphereCollider = GetComponent<SphereCollider>();
+        Reset();
+    }
 
-        ProjectileParticle = Instantiate(ProjectileParticle, transform.position, transform.rotation);
-        ProjectileParticle.transform.parent = transform;
+    private void Reset()
+    {
+        _destroyTime = 0f;
+        _isDestroyed = false;
+        _isReady = false;
+        _currentTrailParticles.Clear();
+
+        // Initialize particle pools
+        ParticlePool.Instance.InitializePool(ProjectileParticle, "ProjectileParticle", 130);
+        if (MuzzleParticle)
+        {
+            ParticlePool.Instance.InitializePool(MuzzleParticle, "MuzzleParticle", 130);
+        }
+        if (ImpactParticle)
+        {
+            ParticlePool.Instance.InitializePool(ImpactParticle, "ImpactParticle", 130);
+        }
+        foreach (var trail in TrailParticleList)
+        {
+            ParticlePool.Instance.InitializePool(trail, "Trail_" + trail.name, 130);
+        }
+
+        // Get particles from pool
+        _currentProjectileParticle = ParticlePool.Instance.GetParticle("ProjectileParticle");
+        _currentProjectileParticle.transform.position = transform.position;
+        _currentProjectileParticle.transform.rotation = transform.rotation;
+        _currentProjectileParticle.transform.parent = transform;
 
         if (MuzzleParticle)
         {
-            MuzzleParticle = Instantiate(MuzzleParticle, transform.position, transform.rotation);
-            Destroy(MuzzleParticle, 1.5f);
+            _currentMuzzleParticle = ParticlePool.Instance.GetParticle("MuzzleParticle");
+            _currentMuzzleParticle.transform.position = transform.position;
+            _currentMuzzleParticle.transform.rotation = transform.rotation;
+            StartCoroutine(ReturnMuzzleParticleAfterDelay(1.5f));
         }
 
         _direction = transform.forward;
+    }
+
+    private System.Collections.IEnumerator ReturnMuzzleParticleAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (_currentMuzzleParticle != null)
+        {
+            ParticlePool.Instance.ReturnParticle("MuzzleParticle", _currentMuzzleParticle);
+            _currentMuzzleParticle = null;
+        }
     }
 
     public void Init(Damage damage)
@@ -47,7 +90,7 @@ public class PatternProJectile : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_isDestroyed || _isReady == false) return;
+        //if (_isDestroyed) return;
 
         float radius = Radius;
 
@@ -58,16 +101,20 @@ public class PatternProJectile : MonoBehaviour
         {
             transform.position = hit.point;
 
-            ImpactParticle = Instantiate(ImpactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, hit.normal));
+            var impactParticle = ParticlePool.Instance.GetParticle("ImpactParticle");
+            impactParticle.transform.position = hit.point;
+            impactParticle.transform.rotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
+            StartCoroutine(ReturnParticleAfterDelay("ImpactParticle", impactParticle, 5.0f));
 
             foreach (GameObject trail in TrailParticleList)
             {
-                GameObject currentTrail = transform.Find(ProjectileParticle.name + "/" + trail.name).gameObject;
+                GameObject currentTrail = transform.Find(_currentProjectileParticle.name + "/" + trail.name).gameObject;
                 currentTrail.transform.parent = null;
-                Destroy(currentTrail, 3f);
+                _currentTrailParticles.Add(currentTrail);
+                StartCoroutine(ReturnParticleAfterDelay("Trail_" + trail.name, currentTrail, 3f));
             }
-            Destroy(ProjectileParticle, 3f);
-            Destroy(ImpactParticle, 5.0f);
+
+            StartCoroutine(ReturnParticleAfterDelay("ProjectileParticle", _currentProjectileParticle, 3f));
             DestroyMissile();
         }
         else
@@ -76,48 +123,44 @@ public class PatternProJectile : MonoBehaviour
 
             if (_destroyTime >= 5f)
             {
-                DestroyMissile();
+                //DestroyMissile();
             }
         }
     }
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.green;
-    //    Gizmos.DrawWireSphere(transform.position, Radius); // 시작 지점
 
-    //    Vector3 end = transform.position + _direction.normalized * Radius;
-    //    Gizmos.DrawWireSphere(end, Radius);     // 끝 지점
-
-    //    // 본체 라인
-    //    Gizmos.DrawLine(transform.position + Vector3.right * Radius, end + Vector3.right * Radius);
-    //    Gizmos.DrawLine(transform.position + Vector3.up * Radius, end + Vector3.up * Radius);
-    //    Gizmos.DrawLine(transform.position - Vector3.up * Radius, end - Vector3.up * Radius);
-    //}
+    private System.Collections.IEnumerator ReturnParticleAfterDelay(string poolName, GameObject particle, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (particle != null)
+        {
+            ParticlePool.Instance.ReturnParticle(poolName, particle);
+        }
+    }
 
     private void DestroyMissile()
     {
         _isDestroyed = true;
 
-        foreach (GameObject trail in TrailParticleList)
+        foreach (var trail in _currentTrailParticles)
         {
-            GameObject currentTrail = transform.Find(ProjectileParticle.name + "/" + trail.name).gameObject;
-            currentTrail.transform.parent = null;
-            Destroy(currentTrail, 3f);
+            if (trail != null)
+            {
+                trail.transform.parent = null;
+            }
         }
-        Destroy(ProjectileParticle, 3f);
+        _currentTrailParticles.Clear();
+
         _isReady = false;
-        Destroy(gameObject);
+        ProjectilePool.Instance.Return(this);
 
         ParticleSystem[] trails = GetComponentsInChildren<ParticleSystem>();
-
-        // 0번째는 자기 자신
         for (int i = 1; i < trails.Length; i++)
         {
             ParticleSystem trail = trails[i];
             if (trail.gameObject.name.Contains("Trail"))
             {
                 trail.transform.SetParent(null);
-                Destroy(trail.gameObject, 2f);
+                StartCoroutine(ReturnParticleAfterDelay("Trail_" + trail.gameObject.name, trail.gameObject, 2f));
             }
         }
     }

@@ -1,26 +1,52 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Pool;
 
 public class Pattern04Effect : MonoBehaviour
 {
-    List<Projectile> _projectileList;
-
-    public float projectileDamage = 100f;
+    public float projectileDamage = 50f;
     [SerializeField] private Boss_SpiritDemon _boss;
+    [SerializeField] private List<Transform> _spawnPositionList;
+    [SerializeField] private PatternProJectile _projectilePrefab;
 
-    void Start()
+    private List<PatternProJectile> _activeProjectiles = new List<PatternProJectile>();
+
+    private void OnEnable()
     {
-        // 모든 자식에서 Projectile 컴포넌트 찾기
-        _projectileList = new List<Projectile>(GetComponentsInChildren<Projectile>());
-        _boss = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Boss_SpiritDemon>();
-
-        // 각 Projectile에 Init 호출
-        foreach (var proj in _projectileList)
+        if (_boss == null)
         {
+            _boss = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Boss_SpiritDemon>();
+        }
+        SpawnProjectiles();
+    }
+
+    private void OnDisable()
+    {
+        // Return all active projectiles to the pool
+        foreach (var projectile in _activeProjectiles)
+        {
+            if (projectile != null)
+            {
+                ProjectilePool.Instance.Return(projectile);
+            }
+        }
+        _activeProjectiles.Clear();
+    }
+
+    private void SpawnProjectiles()
+    {
+        foreach (var spawnPos in _spawnPositionList)
+        {
+            var projectile = ProjectilePool.Instance.Get();
+            projectile.transform.position = spawnPos.position;
+            projectile.transform.rotation = spawnPos.rotation;
+
             Damage damage = new Damage();
             damage.Value = projectileDamage;
-            damage.From = _boss.gameObject; // 혹은 Boss 등 원하는 값으로
-            proj.Init(damage);
+            damage.From = _boss.gameObject;
+            projectile.Init(damage);
+
+            _activeProjectiles.Add(projectile);
         }
     }
 }

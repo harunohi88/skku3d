@@ -6,42 +6,61 @@ public class Boss3SpecialAttack04State : IState<AEnemy>
     private EnemyPatternData _patternData;
     private float _time = 0f;
     private bool _wasAgentStopped;
+    private bool _isStart = false;
     public void Enter(AEnemy enemy)
     {
         Debug.Log(this);
-        enemy.SetAnimationTrigger("SpecialAttack04");
+
+        _time = 0f;
         _patternData = Boss3AIManager.Instance.GetPatternData(4);
 
-        enemy.EnemyRotation.IsFound = false;
-        enemy.Agent.isStopped = true;
-
-        _wasAgentStopped = false;
+        enemy.SetAnimationTrigger("Run");
+        enemy.Agent.SetDestination(PlayerManager.Instance.Player.transform.position);
     }
 
     public void Update(AEnemy enemy)
     {
-        _time += Time.deltaTime;
-        if (!_wasAgentStopped)
+        if(_isStart == false)
         {
-            if (_patternData != null && _time >= 1f)
+            enemy.Agent.SetDestination(PlayerManager.Instance.Player.transform.position);
+
+            if(enemy.Agent.remainingDistance < enemy.AttackDistance)
+            {
+                enemy.SetAnimationTrigger("SpecialAttack04");
+                _patternData = Boss3AIManager.Instance.GetPatternData(4);
+
+                enemy.EnemyRotation.IsFound = false;
+                enemy.Agent.isStopped = true;
+
+                _wasAgentStopped = false;
+                _isStart = true;
+            }
+        }
+        else
+        {
+            _time += Time.deltaTime;
+            if (!_wasAgentStopped)
+            {
+                if (_patternData != null && _time >= 1f)
+                {
+                    if (enemy is ISpecialAttackable specialAttackable)
+                    {
+                        specialAttackable.SpecialAttack_04();
+                    }
+                    _wasAgentStopped = true;
+                }
+                
+            }
+
+            if (_patternData != null && _time >= _patternData.CastingTime)
             {
                 if (enemy is ISpecialAttackable specialAttackable)
                 {
-                    specialAttackable.SpecialAttack_04();
+                    specialAttackable.OnSpecialAttack04End();
                 }
-                _wasAgentStopped = true;
+                enemy.ChangeState(new Boss3IdleState());
             }
-            
-        }
-
-        if (_patternData != null && _time >= _patternData.CastingTime)
-        {
-            if (enemy is ISpecialAttackable specialAttackable)
-            {
-                specialAttackable.OnSpecialAttack04End();
-            }
-            enemy.ChangeState(new Boss3TraceState());
-        }
+        }  
     }
 
     public void Exit(AEnemy enemy)

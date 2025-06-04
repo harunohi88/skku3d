@@ -14,11 +14,11 @@ public class StartHJB : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            SceneManager.LoadScene(7);
+            SceneManager.LoadScene(12);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            SceneManager.LoadScene(8);
+            SceneManager.LoadScene(13);
         }
     }
 }
