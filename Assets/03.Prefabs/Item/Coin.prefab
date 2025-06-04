@@ -54,7 +54,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 2
+  m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6910388666749876588
 MonoBehaviour:
@@ -80,6 +80,7 @@ MonoBehaviour:
   Amount: 0
   IsCollected: 0
   SparkleEffectList: []
+  BasicAllInventory: {fileID: 0}
 --- !u!1001 &1309779136150477975
 PrefabInstance:
   m_ObjectHideFlags: 0
