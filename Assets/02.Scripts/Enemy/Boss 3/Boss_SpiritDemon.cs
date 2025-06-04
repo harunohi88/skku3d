@@ -45,6 +45,12 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     private Quaternion _pattern2StartRotation;
     private Pattern04Effect _pattern4Effect;
 
+    // 코루틴 추적을 위한 변수들
+    private Coroutine _knifeCoroutine;
+    private Coroutine _blackHoleCoroutine;
+    private Coroutine _pattern4Coroutine;
+    private Coroutine _pattern2Coroutine;
+
     private void Start()
     {
         Init(null);
@@ -74,10 +80,16 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
         EnemyHitEffect.PlayHitEffect(DamagedTime);
 
         if (Health <= 0)
-       {
+        {
+            // 진행 중인 모든 코루틴 중지
+            if (_knifeCoroutine != null) StopCoroutine(_knifeCoroutine);
+            if (_blackHoleCoroutine != null) StopCoroutine(_blackHoleCoroutine);
+            if (_pattern4Coroutine != null) StopCoroutine(_pattern4Coroutine);
+            if (_pattern2Coroutine != null) StopCoroutine(_pattern2Coroutine);
+            
             ChangeState(new Boss3DieState());
             return;
-       }
+        }
 
        Debug.Log($"{gameObject.name} {damage.Value} 데미지 입음");
     }
@@ -91,6 +103,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     {
         AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Attack);
         EnemyRotation.IsFound = false;
+        var pattern0Data = Boss3AIManager.Instance.GetPatternData(0);
 
         int middleIndex = ProjectileCount / 2;
 
@@ -106,7 +119,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
 
             Projectile projectile = Instantiate(SkillObject, AttackPosition.transform.position, Quaternion.identity).GetComponent<Projectile>();
             Damage damage = new Damage();
-            damage.Value = Damage;
+            damage.Value = pattern0Data.Damage;
             damage.From = this.gameObject;
             projectile.Init(damage);
             projectile.transform.forward = dir;
@@ -159,7 +172,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
         // 블랙홀 소환 위치를 랜덤 원 안에서 결정
         Vector2 randomCircle = Random.insideUnitCircle * BlackHoleSpawnRadius;
         Vector3 spawnPos = BlackHoleSpawnCenter + new Vector3(randomCircle.x, 0, randomCircle.y);
-        StartCoroutine(ShowBlackHoleIndicatorAndSpawn(spawnPos));
+        _blackHoleCoroutine = StartCoroutine(ShowBlackHoleIndicatorAndSpawn(spawnPos));
     }
 
     private IEnumerator ShowBlackHoleIndicatorAndSpawn(Vector3 spawnPos)
@@ -193,11 +206,12 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
         // 안전지대(작은 원) 중심을 큰 원 범위 내 랜덤으로 결정
         Vector2 randomCircle = Random.insideUnitCircle * (AttackCircleOuterRadius - SafeCircleRadius);
         _lastSafeCircleCenter = AttackCircleCenter + new Vector3(randomCircle.x, 0, randomCircle.y);
-        StartCoroutine(ShowAttackAndSafeCircleIndicatorsAndAttack());
+        _pattern4Coroutine = StartCoroutine(ShowAttackAndSafeCircleIndicatorsAndAttack());
     }
 
     private IEnumerator ShowAttackAndSafeCircleIndicatorsAndAttack()
     {
+        var _pattern4Data = Boss3AIManager.Instance.GetPatternData(4);
         // 큰 원(공격 범위) 인디케이터
         SkillIndicator attackIndicator = BossIndicatorManager.Instance.SetCircularIndicator(
             AttackCircleCenter,
@@ -252,7 +266,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
                     var damageable = hitCollider.GetComponent<IDamageable>();
                     if (damageable != null)
                     {
-                        Damage damage = new Damage { Value = Damage, From = gameObject };
+                        Damage damage = new Damage { Value = _pattern4Data.Damage, From = gameObject };
                         damageable.TakeDamage(damage);
                     }
                 }
@@ -276,6 +290,14 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
         yield return new WaitForSeconds(0.2f);
         AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4_2);
         yield return new WaitForSeconds(0.1f);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4_2);
+        yield return new WaitForSeconds(0.1f);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4_2);
+        yield return new WaitForSeconds(0.2f);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4_2);
+        yield return new WaitForSeconds(0.1f);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4_2);
+        yield return new WaitForSeconds(0.2f);
         AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4_2);
         yield return new WaitForSeconds(0.1f);
         AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp4_2);
@@ -309,7 +331,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     /// <param name="outerRadius">칼날이 생성될 반지름</param>
     public void KnifeInstantiate(Vector3 center, int count, float innerRadius, float outerRadius)
     {
-        StartCoroutine(KnifeInstantiateCoroutine(center, count, innerRadius, outerRadius));
+        _knifeCoroutine = StartCoroutine(KnifeInstantiateCoroutine(center, count, innerRadius, outerRadius));
     }
 
     private IEnumerator KnifeInstantiateCoroutine(Vector3 center, int count, float innerRadius, float outerRadius)
@@ -372,7 +394,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
             // 4. 칼 생성
             Projectile knife = Instantiate(KnifePrefab, spawnPoint, Quaternion.identity).GetComponent<Projectile>();
             Damage damage = new Damage();
-            damage.Value = Damage;
+            damage.Value = patterData.Damage;
             damage.From = this.gameObject;
             knife.Init(damage);
             knife.transform.forward = centerPoint - spawnPoint;
@@ -387,7 +409,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
         // 패턴 시작 시 보스의 위치와 회전 저장
         _pattern2StartPosition = transform.position;
         _pattern2StartRotation = transform.rotation;
-        StartCoroutine(Pattern02Coroutine());
+        _pattern2Coroutine = StartCoroutine(Pattern02Coroutine());
     }
 
     private IEnumerator Pattern02Coroutine()
@@ -444,7 +466,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
         AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp2);
         CameraManager.Instance.CameraShake(1f, 0.2f);
         BossEffectManager.Instance.PlayBoss1Particle(2);
-        
+        var pattern2Data = Boss3AIManager.Instance.GetPatternData(2);
         float radius = 5f;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
         foreach (var hitCollider in hitColliders)
@@ -454,7 +476,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
                 var damageable = hitCollider.GetComponent<IDamageable>();
                 if (damageable != null)
                 {
-                    Damage damage = new Damage { Value = Damage, From = gameObject };
+                    Damage damage = new Damage { Value = pattern2Data.Damage, From = gameObject };
                     damageable.TakeDamage(damage);
                 }
             }
@@ -487,6 +509,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
         AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp2);
         CameraManager.Instance.CameraShake(1f, 0.2f);
         BossEffectManager.Instance.PlayBoss1Particle(3);
+        var pattern2Data = Boss3AIManager.Instance.GetPatternData(2);
         
         float innerRadius = SphereInnerRadius;
         float outerRadius = SphereOuterRadius;
@@ -501,7 +524,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
                     var damageable = hitCollider.GetComponent<IDamageable>();
                     if (damageable != null)
                     {
-                        Damage damage = new Damage { Value = Damage, From = gameObject };
+                        Damage damage = new Damage { Value = pattern2Data.Damage, From = gameObject };
                         damageable.TakeDamage(damage);
                     }
                 }
@@ -582,7 +605,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
         AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp2);
         CameraManager.Instance.CameraShake(1f, 0.2f);        
         BossEffectManager.Instance.PlayBoss1Particle(0);
-        
+        var pattern2Data = Boss3AIManager.Instance.GetPatternData(2);
         for (int i = 0; i < VerticalRectCount; i++)
         {
             // 로컬 좌표계 기준으로 직사각형 중심점 계산
@@ -598,7 +621,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
                     var damageable = hitCollider.GetComponent<IDamageable>();
                     if (damageable != null)
                     {
-                        Damage damage = new Damage { Value = Damage, From = gameObject };
+                        Damage damage = new Damage { Value = pattern2Data.Damage, From = gameObject };
                         damageable.TakeDamage(damage);
                     }
                 }
@@ -612,7 +635,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
         AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp2);
         CameraManager.Instance.CameraShake(1f, 0.2f);
         BossEffectManager.Instance.PlayBoss1Particle(1);
-        
+        var pattern2Data = Boss3AIManager.Instance.GetPatternData(2);
         for (int i = 0; i < VerticalRectCount; i++)
         {
             // 로컬 좌표계 기준으로 직사각형 중심점 계산
@@ -628,7 +651,7 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
                     var damageable = hitCollider.GetComponent<IDamageable>();
                     if (damageable != null)
                     {
-                        Damage damage = new Damage { Value = Damage, From = gameObject };
+                        Damage damage = new Damage { Value = pattern2Data.Damage, From = gameObject };
                         damageable.TakeDamage(damage);
                     }
                 }
