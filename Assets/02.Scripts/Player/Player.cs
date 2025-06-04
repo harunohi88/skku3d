@@ -101,7 +101,7 @@ public class Player : BehaviourSingleton<Player>, IDamageable
         InputManager.Instance.TurnOff = true;
         GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position = transform.position;
         Animator.SetTrigger("Death");
-        SceneManager.LoadScene("DeathScene", LoadSceneMode.Additive);
+        SceneManager.LoadScene("DEFEAT Scene", LoadSceneMode.Additive);
     }
 
 }

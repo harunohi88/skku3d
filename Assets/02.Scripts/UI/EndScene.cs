@@ -13,8 +13,4 @@ public class EndScene : MonoBehaviour
 
         SurviveText.text = $"생존 시간 : {minutes:00}분 {seconds:00}초";
     }
-    public void OnClick()
-    {
-        GameManager.Instance.GoToMainScene();
-    }
 }
