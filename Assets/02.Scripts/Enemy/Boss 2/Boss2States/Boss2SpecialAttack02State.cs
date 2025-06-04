@@ -79,6 +79,7 @@ public class Boss2SpecialAttack02State : IState<AEnemy>
             {
                 var weapon = ferex.WeaponCopied.GetComponent<WeaponMove>();
                 weapon.SetState(WeaponMove.WeaponState.Throw);
+                AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Sp2);
             }
         }
     }

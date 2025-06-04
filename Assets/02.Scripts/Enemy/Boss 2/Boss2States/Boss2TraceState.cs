@@ -8,7 +8,7 @@ public class Boss2TraceState : IState<AEnemy>
     {
         Debug.Log(this);
         enemy.SetAnimationTrigger("Trace");
-        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Trace);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Trace, true);
         enemy.Agent.isStopped = false;
         enemy.Agent.ResetPath();
         enemy.EnemyRotation.IsFound = true;
@@ -23,6 +23,7 @@ public class Boss2TraceState : IState<AEnemy>
             IState<AEnemy> state = Boss2AIManager.Instance.DecideNextState();
             if (state is Boss2TraceState) return;
             else enemy.ChangeState(state);
+            AudioManager.Instance.StopEnemyAudio(EnemyAudioType.Boss2Trace);
         }
     }
 
