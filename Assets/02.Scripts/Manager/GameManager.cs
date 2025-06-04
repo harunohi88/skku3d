@@ -23,11 +23,25 @@ public class GameManager : BehaviourSingleton<GameManager>
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += PlayBGMWhenStart;
     }
 
     public void StartGame()
     {
         SceneManager.LoadScene(1);
+    }
+
+    public void PlayBGMWhenStart(Scene scene, LoadSceneMode mode)
+    {
+        if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex - 1) == SceneManager.GetSceneByName("Stage1_Boss")
+            || SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex - 1) == SceneManager.GetSceneByName("Stage2_Boss")
+            || SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex - 1) == SceneManager.GetSceneByName("Stage3_Boss"))
+        {
+            if(AudioManager.Instance.CheckCurrentBGM(0) == false)
+            {
+                AudioManager.Instance.PlayBGM(0);
+            }
+        }
     }
 
     public float GetEnemyBaseDamage(EnemyType type)

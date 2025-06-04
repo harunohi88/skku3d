@@ -14633,6 +14633,7 @@ GameObject:
   - component: {fileID: 8293132}
   - component: {fileID: 10869474}
   - component: {fileID: 11426392}
+  - component: {fileID: 6000662903520931989}
   m_Layer: 0
   m_Name: SoulExplosionCrimson
   m_TagString: Untagged
@@ -19466,7 +19467,7 @@ AudioSource:
   m_GameObject: {fileID: 169216}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -1476979776148921389, guid: fcdd12aefe53b1541afd69f9794969ee, type: 2}
   m_audioClip: {fileID: 8300000, guid: e0f8074327731a947b02c18d90cc7085, type: 3}
   m_Resource: {fileID: 8300000, guid: e0f8074327731a947b02c18d90cc7085, type: 3}
   m_PlayOnAwake: 1
@@ -19633,6 +19634,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 0.3
   onLifeEnd: 1
+--- !u!114 &6000662903520931989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &195804
 GameObject:
   m_ObjectHideFlags: 0

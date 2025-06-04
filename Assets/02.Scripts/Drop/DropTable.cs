@@ -70,10 +70,10 @@ public class DropTable : BehaviourSingleton<DropTable>
         Tier3DropRate = dropTableData.TierDropRateList[2];
 
 
-        if (Random.value < RuneDropRate)
-        {
+        //if (Random.value < RuneDropRate)
+        //{
             DropRandomRune(position, enemyType);
-        }
+        //}
 
         // 골드 드랍
         GoldAmount = Random.Range(dropTableData.MinCoin, dropTableData.MaxCoin + 1);
@@ -132,6 +132,46 @@ public class DropTable : BehaviourSingleton<DropTable>
         // 경험치 드랍
         ExpAmount = dropTableData.Exp;
         DropExp(position, ExpAmount);
+    }
+
+    public void DropBossRewards(Vector3 bossPosition, Vector3 dropTarget, float radius)
+    {
+        // 룬 드랍
+        DropRandomRune(bossPosition, EnemyType.Boss, 3, dropTarget, radius);
+        int n = Random.Range(2, 5);
+        for (int i = 0; i < n; i++)
+        {
+            int randomTier = Random.Range(1, 3);
+            DropRandomRune(bossPosition, EnemyType.Boss, randomTier, dropTarget, radius);
+        }
+
+        // 골드 분할
+        int totalGold = GoldAmount;
+        int goldPerPiece = Mathf.Max(1, totalGold / 20);
+        for (int i = 0; i < 20; i++)
+        {
+            DropBossGold(bossPosition, goldPerPiece, dropTarget, radius);
+        }
+
+        // 경험치 분할
+        int totalExp = ExpAmount;
+        int expPerPiece = Mathf.Max(1, totalExp / 20);
+        for (int i = 0; i < 20; i++)
+        {
+            DropBossExp(bossPosition, expPerPiece, dropTarget, radius);
+        }
+    }
+
+    public void DropRandomRune(Vector3 position, EnemyType enemyType, int runeTier, Vector3 dropTarget, float radius)
+    {
+        int runeTID = Random.Range(RUNE_DATA_TID_MIN, RUNE_DATA_TID_MIN + DataTable.Instance.GetRuneDataList().Count);
+
+        if (RunePrefab != null)
+        {
+            Item item = Instantiate(RunePrefab, position, Quaternion.identity).GetComponent<Item>();
+            Rune rune = new Rune(runeTID, runeTier);
+            item.Init(runeTier, 0, rune, EItemType.Rune, dropTarget, radius);
+        }
     }
 
     /// <summary> 랜덤 룬 드랍 </summary>
@@ -212,5 +252,23 @@ public class DropTable : BehaviourSingleton<DropTable>
             item.Init(1, amount, null, EItemType.Exp);
         }
         Debug.Log($"Dropped Exp {amount}");
+    }
+
+    private void DropBossGold(Vector3 bossPosition, int amount, Vector3 dropTarget, float radius)
+    {
+        if (CoinPrefab != null)
+        {
+            Item item = Instantiate(CoinPrefab, bossPosition, Quaternion.identity).GetComponent<Item>();
+            item.Init(1, amount, null, EItemType.Coin, dropTarget, radius);
+        }
+    }
+
+    private void DropBossExp(Vector3 bossPosition, int amount, Vector3 dropTarget, float radius)
+    {
+        if (ExpPrefab != null)
+        {
+            Item item = Instantiate(ExpPrefab, bossPosition, Quaternion.identity).GetComponent<Item>();
+            item.Init(1, amount, null, EItemType.Exp, dropTarget, radius);
+        }
     }
 }

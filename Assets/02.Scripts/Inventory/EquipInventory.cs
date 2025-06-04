@@ -15,11 +15,11 @@ public class EquipInventory : BaseInventory
         base.Awake();
         InventoryManager.Instance.RegisterInventory(this);
         InitHUDRuneSlot();
+        UIEventManager.Instance.OnSkillDescriptionChanged += RefreshDescription;
     }
 
     private void Start()
     {
-        UIEventManager.Instance.OnSkillDescriptionChanged += RefreshDescription;
     }
 
     private void RefreshDescription(int index, int level, float multiplier)

@@ -36,6 +36,7 @@ public class SkillUpgrade : MonoBehaviour
     /// <param name="skillNumber"></param>
     public void SkillUpgrde(int skillNumber)
     {
+        Debug.Log("SkillNumber: " + skillNumber);
         if(!_isDataLoaded)
         {
             CurrencyData currencyData = DataTable.Instance.GetCurrencyData(SKILL_UPGRADE_COST_TID);

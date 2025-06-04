@@ -4,37 +4,44 @@ using System.Collections;
 public class CameraManager : BehaviourSingleton<CameraManager>
 {
     private Vector3 _originalPosition;
-    private Vector3 _shakePosition;
+    public Vector3 ShakePosition;
+
+    public bool IsShaking = false;
 
     public void Awake()
     {
         DontDestroyOnLoad(gameObject);
     }
-    
-    public void Shake(float duration, float magnitude)
+
+    private Coroutine _cameraShakeCoroutine;
+    public void CameraShake(float magnitude, float duration)
     {
-        _originalPosition = Camera.main.transform.position;
-        _shakePosition = Vector3.zero;
-        StopAllCoroutines();
-        StartCoroutine(ShakeCoroutine(duration, magnitude));
+        if (_cameraShakeCoroutine != null)
+        {
+            StopCoroutine(_cameraShakeCoroutine);
+        }
+        _cameraShakeCoroutine = StartCoroutine(ShakeCoroutine(magnitude, duration));
     }
 
-    private IEnumerator ShakeCoroutine(float duration, float magnitude)
+    private IEnumerator ShakeCoroutine(float magnitude, float duration)
     {
-        float elapsed = 0f;
+        IsShaking = true;
+
+        float elapsed = 0.0f;
 
         while (elapsed < duration)
         {
-            float offsetX = Random.Range(-1f, 1f) * magnitude;
-            float offsetY = Random.Range(-1f, 1f) * magnitude;
+            float x = Random.Range(-1f, 1f) * magnitude;
+            float y = Random.Range(-1f, 1f) * magnitude;
 
-            _shakePosition = new Vector3(offsetX, offsetY, 0f);
+            ShakePosition = (transform.right * x) + (transform.up * y);
 
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             yield return null;
         }
 
-        _shakePosition = Vector3.zero;
-        transform.localPosition = _originalPosition;
+        ShakePosition = Vector3.one;
+
+        IsShaking = false;
     }
 }

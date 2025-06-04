@@ -22,6 +22,8 @@ public class FateRuneEffect : ARuneEffect
 
         if (colliderList.Count != 0)
         {
+            AudioManager.Instance.PlayDynamicRuneAudio(DynamicRuneAudioType.Fly3);
+
             int n = 1 + (int)PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.ProjectileCountGain].TotalStat;
             for (int i = 0; i <= n; i++)
             {

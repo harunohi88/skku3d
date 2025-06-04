@@ -5,8 +5,6 @@ using TMPro;
 public class SkillDescription : MonoBehaviour
 {
     public string Description;
-    public int SkillIndex;
-    public float SkillMultiplier;
     public TextMeshProUGUI SkillLevelText;
     public TextMeshProUGUI SkillDescriptionText;
     

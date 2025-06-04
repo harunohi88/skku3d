@@ -4414,6 +4414,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 885849986872977235, guid: c7030f6447881f74ea05e2064bd7daa4, type: 3}
+      propertyPath: RotationSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2626094764793987494, guid: c7030f6447881f74ea05e2064bd7daa4, type: 3}
       propertyPath: m_Name
       value: BasicEnemy_2_1
@@ -4517,7 +4521,7 @@ MonoBehaviour:
   TraceDistance: 15
   AttackDistance: 3
   AttackOutDistance: 5
-  AttackCooltime: 1
+  AttackCooltime: 0.5
   DamagedTime: 0.3
   DeathTime: 2
   ThisSpawner: {fileID: 0}

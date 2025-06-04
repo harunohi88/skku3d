@@ -8,6 +8,7 @@ public class Player : BehaviourSingleton<Player>, IDamageable
     public float StaminaGain;
     public float StaminaRegenDelay;
     public float UIUpdateInterval = 0.1f;
+    public Animator Animator;
     
     private float _staminaRegenTimer;
     private float _uiUpdateTimer;
@@ -15,6 +16,7 @@ public class Player : BehaviourSingleton<Player>, IDamageable
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
+        Animator = GetComponentInChildren<Animator>();
     }
 
     private void Start()
@@ -69,6 +71,8 @@ public class Player : BehaviourSingleton<Player>, IDamageable
     
     public void TakeDamage(Damage damage)
     {
+        if (Health <= 0) return;
+        
         Health -= damage.Value;
         UIEventManager.Instance.OnStatChanged?.Invoke();
         UIEventManager.Instance.OnCurrentHealthChanged?.Invoke(Health);
@@ -91,8 +95,10 @@ public class Player : BehaviourSingleton<Player>, IDamageable
 
     public void Die()
     {
-        // Handle player death (e.g., play animation, respawn, etc.)
         Debug.Log("Player has died.");
+
+        InputManager.Instance.TurnOff = true;
+        Animator.SetTrigger("Death");
     }
 
 }

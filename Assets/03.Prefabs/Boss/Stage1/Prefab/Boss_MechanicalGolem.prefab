@@ -814,7 +814,7 @@ MonoBehaviour:
     Damage: 100
     InnerRange: 0
   _specialAttack4PatternList:
-  - CoolTime: 12
+  - CoolTime: 20
     CastingTime: 1.2
     LastFinishedTime: 0
     Range: 0
