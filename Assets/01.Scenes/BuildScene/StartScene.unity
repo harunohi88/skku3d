@@ -1029,10 +1029,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
-    - target: {fileID: 6547590696944713247, guid: 788640508e0953c45b07c4959473406c, type: 3}
-      propertyPath: 'EnemyAudioList.Array.data[31]'
-      value: 
-      objectReference: {fileID: 8300000, guid: c7eaf4c4ea898114b88b24954d18ea67, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
