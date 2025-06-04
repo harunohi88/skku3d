@@ -33,6 +33,8 @@ public class GameManager : BehaviourSingleton<GameManager>
 
     public void PlayBGMWhenStart(Scene scene, LoadSceneMode mode)
     {
+        if (SceneManager.GetActiveScene().buildIndex == 0) return;
+        
         if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex - 1) == SceneManager.GetSceneByName("Stage1_Boss")
             || SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex - 1) == SceneManager.GetSceneByName("Stage2_Boss")
             || SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex - 1) == SceneManager.GetSceneByName("Stage3_Boss"))

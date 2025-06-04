@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : BehaviourSingleton<Player>, IDamageable
 {
@@ -98,7 +99,9 @@ public class Player : BehaviourSingleton<Player>, IDamageable
         Debug.Log("Player has died.");
 
         InputManager.Instance.TurnOff = true;
+        GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position = transform.position;
         Animator.SetTrigger("Death");
+        SceneManager.LoadScene("DeathScene", LoadSceneMode.Additive);
     }
 
 }
