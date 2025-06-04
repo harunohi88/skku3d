@@ -176,7 +176,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     public override void OnAnimationEnd()
     {
         base.OnAnimationEnd();
-        ChangeState(new Boss2TraceState());
+        ChangeState(new Boss2IdleState());
     }
 
     public void NavMeshAgentOff()
