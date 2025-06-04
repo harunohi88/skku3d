@@ -10,15 +10,15 @@ public class StartHJB : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            SceneManager.LoadScene(6);
+            SceneManager.LoadScene(15);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            SceneManager.LoadScene(15);
+            SceneManager.LoadScene(16);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            SceneManager.LoadScene(16);
+            SceneManager.LoadScene(17);
         }
     }
 }
