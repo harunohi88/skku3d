@@ -50,6 +50,6 @@ MonoBehaviour:
   TrailParticleList: []
   LayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   MoveSpeed: 10
   Radius: 0.5
