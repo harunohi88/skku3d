@@ -8,7 +8,7 @@ public class Boss2BaseAttackState : IState<AEnemy>
 
         //enemy.Agent.enabled = false;
         enemy.SetAnimationTrigger("BaseAttack");
-        //AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Attack);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Attack);
         enemy.EnemyRotation.IsFound = false;
         enemy.Agent.isStopped = true;
         enemy.Agent.ResetPath();
