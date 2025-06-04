@@ -2387,6 +2387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38c307d022182ea4eb58ab3ca752758c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShakePosition: {x: 0, y: 0, z: 0}
   IsShaking: 0
 --- !u!114 &2127010122
 MonoBehaviour:
