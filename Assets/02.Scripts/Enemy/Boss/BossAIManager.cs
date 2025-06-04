@@ -22,16 +22,7 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
     [Header("Special Attack 4 Patterns")]
     [SerializeField] private List<EnemyPatternData> _specialAttack4PatternList;
 
-    //public float Pattern1Radius;
-    //public float Pattern1Range;
-    //public float Pattern1LightningLastTime;
-
-    //public float Patter2FirstCastingtime;
-    //public float Pattern2Radius;
-    //public float Pattern2Range;
-
-    //public float Pattern3Range;
-    //public float Pattern3Angle;
+    public GameObject PortalToNextStage;
 
     private void Start()
     {
@@ -52,10 +43,11 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
         if (availablePatternList.Count > 0)
         {
             int selectedIndex = availablePatternList[Random.Range(0, availablePatternList.Count)];
+
             return GetAttackState(selectedIndex);
         }
 
-        return new BossTraceState();
+        return new BossIdleState();
     }
 
     private bool IsPatternAvailable(int patternIndex)
@@ -111,7 +103,7 @@ public class BossAIManager : BehaviourSingleton<BossAIManager>
             case 2: return new BossSpecialAttack02State();
             case 3: return new BossSpecialAttack03State();
             case 4: return new BossSpecialAttack04State();
-            default: return new BossTraceState();
+            default: return new BossIdleState();
         }
     }
 }

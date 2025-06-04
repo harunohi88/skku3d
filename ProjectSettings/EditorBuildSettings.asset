@@ -6,20 +6,47 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/01.Scenes/StartScene.unity
+    path: Assets/01.Scenes/BuildScene/StartScene.unity
     guid: e86b7b33629ab9e49b7ce09d62bcd317
   - enabled: 1
-    path: Assets/01.Scenes/Stage1_LSJ.unity
+    path: Assets/01.Scenes/BuildScene/LoadingScene 1.unity
+    guid: 8428db079b11b9f469ad473a67801d51
+  - enabled: 1
+    path: Assets/01.Scenes/BuildScene/Stage1.unity
     guid: 9181fa5cbab0ca94f92b652412d08599
   - enabled: 1
-    path: Assets/01.Scenes/Stage1_Boss_LSJ.unity
+    path: Assets/01.Scenes/BuildScene/LoadingScene 2.unity
+    guid: 8e550a9fc6251704880b5b52ac32d03f
+  - enabled: 1
+    path: Assets/01.Scenes/BuildScene/Stage1_Boss.unity
     guid: c51409b6ae1fd04499c9dd1032a357b7
   - enabled: 1
-    path: Assets/01.Scenes/Stage2_HJB.unity
+    path: Assets/01.Scenes/BuildScene/LoadingScene 3.unity
+    guid: e18a8a09eaceb9145bd1e9f924b353a9
+  - enabled: 1
+    path: Assets/01.Scenes/BuildScene/Stage2.unity
     guid: 2894b406a3eaf5f458166514f78d1d1c
   - enabled: 1
-    path: Assets/01.Scenes/Stage2_HJB_BOSS.unity
-    guid: ada84ca2118e69d419c6d9d16db76398
+    path: Assets/01.Scenes/BuildScene/LoadingScene 4.unity
+    guid: 223a30eb4cf127f48a4bc5177e8afccc
+  - enabled: 1
+    path: Assets/01.Scenes/BuildScene/Stage2_Boss.unity
+    guid: ea37381d18ad73e4f83dbe35d6207172
+  - enabled: 1
+    path: Assets/01.Scenes/BuildScene/LoadingScene 5.unity
+    guid: a7a6fba0d23f61d4c80dee9b3226c9c3
+  - enabled: 1
+    path: Assets/01.Scenes/BuildScene/Stage3_Boss.unity
+    guid: d2c64c21cc04b754d8e732d7726270c5
+  - enabled: 1
+    path: Assets/01.Scenes/BuildScene/SUCCESS Scene.unity
+    guid: 93ad5c52885515a46a65d6df4261bcfe
+  - enabled: 1
+    path: Assets/01.Scenes/BuildScene/DEFEAT Scene.unity
+    guid: e7a2f3c96575d7a4e8ce91ce90df8ca7
+  - enabled: 1
+    path: Assets/01.Scenes/BuildScene/EmptyScene.unity
+    guid: 6d78aaa89b5b37142a3136ec0351c7b2
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

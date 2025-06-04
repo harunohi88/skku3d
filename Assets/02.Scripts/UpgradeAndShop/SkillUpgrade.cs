@@ -36,6 +36,7 @@ public class SkillUpgrade : MonoBehaviour
     /// <param name="skillNumber"></param>
     public void SkillUpgrde(int skillNumber)
     {
+        Debug.Log("SkillNumber: " + skillNumber);
         if(!_isDataLoaded)
         {
             CurrencyData currencyData = DataTable.Instance.GetCurrencyData(SKILL_UPGRADE_COST_TID);
@@ -68,6 +69,7 @@ public class SkillUpgrade : MonoBehaviour
 
             // 스킬 레벨 텍스트 업데이트
             OnSkillUpgrade?.Invoke(skillNumber, SkillLevelList[skillNumber]);
+            UIEventManager.Instance.OnSKillLevelUp?.Invoke(skillNumber);
             // 스킬 레벨 업그레이드 코스트 텍스트 업데이트
             OnSkillUpgradeText?.Invoke(skillNumber, SkillUpgradeCostList[skillNumber]);
         }

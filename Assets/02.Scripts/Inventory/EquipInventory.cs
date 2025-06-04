@@ -6,12 +6,25 @@ public class EquipInventory : BaseInventory
     [SerializeField] private BasicAllInventory _basicAllInventory;
 
     [SerializeField] private List<InventorySlot> HUDRuneList;
+    
+    public List<SkillDescription> SkillDescriptionList;
 
     protected override void Awake()
     {
         _autoCreateSlots = false; // 기본적으로 수동 슬롯 배치 사용
         base.Awake();
+        InventoryManager.Instance.RegisterInventory(this);
         InitHUDRuneSlot();
+        UIEventManager.Instance.OnSkillDescriptionChanged += RefreshDescription;
+    }
+
+    private void Start()
+    {
+    }
+
+    private void RefreshDescription(int index, int level, float multiplier)
+    {
+        SkillDescriptionList[index].SetSkillDescription(level, multiplier);
     }
 
     public override bool AddItem(Rune rune, int quantity = 1)
@@ -31,17 +44,24 @@ public class EquipInventory : BaseInventory
         return false; // 빈 슬롯 없음
     }
 
-    public bool AddItemToSlot(Rune rune, int slotIndex, int quantity = 1)
+    public bool AddItemToSlot(Rune rune, int slotIndex, int quantity = 1, bool isRestore = false)
     {
         if (slotIndex < 0 || slotIndex >= _itemsList.Count)
             return false;
 
-        // 슬롯이 비어있는지 확인
-        if (_itemsList[slotIndex] == null)
+        // 슬롯이 비어있거나 복원 중인 경우에만 아이템 추가
+        if (_itemsList[slotIndex] == null || isRestore)
         {
             _itemsList[slotIndex] = new InventoryItem(rune, 1); // 장비 인벤토리는 항상 수량 1
             _itemsList[slotIndex].Rune.Sprite = InventoryManager.Instance.GetSprite(rune.TID);
             UpdateSlot(slotIndex);
+            
+            // BasicAll 인벤토리의 수량 업데이트 (복원 시에는 제외)
+            if (_basicAllInventory != null && !isRestore)
+            {
+                _basicAllInventory.ReduceItemQuantity(rune.TID, rune.CurrentTier, 1);
+            }
+            
             return true;
         }
 
@@ -52,7 +72,7 @@ public class EquipInventory : BaseInventory
     {
         base.UpdateSlot(index);
         // TODO: 룬이 장착되고 해제 될 때 마다 함수 호출예정----------------------------------------------------------
-        if(_itemsList[index] != null)
+        if (_itemsList[index] != null)
         {
             Debug.Log($"Equip Rune : {index} {_itemsList[index].Rune.TID}");
             if(index <= 1)
@@ -115,7 +135,7 @@ public class EquipInventory : BaseInventory
 
         // 아이템을 BasicAllInventory로 이동
         Rune rune = _itemsList[slotIndex].Rune;
-        if (_basicAllInventory.AddItem(rune, 1))
+        if (_basicAllInventory != null && _basicAllInventory.AddItem(rune, 1))
         {
             _itemsList[slotIndex] = null;
             UpdateSlot(slotIndex);
@@ -139,7 +159,7 @@ public class EquipInventory : BaseInventory
     {
         if (slotIndex < 0 || slotIndex >= _itemsList.Count)
             return null;
-            
+
         return _itemsList[slotIndex]?.Rune;
     }
 

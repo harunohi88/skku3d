@@ -17,6 +17,12 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public InventoryItem CurrentItem;
     private bool _isDragging;
     private Vector2 _dragOffset;
+    private Canvas _parentCanvas;
+
+    private void Awake()
+    {
+        _parentCanvas = GetComponentInParent<Canvas>();
+    }
 
     public void Initialize(BaseInventory inv, int index)
     {
@@ -38,6 +44,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             {
                 _quantityText.text = item.Quantity > 1 ? item.Quantity.ToString() : "";
                 _quantityText.enabled = item.Quantity > 1;
+                _quantityText.transform.SetAsLastSibling();
             }
         }
         else
@@ -84,7 +91,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             AudioManager.Instance.PlayUIAudio(UIAudioType.RuneUp);
             _isDragging = true;
             _dragOffset = eventData.position - (Vector2)transform.position;
-            _itemImage.transform.SetParent(transform.root);
+            if (_parentCanvas != null)
+                _itemImage.transform.SetParent(_parentCanvas.transform, true);
             _itemImage.raycastTarget = false;
         }
     }
@@ -93,7 +101,18 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (_isDragging)
         {
-            _itemImage.transform.position = eventData.position - _dragOffset;
+            if (_parentCanvas != null)
+            {
+                Vector2 localPoint;
+                RectTransform canvasRect = _parentCanvas.transform as RectTransform;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    canvasRect, eventData.position, _parentCanvas.worldCamera, out localPoint);
+                (_itemImage.transform as RectTransform).localPosition = localPoint;
+            }
+            else
+            {
+                _itemImage.transform.position = eventData.position - _dragOffset;
+            }
         }
     }
 
@@ -103,12 +122,16 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         {
             _isDragging = false;
             _itemImage.transform.SetParent(transform);
-            _itemImage.transform.localPosition = Vector3.zero;
+            (_itemImage.transform as RectTransform).anchoredPosition = Vector2.zero;
             _itemImage.raycastTarget = true;
+
+            // 드래그 종료 시 하이라이트 끄기
+            if (_highlightObject) _highlightObject.SetActive(false);
 
             GameObject hitObject = eventData.pointerCurrentRaycast.gameObject;
             Debug.Log($"OnEndDrag - Hit Object: {(hitObject != null ? hitObject.name : "null")}");
             
+            bool moveSuccess = false;
             if (hitObject != null)
             {
                 InventorySlot targetSlot = hitObject.GetComponentInParent<InventorySlot>();
@@ -131,24 +154,30 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                             Debug.Log($"OnEndDrag - 서로 다른 인벤토리 간 이동");
                             if (_inventory is BasicAllInventory basicAllInv && targetInventory is EquipInventory)
                             {
-                                basicAllInv.MoveItemToEquip(_slotIndex, targetSlot._slotIndex);
+                                moveSuccess = basicAllInv.MoveItemToEquip(_slotIndex, targetSlot._slotIndex);
                             }
                             else if (_inventory is BasicInventory basicInv && targetInventory is EquipInventory)
                             {
-                                basicInv.MoveItemToEquip(_slotIndex, targetSlot._slotIndex);
+                                moveSuccess = basicInv.MoveItemToEquip(_slotIndex, targetSlot._slotIndex);
                             }
                             else
                             {
-                                _inventory.MoveItem(_slotIndex, targetSlot._slotIndex);
+                                moveSuccess = _inventory.MoveItem(_slotIndex, targetSlot._slotIndex);
                             }
                         }
                         else
                         {
                             Debug.Log($"OnEndDrag - 같은 인벤토리 내 이동");
-                            _inventory.MoveItem(_slotIndex, targetSlot._slotIndex);
+                            moveSuccess = _inventory.MoveItem(_slotIndex, targetSlot._slotIndex);
                         }
                     }
                 }
+            }
+
+            // 드래그 실패 시에도 슬롯 업데이트
+            if (!moveSuccess)
+            {
+                UpdateSlot(CurrentItem);
             }
         }
     }

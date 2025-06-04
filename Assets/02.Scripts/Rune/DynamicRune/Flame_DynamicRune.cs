@@ -43,8 +43,9 @@ public class Flame_DynamicRune : ADynamicRuneObject
         if (_isDestroyed || _isReady == false) return;
         transform.position += _direction * MoveSpeed * Time.deltaTime;
 
-        if (Vector3.Distance(targetPosition, transform.position) <= 0.4f)
+        if (Vector3.Distance(targetPosition, transform.position) <= 0.3f)
         {
+            AudioManager.Instance.PlayDynamicRuneAudio(DynamicRuneAudioType.FireField);
             Instantiate(HitObject, transform.position, Quaternion.identity);
 
             Collider[] colliders = Physics.OverlapSphere(transform.position, Radius, LayerMask.GetMask("Enemy"));
@@ -54,7 +55,7 @@ public class Flame_DynamicRune : ADynamicRuneObject
                 newDamage.Value = _damage.Value;
                 newDamage.From = _damage.From;
                 RuneManager.Instance.CheckCritical(ref newDamage);
-                colliders[i].GetComponent<AEnemy>().TakeDamage(newDamage);
+                colliders[i].GetComponent<AEnemy>()?.TakeDamage(newDamage);
             }
   
             MagicField floor = Instantiate(FloorObject, targetPosition, Quaternion.identity).GetComponent<MagicField>();

@@ -6,13 +6,12 @@ public class Boss3BaseAttackState : IState<AEnemy>
     {
         Debug.Log(this);
         enemy.Agent.ResetPath();
-        //enemy.SetAnimationTrigger("BaseAttack");
-        enemy.EnemyRotation.IsFound = false;
+        enemy.SetAnimationTrigger("BaseAttack");
+        //enemy.EnemyRotation.IsFound = false;
     }
 
     public void Update(AEnemy enemy)
     {
-        enemy.Attack();
     }
 
     public void Exit(AEnemy enemy)

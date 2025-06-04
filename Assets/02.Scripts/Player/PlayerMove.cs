@@ -5,13 +5,14 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     public float Gravity = -9.81f;
+    public float RollStaminaUse = 20f;
 
     public float RollDuration;
     public float RollAdditionalSpeed;
     private Vector3 _rollDirection;
 
     public GameObject Model;
-    public PlayerManager PlayerManager;
+    private PlayerManager _playerManager;
 
     private Camera _mainCamera;
     private CharacterController _characterController;
@@ -20,6 +21,8 @@ public class PlayerMove : MonoBehaviour
     private bool _isGrounded;
     private float _moveSpeed => PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MoveSpeed].TotalStat;
     private float _rollSpeed => PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MoveSpeed].TotalStat + RollAdditionalSpeed;
+    private Vector3 _externalForce = Vector3.zero;
+    public Vector3 LastMoveDirection { get; private set; } = Vector3.zero;
 
     private void Awake()
     {
@@ -30,13 +33,21 @@ public class PlayerMove : MonoBehaviour
 
     private void Start()
     {
-        PlayerManager = PlayerManager.Instance;
+        _playerManager = PlayerManager.Instance;
+    }
+
+    public void ApplyExternalForce(Vector3 force)
+    {
+        _externalForce = force;
+    }
+
+    public void ClearExternalForce()
+    {
+        _externalForce = Vector3.zero;
     }
 
     public void Move(Vector2 inputDirection)
     {
-        _animator.SetFloat("Movement", inputDirection.magnitude);
-
         _isGrounded = _characterController.isGrounded;
 
         if (_isGrounded && _verticalVelocity < 0)
@@ -50,7 +61,10 @@ public class PlayerMove : MonoBehaviour
 
         if (inputDirection.sqrMagnitude < 0.01f)
         {
-            Vector3 fallOnly = new Vector3(0, _verticalVelocity, 0);
+            LastMoveDirection = Vector3.zero;
+            _animator.SetFloat("MoveX", 0f);
+            _animator.SetFloat("MoveY", 0f);
+            Vector3 fallOnly = new Vector3(0, _verticalVelocity, 0) + _externalForce;
             _characterController.Move(fallOnly * Time.deltaTime);
             return;
         }
@@ -63,22 +77,30 @@ public class PlayerMove : MonoBehaviour
         camRight.Normalize();
 
         Vector3 move = (camRight * inputDirection.x + camForward * inputDirection.y).normalized;
+        LastMoveDirection = move;
+        
+        Vector3 localMove = Model.transform.InverseTransformDirection(move).normalized;
+        _animator.SetFloat("MoveX", localMove.x); // 좌/우
+        _animator.SetFloat("MoveY", localMove.z); // 앞/뒤
 
         if (move != Vector3.zero)
         {
-            PlayerManager.PlayerState = EPlayerState.Move;
+            _playerManager.PlayerState = EPlayerState.Move;
             // Model.transform.forward = move;
         }
 
         Vector3 totalMove = move * _moveSpeed;
         totalMove.y = _verticalVelocity;
+        totalMove += _externalForce;
 
         _characterController.Move(totalMove * Time.deltaTime);
     }
 
     public void Roll(Vector2 direction)
     {
-        PlayerManager.PlayerState = EPlayerState.Roll;
+        if (!_playerManager.Player.TryUseStamina(RollStaminaUse)) return;
+        
+        _playerManager.PlayerState = EPlayerState.Roll;
 
         Vector3 camForward = Camera.main.transform.forward;
         Vector3 camRight = Camera.main.transform.right;
@@ -115,6 +137,6 @@ public class PlayerMove : MonoBehaviour
         _rollDirection = Vector3.zero;
         _animator.SetBool("isRolling", false);
         PlayerManager.Instance.PlayerState = EPlayerState.None;
-        PlayerManager.PlayerAttack.Cancel();
+        _playerManager.PlayerAttack.Cancel();
     }
 }

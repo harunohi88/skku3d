@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class BuffManager : BehaviourSingleton<BuffManager>
 {
-    private PlayerStat _playerStat;
     private List<StatBuff> _activeBuffList;
     private Dictionary<int, StatBuff> _activeBuffDictionary;
 
@@ -16,7 +15,6 @@ public class BuffManager : BehaviourSingleton<BuffManager>
 
     private void Start()
     {
-        _playerStat = PlayerManager.Instance.PlayerStat;
     }
 
     public void AddBuff(StatBuff buff)
@@ -27,11 +25,17 @@ public class BuffManager : BehaviourSingleton<BuffManager>
         }
         else
         {
-            Debug.LogWarning("Apply Buff");
             _activeBuffDictionary[buff.SourceTid] = buff;
             _activeBuffList.Add(buff);
-            _playerStat.StatDictionary[buff.BuffStatType].AddBuff(buff);
+            PlayerManager.Instance.PlayerStat.StatDictionary[buff.BuffStatType].AddBuff(buff);
         }
+    }
+
+    public void RemoveBuff(StatBuff buff)
+    {
+        PlayerManager.Instance.PlayerStat.StatDictionary[buff.BuffStatType].RemoveBuff(buff);
+        _activeBuffList.Remove(buff);
+        _activeBuffDictionary.Remove(buff.SourceTid);
     }
 
     public void Update()
@@ -44,7 +48,7 @@ public class BuffManager : BehaviourSingleton<BuffManager>
                 Debug.LogWarning("Remove Buff");
                 _activeBuffList.RemoveAt(i);
                 _activeBuffDictionary.Remove(buff.SourceTid);
-                _playerStat.StatDictionary[buff.BuffStatType].RemoveBuff(buff);
+                PlayerManager.Instance.PlayerStat.StatDictionary[buff.BuffStatType].RemoveBuff(buff);
             }
         }
     }

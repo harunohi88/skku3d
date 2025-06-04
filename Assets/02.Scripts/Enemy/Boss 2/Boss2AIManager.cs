@@ -20,6 +20,9 @@ public class Boss2AIManager : BehaviourSingleton<Boss2AIManager>
     [Header("특수 공격 3 패턴")]
     [SerializeField] private List<EnemyPatternData> _boss2SpecialAttack3PatternList;
 
+
+    public GameObject PortalToNextStage;
+
     private void Start()
     {
         Boss2Enemy = GetComponent<AEnemy>();

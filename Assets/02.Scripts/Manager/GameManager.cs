@@ -4,6 +4,7 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 public class GameManager : BehaviourSingleton<GameManager>
 {
@@ -13,8 +14,7 @@ public class GameManager : BehaviourSingleton<GameManager>
     public float FocusDistance = 22f;
     public GameObject startCanvas;
     public CanvasGroup HUDCanvasGroup;
-
-    public Transform PlayerCameraTransform;
+    private int _PortalTriggerCount = 0;
 
     public Volume PPVolume;
 
@@ -23,28 +23,31 @@ public class GameManager : BehaviourSingleton<GameManager>
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += PlayBGMWhenStart;
     }
 
     public void StartGame()
     {
-        // 위치 이동
-        Camera.main.transform.DOMove(PlayerCameraTransform.position, MoveDuration)
-                 .SetEase(Ease.OutCubic);
+        SceneManager.LoadScene(1);
+    }
 
-        // 회전 이동
-        Camera.main.transform.DORotateQuaternion(PlayerCameraTransform.rotation, MoveDuration)
-                 .SetEase(Ease.OutCubic).OnComplete(() =>
-                 {
-                     IsStart = true; 
-                     startCanvas.SetActive(false);
-                 });
-        HUDCanvasGroup.gameObject.SetActive(true);
-        DOTween.To(() => HUDCanvasGroup.alpha, x => HUDCanvasGroup.alpha = x, 1, MoveDuration);
+    public void GoToMainScene()
+    {
+        SceneManager.LoadScene(0);
+    }
 
-        if (PPVolume.profile.TryGet<DepthOfField>(out var dof))
+    public void PlayBGMWhenStart(Scene scene, LoadSceneMode mode)
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 0) return;
+        
+        if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex - 1) == SceneManager.GetSceneByName("Stage1_Boss")
+            || SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex - 1) == SceneManager.GetSceneByName("Stage2_Boss")
+            || SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex - 1) == SceneManager.GetSceneByName("Stage3_Boss"))
         {
-            dof.focusDistance.value = 10f;
-            DOTween.To(() => dof.focusDistance.value, x => dof.focusDistance.value = x, 22f, MoveDuration);
+            if(AudioManager.Instance.CheckCurrentBGM(0) == false)
+            {
+                AudioManager.Instance.PlayBGM(0);
+            }
         }
     }
 
@@ -76,5 +79,15 @@ public class GameManager : BehaviourSingleton<GameManager>
         }
 
         return -1;
+    }
+
+    public void GoToNextStage()
+    {
+        _PortalTriggerCount++;
+        if (_PortalTriggerCount == 2)
+        {
+            _currentStage++;
+            _PortalTriggerCount = 0;
+        }
     }
 }

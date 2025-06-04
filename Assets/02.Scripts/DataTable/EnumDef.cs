@@ -269,32 +269,6 @@ public enum EnemyAudioType
     Boss2Trace = 20,
     ///<summary>보스 2 사망</summary>
     Boss2Die = 21,
-    ///<summary>보스 3 기본공격</summary>
-    Boss3Attack = 22,
-    ///<summary>보스 3 기본공격 Hit</summary>
-    Boss3Attack_1 = 23,
-    ///<summary>보스 3 스페셜1 공격 3소환</summary>
-    Boss3Sp1 = 24,
-    ///<summary>보스 3 스페셜1 공격 3 히트</summary>
-    Boss3Sp1_1 = 25,
-    ///<summary>보스 3 스페셜 2 폭발</summary>
-    Boss3Sp2 = 26,
-    ///<summary>보스 3 스페셜 3 블랙홀</summary>
-    Boss3Sp3 = 27,
-    ///<summary>보스 3 스페셜3 블랙홀 폭발</summary>
-    Boss3Sp3_1 = 28,
-    ///<summary>보스 3 스페셜4 기모으기</summary>
-    Boss3Sp4 = 29,
-    ///<summary>보스 3 스페셜4 떨어질</summary>
-    Boss3Sp4_1 = 30,
-    ///<summary>보스 3 스페셜4 터질 때</summary>
-    Boss3Sp4_2 = 31,
-    ///<summary>보스 3 걷기</summary>
-    Boss3Walk = 32,
-    ///<summary>보스 3 사망</summary>
-    Boss3Die = 33,
-    ///<summary>보스 3 히트</summary>
-    Boss3Hit = 34,
 }
 
 public enum DynamicRuneAudioType

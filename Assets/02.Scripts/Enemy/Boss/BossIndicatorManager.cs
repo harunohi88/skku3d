@@ -32,4 +32,17 @@ public class BossIndicatorManager : BehaviourSingleton<BossIndicatorManager>
 
         return indicator;
     }
+
+    // -----------------------------------------------------  허정범 추가  -----------------------------------------------------
+    public SkillIndicator SetCircularPriorityIndicator(Vector3 position, float width, float height, float direction, float angleRange, float innerRange, float castingTime, float castingPercent, Color color, bool immediateStart = true)
+    {
+        SkillIndicator indicator = _indicatorPool.Get();
+        indicator.CircularPriorityInit(width, height, direction, angleRange, innerRange, castingPercent, color, _indicatorPool);
+        indicator.SetPosition(position);
+
+        if (immediateStart) indicator.Ready(castingTime);
+
+        return indicator;
+    }
+    // -----------------------------------------------------  허정범 추가 끝  -----------------------------------------------------
 }

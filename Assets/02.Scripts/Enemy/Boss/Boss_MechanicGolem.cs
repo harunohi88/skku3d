@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using DG.Tweening;
 
 [RequireComponent(typeof(BossAIManager))]
 public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
@@ -18,7 +19,6 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
     {
         _lightningPool = new ObjectPool<Lightning>(LightningPrefab, 20, GameObject.FindGameObjectWithTag("Pool").transform);
 
-        Debug.Log("임시 코드");
         Init(null);
     }
 
@@ -32,25 +32,41 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
     public override void TakeDamage(Damage damage)
     {
         if (_stateMachine.CurrentState is BossDieState) return;
+
         Health -= damage.Value;
         BossUIManager.Instance.UPdateHealth(Health); ///// HealthBar 추가한 코드
 
-        // 맞았을때 이펙트
+        EnemyFloatingTextManager.Instance.TriggerFeedback(damage.Value, transform.position + Vector3.up * 2f, damage.IsCritical);
+
+        EnemyHitEffect.PlayHitEffect(DamagedTime);
 
         if (Health <= 0)
         {
             ChangeState(new BossDieState());
             return;
         }
+    }
 
-        Debug.Log("맞음");
+    public void OnWalk()
+    {
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss1Walk);
     }
 
     public override void Attack()
     {
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss1Attack);
+        float disTanceToPlayer = Vector3.Distance(transform.position, PlayerManager.Instance.Player.transform.position);
+        Vector3 directionToPlayer = (PlayerManager.Instance.Player.transform.position - transform.position).normalized;
+        Vector3 targetPosition = PlayerManager.Instance.Player.transform.position - directionToPlayer * (AttackDistance / 2f);
+
+        if (disTanceToPlayer <= AttackDistance / 2f) targetPosition = transform.position;
+
+        Agent.enabled = false;
+        transform.DOMove(targetPosition, 0.1f).SetEase(Ease.InQuad);
+
         BossEffectManager.Instance.PlayBoss1Particle(_baseAttackCount);
         WeaponCollider.enabled = true;
-        EnemyRotation.IsFound = false;
+        EnemyRotation.IsFound = true;
         _attackCount = 0;
     }
 
@@ -61,6 +77,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
         if (_baseAttackCount >= 2)
         {
             _baseAttackCount = 0;
+            Agent.enabled = true;
             BossAIManager.Instance.SetLastFinishedTime(0, Time.time);
             OnAnimationEnd();
         }
@@ -97,6 +114,8 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
             damage.Value = _patternData.Damage;
             damage.From = this.gameObject;
 
+            AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss1Sp2_1);
+
             Collider[] colliders = Physics.OverlapSphere(transform.position, _patternData.Radius, LayerMask.GetMask("Player"));
             if(colliders.Length > 0)
             {
@@ -112,7 +131,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
             damage.Value = _patternData.Damage;
             damage.From = this.gameObject;
 
-            LaserAttack.Init();
+            LaserAttack.Init(_patternData.Duration - 0.3f);
 
             Laser.ShootLaser(_patternData.Duration - 0.3f);
 
@@ -149,7 +168,6 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
         {
             EnemyRotation.IsFound = true;
             WeaponCollider.enabled = false;
-            LaserAttack.GetComponent<Collider>().enabled = false;
             LaserAttack.gameObject.SetActive(false);
         }
     }
@@ -195,6 +213,8 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
             indicatorList[i].Ready(castingTime);
             yield return new WaitForSeconds(castingTime);
 
+            CameraManager.Instance.CameraShake(0.3f, 0.4f + 0.08f * i);
+            AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss1Sp3_2);
             BossEffectManager.Instance.PlayBoss1Particle(i + 4);
             float radius = ((i + 1) / 3.0f) * patternData.Range / 2;
             List<Collider> colliderList = Physics.OverlapSphere(position, radius, LayerMask).ToList();
@@ -236,7 +256,7 @@ public class Boss_MechanicGolem : AEnemy, ISpecialAttackable
     public override void OnAnimationEnd()
     {
         base.OnAnimationEnd();
-        ChangeState(new BossTraceState());
+        ChangeState(new BossIdleState());
     }
 
     private void ClusterInstantiate(Vector3 center, int count, float radiusX, float radiusY)

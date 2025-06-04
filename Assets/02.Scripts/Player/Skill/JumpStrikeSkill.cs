@@ -6,6 +6,8 @@ using UnityEngine;
 public class JumpStrikeSkill : MonoBehaviour, ISkill
 {
     public Rune Rune;
+    public int Level = 1;
+    public int SkillIndex = 1;
     public GameObject IndicatorPrefab;
     public SkillBaseSO SkillBaseStat;
     public Dictionary<ESkillStat, Stat> SkillStatDictionary = new Dictionary<ESkillStat, Stat>();
@@ -36,27 +38,43 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
         {
             SkillStatDictionary[baseStat.StatType] = new Stat(baseStat.BaseValue);
         }
-        _indicator = Instantiate(IndicatorPrefab).GetComponent<TwoCircleIndicator>();
+        _indicator = Instantiate(IndicatorPrefab, transform).GetComponent<TwoCircleIndicator>();
         _indicator.SetAreaOfEffects(
             SkillStatDictionary[ESkillStat.SkillRange].TotalStat,
             SkillStatDictionary[ESkillStat.TargetRange].TotalStat);
         _indicator.gameObject.SetActive(false);
+        
+        UIEventManager.Instance.OnSkillDescriptionChanged?.Invoke(
+            SkillIndex,
+            Level,
+            SkillStatDictionary[ESkillStat.SkillMultiplier].TotalStat);
     }
     
     public void Execute()
     {
         if (!IsTargeting)
         {
+            if (!IsAvailable) return;
             PlayerManager.Instance.PlayerState = EPlayerState.Targeting;
             _playerSkill.CurrentSkill = this;
             _playerSkill.IsTargeting = true;
             IsTargeting = true;
             _indicator.gameObject.SetActive(true);
 
-            UIEventManager.Instance.OnSkillUse?.Invoke();
+            // UIEventManager.Instance.OnSkillUse?.Invoke();
         }
         else
         {
+            if (_playerManager.Player.TryUseStamina(SkillStatDictionary[ESkillStat.SkillCost].TotalStat) == false)
+            {
+                return;
+            }
+
+            _cooldownManager.StartCooldown(
+                SkillIndex,
+                SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat,
+                SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat,
+                SetAvailable);
             _indicator.gameObject.SetActive(false);
             _playerSkill.IsTargeting = false;
             PlayerManager.Instance.PlayerState = EPlayerState.Skill;
@@ -192,9 +210,7 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
         Debug.Log("Jump Strike End");
         PlayerManager.Instance.PlayerState = EPlayerState.None;
         _playerSkill.CurrentSkill = null;
-        _cooldownManager.StartCooldown(
-            SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat,
-            SetAvailable); // 쿨다운 등록 스킬 시전시점으로 변경해야됨
+
     }
     
     public void EquipRune(Rune rune)
@@ -204,16 +220,15 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
             UnequipRune();
         }
 
-        // 룬 효과 적용하는 로직 (스탯에 영향을 주는 경우)
         Rune = rune;
-        
+        Rune.EquipRune(SkillIndex);
     }
 
     public void UnequipRune()
     {
         if (Rune == null) return;
 
-        // 룬 효과 제거하는 로직 (스탯에 영향을 주는 경우)
+        Rune.UnequipRune(SkillIndex);
         Rune = null;
     }
 
@@ -245,9 +260,14 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
 
     public void LevelUp()
     {
+        ++Level;
         foreach (KeyValuePair<ESkillStat, Stat> stat in SkillStatDictionary)
         {
             stat.Value.LevelUp();
         }
+        UIEventManager.Instance.OnSkillDescriptionChanged?.Invoke(
+            SkillIndex,
+            Level,
+            SkillStatDictionary[ESkillStat.SkillMultiplier].TotalStat);
     }
 }

@@ -10,7 +10,10 @@ public class PlayerHUDUI : MonoBehaviour
     public MicroBar HealthBar;
     public MicroBar StaminaBar;
     public MicroBar ExpBar;
-
+    
+    public TextMeshProUGUI LevelText;
+    public TextMeshProUGUI ExpText;
+    
     public List<Image> CooldownImageList;
     public List<TextMeshProUGUI> CooldownTextList;
     public List<bool> IsCooldownList = new List<bool>(4);
@@ -20,15 +23,18 @@ public class PlayerHUDUI : MonoBehaviour
         Global.Instance.OnDataLoaded += Init;
 
         UIEventManager.Instance.OnStatChanged += ChangeStat;
-        UIEventManager.Instance.OnSkillUse += SKillCooldown;
+        UIEventManager.Instance.OnCooldown += SKillCooldown;
+        UIEventManager.Instance.OnExpGain += RefreshExpBar;
+        UIEventManager.Instance.OnLevelUp += NewMaxExp;
     }
 
     public void Init()
     {
         HealthBar.Initialize(PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxHealth].TotalStat);
         StaminaBar.Initialize(PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxStamina].TotalStat);
-        // 경험치 초기화
-        // ExpBar.Initialize(PlayerManager.Instance.경험치.TotalStat);
+        ExpBar.Initialize(PlayerManager.Instance.PlayerLevel.ExpTable[PlayerManager.Instance.PlayerLevel.Level]);
+        ExpBar.UpdateBar(PlayerManager.Instance.PlayerLevel.Experience);
+        RefreshExpText();
 
         UIEventManager.Instance.OnStatChanged += ChangeStat;
     }
@@ -39,22 +45,43 @@ public class PlayerHUDUI : MonoBehaviour
     {
         HealthBar.UpdateBar(PlayerManager.Instance.Player.Health, false);
         // 스태미나 부분
-        //StaminaBar.UpdateBar(PlayerManager.현재 스태미나, false);
+        StaminaBar.UpdateBar(PlayerManager.Instance.Player.Stamina, false);
         // 경험치 부분
         //ExpBar.UpdateBar(PlayerManager.Instance.현재 경험치);
     }
 
-    public void SKillCooldown()
+    public void RefreshExpBar(float currentExp)
     {
-        // 인덱스 가져오기 or currentSkill 들고와서 자신의 index 확인
-        // UIEventManager에서 OnSkillUse 액션을 <int>형으로 받고 현재 스킬 인덱스 매개변수로 가져오고 싶은데
-        // 아까 스킬 2개에 이미 OnSkillUse 심어놔서 일단 안바꿨습니다. 편한 방식으로 수정해주세요
+        ExpBar.UpdateBar(currentExp);
+        // RefreshExpText();
+    }
+    
+    public void NewMaxExp(int level, float maxExp)
+    {
+        ExpBar.SetNewMaxHP(maxExp);
+        
+    }
+    
+    private void RefreshExpText()
+    {
+        int percentage = Mathf.FloorToInt(100 * ExpBar.CurrentValue / ExpBar.MaxValue);
+        ExpText.SetText($"{percentage}%");
+    }
 
-        //if (IsCooldownList[index])
-        //{
-        //    StartCoroutine(Cooldown_coroution(index));
-        //}
-       
+    public void SKillCooldown(int slot, float cooldownTime, float maxCooldownTime)
+    {
+        if (maxCooldownTime == 0)
+        {
+            CooldownImageList[slot].fillAmount = 0;
+            return;
+        }
+        CooldownTextList[slot].gameObject.SetActive(true);
+        CooldownImageList[slot].fillAmount = cooldownTime / maxCooldownTime;
+        CooldownTextList[slot].text = cooldownTime.ToString("0.0");
+        if (cooldownTime <= 0.1f)
+        {
+            CooldownTextList[slot].gameObject.SetActive(false);
+        }
     }
 
     public IEnumerator Cooldown_coroution(int index)

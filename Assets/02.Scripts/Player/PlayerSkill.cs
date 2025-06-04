@@ -13,9 +13,10 @@ public class PlayerSkill : MonoBehaviour
     
     private PlayerManager _playerManager;
 
-    public void Start()
+    private void Start()
     {
         _playerManager = PlayerManager.Instance;
+        UIEventManager.Instance.OnSKillLevelUp += SkillLevelUp;
         _skillList = GetComponents<ISkill>().ToList();
         foreach (ISkill skill in _skillList)
         {
@@ -29,6 +30,12 @@ public class PlayerSkill : MonoBehaviour
         {
             PlayerManager.Instance.PlayerState = EPlayerState.Targeting;
         }
+    }
+
+    private void SkillLevelUp(int index)
+    {
+        Debug.Log($"Skill {index} LevelUp");
+        _skillList[index].LevelUp();
     }
 
     public void UseSkill(int slot)

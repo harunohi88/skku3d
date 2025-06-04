@@ -9,6 +9,8 @@ public class SkillIndicator : MonoBehaviour
     [SerializeField] private Material CircularMaterial;
     [SerializeField] private Material SquareMaterial;
 
+    [SerializeField] private Material CircularMaterialPriority;
+
     private DecalProjector _projector;
     private Material _instancedMaterial;
 
@@ -23,8 +25,30 @@ public class SkillIndicator : MonoBehaviour
         CircularMaterial = Instantiate(CircularMaterial);
         SquareMaterial = Instantiate(SquareMaterial);
 
+        // 허정범 추가
+        CircularMaterialPriority = Instantiate(CircularMaterialPriority);
+
         transform.eulerAngles = new Vector3(90, 0, 0);
     }
+    // -----------------------------------------------------  허정범 추가  -----------------------------------------------------
+    public void CircularPriorityInit(float width, float height, float direction, float angleRange, float innerRange, float castingPercent, Color color, ObjectPool<SkillIndicator> pool = null)
+    {
+        _projector.material = CircularMaterialPriority;
+        _instancedMaterial = _projector.material;
+        _projector.size = new Vector3(width, height, _projector.size.z);
+        _time = 0f;
+        _isReady = false;
+        _instancedMaterial.SetColor("_Color", color);
+        _instancedMaterial.SetFloat("_Direction", direction);
+        _instancedMaterial.SetFloat("_AngleRange", angleRange);
+        _instancedMaterial.SetFloat("_InnerRange", innerRange);
+        _instancedMaterial.SetFloat("_CastingPercent", castingPercent);
+        if (pool != null) thisPool = pool;
+        transform.eulerAngles = new Vector3(90, 0, 0);
+
+        percent = 0;
+    }
+    // ----------------------------------------------------  허정범 추가 끝  ----------------------------------------------------
 
     public void CircularInit(float width, float height, float direction, float angleRange, float innerRange, float castingPercent, Color color, ObjectPool<SkillIndicator> pool = null)
     {
@@ -38,7 +62,7 @@ public class SkillIndicator : MonoBehaviour
         _instancedMaterial.SetFloat("_AngleRange", angleRange);
         _instancedMaterial.SetFloat("_InnerRange", innerRange);
         _instancedMaterial.SetFloat("_CastingPercent", castingPercent);
-        if(pool != null) thisPool = pool;
+        if (pool != null) thisPool = pool;
         transform.eulerAngles = new Vector3(90, 0, 0);
 
         percent = 0;

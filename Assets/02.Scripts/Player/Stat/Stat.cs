@@ -39,6 +39,7 @@ public class Stat
         if (Level % _increaseGap == 0)
         {
             _baseStat += _increasePerGap;
+            UIEventManager.Instance.OnDisplayStatChanged(new StatSnapshot());
         }
     }
 
@@ -47,10 +48,12 @@ public class Stat
         if (buff.BuffType == EBuffType.Add)
         {
             _add += buff.BuffValue;
+            UIEventManager.Instance.OnDisplayStatChanged(new StatSnapshot());
         }
         else if (buff.BuffType == EBuffType.Multiply)
         {
             _multiply += buff.BuffValue;
+            UIEventManager.Instance.OnDisplayStatChanged(new StatSnapshot());
         }
     }
 
@@ -59,10 +62,12 @@ public class Stat
         if (buff.BuffType == EBuffType.Add)
         {
             _add -= buff.BuffValue;
+            UIEventManager.Instance.OnDisplayStatChanged(new StatSnapshot());
         }
         else if (buff.BuffType == EBuffType.Multiply)
         {
             _multiply -= buff.BuffValue;
+            UIEventManager.Instance.OnDisplayStatChanged(new StatSnapshot());
         }
     }
 }

@@ -2,11 +2,14 @@ using Mono.Cecil.Cil;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 public class SpinSlashSkill : MonoBehaviour, ISkill
 {
     public Rune Rune;
     public string SkillName = "SpinSlash";
+    public int SkillIndex = 0;
+    public int Level = 1;
 
     public SkillBaseSO SkillBaseStat;
     public Dictionary<ESkillStat, Stat> SkillStatDictionary = new Dictionary<ESkillStat, Stat>();
@@ -36,6 +39,11 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
                 baseStat.IncreasePerGap,
                 baseStat.IncreaseGap);
         }
+
+        UIEventManager.Instance.OnSkillDescriptionChanged?.Invoke(
+            SkillIndex,
+            Level,
+            SkillStatDictionary[ESkillStat.SkillMultiplier].TotalStat);
     }
     
     public void Execute()
@@ -44,12 +52,22 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         {
             return;
         }
+
+        if (!_playerManager.Player.TryUseStamina(SkillStatDictionary[ESkillStat.SkillCost].TotalStat))
+        {
+            return;
+        }
+        
+        _cooldownManager.StartCooldown(
+            SkillIndex,
+            SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat,
+            SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat,
+            SetAvailable);
         PlayerManager.Instance.PlayerSkill.CurrentSkill = this;
-        Debug.Log("Spin Slash Activated");
         _animator.SetTrigger("Skill1");
         _playerManager.PlayerState = EPlayerState.Skill;
 
-        UIEventManager.Instance.OnSkillUse?.Invoke();
+        // UIEventManager.Instance.OnSkillUse?.Invoke();
     }
 
     public RuneExecuteContext SetContext(Damage damage, AEnemy target)
@@ -146,7 +164,6 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
     {
         _playerManager.PlayerState = EPlayerState.None;
         IsAvailable = false;
-        _cooldownManager.StartCooldown(SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat, SetAvailable);
         _playerManager.PlayerSkill.CurrentSkill = null;
     }
 
@@ -156,23 +173,27 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         {
             UnequipRune();
         }
-
-        // 룬 효과 적용하는 로직 (스탯에 영향을 주는 경우)
+        
         Rune = rune;
+        Rune.EquipRune(SkillIndex);
     }
 
     public void UnequipRune()
     {
         if (Rune == null) return;
 
-        // 룬 효과 제거하는 로직 (스탯에 영향을 주는 경우)
+        Rune.UnequipRune(SkillIndex);
         Rune = null;
     }
 
     public void Cancel()
     {
         _playerManager.PlayerState = EPlayerState.None;
-        _cooldownManager.StartCooldown(SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat, SetAvailable);
+        _cooldownManager.StartCooldown(
+            SkillIndex,
+            SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat,
+            SkillStatDictionary[ESkillStat.SkillCooldown].TotalStat,
+            SetAvailable);
         _playerManager.PlayerSkill.CurrentSkill = null;
     }
 
@@ -183,9 +204,14 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
 
     public void LevelUp()
     {
+        ++Level;
         foreach (KeyValuePair<ESkillStat, Stat> stat in SkillStatDictionary)
         {
             stat.Value.LevelUp();
         }
+        UIEventManager.Instance.OnSkillDescriptionChanged?.Invoke(
+            SkillIndex,
+            Level,
+            SkillStatDictionary[ESkillStat.SkillMultiplier].TotalStat);
     }
 }

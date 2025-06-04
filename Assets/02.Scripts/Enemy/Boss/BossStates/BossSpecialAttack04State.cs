@@ -7,6 +7,9 @@ public class BossSpecialAttack04State : IState<AEnemy>
     private int _currentOrder = 0;
     private float _time;
     private float _tickTime;
+
+    private float _soundTimer = 0f;
+    private float _soundTick = 0.4f;
     private float _enemyOriginStoppingDistance;
 
     public Vector2 MapCenter = new Vector2(0, 0);
@@ -18,7 +21,9 @@ public class BossSpecialAttack04State : IState<AEnemy>
         if (_patternData == null) _patternData = BossAIManager.Instance.GetPatternData(4);
         _indicator = BossIndicatorManager.Instance.SetCircularIndicator(enemy.transform.position, _patternData.Radius * 2, _patternData.Radius * 2, 0, _patternData.Angle, _patternData.InnerRange, _patternData.CastingTime, 0, Color.red);
         _enemyOriginStoppingDistance = enemy.Agent.stoppingDistance;
-        enemy.Agent.speed = enemy.MoveSpeed - 0.5f;
+        enemy.Agent.speed = 10f;
+
+        _soundTimer = _soundTick;
     }
 
     public void Update(AEnemy enemy)
@@ -28,6 +33,7 @@ public class BossSpecialAttack04State : IState<AEnemy>
         {
             if (_time >= _patternData.CastingTime)
             {
+                AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss1Sp4_2, true);
                 enemy.SetAnimationTrigger("SpecialAttack04");
                 BossEffectManager.Instance.PlayBoss1Particle(3);
                 _currentOrder++;
@@ -42,6 +48,13 @@ public class BossSpecialAttack04State : IState<AEnemy>
             if (enemy.Agent.remainingDistance - 0.1f <= enemy.Agent.stoppingDistance)
             {
                 enemy.Agent.SetDestination(GetRandomPosition(enemy));
+            }
+
+            _soundTimer += Time.deltaTime;
+            if(_soundTimer >= _soundTick)
+            {
+                _soundTimer = 0f;
+                AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss1Sp4_1);
             }
 
 
@@ -63,6 +76,8 @@ public class BossSpecialAttack04State : IState<AEnemy>
             if (_time >= _patternData.Duration)
             {
                 BossEffectManager.Instance.StopBoss1Particle(3);
+                AudioManager.Instance.StopEnemyAudio(EnemyAudioType.Boss1Sp4_2);
+
                 enemy.ChangeState(new BossTraceState());
             }
         }

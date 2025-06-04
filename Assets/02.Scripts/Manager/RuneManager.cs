@@ -12,7 +12,8 @@ public class RuneManager : BehaviourSingleton<RuneManager>
     private void Awake()
     {
         RegisterRuneTriggers();
-        RegisterRuneEffects(); // 필요 시
+        RegisterRuneEffects();
+        RegisterRuneEquip();
 
         Global.Instance.OnDataLoaded += InitProjectilePool;
     }
@@ -54,6 +55,16 @@ public class RuneManager : BehaviourSingleton<RuneManager>
         factory.Register("ExplosionRuneEffect", () => new ExplosionRuneEffect());
         factory.Register("FateRuneEffect", () => new FateRuneEffect());
         factory.Register("ElectricRuneEffect", () => new ElectricRuneEffect());
+    }
+
+    private void RegisterRuneEquip()
+    {
+        RuneEquipFactory factory = RuneEquipFactory.Instance;
+
+        factory.Register("CriticalDamage", () => new CriticalDamage());
+        factory.Register("CriticalChance", () => new CriticalChance());
+        factory.Register("MaxHealth", () => new MaxHealth());
+        factory.Register("ProjectileCount", () => new ProjectileCount());
     }
 
     public void CheckCritical(ref Damage damage)

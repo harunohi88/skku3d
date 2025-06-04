@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class Start_test : MonoBehaviour
 {
+    int i = 1;
     private void Awake()
     {
         DontDestroyOnLoad(this);
@@ -11,19 +12,7 @@ public class Start_test : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            SceneManager.LoadScene(1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SceneManager.LoadScene(2);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            SceneManager.LoadScene(3);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            SceneManager.LoadScene(4);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 }

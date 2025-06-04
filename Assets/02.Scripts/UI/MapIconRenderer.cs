@@ -18,6 +18,7 @@ public class MapIconRenderer : MonoBehaviour
 
     void Update()
     {
+        if (InputManager.Instance._mapPanel == null) return;
         UpdateIcon(Player, PlayerIcon);
 
         var activeEnemies = EnemyTracker.GetActiveEnemies();

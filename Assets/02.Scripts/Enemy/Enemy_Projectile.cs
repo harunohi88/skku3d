@@ -35,4 +35,9 @@ public class Enemy_Projectile : AEnemy
             projectile.transform.forward = dir;
         }
     }
+    public override void OnAnimationEnd()
+    {
+        EnemyRotation.IsFound = true;
+        ChangeState(new TraceState());
+    }
 }

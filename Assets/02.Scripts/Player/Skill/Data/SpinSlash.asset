@@ -16,7 +16,7 @@ MonoBehaviour:
   - StatType: 0
     BaseValue: 1.1
     CanLevelUp: 1
-    IncreasePerGap: 0.1
+    IncreasePerGap: 1
     IncreaseGap: 1
   - StatType: 1
     BaseValue: 3

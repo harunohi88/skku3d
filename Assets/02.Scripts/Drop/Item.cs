@@ -30,18 +30,17 @@ public class Item : MonoBehaviour
     public bool IsCollected = false;
     public List<GameObject> SparkleEffectList;
     private int _tier = 1;
+    private bool _isAttractable = false;
 
-    private Transform _player;
+    private Sequence bounceSeq;
+
+    private Transform _player => PlayerManager.Instance.Player.transform;
 
     public BasicAllInventory BasicAllInventory;
 
     private void Start()
     {
         BasicAllInventory = GameObject.FindAnyObjectByType<BasicAllInventory>();
-
-        _player = PlayerManager.Instance.Player.transform;
-
-        BounceEffect();
     }
 
     private void Update()
@@ -58,30 +57,108 @@ public class Item : MonoBehaviour
 
         for (int i = 0; i < SparkleEffectList.Count; i++)
         {
-            if (_tier <= i + 1) SparkleEffectList[i].SetActive(true);
+            if (i < _tier) SparkleEffectList[i].SetActive(true);
             else SparkleEffectList[i].SetActive(false);
         }
+        _isAttractable = true;
         BounceEffect();
+    }
+    public void Init(int tier, int amount, Rune rune, EItemType itemType, Vector3 dropPosition, float radius)
+    {
+        _tier = tier;
+        Type = itemType;
+        Rune = rune;
+        Amount = amount;
+
+        for (int i = 0; i < SparkleEffectList.Count; i++)
+        {
+            if (i < _tier) SparkleEffectList[i].SetActive(true);
+            else SparkleEffectList[i].SetActive(false);
+        }
+        _isAttractable = false;
+        BounceEffect(dropPosition, radius);
     }
 
     private void BounceEffect()
     {
+        if (transform == null) return;
+
         Vector3 startPos = transform.position;
-        startPos = new Vector3(startPos.x, 1f, startPos.z);
 
-        Vector3 randomDir = (Vector3.up + Random.onUnitSphere * 0.5f).normalized;
-        Vector3 peakPos = startPos + randomDir * InitialBounceHeight;
+        // 1. 최초 발사 방향 계산
+        Vector3 randomDir = (Vector3.up + Random.onUnitSphere * 5f).normalized;
+        Vector3 initialTarget = startPos + randomDir * InitialBounceHeight;
 
-        Sequence bounceSeq = DOTween.Sequence();
+        bounceSeq = DOTween.Sequence().SetAutoKill(true);
 
-        for(int i = 0; i < BounceCount; i++)
+        // 2. 초기 발사
+        bounceSeq.Append(transform.DOMove(initialTarget, BounceDuration / 2f).SetEase(Ease.OutQuad));
+
+        // 3. 바운스 반복 (3회)
+        Vector3 currentPos = initialTarget;
+        float bouncePower = InitialBounceHeight;
+
+        for (int i = 0; i < BounceCount; i++)
         {
-            float factor = 1f / (i + 1f);
-            Vector3 upPeak = Vector3.Lerp(startPos, peakPos, factor);
+            // 3-1. 튀어오르는 힘 감소
+            bouncePower *= 0.5f;
 
-            bounceSeq.Append(transform.DOMove(upPeak, BounceDuration / 2).SetEase(Ease.OutQuad));
-            bounceSeq.Append(transform.DOMove(startPos, BounceDuration / 2).SetEase(Ease.InQuad));
+            // 3-2. 랜덤 XZ 추가 (점점 작게)
+            Vector3 randomXZ = new Vector3(
+                Random.Range(-0.5f, 0.5f) * bouncePower,
+                0f,
+                Random.Range(-0.5f, 0.5f) * bouncePower
+            );
+
+            // 3-3. 새로운 최고점 위치
+            Vector3 bouncePeak = currentPos + Vector3.up * bouncePower + randomXZ;
+
+            // 3-4. 최고점으로 올라가기
+            bounceSeq.Append(transform.DOMove(bouncePeak, BounceDuration / 2f).SetEase(Ease.OutQuad));
+
+            // 3-5. 바닥으로 떨어지기 (Y=시작지점 Y)
+            Vector3 floorPos = new Vector3(bouncePeak.x, startPos.y, bouncePeak.z);
+            bounceSeq.Append(transform.DOMove(floorPos, BounceDuration / 2f).SetEase(Ease.InQuad));
+
+            currentPos = floorPos;
         }
+    }
+
+    private void BounceEffect(Vector3 targetPosition, float randomRadius = 1.0f)
+    {
+        if (transform == null) return;
+
+        Vector3 startPos = transform.position;
+        bounceSeq?.Kill();
+
+        bounceSeq = DOTween.Sequence().SetAutoKill(true);
+
+        // 1️⃣ 목표 위치에서 랜덤 offset 적용
+        Vector2 randomOffset2D = Random.insideUnitCircle * randomRadius;
+        Vector3 bounceCenter = targetPosition + new Vector3(randomOffset2D.x, 0f, randomOffset2D.y);
+
+        // 2️⃣ 포물선 경로 설정
+        Vector3 peakPos = Vector3.Lerp(startPos, bounceCenter, 0.5f) + Vector3.up * InitialBounceHeight * 5f;
+        Vector3[] path = new Vector3[] { startPos, peakPos, bounceCenter };
+        bounceSeq.Append(transform.DOPath(path, 1f, PathType.CatmullRom).SetEase(Ease.InQuad));
+
+        // 3️⃣ 바운스 반복
+        Vector3 currentPos = bounceCenter;
+        for (int i = 0; i < BounceCount; i++)
+        {
+            float bouncePower = InitialBounceHeight * Mathf.Pow(0.5f, i + 1);
+
+            Vector3 bouncePeak = currentPos + Vector3.up * bouncePower;
+
+            bounceSeq.Append(transform.DOMove(bouncePeak, BounceDuration / 2f).SetEase(Ease.OutQuad));
+            Vector3 floorPos = new Vector3(bounceCenter.x, targetPosition.y, bounceCenter.z);
+            bounceSeq.Append(transform.DOMove(floorPos, BounceDuration / 2f).SetEase(Ease.InQuad));
+
+            currentPos = floorPos;
+        }
+
+        // 4️⃣ 마지막에 _isAttractable 활성화
+        bounceSeq.OnComplete(() => _isAttractable = true);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -92,40 +169,58 @@ public class Item : MonoBehaviour
 
     private IEnumerator AttractToPlayer()
     {
+        while(_isAttractable == false)
+        {
+            yield return null;
+        }
+
+        DOTween.Kill(transform);
+
         IsCollected = true;
 
         Vector3 direction = (transform.position - _player.position).normalized;
         Vector3 retreatPos = transform.position + direction * RetreatDistance;
 
-        yield return transform.DOMove(retreatPos, RetreatDuration).SetEase(Ease.OutQuad).WaitForCompletion();
-        transform.DOScale(0.3f, GetDuration).SetEase(Ease.InOutQuad);
-        yield return transform.DOMove(_player.position, GetDuration).SetEase(Ease.InQuad).WaitForCompletion();
+        Tween retreatTween = transform.DOMove(retreatPos, RetreatDuration).SetEase(Ease.OutQuad);
+        yield return retreatTween.WaitForCompletion();
 
-        ApplyEffect();
+        // null 체크
+        if (transform == null) yield break;
 
-        // 인벤토리에 넣기. DroppableItem이기 때문에 룬, 코인, 경험치가 될 수 있음
+        Tween moveToPlayerTween = transform.DOMove(_player.position + Vector3.up * 0.3f, GetDuration).SetEase(Ease.InQuad);
+        yield return moveToPlayerTween.WaitForCompletion();
 
+        if (transform == null) yield break;
         switch (Type)
         {
             case EItemType.Rune:
-                PlayerManager.Instance.PlayerSkill.AddRune(0, Rune);
-                // 테스트 추가
+                AudioManager.Instance.PlayPlayerAudio(PlayerAudioType.GetRune);
                 BasicAllInventory.AddItem(Rune);
                 break;
             case EItemType.Exp:
-                // TODO: 플레이어 경험치 증가가 필요함
+                int audioTypeEnumIndex = (int)PlayerAudioType.GetExp1;
+                AudioManager.Instance.PlayPlayerAudio((PlayerAudioType)((int)Random.Range(audioTypeEnumIndex, audioTypeEnumIndex + 4)));
+                PlayerManager.Instance.PlayerLevel.GainExperience((float)Amount);
                 break;
             case EItemType.Coin:
-                // TODO: 골드 증가
+                AudioManager.Instance.PlayPlayerAudio(PlayerAudioType.GetCoin);
                 CurrencyManager.Instance.AddGold(Amount);
                 break;
         }
 
+        DOTween.Kill(transform, complete: true);
+        if (bounceSeq != null && bounceSeq.IsActive())
+        {
+            bounceSeq.Kill(complete: true);
+        }
         Destroy(gameObject);
     }
-
-    private void ApplyEffect()
+    private void OnDestroy()
     {
-        // 먹을떄 이펙트
+        DOTween.Kill(transform, complete: true);
+        if (bounceSeq != null && bounceSeq.IsActive())
+        {
+            bounceSeq.Kill(complete: true);
+        }
     }
 }

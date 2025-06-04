@@ -4,7 +4,7 @@ public class DifficultySliderUI : MonoBehaviour
 {
     [SerializeField] private RectTransform _diffIndexTransform;
     [SerializeField] private RectTransform _diffFrameTransform;
-    [SerializeField] private float _playTime = 1500f;
+    [SerializeField] private float _playTime = 1800f;
 
     private Vector2 _startPos;
     private Vector2 _endPos;
