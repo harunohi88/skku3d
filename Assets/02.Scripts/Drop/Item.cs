@@ -30,6 +30,7 @@ public class Item : MonoBehaviour
     public bool IsCollected = false;
     public List<GameObject> SparkleEffectList;
     private int _tier = 1;
+    private bool _isAttractable = false;
 
     private Sequence bounceSeq;
 
@@ -40,8 +41,6 @@ public class Item : MonoBehaviour
     private void Start()
     {
         BasicAllInventory = GameObject.FindAnyObjectByType<BasicAllInventory>();
-
-        BounceEffect();
     }
 
     private void Update()
@@ -61,7 +60,23 @@ public class Item : MonoBehaviour
             if (i < _tier) SparkleEffectList[i].SetActive(true);
             else SparkleEffectList[i].SetActive(false);
         }
+        _isAttractable = true;
         BounceEffect();
+    }
+    public void Init(int tier, int amount, Rune rune, EItemType itemType, Vector3 dropPosition, float radius)
+    {
+        _tier = tier;
+        Type = itemType;
+        Rune = rune;
+        Amount = amount;
+
+        for (int i = 0; i < SparkleEffectList.Count; i++)
+        {
+            if (i < _tier) SparkleEffectList[i].SetActive(true);
+            else SparkleEffectList[i].SetActive(false);
+        }
+        _isAttractable = false;
+        BounceEffect(dropPosition, radius);
     }
 
     private void BounceEffect()
@@ -71,7 +86,7 @@ public class Item : MonoBehaviour
         Vector3 startPos = transform.position;
 
         // 1. 최초 발사 방향 계산
-        Vector3 randomDir = (Vector3.up + Random.onUnitSphere * 0.5f).normalized;
+        Vector3 randomDir = (Vector3.up + Random.onUnitSphere * 5f).normalized;
         Vector3 initialTarget = startPos + randomDir * InitialBounceHeight;
 
         bounceSeq = DOTween.Sequence().SetAutoKill(true);
@@ -109,6 +124,43 @@ public class Item : MonoBehaviour
         }
     }
 
+    private void BounceEffect(Vector3 targetPosition, float randomRadius = 1.0f)
+    {
+        if (transform == null) return;
+
+        Vector3 startPos = transform.position;
+        bounceSeq?.Kill();
+
+        bounceSeq = DOTween.Sequence().SetAutoKill(true);
+
+        // 1️⃣ 목표 위치에서 랜덤 offset 적용
+        Vector2 randomOffset2D = Random.insideUnitCircle * randomRadius;
+        Vector3 bounceCenter = targetPosition + new Vector3(randomOffset2D.x, 0f, randomOffset2D.y);
+
+        // 2️⃣ 포물선 경로 설정
+        Vector3 peakPos = Vector3.Lerp(startPos, bounceCenter, 0.5f) + Vector3.up * InitialBounceHeight * 5f;
+        Vector3[] path = new Vector3[] { startPos, peakPos, bounceCenter };
+        bounceSeq.Append(transform.DOPath(path, 1f, PathType.CatmullRom).SetEase(Ease.InQuad));
+
+        // 3️⃣ 바운스 반복
+        Vector3 currentPos = bounceCenter;
+        for (int i = 0; i < BounceCount; i++)
+        {
+            float bouncePower = InitialBounceHeight * Mathf.Pow(0.5f, i + 1);
+
+            Vector3 bouncePeak = currentPos + Vector3.up * bouncePower;
+
+            bounceSeq.Append(transform.DOMove(bouncePeak, BounceDuration / 2f).SetEase(Ease.OutQuad));
+            Vector3 floorPos = new Vector3(bounceCenter.x, targetPosition.y, bounceCenter.z);
+            bounceSeq.Append(transform.DOMove(floorPos, BounceDuration / 2f).SetEase(Ease.InQuad));
+
+            currentPos = floorPos;
+        }
+
+        // 4️⃣ 마지막에 _isAttractable 활성화
+        bounceSeq.OnComplete(() => _isAttractable = true);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (IsCollected) return;
@@ -117,6 +169,11 @@ public class Item : MonoBehaviour
 
     private IEnumerator AttractToPlayer()
     {
+        while(_isAttractable == false)
+        {
+            yield return null;
+        }
+
         DOTween.Kill(transform);
 
         IsCollected = true;
@@ -130,7 +187,7 @@ public class Item : MonoBehaviour
         // null 체크
         if (transform == null) yield break;
 
-        Tween moveToPlayerTween = transform.DOMove(_player.position, GetDuration).SetEase(Ease.InQuad);
+        Tween moveToPlayerTween = transform.DOMove(_player.position + Vector3.up * 0.3f, GetDuration).SetEase(Ease.InQuad);
         yield return moveToPlayerTween.WaitForCompletion();
 
         if (transform == null) yield break;

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,7 @@ public class InputManager : BehaviourSingleton<InputManager>
     public GameObject _equipmentPanel;
     public GameObject _popupBackgroundImage;
     public GameObject _mapPanel;
+    public GameObject _optionPanel;
 
     public bool TurnOff;
 
@@ -37,6 +39,9 @@ public class InputManager : BehaviourSingleton<InputManager>
 
             _popupBackgroundImage = GameObject.FindGameObjectWithTag("PopUpBG");
             _popupBackgroundImage?.SetActive(false);
+
+            _optionPanel = GameObject.FindGameObjectWithTag("OptionPanel");
+            _optionPanel?.SetActive(false);
         }
 
         _mapPanel = GameObject.FindGameObjectWithTag("MapPanel");
@@ -96,8 +101,24 @@ public class InputManager : BehaviourSingleton<InputManager>
             {
                 _upgradeAndShopPanel.SetActive(false);
                 _equipmentPanel.SetActive(false);
+                _optionPanel.SetActive(false);
 
                 _mapPanel.SetActive(true);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (_optionPanel == null) return;
+            AudioManager.Instance.PlayUIAudio(UIAudioType.Tab);
+            if (_optionPanel.activeSelf) _optionPanel.SetActive(false);
+            else
+            {
+                _upgradeAndShopPanel.SetActive(false);
+                _equipmentPanel.SetActive(false);
+                _inventoryPanel.SetActive(false);
+
+                _optionPanel.SetActive(true);
             }
         }
     }
@@ -108,6 +129,7 @@ public class InputManager : BehaviourSingleton<InputManager>
         _inventoryPanel.SetActive(nextState);
         _equipmentPanel.SetActive(nextState);
         _upgradeAndShopPanel.SetActive(false);
+        _optionPanel.SetActive(false);
 
         InventoryManager.Instance.ToolTip.Hide();
         UpdateBackgroundImage();
@@ -119,6 +141,8 @@ public class InputManager : BehaviourSingleton<InputManager>
         _upgradeAndShopPanel.SetActive(nextState);
         _inventoryPanel.SetActive(nextState);
         _equipmentPanel.SetActive(false);
+        _optionPanel.SetActive(false);
+
         UpdateBackgroundImage();
     }
 

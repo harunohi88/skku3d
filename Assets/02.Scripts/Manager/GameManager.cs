@@ -31,6 +31,11 @@ public class GameManager : BehaviourSingleton<GameManager>
         SceneManager.LoadScene(1);
     }
 
+    public void GoToMainScene()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void PlayBGMWhenStart(Scene scene, LoadSceneMode mode)
     {
         if (SceneManager.GetActiveScene().buildIndex == 0) return;
