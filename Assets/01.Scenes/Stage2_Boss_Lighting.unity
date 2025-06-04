@@ -16952,6 +16952,14 @@ PrefabInstance:
       propertyPath: PoolParent
       value: 
       objectReference: {fileID: 493289886}
+    - target: {fileID: 7152332898033377711, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
+      propertyPath: Health
+      value: 240000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7152332898033377711, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
+      propertyPath: MaxHealth
+      value: 240000
+      objectReference: {fileID: 0}
     - target: {fileID: 7668208749328365470, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
       propertyPath: m_StoppingDistance
       value: 4
@@ -28528,6 +28536,10 @@ PrefabInstance:
     - target: {fileID: 4144041761251855620, guid: 47276276465371e4f8ce6383b9cf8f73, type: 3}
       propertyPath: m_Name
       value: Global
+      objectReference: {fileID: 0}
+    - target: {fileID: 4144041761251855620, guid: 47276276465371e4f8ce6383b9cf8f73, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6218663937043638875, guid: 47276276465371e4f8ce6383b9cf8f73, type: 3}
       propertyPath: m_LocalPosition.x

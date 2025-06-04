@@ -43,11 +43,9 @@ public class GameManager : BehaviourSingleton<GameManager>
 
     public void PlayBGMWhenStart(Scene scene, LoadSceneMode mode)
     {
-        if (SceneManager.GetActiveScene().buildIndex == 0) return;
-        
-        if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex - 1) == SceneManager.GetSceneByName("Stage1_Boss")
-            || SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex - 1) == SceneManager.GetSceneByName("Stage2_Boss")
-            || SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex - 1) == SceneManager.GetSceneByName("Stage3_Boss"))
+        if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) != SceneManager.GetSceneByName("Stage1_Boss")
+            || SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) != SceneManager.GetSceneByName("Stage2_Boss")
+            || SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) != SceneManager.GetSceneByName("Stage3_Boss"))
         {
             if(AudioManager.Instance.CheckCurrentBGM(0) == false)
             {
