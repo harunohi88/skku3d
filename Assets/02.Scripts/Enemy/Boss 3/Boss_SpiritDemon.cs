@@ -43,10 +43,17 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     private Vector3 _lastSafeCircleCenter;
     private Vector3 _pattern2StartPosition;
     private Quaternion _pattern2StartRotation;
+    private Pattern04Effect _pattern4Effect;
 
     private void Start()
     {
         Init(null);
+        // Find and store reference to Pattern04Effect
+        _pattern4Effect = Pattern4Prefab.GetComponent<Pattern04Effect>();
+        if (_pattern4Effect == null)
+        {
+            Debug.LogError("Pattern04Effect component not found on Pattern4Prefab!");
+        }
     }
 
     public override void Init(EnemySpawner spawner)
@@ -215,12 +222,12 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
         Destroy(safeZone, SafeZoneDuration);
 
         yield return new WaitForSeconds(AttackCircleIndicatorDuration - 1f);
-        // 공격 실행: 안전지대(작은 원) 제외, 큰 원 범위 내 플레이어에게 데미지
 
-        
-
-        // 공격 오브젝트 생성
-        GameObject attackObject = Instantiate(Pattern4Prefab, AttackCircleCenter + Pattern4SpawnYPosition, Quaternion.identity);
+        // 패턴 4 이펙트 활성화
+        if (_pattern4Effect != null)
+        {
+            _pattern4Effect.gameObject.SetActive(true);
+        }
 
         Collider[] hitColliders = Physics.OverlapSphere(AttackCircleCenter, AttackCircleOuterRadius);
         foreach (var hitCollider in hitColliders)
@@ -245,6 +252,11 @@ public class Boss_SpiritDemon : AEnemy, ISpecialAttackable
     public void OnSpecialAttack04End()
     {
         Boss3AIManager.Instance.SetLastFinishedTime(4, Time.time);
+        // 패턴 4 이펙트 비활성화
+        if (_pattern4Effect != null)
+        {
+            _pattern4Effect.gameObject.SetActive(false);
+        }
     }
 
     public override void OnAnimationEnd()

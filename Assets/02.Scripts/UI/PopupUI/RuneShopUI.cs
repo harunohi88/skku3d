@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class RuneShopUI : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class RuneShopUI : MonoBehaviour
     public List<Button> BuyButtonList;
 
     public RuneShop RuneShop;
+    [SerializeField] private Tooltip _tooltip;  // 툴팁 참조
 
     private void Awake()
     {
@@ -21,6 +23,41 @@ public class RuneShopUI : MonoBehaviour
         RuneShop.OnItemSoldout += SetSoldout;
         RuneShop.OnCreateRune += UnSetSoldout;
         RuneShop.OnReroll += UpdateRerollCost;
+
+        // 각 버튼에 이벤트 트리거 추가
+        for (int i = 0; i < BuyButtonList.Count; i++)
+        {
+            int index = i; // 클로저를 위한 로컬 변수
+            EventTrigger trigger = BuyButtonList[i].gameObject.GetComponent<EventTrigger>();
+            if (trigger == null)
+                trigger = BuyButtonList[i].gameObject.AddComponent<EventTrigger>();
+
+            // 마우스 진입 이벤트
+            EventTrigger.Entry enterEntry = new EventTrigger.Entry();
+            enterEntry.eventID = EventTriggerType.PointerEnter;
+            enterEntry.callback.AddListener((data) => { OnPointerEnter(index); });
+            trigger.triggers.Add(enterEntry);
+
+            // 마우스 이탈 이벤트
+            EventTrigger.Entry exitEntry = new EventTrigger.Entry();
+            exitEntry.eventID = EventTriggerType.PointerExit;
+            exitEntry.callback.AddListener((data) => { OnPointerExit(); });
+            trigger.triggers.Add(exitEntry);
+        }
+    }
+
+    private void OnPointerEnter(int index)
+    {
+        if (RuneShop.RuneList.Count > index)
+        {
+            Rune rune = RuneShop.RuneList[index];
+            _tooltip.Show(rune.Name, rune.CurrentTier.ToString(), rune.RuneDescription, BuyButtonList[index].GetComponent<RectTransform>());
+        }
+    }
+
+    private void OnPointerExit()
+    {
+        _tooltip.Hide();
     }
 
     public void SetSoldout(int index)
