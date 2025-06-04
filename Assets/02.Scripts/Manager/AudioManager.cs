@@ -103,6 +103,7 @@ public class AudioManager : BehaviourSingleton<AudioManager>
     public void PlayEnemyAudio(EnemyType enemyType, EnemyAudioType audioType, bool isLoop = false)
     {
         AudioSource audioSource = GetAvailableAudioSource();
+        if (audioSource == null) return;
         audioSource.outputAudioMixerGroup = _sfxMixerGroup;
         audioSource.loop = isLoop;
 
@@ -125,6 +126,7 @@ public class AudioManager : BehaviourSingleton<AudioManager>
     public void PlayUIAudio(UIAudioType audioType)
     {
         AudioSource audioSource = GetAvailableAudioSource();
+        if (audioSource == null) return;
         audioSource.outputAudioMixerGroup = _sfxMixerGroup;
 
         audioSource.resource = UIAudioList[(int)audioType];
@@ -134,6 +136,7 @@ public class AudioManager : BehaviourSingleton<AudioManager>
     public void PlayPlayerAudio(PlayerAudioType audioType)
     {
         AudioSource audioSource = GetAvailableAudioSource();
+        if (audioSource == null) return;
         audioSource.outputAudioMixerGroup = _sfxMixerGroup;
 
         audioSource.resource = PlayerAudioList[(int)audioType];
@@ -143,6 +146,7 @@ public class AudioManager : BehaviourSingleton<AudioManager>
     public void PlayDynamicRuneAudio(DynamicRuneAudioType audioType)
     {
         AudioSource audioSource = GetAvailableAudioSource();
+        if (audioSource == null) return;
         audioSource.outputAudioMixerGroup = _sfxMixerGroup;
 
         audioSource.resource = DynamicRuneAudioList[(int)audioType];
