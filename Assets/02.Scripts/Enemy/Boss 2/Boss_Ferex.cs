@@ -16,6 +16,10 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     private int _baseAttackCount = 0;
 
     private Coroutine _specialAttack3Coroutine;
+
+    private float _lastWalkSoundTime = 0f;
+    private float _walkSoundCooldown = 0.4f;
+
     public Vector3 LastIndicatorPosition { get; private set; }
 
     protected void Start()
@@ -54,8 +58,10 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 
     public void Walk()
     {
+        if (Time.time - _lastWalkSoundTime < _walkSoundCooldown) return;
         Debug.Log("걷습니다!!!");
-        //AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Trace, false);
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Trace, false);
+        _lastWalkSoundTime = Time.time;
     }
 
     public override void Attack()

@@ -23,7 +23,6 @@ public class Boss2IdleState : IState<AEnemy>
         {
             if (Vector3.Distance(enemy.transform.position, PlayerManager.Instance.Player.transform.position) < enemy.TraceDistance)
             {
-                Debug.Log($"enemy.TraceDistance: {enemy.TraceDistance}");
                 IState<AEnemy> state = Boss2AIManager.Instance.DecideNextState();
                 enemy.ChangeState(state);
             }
