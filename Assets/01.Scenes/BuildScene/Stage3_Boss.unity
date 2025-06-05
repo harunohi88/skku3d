@@ -24180,6 +24180,7 @@ MonoBehaviour:
   PlayerAttack: {fileID: 0}
   PlayerSkill: {fileID: 0}
   PlayerLevel: {fileID: 0}
+  PlayerEquipment: {fileID: 0}
   PlayerState: 0
 --- !u!114 &1090021264
 MonoBehaviour:
@@ -24200,6 +24201,7 @@ MonoBehaviour:
   _popupBackgroundImage: {fileID: 811398370}
   _mapPanel: {fileID: 1918037743}
   _optionPanel: {fileID: 0}
+  _levelUpImage: {fileID: 0}
   TurnOff: 0
 --- !u!4 &1090021265
 Transform:
@@ -38843,14 +38845,6 @@ PrefabInstance:
       propertyPath: PortalToNextStage
       value: 
       objectReference: {fileID: 1516072837}
-    - target: {fileID: 8808218315548969795, guid: 9984be23625843a48a44d88aae5669f2, type: 3}
-      propertyPath: Health
-      value: 350000
-      objectReference: {fileID: 0}
-    - target: {fileID: 8808218315548969795, guid: 9984be23625843a48a44d88aae5669f2, type: 3}
-      propertyPath: MaxHealth
-      value: 350000
-      objectReference: {fileID: 0}
     - target: {fileID: 8808218315548969795, guid: 9984be23625843a48a44d88aae5669f2, type: 3}
       propertyPath: Pattern4Prefab
       value: 
