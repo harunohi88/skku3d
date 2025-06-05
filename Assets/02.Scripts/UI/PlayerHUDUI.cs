@@ -10,6 +10,8 @@ public class PlayerHUDUI : MonoBehaviour
     public MicroBar HealthBar;
     public MicroBar StaminaBar;
     public MicroBar ExpBar;
+
+    public GameObject LevelUpImage;
     
     public TextMeshProUGUI LevelText;
     public TextMeshProUGUI ExpText;
@@ -26,6 +28,7 @@ public class PlayerHUDUI : MonoBehaviour
         UIEventManager.Instance.OnCooldown += SKillCooldown;
         UIEventManager.Instance.OnExpGain += RefreshExpBar;
         UIEventManager.Instance.OnLevelUp += NewMaxExp;
+        UIEventManager.Instance.OnLevelUp += OnLevelUpShowImage;
     }
 
     public void Init()
@@ -104,5 +107,11 @@ public class PlayerHUDUI : MonoBehaviour
         IsCooldownList[index + 1] = false;
         CooldownImageList[index + 1].gameObject.SetActive(false);
         CooldownTextList[index + 1].gameObject.SetActive(false);
+    }
+
+    private void OnLevelUpShowImage(int a, float b)
+    {
+        if (a == 1) return;
+        InputManager.Instance._levelUpImage.SetActive(true);
     }
 }

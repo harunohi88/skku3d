@@ -113,7 +113,7 @@ public class Player : BehaviourSingleton<Player>, IDamageable
     {
         yield return new WaitForSeconds(deathTime + 1f);
 
-        Time.timeScale = 0.3f;
+        Time.timeScale = 0f;
         SceneManager.LoadScene("DEFEAT Scene", LoadSceneMode.Additive);
     }
 

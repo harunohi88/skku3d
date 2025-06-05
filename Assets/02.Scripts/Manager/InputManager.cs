@@ -14,6 +14,7 @@ public class InputManager : BehaviourSingleton<InputManager>
     public GameObject _popupBackgroundImage;
     public GameObject _mapPanel;
     public GameObject _optionPanel;
+    public GameObject _levelUpImage;
 
     public bool TurnOff;
 
@@ -53,6 +54,9 @@ public class InputManager : BehaviourSingleton<InputManager>
         
             _optionPanel = GameObject.FindGameObjectWithTag("OptionPanel");
             _optionPanel?.SetActive(false);
+
+            _levelUpImage = GameObject.FindGameObjectWithTag("LevelUp");
+            _levelUpImage?.SetActive(false);
         }
         
         _mapPanel = GameObject.FindGameObjectWithTag("MapPanel");
@@ -98,39 +102,55 @@ public class InputManager : BehaviourSingleton<InputManager>
         // 룬 장착과 인벤토리 토글
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (_inventoryPanel == null) return;
-            AudioManager.Instance.PlayUIAudio(UIAudioType.Tab);
-            ToggleInventoryAndEquip();
+            ToggleInventory();
         }
 
         if (Input.GetKeyDown(KeyCode.M))
         {
-            if (_mapPanel == null) return;
-            AudioManager.Instance.PlayUIAudio(UIAudioType.Tab);
-            if (_mapPanel.activeSelf) _mapPanel.SetActive(false);
-            else
-            {
-                _upgradeAndShopPanel.SetActive(false);
-                _equipmentPanel.SetActive(false);
-                _optionPanel.SetActive(false);
-
-                _mapPanel.SetActive(true);
-            }
+            ToggleMap();
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (_optionPanel == null) return;
-            AudioManager.Instance.PlayUIAudio(UIAudioType.Tab);
-            if (_optionPanel.activeSelf) _optionPanel.SetActive(false);
-            else
-            {
-                _upgradeAndShopPanel.SetActive(false);
-                _equipmentPanel.SetActive(false);
-                _inventoryPanel.SetActive(false);
+            ToggleOption();
+        }
+    }
 
-                _optionPanel.SetActive(true);
-            }
+    public void ToggleInventory()
+    {
+        if (_inventoryPanel == null) return;
+        _levelUpImage?.SetActive(false);
+        AudioManager.Instance.PlayUIAudio(UIAudioType.Tab);
+        ToggleInventoryAndEquip();
+    }
+
+    public void ToggleOption()
+    {
+        if (_optionPanel == null) return;
+        AudioManager.Instance.PlayUIAudio(UIAudioType.Tab);
+        if (_optionPanel.activeSelf) _optionPanel.SetActive(false);
+        else
+        {
+            _upgradeAndShopPanel.SetActive(false);
+            _equipmentPanel.SetActive(false);
+            _inventoryPanel.SetActive(false);
+
+            _optionPanel.SetActive(true);
+        }
+    }
+
+    public void ToggleMap()
+    {
+        if (_mapPanel == null) return;
+        AudioManager.Instance.PlayUIAudio(UIAudioType.Tab);
+        if (_mapPanel.activeSelf) _mapPanel.SetActive(false);
+        else
+        {
+            _upgradeAndShopPanel.SetActive(false);
+            _equipmentPanel.SetActive(false);
+            _optionPanel.SetActive(false);
+
+            _mapPanel.SetActive(true);
         }
     }
 
@@ -171,5 +191,5 @@ public class InputManager : BehaviourSingleton<InputManager>
         _popupBackgroundImage?.SetActive(false);
         _mapPanel?.SetActive(false);
         _optionPanel?.SetActive(false);
-}
+    }
 }

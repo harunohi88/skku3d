@@ -473,6 +473,7 @@ MonoBehaviour:
   _popupBackgroundImage: {fileID: 0}
   _mapPanel: {fileID: 0}
   _optionPanel: {fileID: 0}
+  _levelUpImage: {fileID: 0}
   TurnOff: 0
 --- !u!4 &656109254
 Transform:
