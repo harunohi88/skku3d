@@ -291,6 +291,8 @@ public enum EnemyAudioType
     Boss3Walk = 31,
     ///<summary>보스 3 사망</summary>
     Boss3Die = 32,
+    ///<summary>보스 3 스페셜3 블랙홀 유지</summary>
+    Boss3Sp3_2 = 33,
 }
 
 public enum DynamicRuneAudioType

@@ -22,6 +22,8 @@ public class BlackHole : MonoBehaviour
     {
         _playerTransform = PlayerManager.Instance.Player.transform;
         _playerMove = PlayerManager.Instance.PlayerMove;
+
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss3Sp3_2);
     }
 
     // Update is called once per frame

@@ -40,6 +40,7 @@ public class LoadingScene : MonoBehaviour, IPointerClickHandler
             {
                 _textIndex = 0;
             }
+            _time = 0f;
         }
     }
     private IEnumerator LoadNextScene_Coroutine()

@@ -11,6 +11,10 @@ public class HUDUI : BehaviourSingleton<HUDUI>
     public GameObject BossHealthBar;
     public Image HitImage;
 
+    public Button InventoryButton;
+    public Button MapButton;
+    public Button OptionButton;
+
     public float HitDuration = 0.4f;
 
     private void Awake()
@@ -28,15 +32,44 @@ public class HUDUI : BehaviourSingleton<HUDUI>
     void Start()
     {
         DontDestroyOnLoad(gameObject);
+
+        InventoryButton.onClick.AddListener(OnInventoryButton);
+        MapButton.onClick.AddListener(OnMapButton);
+        OptionButton.onClick.AddListener(OnOptionButton);
+    }
+
+    public void OnInventoryButton()
+    {
+        InputManager.Instance.ToggleInventory();
+    }
+    public void OnOptionButton()
+    {
+        InputManager.Instance.ToggleOption();
+    }
+    public void OnMapButton()
+    {
+        InputManager.Instance.ToggleMap();
     }
 
     public void RefreshStageText(Scene scene, LoadSceneMode mode)
     {
         if (scene.buildIndex == 1) stageText.text = "스테이지 1";
-        else if (scene.buildIndex == 2) stageText.text = "스테이지 1 \n보스";
-        else if (scene.buildIndex == 3) stageText.text = "스테이지 2";
-        else if (scene.buildIndex == 4) stageText.text = "스테이지 2 \n보스";
-        else if (scene.buildIndex == 5) stageText.text = "스테이지 3 \n보스";
+        else if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) == SceneManager.GetSceneByName("Stage1_Boss"))
+        { 
+            stageText.text = "스테이지 1\n보스"; 
+        }
+        else if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) == SceneManager.GetSceneByName("Stage2"))
+        {
+            stageText.text = "스테이지 2";
+        }
+        else if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) == SceneManager.GetSceneByName("Stage2_Boss"))
+        {
+            stageText.text = "스테이지 2\n보스";
+        }
+        else if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) == SceneManager.GetSceneByName("Stage3_Boss"))
+        {
+            stageText.text = "스테이지 3\n보스";
+        }
     }
 
     public void CheckBossHPShow(Scene scene, LoadSceneMode mode)

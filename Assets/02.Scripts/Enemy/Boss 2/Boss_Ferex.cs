@@ -7,6 +7,7 @@ using UnityEngine;
 public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 {
     // 속성 정의
+    public Collider EffectDamageCollider;
     public Collider WeaponCollider;
     public Collider WeaponColliderCopied;
     // - 원본 무기
@@ -95,12 +96,20 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
         Debug.Log("특수공격1 진입");
         WeaponCollider.enabled = true;
         EnemyRotation.IsFound = false;
+
+        if (EffectDamageCollider != null)
+
+        {
+            EffectDamageCollider.enabled = true;
+            Debug.Log("EffectDamage 콜라이더 활성화됨");
+        }
     }
 
     public void OnBoss2SpecialAttack01End()
     {
         Debug.Log("특수공격1 해제");
         WeaponCollider.enabled = false;
+
         Boss2AIManager.Instance.SetLastFinishedTime(1, Time.time); // 쿨타임 관리
         OnAnimationEnd();
     }
@@ -203,6 +212,19 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     {
         base.OnAnimationEnd();
         ChangeState(new Boss2TraceState());
+
+        StartCoroutine(EnableEffectDamageColliderAfterDelay(1f));
+    }
+
+
+    private IEnumerator EnableEffectDamageColliderAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (EffectDamageCollider != null)
+        {
+            EffectDamageCollider.enabled = false;
+        }
     }
 
     public void NavMeshAgentOff()
