@@ -47,6 +47,7 @@ public class Boss2SpecialAttack03State : IState<AEnemy>
             _currentPhase = 1;
             _time = 0;
             enemy.SetAnimationTrigger("SpecialAttack03_Roaring");
+            CameraManager.Instance.CameraShake(0.5f, 2f);
         }
     }
 

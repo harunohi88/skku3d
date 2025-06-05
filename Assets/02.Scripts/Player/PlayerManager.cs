@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class PlayerManager : BehaviourSingleton<PlayerManager>
 {
@@ -155,5 +156,34 @@ public class PlayerManager : BehaviourSingleton<PlayerManager>
             PlayerAttack.Cancel();
         }
         PlayerSkill.UseSkill(skillIndex); // PlayerSKill.Skill 내부에서 PlayerState 변경
+    }
+
+    public void PlayAttackSound(int numberOfEnemiesHit)
+    {
+        AudioManager audioManager = AudioManager.Instance;
+
+        if (numberOfEnemiesHit <= 0) return;
+
+        switch (numberOfEnemiesHit)
+        {
+            case 1:
+                audioManager.PlayEnemyAudio(EnemyType.Basic, EnemyAudioType.Hit);
+                break;
+            case 2:
+                audioManager.PlayPlayerAudio(PlayerAudioType.SingleHit1);
+                audioManager.PlayEnemyAudio(EnemyType.Basic, EnemyAudioType.Hit);
+                break;
+            case 3:
+                audioManager.PlayPlayerAudio(PlayerAudioType.SingleHit1);
+                audioManager.PlayEnemyAudio(EnemyType.Basic, EnemyAudioType.Hit);
+                audioManager.PlayPlayerAudio(PlayerAudioType.DoubleHitHeavy);
+                break;
+            default:
+                audioManager.PlayPlayerAudio(PlayerAudioType.SingleHit1);
+                audioManager.PlayEnemyAudio(EnemyType.Basic, EnemyAudioType.Hit);
+                audioManager.PlayPlayerAudio(PlayerAudioType.DoubleHitLite);
+                audioManager.PlayPlayerAudio(PlayerAudioType.DoubleHitHeavy);
+                break;
+        }
     }
 }

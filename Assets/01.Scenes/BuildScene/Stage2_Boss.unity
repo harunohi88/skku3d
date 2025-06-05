@@ -22137,6 +22137,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5563774461256238421, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: fd5352c175e7feb4f9a1dd77879dbd94, type: 2}
     - target: {fileID: 6126128754285105756, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
       propertyPath: PoolParent
       value: 

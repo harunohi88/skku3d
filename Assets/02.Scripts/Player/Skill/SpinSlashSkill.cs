@@ -140,6 +140,7 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
         Damage damage = SetDamage();
         Damage finalDamage;
         RuneExecuteContext context = new RuneExecuteContext();
+        PlayerManager.Instance.PlayAttackSound(hitEnemies.Count);
         
         foreach (Collider enemy in hitEnemies)
         {
