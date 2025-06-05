@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayerSkill : MonoBehaviour
 {
-    private List<ISkill> _skillList = new List<ISkill>();
+    public List<ISkill> SkillList = new List<ISkill>();
     public ISkill CurrentSkill;
     public GameObject Model;
     public bool IsTargeting = false;
@@ -17,8 +17,8 @@ public class PlayerSkill : MonoBehaviour
     {
         _playerManager = PlayerManager.Instance;
         UIEventManager.Instance.OnSKillLevelUp += SkillLevelUp;
-        _skillList = GetComponents<ISkill>().ToList();
-        foreach (ISkill skill in _skillList)
+        SkillList = GetComponents<ISkill>().ToList();
+        foreach (ISkill skill in SkillList)
         {
             skill.Initialize();
         }
@@ -35,27 +35,27 @@ public class PlayerSkill : MonoBehaviour
     private void SkillLevelUp(int index)
     {
         Debug.Log($"Skill {index} LevelUp");
-        _skillList[index].LevelUp();
+        SkillList[index].LevelUp();
     }
 
     public void UseSkill(int slot)
     {
-        if (slot < 0 || slot >= _skillList.Count) return;
+        if (slot < 0 || slot >= SkillList.Count) return;
 
         if (!IsTargeting && CurrentSkill != null) return;
         
         _playerManager.PlayerRotate.InstantLookAtMouse();
-        _skillList[slot]?.Execute();
+        SkillList[slot]?.Execute();
     }
 
     public void AddRune(int slot, Rune rune)
     {
-        _skillList[slot].EquipRune(rune);
+        SkillList[slot].EquipRune(rune);
     }
 
     public void RemoveRune(int slot)
     {
-        _skillList[slot].UnequipRune();
+        SkillList[slot].UnequipRune();
     }
 
     public void Cancel()

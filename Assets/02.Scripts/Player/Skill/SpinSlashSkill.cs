@@ -88,7 +88,8 @@ public class SpinSlashSkill : MonoBehaviour, ISkill
 
     public void CheckCritical(ref Damage damage)
     {
-        damage.IsCritical = damage.CriticalChance >= Random.Range(0f, 1f);
+        float random = Random.Range(0f, 1f);
+        damage.IsCritical = damage.CriticalChance >= random;
         if (damage.IsCritical)
         {
             damage.Value *= 1f + damage.CriticalDamage;
