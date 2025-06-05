@@ -3,8 +3,12 @@ using System.Collections.Generic;
 
 public class PlayerEquipment : MonoBehaviour
 {
-    public List<Rune> RuneList = new List<Rune>(2);
-    
+    public List<Rune> RuneList;
+
+    private void Start()
+    {
+        RuneList = new List<Rune>(2) {null, null};
+    }
     public void EquipRune(int slot, Rune rune)
     {
         if (RuneList[slot] != null)
