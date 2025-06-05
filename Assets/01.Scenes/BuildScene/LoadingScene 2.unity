@@ -1202,8 +1202,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC774\uAC83\uC740 \uB2F9\uC2E0\uC758 \uC8FD\uC74C\uC5D0 \uAD00\uD55C
-    \uC774\uC57C\uAE30\uC774\uB2E4.\r\nThis is how you died."
+  m_text: "\uC9C8\uC11C\uAC00 \uBB34\uB108\uC9C4 \uC790\uB9AC\uC5D0,\n\uC6B0\uB9AC\uB294
+    \uBD88\uAF43\uCC98\uB7FC \uB0B4\uB824\uC549\uB294\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bbfc7880ac5c4ab41b018fbf84d37f94, type: 2}
   m_sharedMaterial: {fileID: -8547132565709951649, guid: bbfc7880ac5c4ab41b018fbf84d37f94, type: 2}

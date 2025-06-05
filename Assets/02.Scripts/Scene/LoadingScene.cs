@@ -21,7 +21,7 @@ public class LoadingScene : MonoBehaviour, IPointerClickHandler
 
     private float _textTime = 5f;
     private float _time = 0f;
-    private int _textIndex = 0;
+    private int _textIndex = 1;
 
     private void Start()
     {

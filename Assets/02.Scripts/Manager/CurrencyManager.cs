@@ -12,7 +12,6 @@ public class CurrencyManager : BehaviourSingleton<CurrencyManager>
     // 테스트용용
     void Start()
     {
-        _currnetGold = 9999;
         OnGoldChanged?.Invoke(_currnetGold);
     }
 
