@@ -713,6 +713,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4898176311198288573, guid: de577448ab497044e9fb3239af56062a, type: 3}
+      propertyPath: startDelay.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4898176311198288573, guid: de577448ab497044e9fb3239af56062a, type: 3}
       propertyPath: InitialModule.startSize.scalar
       value: 10
       objectReference: {fileID: 0}
@@ -738,7 +742,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4898176311198288575, guid: de577448ab497044e9fb3239af56062a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4898176311198288575, guid: de577448ab497044e9fb3239af56062a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -746,7 +750,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4898176311198288575, guid: de577448ab497044e9fb3239af56062a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.02
+      value: 0.653
       objectReference: {fileID: 0}
     - target: {fileID: 4898176311198288575, guid: de577448ab497044e9fb3239af56062a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -850,10 +854,10 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 0.000020000005, y: 0.00002, z: 0.000020000005}
-  m_Center: {x: 0, y: 0, z: 0.0000076293945}
+  m_Size: {x: 5, y: 1, z: 20}
+  m_Center: {x: 0, y: 0.00001, z: 10}
 --- !u!114 &8528147494444524431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3233,6 +3237,7 @@ MonoBehaviour:
   EnemyRotation: {fileID: 0}
   EnemyHitEffect: {fileID: 0}
   DropPosition: {x: -89.3, y: 0, z: 66.4}
+  EffectDamageCollider: {fileID: 866506283970184578}
   WeaponCollider: {fileID: 1503562577389163625}
   WeaponColliderCopied: {fileID: 6823939122908867116}
   WeaponOriginal: {fileID: 1147377293190983005}
