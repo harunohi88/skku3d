@@ -26,7 +26,7 @@ public class WeaponMove : MonoBehaviour
 
     // Lift 상태: 위로 빠르게 상승
     [Header("Lift Movement")]
-    public float liftHeight = 5f;
+    public float liftHeight = 8f;
     public float liftSpeed = 5f;
     private bool _isLifting = false;
 
