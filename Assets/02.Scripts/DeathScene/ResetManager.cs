@@ -6,8 +6,19 @@ using UnityEngine.SceneManagement;
 
 public class ResetManager : MonoBehaviour
 {
+    public static ResetManager Instance;
+    
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
         DontDestroyOnLoad(gameObject);
     }
 
