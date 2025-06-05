@@ -5,5 +5,5 @@
 10004	ExperienceGain	0	0	FALSE	
 10005	MaxHealth	500	10	TRUE	
 10006	MaxStamina	100	10	TRUE	
-10007	MoveSpeed	10	0	FALSE	
+10007	MoveSpeed	10	0.5	TRUE	
 10008	ProjectileCountGain	0	0	FALSE	

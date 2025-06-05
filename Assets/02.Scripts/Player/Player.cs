@@ -12,6 +12,7 @@ public class Player : BehaviourSingleton<Player>, IDamageable
     public float StaminaRegenDelay;
     public float UIUpdateInterval = 0.1f;
     public Animator Animator;
+    public bool IsImune = false;
     
     private float _staminaRegenTimer;
     private float _uiUpdateTimer;
@@ -75,6 +76,8 @@ public class Player : BehaviourSingleton<Player>, IDamageable
     public void TakeDamage(Damage damage)
     {
         if (Health <= 0) return;
+
+        if (IsImune) return;
         
         Health -= damage.Value;
         UIEventManager.Instance.OnStatChanged?.Invoke();

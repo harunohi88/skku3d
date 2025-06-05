@@ -47,6 +47,10 @@ public class StatUI : MonoBehaviour
                 {
                     text.text = $"{stat.Value * 100:F0}%";
                 }
+                else if (stat.Key == EStatType.MoveSpeed)
+                {
+                    text.text = $"{stat.Value:F2}";
+                }
                 else
                 {
                     text.text = $"{stat.Value:F0}";

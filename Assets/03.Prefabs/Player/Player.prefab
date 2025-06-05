@@ -14981,6 +14981,7 @@ MonoBehaviour:
   StaminaRegenDelay: 1
   UIUpdateInterval: 0.1
   Animator: {fileID: 0}
+  IsImune: 0
 --- !u!114 &4289474028222002717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15015,6 +15016,7 @@ MonoBehaviour:
   RollStaminaUse: 20
   RollDuration: 0.7
   RollAdditionalSpeed: 3
+  RollImuneTime: 0.3
   Model: {fileID: 4918273216877875310}
 --- !u!114 &7016786972171888912
 MonoBehaviour:
