@@ -49,6 +49,13 @@ public class EquipInventory : BaseInventory
         if (slotIndex < 0 || slotIndex >= _itemsList.Count)
             return false;
 
+        // 테스트용
+        if ((slotIndex == 0 && rune.GetRuneType() == RuneType.Dynamic) || (slotIndex == 1 && rune.GetRuneType() == RuneType.Dynamic))
+        {
+            AudioManager.Instance.PlayUIAudio(UIAudioType.Fail);
+            return false;
+        }
+
         // 슬롯이 비어있거나 복원 중인 경우에만 아이템 추가
         if (_itemsList[slotIndex] == null || isRestore)
         {
@@ -117,6 +124,11 @@ public class EquipInventory : BaseInventory
             return false;
         if (fromSlot < 0 || fromSlot >= _itemsList.Count || toSlot < 0 || toSlot >= _itemsList.Count)
             return false;
+        if((toSlot == 0 || toSlot == 1) && _itemsList[fromSlot].Rune.GetRuneType() == RuneType.Dynamic)
+        {
+            AudioManager.Instance.PlayUIAudio(UIAudioType.Fail);
+            return false;
+        }
 
         // 일반적인 교환
         InventoryItem temp = _itemsList[toSlot];
