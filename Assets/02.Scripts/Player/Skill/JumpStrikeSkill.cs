@@ -36,7 +36,11 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
 
         foreach (SkillBaseStat baseStat in SkillBaseStat.SkillStatList)
         {
-            SkillStatDictionary[baseStat.StatType] = new Stat(baseStat.BaseValue);
+            SkillStatDictionary[baseStat.StatType] = new Stat(
+                baseStat.BaseValue,
+                baseStat.CanLevelUp,
+                baseStat.IncreasePerGap,
+                baseStat.IncreaseGap);
         }
         _indicator = Instantiate(IndicatorPrefab, transform).GetComponent<TwoCircleIndicator>();
         _indicator.SetAreaOfEffects(

@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SkillStatList:
   - StatType: 0
-    BaseValue: 1.1
+    BaseValue: 2
     CanLevelUp: 1
-    IncreasePerGap: 1
+    IncreasePerGap: 0.1
     IncreaseGap: 1
   - StatType: 1
     BaseValue: 3

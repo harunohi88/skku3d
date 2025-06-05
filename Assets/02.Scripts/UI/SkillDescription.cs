@@ -12,5 +12,7 @@ public class SkillDescription : MonoBehaviour
     {
         SkillDescriptionText.text = Description.Replace("{N}", (100f * multiplier).ToString("F0"));
         SkillLevelText.text = $"Lv. {level}";
+        Debug.Log("Setting skill description: " + Description);
+        Debug.Log("Skill Multiplier: " + multiplier);
     }
 }
