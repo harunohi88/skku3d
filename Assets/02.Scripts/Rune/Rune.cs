@@ -179,4 +179,9 @@ public class Rune
 
         _data = DataTable.instance.GetRuneData(TID);
     }
+
+    public RuneType GetRuneType()
+    {
+        return _data.RuneType;
+    }
 }

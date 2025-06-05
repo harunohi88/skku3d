@@ -165,6 +165,7 @@ public class PlayerAttack : MonoBehaviour
         {
             Rune.ApplyEffect(context, ref damage);
         }
+        _playerManager.PlayerEquipment.RuneEffectExecute(context, ref damage);
     }
 
     public void OnAttackAnimationHit()

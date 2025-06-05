@@ -38845,11 +38845,11 @@ PrefabInstance:
       objectReference: {fileID: 1516072837}
     - target: {fileID: 8808218315548969795, guid: 9984be23625843a48a44d88aae5669f2, type: 3}
       propertyPath: Health
-      value: 1
+      value: 350000
       objectReference: {fileID: 0}
     - target: {fileID: 8808218315548969795, guid: 9984be23625843a48a44d88aae5669f2, type: 3}
       propertyPath: MaxHealth
-      value: 1
+      value: 350000
       objectReference: {fileID: 0}
     - target: {fileID: 8808218315548969795, guid: 9984be23625843a48a44d88aae5669f2, type: 3}
       propertyPath: Pattern4Prefab

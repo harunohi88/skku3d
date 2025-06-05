@@ -6,6 +6,7 @@ public class Boss2SpecialAttack01State : IState<AEnemy>
     {
         Debug.Log(this);
         enemy.SetAnimationTrigger("SpecialAttack01");
+        BossEffectManager.Instance.PlayBoss1Particle(11);
         enemy.Agent.isStopped = false;
         enemy.Agent.ResetPath();
         enemy.EnemyRotation.IsFound = true;
