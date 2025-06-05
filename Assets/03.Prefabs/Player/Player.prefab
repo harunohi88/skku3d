@@ -14924,6 +14924,7 @@ GameObject:
   - component: {fileID: 4719868810826540315}
   - component: {fileID: 1317212668334745917}
   - component: {fileID: 315133918655934278}
+  - component: {fileID: 1279312253981738036}
   - component: {fileID: 3544017723541115662}
   m_Layer: 3
   m_Name: Player
@@ -15152,6 +15153,18 @@ MonoBehaviour:
   SkillBaseStat: {fileID: 11400000, guid: e2999ab62f2891343a6da020303b5f99, type: 2}
   IsTargeting: 0
   IsAvailable: 1
+--- !u!114 &1279312253981738036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853722264032340872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f2c047f3886e3c4788e33ad51c13b79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!143 &3544017723541115662
 CharacterController:
   m_ObjectHideFlags: 0

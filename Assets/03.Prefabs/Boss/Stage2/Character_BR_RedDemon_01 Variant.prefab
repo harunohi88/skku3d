@@ -3291,7 +3291,7 @@ MonoBehaviour:
     Duration: 0
     MaxCount: 0
     Damage: 27
-    InnerRange: 0.5
+    InnerRange: 0.3
   _boss2SpecialAttack3PatternList:
   - CoolTime: 7
     CastingTime: 0.7
@@ -3299,7 +3299,7 @@ MonoBehaviour:
     Range: 10
     Width: 0
     Radius: 20
-    Angle: 180
+    Angle: 270
     Duration: 0
     MaxCount: 0
     Damage: 50
