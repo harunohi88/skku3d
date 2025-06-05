@@ -157,6 +157,7 @@ public class JumpStrikeSkill : MonoBehaviour, ISkill
         {
             Rune.ApplyEffect(context, ref damage);
         }
+        _playerManager.PlayerEquipment.RuneEffectExecute(context, ref damage);
     }
     
     public Damage SetDamage()
