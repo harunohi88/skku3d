@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     public GameObject WeaponCopied;
     private int _baseAttackCount = 0;
 
+    private Coroutine _specialAttack3Coroutine;
     public Vector3 LastIndicatorPosition { get; private set; }
 
     protected void Start()
@@ -48,6 +50,12 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
             return;
         }
         Debug.Log("맞음");
+    }
+
+    public void Walk()
+    {
+        Debug.Log("걷습니다!!!");
+        //AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Trace, false);
     }
 
     public override void Attack()
@@ -99,19 +107,6 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
         EnemyRotation.IsFound = false;
 
         EnemyPatternData _patternData = Boss2AIManager.Instance.GetPatternData(2, 1);
-
-        List<Collider> colliderList = Physics.OverlapSphere(transform.position, _patternData.Range, LayerMask).ToList();
-        GameObject playerObject = colliderList.Find(x => x.CompareTag("Player"))?.gameObject;
-
-        if (playerObject)
-        {
-            Vector3 directionToTarget = playerObject.transform.position - transform.position;
-            if (Vector3.Dot(transform.position, directionToTarget.normalized) > 0 && Mathf.Abs(Vector3.Dot(transform.right, directionToTarget)) <= _patternData.Width / 2)
-            {
-                Debug.Log("특수공격 2 데미지 발생");
-            }
-        }
-
     }
 
     public void OnBos22SpecialAttack02End()
@@ -137,6 +132,18 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
         WeaponCollider.enabled = true;
         EnemyRotation.IsFound = false;
 
+        float attackDuration = 5f; // 총 지속 시간
+        float interval = 1f;       // 1초마다 체크
+
+        if (_specialAttack3Coroutine != null)
+            StopCoroutine(_specialAttack3Coroutine);
+
+        _specialAttack3Coroutine = StartCoroutine(CheckSpecialAttack3Damage(attackDuration, interval));
+    }
+
+    private IEnumerator CheckSpecialAttack3Damage(float duration, float interval)
+    {
+        float elapsed = 0f;
         EnemyPatternData _patternData = Boss2AIManager.Instance.GetPatternData(3, 1);
         Damage damage = new Damage
         {
@@ -144,20 +151,27 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
             From = this.gameObject
         };
 
-        List<Collider> colliderList = Physics.OverlapSphere(transform.position, _patternData.Range, LayerMask).ToList();
-
-        foreach (var col in colliderList)
+        while (elapsed < duration)
         {
-            if (col.CompareTag("Player"))
-            {
-                Vector3 dirToTarget = (col.transform.position - transform.position).normalized;
-                float angleToTarget = Vector3.Angle(transform.forward, dirToTarget);
+            elapsed += interval;
 
-                if (angleToTarget <= _patternData.Angle * 0.5f)
+            List<Collider> colliderList = Physics.OverlapSphere(transform.position, _patternData.Range, LayerMask).ToList();
+
+            foreach (var col in colliderList)
+            {
+                if (col.CompareTag("Player"))
                 {
-                    PlayerManager.Instance.Player.TakeDamage(damage);
+                    Vector3 dirToTarget = (col.transform.position - transform.position).normalized;
+                    float angleToTarget = Vector3.Angle(transform.forward, dirToTarget);
+
+                    if (angleToTarget <= _patternData.Angle * 0.5f)
+                    {
+                        PlayerManager.Instance.Player.TakeDamage(damage);
+                    }
                 }
             }
+
+            yield return new WaitForSeconds(interval);
         }
     }
 
@@ -165,6 +179,13 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     {
         Debug.Log("특수공격3 해제");
         WeaponCollider.enabled = false;
+
+        // 코루틴 정지
+        if (_specialAttack3Coroutine != null)
+        {
+            StopCoroutine(_specialAttack3Coroutine);
+            _specialAttack3Coroutine = null;
+        }
 
         Boss2AIManager.Instance.SetLastFinishedTime(3, Time.time); // 쿨타임 관리
         OnAnimationEnd();
