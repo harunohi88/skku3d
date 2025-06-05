@@ -105,7 +105,7 @@ public class Player : BehaviourSingleton<Player>, IDamageable
         GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position = transform.position;
         Animator.SetTrigger("Death");
         float deathTime = Animator.GetCurrentAnimatorStateInfo(0).length;
-
+        InputManager.Instance.SetEveryPanelOff();
         StartCoroutine(DieCoroutine(deathTime));
     }
 

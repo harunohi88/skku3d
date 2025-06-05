@@ -162,4 +162,14 @@ public class InputManager : BehaviourSingleton<InputManager>
         bool anyPanelActive = _inventoryPanel.activeSelf || _equipmentPanel.activeSelf || _upgradeAndShopPanel.activeSelf;
         _popupBackgroundImage.SetActive(anyPanelActive);
     }
+
+    public void SetEveryPanelOff()
+    {
+        _inventoryPanel?.SetActive(false);
+        _upgradeAndShopPanel?.SetActive(false);
+        _equipmentPanel?.SetActive(false);
+        _popupBackgroundImage?.SetActive(false);
+        _mapPanel?.SetActive(false);
+        _optionPanel?.SetActive(false);
+}
 }

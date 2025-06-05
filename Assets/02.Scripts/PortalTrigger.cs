@@ -9,10 +9,10 @@ public class PortalTrigger : MonoBehaviour
         {
             if(SceneManager.GetActiveScene().buildIndex == SceneManager.GetSceneByName("Stage3_Boss").buildIndex)
             {
-                InputManager.Instance.TurnOff = true; 
+                InputManager.Instance.TurnOff = true;
+                InputManager.Instance.SetEveryPanelOff();
                 SceneManager.LoadScene(11, LoadSceneMode.Additive);
                 return;
-
             }
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
