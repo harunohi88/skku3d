@@ -377,5 +377,23 @@ public enum PlayerAudioType
     VoiceAttack1 = 13,
     ///<summary>공격목소리2</summary>
     VoiceAttack2 = 14,
+    ///<summary>단일공격1</summary>
+    SingleHit1 = 15,
+    ///<summary>단일공격2</summary>
+    SingleHit2 = 16,
+    ///<summary>가볍게두대</summary>
+    DoubleHitLite = 17,
+    ///<summary>무겁게두대</summary>
+    DoubleHitHeavy = 18,
+    ///<summary>맞는소리1</summary>
+    TakeDamage1 = 19,
+    ///<summary>맞는소리2</summary>
+    TakeDamage2 = 20,
+    ///<summary>맞는소리3</summary>
+    TakeDamage3 = 21,
+    ///<summary>맞는소리4</summary>
+    TakeDamage4 = 22,
+    ///<summary>죽는소리</summary>
+    Die = 23,
 }
 

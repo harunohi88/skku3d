@@ -82,6 +82,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c3473bc0b45c3ae44bd476a247877c5f, type: 3}
   - {fileID: 8300000, guid: b03926c7ccba73242be2da8bf326e36d, type: 3}
   - {fileID: 8300000, guid: f3a7c9e1872229a4fb960aad60dd4694, type: 3}
+  - {fileID: 8300000, guid: 4d4b2e618d1bae74b96fcf641494e759, type: 3}
+  - {fileID: 8300000, guid: aa84fcdc3aa250f45bc2c30dfadff720, type: 3}
+  - {fileID: 8300000, guid: b9dd64f4e94651e489d8c7afdff8170a, type: 3}
+  - {fileID: 8300000, guid: 0a2cca0f7b8cbbb42962f19467884199, type: 3}
+  - {fileID: 8300000, guid: 2a457115fb9a43645831e202aa1cc6e8, type: 3}
+  - {fileID: 8300000, guid: ab51cd3de73967f489c08e0436565040, type: 3}
+  - {fileID: 8300000, guid: 38871b566900a1f438102e7e45ae6405, type: 3}
+  - {fileID: 8300000, guid: 65b0cd6debffee5439da06dc97ed8ada, type: 3}
+  - {fileID: 8300000, guid: 95b2bb8a714f54541a81da15010abadd, type: 3}
   EnemyAudioList:
   - {fileID: 8300000, guid: 7e0ebfb02d26fcb4fb7598ed7e56497b, type: 3}
   - {fileID: 8300000, guid: e91c19fc72a824945a2468246e52908a, type: 3}

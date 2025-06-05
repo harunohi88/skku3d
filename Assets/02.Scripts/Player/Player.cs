@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class Player : BehaviourSingleton<Player>, IDamageable
 {
@@ -81,6 +82,9 @@ public class Player : BehaviourSingleton<Player>, IDamageable
 
         HUDUI.Instance.ShowDamageVignette();
 
+        int random = Random.Range(0, 4);
+        AudioManager.Instance.PlayPlayerAudio((PlayerAudioType)((int)PlayerAudioType.TakeDamage1 + random));
+        
         if (Health <= 0)
         {
             Die();
@@ -106,6 +110,7 @@ public class Player : BehaviourSingleton<Player>, IDamageable
         Animator.SetTrigger("Death");
         float deathTime = Animator.GetCurrentAnimatorStateInfo(0).length;
         InputManager.Instance.SetEveryPanelOff();
+        AudioManager.Instance.PlayPlayerAudio(PlayerAudioType.Die);
         StartCoroutine(DieCoroutine(deathTime));
     }
 
