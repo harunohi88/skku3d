@@ -9,6 +9,7 @@ public class PlayerMove : MonoBehaviour
 
     public float RollDuration;
     public float RollAdditionalSpeed;
+    public float RollImuneTime;
     private Vector3 _rollDirection;
 
     public GameObject Model;
@@ -118,6 +119,7 @@ public class PlayerMove : MonoBehaviour
         {
             Model.transform.forward = _rollDirection;
         }
+        _playerManager.Player.IsImune = true;
         _animator.SetTrigger("Roll");
         _animator.SetBool("isRolling", true);
         StartCoroutine(RollCoroutine());
@@ -131,6 +133,10 @@ public class PlayerMove : MonoBehaviour
         {
             _characterController.Move(_rollDirection * _rollSpeed * Time.deltaTime);
             elapsedTime += Time.deltaTime;
+            if (elapsedTime >= RollImuneTime)
+            {
+                _playerManager.Player.IsImune = false;
+            }
             yield return null;
         }
 

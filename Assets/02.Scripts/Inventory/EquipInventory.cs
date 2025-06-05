@@ -84,7 +84,7 @@ public class EquipInventory : BaseInventory
             Debug.Log($"Equip Rune : {index} {_itemsList[index].Rune.TID}");
             if(index <= 1)
             {
-                // 공용 룬 0, 1
+                PlayerManager.Instance.PlayerEquipment.EquipRune(index, _itemsList[index].Rune);
             }
             else if(index == 2)
             {
@@ -102,7 +102,7 @@ public class EquipInventory : BaseInventory
             Debug.Log($"Unequip Rune : {index}");
             if (index <= 1)
             {
-                // 공용 룬 0, 1
+                PlayerManager.Instance.PlayerEquipment.UnequipRune(index);
             }
             else if (index == 2)
             {
