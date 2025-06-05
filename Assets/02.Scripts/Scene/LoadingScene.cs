@@ -19,12 +19,29 @@ public class LoadingScene : MonoBehaviour, IPointerClickHandler
 
     public List<string> TextList;
 
+    private float _textTime = 5f;
+    private float _time = 0f;
+    private int _textIndex = 0;
+
     private void Start()
     {
         StartCoroutine(LoadNextScene_Coroutine());
+        _time = 0f;
         _isTouchable = false;
     }
 
+    private void Update()
+    {
+        _time += Time.deltaTime;
+        if(_time >= _textTime)
+        {
+            ShowText.text = TextList[_textIndex++];
+            if(_textIndex >= TextList.Count)
+            {
+                _textIndex = 0;
+            }
+        }
+    }
     private IEnumerator LoadNextScene_Coroutine()
     {
         // 지정된 씬을 비동기로 로드한다.
@@ -36,8 +53,6 @@ public class LoadingScene : MonoBehaviour, IPointerClickHandler
         {
             ProgressText.text = $"{_asyncOperation.progress * 100f}%";
 
-            int index = Mathf.Min((int)(_asyncOperation.progress * TextList.Count), TextList.Count - 1);
-            ShowText.text = TextList[index];
 
             if (_asyncOperation.progress >= 0.9f)
             {
