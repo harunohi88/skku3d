@@ -59,13 +59,14 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     public void Walk()
     {
         if (Time.time - _lastWalkSoundTime < _walkSoundCooldown) return;
-        Debug.Log("걷습니다!!!");
+        CameraManager.Instance.CameraShake(0.05f, 2f);
         AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Trace, false);
         _lastWalkSoundTime = Time.time;
     }
 
     public override void Attack()
     {
+        CameraManager.Instance.CameraShake(0.07f, 0.8f);
         AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Attack);
         BossEffectManager.Instance.PlayBoss1Particle(0);
         Debug.Log("기본 공격 진입");
@@ -88,6 +89,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 
     public void Boss2SpecialAttack_01()
     {
+        CameraManager.Instance.CameraShake(1f, 0.8f);
         AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Sp1);
         BossEffectManager.Instance.PlayBoss1Particle(1);
         Debug.Log("특수공격1 진입");

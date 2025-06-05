@@ -6,8 +6,9 @@ public class Boss2DieState : IState<AEnemy>
 
     public void Enter(AEnemy enemy)
     {
-        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Die);
         enemy.SetAnimationTrigger("Die");
+        AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Die);
+
         enemy.Agent.ResetPath();
         Boss2AIManager.Instance.PortalToNextStage.SetActive(true);
 
