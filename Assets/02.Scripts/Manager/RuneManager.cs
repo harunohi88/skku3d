@@ -48,13 +48,14 @@ public class RuneManager : BehaviourSingleton<RuneManager>
         
         factory.Register("DamageBuffEffect", () => new DamageBuffEffect());
         factory.Register("MoveSpeedBuffEffect", () => new MoveSpeedBuffEffect());
-        factory.Register("HealEffect", () => new HealEffect());
+        factory.Register("RecoverEffect", () => new RecoverEffect());
         factory.Register("SlaughterRuneEffect", () => new SlaughterRuneEffect());
         factory.Register("ArrowRuneEffect", () => new ArrowRuneEffect());
         factory.Register("FlameRuneEffect", () => new FlameRuneEffect());
         factory.Register("ExplosionRuneEffect", () => new ExplosionRuneEffect());
         factory.Register("FateRuneEffect", () => new FateRuneEffect());
         factory.Register("ElectricRuneEffect", () => new ElectricRuneEffect());
+        factory.Register("TimedRecoverEffect", () => new TimedRecoverEffect());
     }
 
     private void RegisterRuneEquip()

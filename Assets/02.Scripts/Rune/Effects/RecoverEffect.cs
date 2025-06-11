@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HealEffect : ARuneEffect
+public class RecoverEffect : ARuneEffect
 {
     private float _amount;
 

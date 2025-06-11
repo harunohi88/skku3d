@@ -49,6 +49,8 @@ public enum RuneEffectType
     FateRuneEffect = 17,
     ///<summary>전류의 룬 (동적 룬)</summary>
     ElectricRuneEffect = 18,
+    ///<summary>초당 체력 회복</summary>
+    TimedRecoverEffect = 19,
 }
 
 public enum RuneEquipType
@@ -179,6 +181,8 @@ public enum EStatType
     MoveSpeed = 7,
     ///<summary>투사체 증가량</summary>
     ProjectileCountGain = 8,
+    ///<summary>초당 체력회복량</summary>
+    HealthGainPerSecond = 9,
 }
 
 public enum ESkillType

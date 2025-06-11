@@ -45,20 +45,28 @@ public class Player : BehaviourSingleton<Player>, IDamageable
         }
         else
         {
+            RegenerateHealth();
             RegenerateStamina();
         }
-    }
-    
-    private void RegenerateStamina()
-    {
-        Stamina += StaminaGain * Time.deltaTime;
-        Stamina = Mathf.Min(Stamina, PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxStamina].TotalStat);
+        
         _uiUpdateTimer -= Time.deltaTime;
         if (_uiUpdateTimer <= 0f)
         {
             UIEventManager.Instance.OnStatChanged?.Invoke();
             _uiUpdateTimer = UIUpdateInterval;
         }
+    }
+
+    private void RegenerateHealth()
+    {
+        Health += PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.HealthGainPerSecond].TotalStat * Time.deltaTime;
+        Health = Mathf.Min(Health, PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxHealth].TotalStat);
+    }
+    
+    private void RegenerateStamina()
+    {
+        Stamina += StaminaGain * Time.deltaTime;
+        Stamina = Mathf.Min(Stamina, PlayerManager.Instance.PlayerStat.StatDictionary[EStatType.MaxStamina].TotalStat);
     }
 
     public bool TryUseStamina(float amount)
