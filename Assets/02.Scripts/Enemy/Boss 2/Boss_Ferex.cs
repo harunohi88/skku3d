@@ -123,7 +123,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
         WeaponColliderCopied.enabled = true;
         EnemyRotation.IsFound = false;
 
-        EnemyPatternData _patternData = Boss2AIManager.Instance.GetPatternData(2, 1);
+        EnemyPatternData _patternData = Boss2AIManager.Instance.GetPatternData(2, 0);
     }
 
     public void OnBos22SpecialAttack02End()
@@ -145,6 +145,13 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
         BossEffectManager.Instance.PlayBoss1Particle(8);
         BossEffectManager.Instance.PlayBoss1Particle(9);
         BossEffectManager.Instance.PlayBoss1Particle(10);
+        BossEffectManager.Instance.PlayBoss1Particle(12);
+        BossEffectManager.Instance.PlayBoss1Particle(13);
+        BossEffectManager.Instance.PlayBoss1Particle(14);
+        BossEffectManager.Instance.PlayBoss1Particle(15);
+        BossEffectManager.Instance.PlayBoss1Particle(16);
+        BossEffectManager.Instance.PlayBoss1Particle(17);
+        
         Debug.Log("특수공격3 진입");
         WeaponCollider.enabled = true;
         EnemyRotation.IsFound = false;
@@ -161,7 +168,8 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     private IEnumerator CheckSpecialAttack3Damage(float duration, float interval)
     {
         float elapsed = 0f;
-        EnemyPatternData _patternData = Boss2AIManager.Instance.GetPatternData(3, 1);
+        EnemyPatternData _patternData = Boss2AIManager.Instance.GetPatternData(3, 0);
+        // EnemyPatternData _patterData2 = Boss2AIManager.Instance.GetPatternData(3, 2);
         Damage damage = new Damage
         {
             Value = _patternData.Damage,
@@ -177,14 +185,8 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
             foreach (var col in colliderList)
             {
                 if (col.CompareTag("Player"))
-                {
-                    Vector3 dirToTarget = (col.transform.position - transform.position).normalized;
-                    float angleToTarget = Vector3.Angle(transform.forward, dirToTarget);
-
-                    if (angleToTarget <= _patternData.Angle * 0.5f)
-                    {
-                        PlayerManager.Instance.Player.TakeDamage(damage);
-                    }
+                { 
+                    PlayerManager.Instance.Player.TakeDamage(damage);
                 }
             }
 

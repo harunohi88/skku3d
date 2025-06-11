@@ -52,6 +52,7 @@ public class SkillIndicator : MonoBehaviour
 
     public void CircularInit(float width, float height, float direction, float angleRange, float innerRange, float castingPercent, Color color, ObjectPool<SkillIndicator> pool = null)
     {
+        Debug.Log($"{angleRange} {innerRange} {castingPercent}");
         _projector.material = CircularMaterial;
         _instancedMaterial = _projector.material;
         _projector.size = new Vector3(width, height, _projector.size.z);

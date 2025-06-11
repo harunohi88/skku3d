@@ -5,7 +5,9 @@ public class Boss2SpecialAttack03State : IState<AEnemy>
     private float _time = 0f;
     private int _currentPhase = 0;
     private SkillIndicator _indicator;
+    private SkillIndicator _indicator2;
     private EnemyPatternData _patternData;
+    private EnemyPatternData _patternData2;
     public void Enter(AEnemy enemy)
     {
         Debug.Log(this);
@@ -19,6 +21,7 @@ public class Boss2SpecialAttack03State : IState<AEnemy>
         AudioManager.Instance.PlayEnemyAudio(EnemyType.Boss, EnemyAudioType.Boss2Sp3Idle);
 
         _patternData = Boss2AIManager.Instance.GetPatternData(3, 0);
+        _patternData2 = Boss2AIManager.Instance.GetPatternData(3, 1);
 
         if (_patternData != null)
         {
@@ -32,11 +35,28 @@ public class Boss2SpecialAttack03State : IState<AEnemy>
                 _patternData.CastingTime,
                 0,
                 Color.green
-                );
+            );
             (enemy as Boss_Ferex)?.SetIndicatorPosition(_indicator.transform.position);
         }
         Quaternion _indicatorPos = Quaternion.Euler(90, 0, -enemy.transform.eulerAngles.y);
         _indicator.transform.rotation = _indicatorPos;
+
+        if (_patternData2 != null)
+        {
+            _indicator2 = BossIndicatorManager.Instance.SetCircularIndicator(
+                enemy.transform.position,
+                _patternData2.Radius,
+                _patternData2.Radius,
+                0,
+                _patternData2.Angle,
+                _patternData2.InnerRange,
+                _patternData2.CastingTime,
+                0,
+                new Color(1.0f, 0.5f, 0.0f)
+            );
+            Quaternion _indicatorPos2 = Quaternion.Euler(90, 0, -enemy.transform.eulerAngles.y);
+            _indicator2.transform.rotation = _indicatorPos2;
+        }
     }
 
     public void Update(AEnemy enemy)
@@ -54,6 +74,7 @@ public class Boss2SpecialAttack03State : IState<AEnemy>
     public void Exit(AEnemy enemy)
     {
         if (_indicator != null) GameObject.Destroy(_indicator.gameObject);
+        if(_indicator2 != null) GameObject.Destroy(_indicator2.gameObject);
         enemy.Agent.isStopped = false;
     }
 }
