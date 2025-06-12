@@ -10,6 +10,8 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     public Collider EffectDamageCollider;
     public Collider WeaponCollider;
     public Collider WeaponColliderCopied;
+    public Collider[] EffectColliders;
+    
     // - 원본 무기
     public GameObject WeaponOriginal;
     // - 복제된 무기
@@ -154,6 +156,10 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
         
         Debug.Log("특수공격3 진입");
         WeaponCollider.enabled = true;
+        foreach (var col in EffectColliders)
+        {
+            col.enabled = true;
+        }
         EnemyRotation.IsFound = false;
 
         float attackDuration = 5f; // 총 지속 시간
@@ -178,6 +184,25 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 
         while (elapsed < duration)
         {
+            foreach (var col in EffectColliders)
+            {
+                if (col == null) continue;
+
+                // 각 큐브의 콜라이더 위치, 크기 기반으로 OverlapBox 사용
+                Vector3 center = col.bounds.center;
+                Vector3 halfExtents = col.bounds.extents;
+                Quaternion rotation = col.transform.rotation;
+
+                Collider[] hits = Physics.OverlapBox(center, halfExtents, rotation, LayerMask);
+
+                foreach (var hit in hits)
+                {
+                    if (hit.CompareTag("Player"))
+                    {
+                        PlayerManager.Instance.Player.TakeDamage(damage);
+                    }
+                }
+            }
             elapsed += interval;
 
             List<Collider> colliderList = Physics.OverlapSphere(transform.position, _patternData.Range, LayerMask).ToList();
@@ -198,6 +223,10 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     {
         Debug.Log("특수공격3 해제");
         WeaponCollider.enabled = false;
+        foreach (var col in EffectColliders)
+        {
+            col.enabled = false;
+        }
 
         // 코루틴 정지
         if (_specialAttack3Coroutine != null)
