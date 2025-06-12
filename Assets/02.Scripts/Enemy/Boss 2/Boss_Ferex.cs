@@ -10,6 +10,8 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     public Collider EffectDamageCollider;
     public Collider WeaponCollider;
     public Collider WeaponColliderCopied;
+    public Collider[] EffectColliders;
+    
     // - 원본 무기
     public GameObject WeaponOriginal;
     // - 복제된 무기
@@ -123,7 +125,7 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
         WeaponColliderCopied.enabled = true;
         EnemyRotation.IsFound = false;
 
-        EnemyPatternData _patternData = Boss2AIManager.Instance.GetPatternData(2, 1);
+        EnemyPatternData _patternData = Boss2AIManager.Instance.GetPatternData(2, 0);
     }
 
     public void OnBos22SpecialAttack02End()
@@ -145,8 +147,19 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
         BossEffectManager.Instance.PlayBoss1Particle(8);
         BossEffectManager.Instance.PlayBoss1Particle(9);
         BossEffectManager.Instance.PlayBoss1Particle(10);
+        BossEffectManager.Instance.PlayBoss1Particle(12);
+        BossEffectManager.Instance.PlayBoss1Particle(13);
+        BossEffectManager.Instance.PlayBoss1Particle(14);
+        BossEffectManager.Instance.PlayBoss1Particle(15);
+        BossEffectManager.Instance.PlayBoss1Particle(16);
+        BossEffectManager.Instance.PlayBoss1Particle(17);
+        
         Debug.Log("특수공격3 진입");
         WeaponCollider.enabled = true;
+        foreach (var col in EffectColliders)
+        {
+            col.enabled = true;
+        }
         EnemyRotation.IsFound = false;
 
         float attackDuration = 5f; // 총 지속 시간
@@ -161,7 +174,8 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     private IEnumerator CheckSpecialAttack3Damage(float duration, float interval)
     {
         float elapsed = 0f;
-        EnemyPatternData _patternData = Boss2AIManager.Instance.GetPatternData(3, 1);
+        EnemyPatternData _patternData = Boss2AIManager.Instance.GetPatternData(3, 0);
+        // EnemyPatternData _patterData2 = Boss2AIManager.Instance.GetPatternData(3, 2);
         Damage damage = new Damage
         {
             Value = _patternData.Damage,
@@ -170,6 +184,25 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
 
         while (elapsed < duration)
         {
+            foreach (var col in EffectColliders)
+            {
+                if (col == null) continue;
+
+                // 각 큐브의 콜라이더 위치, 크기 기반으로 OverlapBox 사용
+                Vector3 center = col.bounds.center;
+                Vector3 halfExtents = col.bounds.extents;
+                Quaternion rotation = col.transform.rotation;
+
+                Collider[] hits = Physics.OverlapBox(center, halfExtents, rotation, LayerMask);
+
+                foreach (var hit in hits)
+                {
+                    if (hit.CompareTag("Player"))
+                    {
+                        PlayerManager.Instance.Player.TakeDamage(damage);
+                    }
+                }
+            }
             elapsed += interval;
 
             List<Collider> colliderList = Physics.OverlapSphere(transform.position, _patternData.Range, LayerMask).ToList();
@@ -177,14 +210,8 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
             foreach (var col in colliderList)
             {
                 if (col.CompareTag("Player"))
-                {
-                    Vector3 dirToTarget = (col.transform.position - transform.position).normalized;
-                    float angleToTarget = Vector3.Angle(transform.forward, dirToTarget);
-
-                    if (angleToTarget <= _patternData.Angle * 0.5f)
-                    {
-                        PlayerManager.Instance.Player.TakeDamage(damage);
-                    }
+                { 
+                    PlayerManager.Instance.Player.TakeDamage(damage);
                 }
             }
 
@@ -196,6 +223,10 @@ public class Boss_Ferex : AEnemy, IBoss2PatternHandler
     {
         Debug.Log("특수공격3 해제");
         WeaponCollider.enabled = false;
+        foreach (var col in EffectColliders)
+        {
+            col.enabled = false;
+        }
 
         // 코루틴 정지
         if (_specialAttack3Coroutine != null)

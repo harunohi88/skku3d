@@ -22092,10 +22092,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3424543258563720309, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
-      propertyPath: _healthThreshold
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3424543258563720309, guid: 60aafe8c38ff0b349bb0bfb72b8bb710, type: 3}
       propertyPath: PortalToNextStage
       value: 
       objectReference: {fileID: 272073293}
